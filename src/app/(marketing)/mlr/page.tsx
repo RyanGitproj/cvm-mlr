@@ -35,6 +35,7 @@ export default function MlrLandingPage() {
         micro={[MLR_TARIFS.dixJours, MLR_TARIFS.quinzeJours]}
         imageLabel={MLR_LANDING.hero.imageLabel}
         imageAlt={MLR_LANDING.hero.imageAlt}
+        imageSrc="/images/mlr/hero.jpg"
       />
 
       <section className="accent-forest mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">

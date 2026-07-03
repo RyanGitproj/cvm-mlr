@@ -13,6 +13,8 @@ type Props = {
   micro?: readonly string[];
   imageLabel: string;
   imageAlt: string;
+  /** Chemin de l'asset réel (`public/images/...`) — absent tant que non fourni. */
+  imageSrc?: string;
 };
 
 /**
@@ -28,10 +30,11 @@ export function Hero({
   micro,
   imageLabel,
   imageAlt,
+  imageSrc,
 }: Props) {
   return (
     <section className="relative overflow-hidden">
-      <HeroBackground label={imageLabel} alt={imageAlt} />
+      <HeroBackground label={imageLabel} alt={imageAlt} src={imageSrc} />
       <div className="relative z-10 mx-auto w-full max-w-6xl px-4 py-14 sm:px-6 sm:py-20 lg:py-28">
         <div className="animate-fade-rise max-w-2xl">
           {surtitre && (
