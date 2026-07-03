@@ -8,6 +8,7 @@ import type { z } from "zod";
 import { submitLead } from "@/actions/submitLead";
 import { Button } from "@/components/ui/Button";
 import { getFunnelConfig } from "@/config/funnels";
+import { cn } from "@/lib/cn";
 import { scrollToElement } from "@/lib/scroll";
 import { readUtm } from "@/lib/utm";
 import { getSchema } from "@/lib/validations";
@@ -35,6 +36,10 @@ export function MultiStepForm({ funnelType, defaultValues }: Props) {
   const topRef = useRef<HTMLDivElement>(null);
   const [stepIndex, setStepIndex] = useState(0);
   const [serverError, setServerError] = useState<string | null>(null);
+  // Épingle la barre d'action (CTA d'étape) au bas du viewport en mobile —
+  // mais uniquement tant que le formulaire est à l'écran, pour ne pas la
+  // laisser flotter par-dessus la page marketing ou le footer.
+  const [pinned, setPinned] = useState(false);
 
   const form = useForm<FieldValues>({
     // Le schéma est résolu à l'exécution parmi les 6 funnels : on élargit
@@ -64,6 +69,19 @@ export function MultiStepForm({ funnelType, defaultValues }: Props) {
     if (topRef.current) scrollToElement(topRef.current);
     document.getElementById(headingId)?.focus({ preventScroll: true });
   }, [stepIndex, headingId]);
+
+  // La barre d'action passe en `fixed` (mobile) tant qu'une partie du
+  // formulaire est visible ; elle redevient inline dès qu'il quitte l'écran.
+  useEffect(() => {
+    const node = topRef.current;
+    if (!node) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setPinned(entry.isIntersecting),
+      { threshold: 0 },
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
 
   async function goNext() {
     const valid = await form.trigger(fieldsOfStep(step), { shouldFocus: true });
@@ -126,8 +144,21 @@ export function MultiStepForm({ funnelType, defaultValues }: Props) {
             </p>
           )}
 
-          {/* Sticky en mobile : le CTA d'étape reste visible sans scroll (390×844). */}
-          <div className="sticky bottom-0 z-10 -mx-4 mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-line bg-surface/95 px-4 py-3 backdrop-blur sm:static sm:mx-0 sm:border-0 sm:bg-transparent sm:p-0 sm:backdrop-blur-none">
+          {/*
+           * CTA d'étape. En mobile, tant que le formulaire est à l'écran,
+           * la barre est `fixed` au bas du viewport (elle reste en place au
+           * lieu de défiler) ; hors écran elle repasse inline. En ≥ sm, barre
+           * inline classique. Un espaceur compense la barre fixe pour ne pas
+           * masquer le dernier contenu.
+           */}
+          <div
+            className={cn(
+              "z-30 mt-8 flex flex-wrap items-center justify-between gap-3",
+              pinned &&
+                "max-sm:fixed max-sm:inset-x-0 max-sm:bottom-0 max-sm:border-t max-sm:border-line max-sm:bg-surface/95 max-sm:px-4 max-sm:py-3 max-sm:backdrop-blur",
+              "sm:static sm:border-0 sm:bg-transparent sm:p-0 sm:backdrop-blur-none",
+            )}
+          >
             {stepIndex > 0 ? (
               <Button type="button" variant="ghost" onClick={goBack}>
                 ← Retour
@@ -145,6 +176,7 @@ export function MultiStepForm({ funnelType, defaultValues }: Props) {
               </Button>
             )}
           </div>
+          {pinned && <div aria-hidden className="h-20 sm:hidden" />}
         </form>
       </FormProvider>
     </div>
