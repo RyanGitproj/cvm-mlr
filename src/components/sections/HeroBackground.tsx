@@ -11,9 +11,11 @@ type Props = {
 
 /**
  * Fond plein cadre d'un hero : tant que `src` est absent, un dégradé
- * placeholder réserve la place et porte l'alt ; une fois l'asset fourni, la
- * vraie photo le remplace. Un voile clair reste par-dessus pour garder le
- * texte sombre lisible sur n'importe quelle photo — en mobile comme en PC.
+ * placeholder clair (voile clair, texte sombre par-dessus) réserve la place
+ * et porte l'alt. Une fois l'asset fourni, la vraie photo le remplace,
+ * nette et pleine résolution ; seul un voile sombre concentré en haut du
+ * cadre (là où vit le texte, en mobile comme en PC) assure le contraste —
+ * le reste de la photo reste net et pleinement visible, mis en valeur.
  */
 export function HeroBackground({ label, alt, src }: Props) {
   return (
@@ -24,6 +26,7 @@ export function HeroBackground({ label, alt, src }: Props) {
           alt={alt}
           fill
           priority
+          quality={90}
           sizes="100vw"
           className="object-cover"
         />
@@ -36,7 +39,11 @@ export function HeroBackground({ label, alt, src }: Props) {
       )}
       <div
         aria-hidden
-        className="absolute inset-0 bg-linear-to-br from-surface/85 via-surface/65 to-surface/50"
+        className={
+          src
+            ? "absolute inset-0 bg-linear-to-b from-ink-strong/75 via-ink-strong/20 to-transparent"
+            : "absolute inset-0 bg-linear-to-br from-surface/85 via-surface/65 to-surface/50"
+        }
       />
       {!src && (
         <span
