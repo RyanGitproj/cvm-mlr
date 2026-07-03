@@ -28,7 +28,7 @@ export function UniversPicker() {
       <SectionHeading
         align="center"
         titre="Choisissez votre univers"
-        sousTitre="Deux marques, une même équipe locale — deux façons radicalement différentes de vivre l'île."
+        sousTitre="Deux chemins, pas un de plus — la même équipe locale derrière chacun. Reconnaissez le vôtre."
       />
       <div className="mt-8 grid grid-cols-2 gap-3 sm:gap-5">
         <Reveal className="h-full min-w-0">
@@ -45,13 +45,23 @@ export function UniversPicker() {
               {cvmBrand.nom}
             </p>
             <p className="mt-2 text-sm text-ink-soft">
-              Voyage organisé, plus confortable, accompagné.
+              Vous savourez, nous orchestrons : confort, sécurité et zéro
+              logistique à gérer.
             </p>
+            {/* Chaque offre dans sa couleur ; l'Expédition seule porte la
+                lumière (directive boss 2026-07). */}
             <div className="mt-4 flex flex-wrap gap-2">
-              <Pill>Expédition</Pill>
-              <Pill>Trek Aventure</Pill>
-              <Pill>Séjour Collection</Pill>
-              <Pill>Grand Tour</Pill>
+              <Pill
+                data-accent="ember"
+                className="cta-pulse-soft border-accent font-semibold text-accent"
+              >
+                Expédition insolite
+              </Pill>
+              <Pill className="border-accent text-accent">Trek Aventure</Pill>
+              <Pill data-accent="lagon" className="border-accent text-accent">
+                Séjour Collection
+              </Pill>
+              <Pill className="border-accent text-accent">Grand Tour</Pill>
             </div>
             <p className="mt-4 flex-1 text-sm text-ink-soft">
               <span className="text-xs uppercase tracking-wide">À partir de </span>
@@ -60,7 +70,7 @@ export function UniversPicker() {
               </strong>
               <span className="text-xs uppercase tracking-wide"> / personne</span>
             </p>
-            <span className="mt-5 inline-flex w-fit items-center gap-2 rounded-lg bg-ink-strong px-3 py-2 text-xs font-semibold uppercase tracking-wide text-surface sm:px-5 sm:py-2.5 sm:text-sm">
+            <span className="cta-pulse mt-5 inline-flex w-fit items-center gap-2 rounded-lg bg-ink-strong px-3 py-2 text-xs font-semibold uppercase tracking-wide text-surface sm:px-5 sm:py-2.5 sm:text-sm">
               Choisir ce voyage →
             </span>
           </Link>
@@ -82,7 +92,8 @@ export function UniversPicker() {
                 {mlrBrand.nom}
               </p>
               <p className="mt-2 text-sm text-ink-soft">
-                Aventure roots en taxi-brousse, guide local, budget plus libre.
+                La piste, les rencontres, la liberté — l’aventure brute, avec
+                un guide local qui connaît chaque village.
               </p>
               <div className="mt-4 flex flex-wrap gap-2">
                 <Pill>Nord</Pill>
@@ -95,7 +106,7 @@ export function UniversPicker() {
                 <br />
                 15 jours dès <strong className="text-lg font-bold text-accent">1 855 €</strong>
               </p>
-              <span className="mt-5 inline-flex w-fit items-center gap-2 rounded-lg bg-accent px-3 py-2 text-xs font-semibold uppercase tracking-wide text-accent-contrast sm:px-5 sm:py-2.5 sm:text-sm">
+              <span className="cta-pulse mt-5 inline-flex w-fit items-center gap-2 rounded-lg bg-accent px-3 py-2 text-xs font-semibold uppercase tracking-wide text-accent-contrast sm:px-5 sm:py-2.5 sm:text-sm">
                 Choisir cette aventure →
               </span>
             </Link>

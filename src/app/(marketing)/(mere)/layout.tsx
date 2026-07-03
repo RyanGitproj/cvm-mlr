@@ -9,9 +9,10 @@ export default function MereLayout({
       homeHref="/"
       homeLabel="Madagascar"
       links={[
+        // Deux clics possibles, pas plus (directive boss 2026-07) : la FAQ
+        // reste accessible via le footer, hors du parcours principal.
         { href: "/cvm", label: "Célébration Voyage" },
         { href: "/mlr", label: "Liberty Roots" },
-        { href: "/faq", label: "FAQ" },
       ]}
     >
       {children}

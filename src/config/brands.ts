@@ -12,7 +12,7 @@ export const NOTE_TARIFAIRE_MLR =
 export const cvmBrand = {
   slug: "cvm",
   nom: "Célébration Voyage Madagascar",
-  baseline: "On garde l'émotion, nous gérons la logistique.",
+  baseline: "Vous gardez l'émotion, nous gérons la logistique.",
   positionnement:
     "Agence locale, encadrée, rassurante. Organisation complète, premium accessible.",
   ctaPrincipal: "Trouver mon expérience",

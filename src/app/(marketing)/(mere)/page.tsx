@@ -22,7 +22,7 @@ export default function PageMere() {
       <Hero
         surtitre="Deux marques, une île"
         titre="Quel Madagascar voulez-vous vivre ?"
-        sousTitre="Choisissez le style de voyage qui vous ressemble : confort et organisation ou aventure roots et rencontres locales."
+        sousTitre="Deux parcours s'offrent à vous : le voyage organisé et confortable, ou l'aventure roots en toute liberté. Choisissez le vôtre — votre voyage commence maintenant."
         ctas={[{ href: "#univers", label: "Choisir mon univers" }]}
         imageLabel="Hero — collage des deux mondes"
         imageAlt="Collage évoquant les deux univers : lodge confortable et piste de road trip"

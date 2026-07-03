@@ -12,6 +12,7 @@ import {
   CVM_UNIVERS,
   type CvmUniversSlug,
 } from "@/config/content/cvm";
+import { cn } from "@/lib/cn";
 import { formatEuros } from "@/lib/format";
 
 export const metadata: Metadata = {
@@ -47,9 +48,11 @@ export default function CvmLandingPage() {
       >
         <SectionHeading
           titre="Quatre expériences, un seul interlocuteur"
-          sousTitre="Chaque univers a son ambiance, son rythme et son questionnaire dédié."
+          sousTitre="Chaque expérience a son ambiance et son rythme. Reconnaissez la vôtre — nous construisons le reste."
         />
-        <div className="mt-8 grid grid-cols-4 gap-2 sm:gap-4">
+        {/* 2×2 en mobile (décision Ryan 2026-07-03) : 4 colonnes à 390 px
+            coupaient les mots des titres. */}
+        <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
           {UNIVERS_ORDER.map((slug, index) => {
             const univers = CVM_UNIVERS[slug];
             const prixMini = Math.min(
@@ -64,7 +67,14 @@ export default function CvmLandingPage() {
                 <Link
                   href={`/cvm/${slug}`}
                   data-accent={univers.accent}
-                  className="flex h-full min-w-0 flex-col rounded-2xl border-2 border-line bg-card p-3 transition-colors hover:border-accent sm:p-6"
+                  className={cn(
+                    "flex h-full min-w-0 flex-col rounded-2xl border-2 bg-card p-3 transition-colors hover:border-accent sm:p-6",
+                    // L'Expédition porte couleur + lumière (directive boss
+                    // 2026-07) ; les trois autres restent en bordure neutre.
+                    slug === "explorer"
+                      ? "cta-pulse-soft border-accent"
+                      : "border-line",
+                  )}
                 >
                   <p className="text-[10px] font-semibold uppercase tracking-wide text-accent sm:text-xs sm:tracking-[0.2em]">
                     {univers.surtitre}

@@ -67,7 +67,7 @@ export default function MlrLandingPage() {
         <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
           <SectionHeading
             titre="Les 4 roots"
-            sousTitre="Quatre ambiances, un même format : guide local privé + taxi-brousse. La route est une réponse du questionnaire — pas un autre formulaire."
+            sousTitre="Quatre ambiances, un même format : guide local privé + taxi-brousse. Choisissez celle qui vous appelle — le questionnaire s'occupe du reste."
             accent
           />
           <div className="mt-8 grid gap-4 sm:grid-cols-2">

@@ -407,8 +407,9 @@ export const MLR_LANDING = {
   hero: {
     surtitre: "Madagascar Liberty Roots",
     titre: "Road Trip Madagascar",
+    // Signature dictée par le boss (2026-07) en tête de sous-titre.
     sousTitre:
-      "Voyager autrement, vivre l'essentiel. Quatre roots, un guide local privé, le taxi-brousse — et la liberté comme fil conducteur.",
+      "La liberté de vivre simplement une expérience unique. Quatre roots, un guide local privé, le taxi-brousse — et votre liberté comme fil conducteur.",
     imageLabel: "Logo baobab + piste — ambiance affiche",
     imageAlt: "Baobab et piste de terre rouge, ambiance affiche vintage",
   },

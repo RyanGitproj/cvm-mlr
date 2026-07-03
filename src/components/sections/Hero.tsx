@@ -78,17 +78,21 @@ export function Hero({
           <div className="mt-6 flex flex-wrap gap-3">
             {ctas.map((cta) => {
               const variant = cta.variant ?? "primary";
-              const outlineOnImage =
+              // Le CTA principal porte le halo lumineux (directive boss
+              // 2026-07) ; l'outline sur photo garde son contraste clair.
+              const ctaClass = cn(
+                variant === "primary" && "cta-pulse",
                 hasImage && variant === "outline"
                   ? "!border-accent-contrast !text-accent-contrast hover:!bg-accent-contrast/15"
-                  : undefined;
+                  : undefined,
+              );
               // Ancre même page → scroll contrôlé (fluide, reduced-motion, focus).
               return cta.href.startsWith("#") ? (
                 <ScrollCtaLink
                   key={cta.href + cta.label}
                   targetId={cta.href.slice(1)}
                   variant={variant}
-                  className={outlineOnImage}
+                  className={ctaClass}
                 >
                   {cta.label}
                 </ScrollCtaLink>
@@ -97,7 +101,7 @@ export function Hero({
                   key={cta.href + cta.label}
                   href={cta.href}
                   variant={variant}
-                  className={outlineOnImage}
+                  className={ctaClass}
                 >
                   {cta.label}
                 </ButtonLink>

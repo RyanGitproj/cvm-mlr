@@ -208,7 +208,7 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
     surtitre: "Grand Tour Madagascar",
     // Positionnement brochure 2026-07 (p.4-5) : immersion culturelle,
     // paysages variés, découverte complète — culture et repos.
-    titre: "Comprendre l'île en profondeur",
+    titre: "Un mois pour comprendre l'île en profondeur",
     sousTitre:
       "Environ un mois à travers les grandes régions de Madagascar : immersion culturelle, paysages variés, découverte complète — avec le temps de la culture et du repos.",
     ctaLabel: "Recevoir le programme Grand Tour Madagascar",
@@ -263,9 +263,10 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
 export const CVM_LANDING = {
   hero: {
     surtitre: "Célébration Voyage Madagascar",
-    titre: "Madagascar autrement",
+    // L'exclusivité en titre (« autrement » reste la signature MLR).
+    titre: "Madagascar, là où les autres ne vont pas",
     sousTitre:
-      "Là où les autres ne vont pas. Quatre expériences encadrées par une équipe locale : l'expédition, le trek aventure, le séjour à deux ou le grand tour d'un mois. Vous gardez l'émotion, nous gérons la logistique.",
+      "Quatre expériences encadrées par une équipe locale : l'expédition insolite, le trek aventure, le séjour à deux ou le grand tour d'un mois. Vous gardez l'émotion — nous gérons toute la logistique.",
     imageLabel: "Collage des 4 univers CVM",
     imageAlt: "Collage des quatre expériences : bivouac, trek, plage et projet de vie",
   },

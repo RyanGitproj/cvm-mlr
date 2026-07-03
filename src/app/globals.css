@@ -167,6 +167,69 @@ h4 {
 }
 
 /*
+ * Halo lumineux des CTA principaux (directive boss 2026-07 : « lumineux et
+ * ça bouge »). L'ombre est portée par un pseudo-élément statique dont seules
+ * l'opacité et l'échelle respirent — jamais d'animation de box-shadow.
+ * Mouvement réduit → halo fixe, sans pulsation.
+ */
+.cta-pulse,
+.cta-pulse-soft {
+  position: relative;
+  isolation: isolate;
+}
+
+/* L'anneau de bordure vit sur le même pseudo-élément que le halo : les deux
+   pulsent d'un seul mouvement (demande Ryan 2026-07). */
+.cta-pulse::after,
+.cta-pulse-soft::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  z-index: -1;
+  border-radius: inherit;
+  border: 2px solid var(--accent);
+  box-shadow: 0 0 16px 3px var(--accent);
+  opacity: 0.55;
+}
+
+/* Intensités actées (Ryan 2026-07-03) : « actuelle » pour les CTA
+   principaux, « douce » pour l'Expédition insolite — la mise en avant ne
+   doit pas concurrencer le CTA principal. */
+@media (prefers-reduced-motion: no-preference) {
+  .cta-pulse::after {
+    animation: cta-halo 1.9s ease-in-out infinite;
+  }
+
+  .cta-pulse-soft::after {
+    animation: cta-halo-soft 2.4s ease-in-out infinite;
+  }
+}
+
+@keyframes cta-halo {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.95;
+    transform: scale(1.02);
+  }
+}
+
+@keyframes cta-halo-soft {
+  0%,
+  100% {
+    opacity: 0.15;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.55;
+    transform: scale(1.01);
+  }
+}
+
+/*
  * Page mère (brief §6.2) : au survol de la carte MLR, l'accent global de la
  * page bascule vers le terracotta — CSS pur via :has(), transition douce
  * portée par les transition-colors des composants.
