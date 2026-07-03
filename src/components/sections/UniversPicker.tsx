@@ -53,15 +53,15 @@ export function UniversPicker() {
             <div className="mt-4 flex flex-wrap gap-2">
               <Pill
                 data-accent="ember"
-                className="cta-pulse-soft border-accent font-semibold text-accent"
+                className="cta-pulse-soft pill-accent font-semibold"
               >
                 Expédition insolite
               </Pill>
-              <Pill className="border-accent text-accent">Trek Aventure</Pill>
-              <Pill data-accent="lagon" className="border-accent text-accent">
+              <Pill className="pill-accent">Trek Aventure</Pill>
+              <Pill data-accent="lagon" className="pill-accent">
                 Séjour Collection
               </Pill>
-              <Pill className="border-accent text-accent">Grand Tour</Pill>
+              <Pill className="pill-accent">Grand Tour</Pill>
             </div>
             <p className="mt-4 flex-1 text-sm text-ink-soft">
               <span className="text-xs uppercase tracking-wide">À partir de </span>
