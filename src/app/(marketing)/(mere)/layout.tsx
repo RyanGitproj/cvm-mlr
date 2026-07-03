@@ -1,4 +1,5 @@
 import { SiteShell } from "@/components/layout/SiteShell";
+import { NAV_DEUX_UNIVERS } from "@/config/brands";
 
 export default function MereLayout({
   children,
@@ -8,12 +9,7 @@ export default function MereLayout({
       theme="mere"
       homeHref="/"
       homeLabel="Madagascar"
-      links={[
-        // Deux clics possibles, pas plus (directive boss 2026-07) : la FAQ
-        // reste accessible via le footer, hors du parcours principal.
-        { href: "/cvm", label: "Célébration Voyage" },
-        { href: "/mlr", label: "Liberty Roots" },
-      ]}
+      links={NAV_DEUX_UNIVERS}
     >
       {children}
     </SiteShell>

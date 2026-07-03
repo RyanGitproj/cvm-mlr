@@ -8,6 +8,8 @@ type Props = {
   homeHref: string;
   homeLabel: string;
   links: NavLink[];
+  /** CTA d'action du funnel dans le header (absent sur la page mère). */
+  cta?: NavLink;
   /** Classe additionnelle du wrapper (ex. texture-paper pour MLR). */
   className?: string;
   children: ReactNode;
@@ -22,6 +24,7 @@ export function SiteShell({
   homeHref,
   homeLabel,
   links,
+  cta,
   className,
   children,
 }: Props) {
@@ -33,7 +36,12 @@ export function SiteShell({
         className,
       )}
     >
-      <Header homeHref={homeHref} homeLabel={homeLabel} links={links} />
+      <Header
+        homeHref={homeHref}
+        homeLabel={homeLabel}
+        links={links}
+        cta={cta}
+      />
       <main className="flex-1">{children}</main>
       <Footer brand={theme} />
     </div>

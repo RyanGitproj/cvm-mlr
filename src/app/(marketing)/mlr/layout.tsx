@@ -1,4 +1,5 @@
 import { SiteShell } from "@/components/layout/SiteShell";
+import { NAV_DEUX_UNIVERS } from "@/config/brands";
 
 export default function MlrLayout({
   children,
@@ -9,12 +10,8 @@ export default function MlrLayout({
       className="texture-paper"
       homeHref="/mlr"
       homeLabel="Liberty Roots"
-      links={[
-        { href: "/mlr/nord", label: "Nord" },
-        { href: "/mlr/sud", label: "Sud" },
-        { href: "/mlr/est", label: "Est" },
-        { href: "/mlr/ouest", label: "Ouest" },
-      ]}
+      links={NAV_DEUX_UNIVERS}
+      cta={{ href: "/mlr#questionnaire", label: "Choisir mon aventure" }}
     >
       {children}
     </SiteShell>

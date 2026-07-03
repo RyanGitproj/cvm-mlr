@@ -1,4 +1,5 @@
 import { SiteShell } from "@/components/layout/SiteShell";
+import { NAV_DEUX_UNIVERS } from "@/config/brands";
 
 export default function LegalLayout({
   children,
@@ -8,11 +9,7 @@ export default function LegalLayout({
       theme="mere"
       homeHref="/"
       homeLabel="Madagascar"
-      links={[
-        { href: "/cvm", label: "Célébration Voyage" },
-        { href: "/mlr", label: "Liberty Roots" },
-        { href: "/faq", label: "FAQ" },
-      ]}
+      links={NAV_DEUX_UNIVERS}
     >
       <div className="mx-auto w-full max-w-3xl px-4 py-12 sm:px-6">{children}</div>
     </SiteShell>

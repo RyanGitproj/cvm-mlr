@@ -30,6 +30,16 @@ export const mlrBrand = {
   signature: "Une marque opérée par Célébration Voyages Madagascar",
 } as const;
 
+/**
+ * Navigation commune à tous les headers : les deux seuls choix du funnel
+ * (directive boss 2026-07) — jamais de liens d'univers, de routes ou de
+ * FAQ dans la nav, même à l'intérieur des univers CVM et MLR.
+ */
+export const NAV_DEUX_UNIVERS: { href: string; label: string }[] = [
+  { href: "/cvm", label: cvmBrand.nom },
+  { href: "/mlr", label: mlrBrand.nom },
+];
+
 /** Réassurance commune de la page mère (brief §6.1). */
 export const REASSURANCE_COMMUNE = [
   { titre: "Réponse rapide", texte: "Un retour sous 24 h ouvrées." },

@@ -11,7 +11,7 @@ export const mlrFunnel: FunnelConfig = {
   brand: "mlr",
   label: "Road Trip Liberty",
   intro: {
-    titre: "Choisissez votre route roots à Madagascar",
+    titre: "Choisissez votre aventure roots à Madagascar",
     sousTitre:
       "Guide local privé, taxi-brousse, itinéraire préparé : l'aventure authentique, en liberté et à votre rythme.",
     note: "Les hôtels, restaurants hors campement, vols et assurances restent à votre charge pour garder votre liberté de choix.",

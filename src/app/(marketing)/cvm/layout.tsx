@@ -1,4 +1,5 @@
 import { SiteShell } from "@/components/layout/SiteShell";
+import { NAV_DEUX_UNIVERS } from "@/config/brands";
 
 export default function CvmLayout({
   children,
@@ -8,12 +9,8 @@ export default function CvmLayout({
       theme="cvm"
       homeHref="/cvm"
       homeLabel="Célébration Voyage"
-      links={[
-        { href: "/cvm/explorer", label: "Expédition insolite" },
-        { href: "/cvm/treks", label: "Trek Aventure" },
-        { href: "/cvm/iles", label: "Séjour Collection" },
-        { href: "/cvm/un-mois", label: "Grand Tour" },
-      ]}
+      links={NAV_DEUX_UNIVERS}
+      cta={{ href: "/cvm/orientation/questionnaire", label: "Être conseillé" }}
     >
       {children}
     </SiteShell>
