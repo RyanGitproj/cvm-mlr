@@ -1,0 +1,13 @@
+# Force LF pour tous les fichiers texte, quel que soit core.autocrlf local —
+# évite le bruit CRLF/LF dans les diffs entre contributeurs Windows/Mac/Linux.
+* text=auto eol=lf
+
+# Binaires explicites (jamais de conversion de fin de ligne).
+*.ico binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.woff binary
+*.woff2 binary
