@@ -3,7 +3,15 @@ import { Reveal } from "@/components/motion/Reveal";
 import { PlaceholderImage } from "@/components/ui/PlaceholderImage";
 import { Pill } from "@/components/ui/Pill";
 import { cvmBrand, mlrBrand } from "@/config/brands";
+import { CVM_UNIVERS } from "@/config/content/cvm";
+import { formatEuros } from "@/lib/format";
 import { SectionHeading } from "./SectionHeading";
+
+const CVM_PRIX_MINI = Math.min(
+  ...Object.values(CVM_UNIVERS).flatMap((univers) =>
+    univers.formules.map((formule) => formule.prixEuros),
+  ),
+);
 
 /**
  * Cœur de la page mère — copy et hiérarchie du visuel 1/8 du funnel MLR
@@ -41,13 +49,15 @@ export function UniversPicker() {
             </p>
             <div className="mt-4 flex flex-wrap gap-2">
               <Pill>Expédition</Pill>
-              <Pill>Trek Family</Pill>
+              <Pill>Trek Aventure</Pill>
               <Pill>Séjour Collection</Pill>
               <Pill>Grand Tour</Pill>
             </div>
             <p className="mt-4 flex-1 text-sm text-ink-soft">
               <span className="text-xs uppercase tracking-wide">À partir de </span>
-              <strong className="text-xl font-bold text-ink-strong">2 000 €</strong>
+              <strong className="text-xl font-bold text-ink-strong">
+                {formatEuros(CVM_PRIX_MINI)}
+              </strong>
               <span className="text-xs uppercase tracking-wide"> / personne</span>
             </p>
             <span className="mt-5 inline-flex w-fit items-center gap-2 rounded-lg bg-ink-strong px-3 py-2 text-xs font-semibold uppercase tracking-wide text-surface sm:px-5 sm:py-2.5 sm:text-sm">

@@ -10,7 +10,7 @@ export default function CvmLayout({
       homeLabel="Célébration Voyage"
       links={[
         { href: "/cvm/explorer", label: "Expédition" },
-        { href: "/cvm/treks", label: "Trek Family" },
+        { href: "/cvm/treks", label: "Trek Aventure" },
         { href: "/cvm/iles", label: "Séjour Collection" },
         { href: "/cvm/un-mois", label: "Grand Tour" },
       ]}

@@ -57,7 +57,7 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
   treks: {
     slug: "treks",
     funnelType: "cvm_treks",
-    surtitre: "Treck aventure FAMILY_Liberty",
+    surtitre: "Trek Aventure",
     titre: "L'aventure encadrée, à votre niveau",
     sousTitre:
       "Vivez l'aventure à Madagascar sans partir à l'aveugle : un trek encadré et convivial — en famille, en couple ou entre amis — selon votre niveau, vos paysages et votre rythme.",
@@ -91,7 +91,6 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
       ],
     },
     formules: [
-      { duree: "7 jours", prixEuros: 2000 },
       { duree: "10 jours", prixEuros: 2200 },
       { duree: "15 jours", prixEuros: 2500 },
     ],
@@ -264,7 +263,7 @@ export const CVM_LANDING = {
     surtitre: "Célébration Voyage Madagascar",
     titre: "Madagascar autrement",
     sousTitre:
-      "Là où les autres ne vont pas. Quatre expériences encadrées par une équipe locale : l'expédition, le trek en famille, le séjour à deux ou le grand tour d'un mois. Vous gardez l'émotion, nous gérons la logistique.",
+      "Là où les autres ne vont pas. Quatre expériences encadrées par une équipe locale : l'expédition, le trek aventure, le séjour à deux ou le grand tour d'un mois. Vous gardez l'émotion, nous gérons la logistique.",
     imageLabel: "Collage des 4 univers CVM",
     imageAlt: "Collage des quatre expériences : bivouac, trek, plage et projet de vie",
   },

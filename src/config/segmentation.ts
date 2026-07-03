@@ -70,7 +70,7 @@ export const ORIENTATION_UNIVERS = {
     raison: "Aventure insolite, confort rustique accepté, profil sportif.",
   },
   treks: {
-    libelle: "Treck aventure FAMILY_Liberty",
+    libelle: "Trek Aventure",
     href: "/cvm/treks",
     raison: "Aventure encadrée et sécurisée, adaptée à votre niveau.",
   },

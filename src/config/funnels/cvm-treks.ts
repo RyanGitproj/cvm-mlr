@@ -5,7 +5,7 @@ import { NOTE_TARIFAIRE_CVM } from "../brands";
 export const cvmTreksFunnel: FunnelConfig = {
   type: "cvm_treks",
   brand: "cvm",
-  label: "Treck aventure FAMILY_Liberty",
+  label: "Trek Aventure",
   intro: {
     titre: "Composez votre Trek Aventure",
     sousTitre:

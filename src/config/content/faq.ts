@@ -22,7 +22,7 @@ export const FAQ_CVM = [
   {
     question: "Quel niveau physique faut-il ?",
     reponse:
-      "Cela dépend de l'univers : le Séjour Collection est accessible à tous ; le Treck aventure Family s'adapte à votre niveau réel (kilomètres par jour, dénivelé) ; l'Expédition insolite est exigeante — 15 à 25 km par jour et certificat médical obligatoire.",
+      "Cela dépend de l'univers : le Séjour Collection est accessible à tous ; le Trek Aventure s'adapte à votre niveau réel (kilomètres par jour, dénivelé) ; l'Expédition insolite est exigeante — 15 à 25 km par jour et certificat médical obligatoire.",
   },
   {
     question: "Pourquoi un certificat médical pour l'Expédition insolite ?",
