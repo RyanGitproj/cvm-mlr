@@ -12,7 +12,7 @@ export const cvmOrientationFunnel: FunnelConfig = {
   intro: {
     titre: "Quelle expérience à Madagascar correspond vraiment à votre projet ?",
     sousTitre:
-      "Madagascar peut se vivre comme une expédition, une aventure encadrée, un séjour de rêve ou un projet de vie. Répondez à quelques questions pour recevoir la brochure, la vidéo et la proposition les plus adaptées à votre profil.",
+      "Madagascar peut se vivre comme une expédition, une aventure encadrée, un séjour de rêve ou une immersion d'un mois. Répondez à quelques questions pour recevoir la brochure, la vidéo et la proposition les plus adaptées à votre profil.",
     note: NOTE_TARIFAIRE_CVM,
   },
   cta: "Recevoir ma recommandation",
@@ -27,7 +27,7 @@ export const cvmOrientationFunnel: FunnelConfig = {
         { value: "1800_2200", label: "Entre 1 800 € et 2 200 € — expérience optimisée, courte ou simple" },
         { value: "2200_2500", label: "Entre 2 200 € et 2 500 € — aventure structurée avec organisation locale" },
         { value: "2500_3000", label: "Entre 2 500 € et 3 000 € — expérience plus complète, immersive ou confortable" },
-        { value: "3000_plus", label: "Plus de 3 000 € — expérience longue, premium, très accompagnée ou projet de vie" },
+        { value: "3000_plus", label: "Plus de 3 000 € — expérience longue, premium, très accompagnée ou immersion d'un mois" },
         { value: "conseil", label: "Je ne sais pas encore — je souhaite être conseillé" },
       ],
     },
@@ -40,7 +40,7 @@ export const cvmOrientationFunnel: FunnelConfig = {
         { value: "explorer", label: "Une aventure insolite hors des circuits touristiques" },
         { value: "treks", label: "Un trek ou circuit aventure encadré et sécurisé" },
         { value: "iles", label: "Des plages paradisiaques, des îles et un séjour détente" },
-        { value: "un_mois", label: "Un mois pour découvrir Madagascar avant un projet de vie ou d'activité" },
+        { value: "un_mois", label: "Un mois d'immersion pour découvrir Madagascar en profondeur" },
         { value: "autre", label: "Autre projet — je précise", freeText: true },
       ],
     },

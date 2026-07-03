@@ -1,7 +1,8 @@
 import type { FunnelConfig } from "@/types/funnel";
 
 /**
- * Questionnaire CVM · Un mois à Madagascar (brief §13.4).
+ * Questionnaire CVM · Grand Tour Madagascar (structure : brief §13.4 ;
+ * cadrage « immersion culturelle / découverte complète » : brochure 2026-07).
  * Prudence obligatoire : admin/fiscal/juridique = orientation, pas conseil.
  */
 export const cvmUnMoisFunnel: FunnelConfig = {
@@ -11,7 +12,7 @@ export const cvmUnMoisFunnel: FunnelConfig = {
   intro: {
     titre: "Préparez votre Grand Tour de Madagascar",
     sousTitre:
-      "Un programme d'immersion pour comprendre le pays, ses régions et son rythme de vie avant une décision personnelle, professionnelle ou entrepreneuriale.",
+      "Environ un mois pour comprendre l'île en profondeur : immersion culturelle, paysages variés, découverte complète. Dites-nous votre rythme et vos priorités — vous recevez un pré-programme adapté, pas une offre générique.",
     note: "Les sujets administratifs, fiscaux, juridiques, résidence ou société doivent être confirmés auprès de professionnels compétents. Le programme peut orienter, mais ne remplace pas un conseil spécialisé.",
   },
   cta: "Recevoir le programme Grand Tour Madagascar",
@@ -21,12 +22,12 @@ export const cvmUnMoisFunnel: FunnelConfig = {
       id: "budget",
       name: "budget",
       question: "Quelle enveloppe pour un mois complet sur place ?",
-      hint: "Hors billet d'avion international et assurance voyage — hébergement, déplacements, accompagnement et repérages.",
+      hint: "Hors billet d'avion international et assurance voyage — hébergement, déplacements, accompagnement et visites.",
       options: [
         { value: "1800_2200", label: "1 800 € à 2 200 € — enveloppe très limitée pour un mois complet, à vérifier" },
         { value: "2200_2500", label: "2 200 € à 2 500 € — programme optimisé, à construire avec prudence" },
         { value: "2500_3000", label: "2 500 € à 3 000 € — programme plus structuré selon durée réelle et confort" },
-        { value: "3000_plus", label: "Plus de 3 000 € — profil le plus adapté à une expérience longue, accompagnée ou stratégique" },
+        { value: "3000_plus", label: "Plus de 3 000 € — profil le plus adapté à une expérience longue, accompagnée et confortable" },
         { value: "conseil", label: "Je ne sais pas encore — je souhaite être conseillé" },
       ],
     },
@@ -36,10 +37,11 @@ export const cvmUnMoisFunnel: FunnelConfig = {
       name: "objectifMois",
       question: "Quel est l'objectif de ce mois ?",
       options: [
+        // Découverte en tête : c'est le positionnement Grand Tour (brochure).
+        { value: "decouverte", label: "Découverte approfondie du pays et immersion culturelle" },
         { value: "expatriation", label: "Projet d'expatriation ou changement de vie" },
         { value: "creation_societe", label: "Création de société, investissement ou activité professionnelle" },
         { value: "retraite", label: "Retraite, long séjour ou résidence partielle" },
-        { value: "decouverte", label: "Découverte approfondie du pays avant décision" },
         { value: "autre", label: "Autre projet — je précise", freeText: true },
       ],
     },
@@ -87,11 +89,12 @@ export const cvmUnMoisFunnel: FunnelConfig = {
       id: "regions",
       name: "regions",
       question: "Quelles régions découvrir ?",
+      // Descriptifs alignés sur « Nos grandes régions » (brochure p.2).
       options: [
-        { value: "tana_hautes_terres", label: "Antananarivo, Hautes Terres et centres économiques" },
-        { value: "nord", label: "Le Nord : Diego, Nosy Be, littoral et opportunités touristiques" },
-        { value: "est", label: "L'Est : Sainte-Marie, nature, littoral, ambiance sauvage" },
-        { value: "ouest_sud", label: "L'Ouest / Sud : Morondava, Tuléar, grands espaces et potentiel régional" },
+        { value: "tana_hautes_terres", label: "Hautes Terres & Antananarivo : culture, artisanat, villages accueillants" },
+        { value: "nord", label: "Le Nord : Nosy Be, plages de rêve, îles idylliques" },
+        { value: "est", label: "L'Est : forêts luxuriantes, route des Pangalanes et Sainte-Marie" },
+        { value: "ouest_sud", label: "L'Ouest / Sud : baobabs, Tsingy, terres rouges et grands espaces" },
         { value: "quatre_coins", label: "Je veux découvrir les quatre coins du pays" },
       ],
     },
@@ -129,7 +132,7 @@ export const cvmUnMoisFunnel: FunnelConfig = {
       options: [
         { value: "simple_eco", label: "Simple et économique" },
         { value: "correct", label: "Confort correct et fonctionnel" },
-        { value: "superieur", label: "Confort supérieur pour travailler et se projeter sereinement" },
+        { value: "superieur", label: "Confort supérieur pour vivre le mois sereinement" },
         { value: "premium", label: "Premium avec accompagnement renforcé" },
         { value: "autre", label: "Autre attente — je précise", freeText: true },
       ],

@@ -82,7 +82,7 @@ export const ORIENTATION_UNIVERS = {
   un_mois: {
     libelle: "Grand Tour Madagascar",
     href: "/cvm/un-mois",
-    raison: "Immersion longue pour comprendre le pays avant un projet de vie.",
+    raison: "Immersion culturelle, paysages variés, découverte complète.",
   },
 } as const;
 
