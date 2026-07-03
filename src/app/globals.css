@@ -1,0 +1,224 @@
+@import "tailwindcss";
+
+/*
+ * Tokens sémantiques des trois univers (brief §5).
+ * Les composants ne consomment JAMAIS de couleur en dur : uniquement
+ * bg-surface / text-ink / bg-accent… Le thème est fixé par le layout du
+ * route group via data-theme="mere|cvm|mlr" ; les nuances par sous-univers
+ * CVM (Explorer/Îles) surchargent --accent via data-accent="ember|lagon".
+ */
+
+:root,
+[data-theme="mere"],
+[data-theme="cvm"] {
+  --surface: #fbf5ec;
+  --surface-2: #f4e3c9;
+  --card: #fffdf8;
+  --ink: #0c3b24;
+  --ink-strong: #072c1a;
+  --ink-soft: #44604f;
+  --accent: #b8892b;
+  --accent-soft: #d1b881;
+  --accent-contrast: #fffdf8;
+  --line: #e4d5b8;
+  --ember: #7a3b1e;
+  --lagon: #1f7a6d;
+  --danger: #9c2f22;
+
+  --font-heading: "Cormorant Garamond", serif;
+  --font-body: "Inter Variable", system-ui, sans-serif;
+}
+
+[data-theme="mlr"] {
+  --surface: #fdf5e2;
+  --surface-2: #f8eee2;
+  --card: #fffaf0;
+  --ink: #2a2410;
+  --ink-strong: #1c180a;
+  --ink-soft: #5c5230;
+  --accent: #a83500;
+  --accent-soft: #b45327;
+  --accent-contrast: #fdf5e2;
+  --line: #e3d3b3;
+  --kaki: #6b5a1e;
+  --sun: #e08a1e;
+  --danger: #8f2a00;
+
+  --font-heading: "Oswald Variable", sans-serif;
+  --font-body: "Inter Variable", system-ui, sans-serif;
+}
+
+/* Nuances par sous-univers CVM (brief §5.1) */
+[data-accent="ember"] {
+  --accent: #7a3b1e;
+  --accent-soft: #a86a44;
+  --accent-contrast: #fbf5ec;
+}
+
+[data-accent="lagon"] {
+  --accent: #1f7a6d;
+  --accent-soft: #7fb5ac;
+  --accent-contrast: #fbf5ec;
+}
+
+@theme inline {
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-card: var(--card);
+  --color-ink: var(--ink);
+  --color-ink-strong: var(--ink-strong);
+  --color-ink-soft: var(--ink-soft);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-contrast: var(--accent-contrast);
+  --color-line: var(--line);
+  --color-ember: var(--ember);
+  --color-lagon: var(--lagon);
+  --color-danger: var(--danger);
+  --font-heading: var(--font-heading);
+  --font-body: var(--font-body);
+}
+
+body {
+  background: var(--surface);
+  color: var(--ink);
+  font-family: var(--font-body);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-heading);
+}
+
+/*
+ * Animations (brief §10.2) — transform/opacity uniquement, désactivées
+ * quand l'utilisateur préfère un mouvement réduit.
+ */
+
+.reveal {
+  opacity: 1;
+  transform: none;
+}
+
+@keyframes fade-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 0.6s ease,
+      transform 0.6s ease;
+    transition-delay: var(--reveal-delay, 0s);
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  .animate-fade-rise {
+    animation: fade-rise 0.7s ease both;
+    animation-delay: var(--reveal-delay, 0s);
+  }
+
+  /* Transition d'étape du questionnaire : léger slide horizontal. */
+  .animate-step {
+    animation: step-in 0.35s ease both;
+  }
+}
+
+@keyframes step-in {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/*
+ * Page mère (brief §6.2) : au survol de la carte MLR, l'accent global de la
+ * page bascule vers le terracotta — CSS pur via :has(), transition douce
+ * portée par les transition-colors des composants.
+ */
+.mere-scope:has([data-pick="mlr"]:hover) {
+  --accent: #a83500;
+  --accent-soft: #b45327;
+  --accent-contrast: #fdf5e2;
+}
+
+/* Éléments signature MLR : bandeau à bord déchiré + tampon (brief §5.2) */
+
+.torn-edge {
+  clip-path: polygon(
+    0 6%,
+    3% 0,
+    9% 5%,
+    16% 1%,
+    24% 6%,
+    33% 0,
+    41% 5%,
+    50% 1%,
+    59% 6%,
+    67% 0,
+    76% 5%,
+    84% 1%,
+    91% 6%,
+    97% 0,
+    100% 6%,
+    100% 94%,
+    97% 100%,
+    91% 95%,
+    84% 99%,
+    76% 94%,
+    67% 100%,
+    59% 95%,
+    50% 99%,
+    41% 94%,
+    33% 100%,
+    24% 95%,
+    16% 99%,
+    9% 94%,
+    3% 100%,
+    0 94%
+  );
+}
+
+.stamp {
+  transform: rotate(-6deg);
+  border: 2px solid currentColor;
+  border-radius: 4px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.texture-paper {
+  background-image: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgb(0 0 0 / 0.015) 2px,
+      rgb(0 0 0 / 0.015) 4px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 3px,
+      rgb(0 0 0 / 0.01) 3px,
+      rgb(0 0 0 / 0.01) 6px
+    );
+}

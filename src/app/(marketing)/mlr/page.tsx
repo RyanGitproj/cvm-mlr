@@ -1,0 +1,110 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import { Reveal } from "@/components/motion/Reveal";
+import { Hero } from "@/components/sections/Hero";
+import { NoteTarifaire } from "@/components/sections/NoteTarifaire";
+import { ReassuranceBar } from "@/components/sections/ReassuranceBar";
+import { SectionHeading } from "@/components/sections/SectionHeading";
+import { PlaceholderImage } from "@/components/ui/PlaceholderImage";
+import { Pill } from "@/components/ui/Pill";
+import { NOTE_TARIFAIRE_MLR } from "@/config/brands";
+import {
+  MLR_LANDING,
+  MLR_ROUTES_CONTENT,
+  MLR_SERVICES,
+  MLR_TARIFS,
+} from "@/config/content/mlr";
+
+export const metadata: Metadata = {
+  title: "Madagascar Liberty Routes — Road trip roots",
+  description: MLR_LANDING.hero.sousTitre,
+};
+
+export default function MlrLandingPage() {
+  return (
+    <>
+      <Hero
+        surtitre={MLR_LANDING.hero.surtitre}
+        titre={MLR_LANDING.hero.titre}
+        sousTitre={MLR_LANDING.hero.sousTitre}
+        ctas={[
+          { href: "/mlr/questionnaire", label: "Trouver ma route" },
+          { href: "#routes", label: "Découvrir les routes", variant: "outline" },
+        ]}
+        micro={[MLR_TARIFS.dixJours, MLR_TARIFS.quinzeJours]}
+        imageLabel={MLR_LANDING.hero.imageLabel}
+        imageAlt={MLR_LANDING.hero.imageAlt}
+      />
+
+      <section className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
+        <SectionHeading
+          titre="Choisissez votre durée"
+          sousTitre="À titre indicatif — la durée est re-demandée dans le questionnaire."
+        />
+        <div className="mt-8 grid gap-4 sm:grid-cols-2">
+          {MLR_LANDING.durees.map((duree) => (
+            <div
+              key={duree.titre}
+              className="rounded-2xl border-2 border-line bg-card p-6"
+            >
+              <p className="font-heading text-3xl font-bold uppercase tracking-wide text-ink-strong">
+                {duree.titre}
+              </p>
+              <p className="mt-1 font-semibold text-accent">{duree.prix}</p>
+              <p className="mt-2 text-sm text-ink-soft">{duree.texte}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section
+        id="routes"
+        className="scroll-mt-20 border-y border-line bg-surface-2"
+      >
+        <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
+          <SectionHeading
+            titre="Les 4 routes roots"
+            sousTitre="Quatre ambiances, un même format : guide local privé + taxi-brousse. La route est une réponse du questionnaire — pas un autre formulaire."
+          />
+          <div className="mt-8 grid gap-4 sm:grid-cols-2">
+            {MLR_LANDING.routes.map((route, index) => {
+              const content = MLR_ROUTES_CONTENT[route.slug];
+              return (
+                <Reveal key={route.slug} delay={index * 80} className="h-full">
+                  <Link
+                    href={`/mlr/${route.slug}`}
+                    className="flex h-full flex-col rounded-2xl border-2 border-line bg-card p-5 transition-colors hover:border-accent"
+                  >
+                    <PlaceholderImage
+                      ratio="16/9"
+                      label={content.imageAmbiance.label}
+                      alt={content.imageAmbiance.alt}
+                    />
+                    <p className="mt-4 font-heading text-2xl font-bold uppercase tracking-wide text-ink-strong">
+                      Road Trip {route.titre}
+                    </p>
+                    <p className="mt-1 flex-1 text-sm text-ink-soft">{route.texte}</p>
+                    <span className="mt-3 text-sm font-semibold text-accent">
+                      Voir la route →
+                    </span>
+                  </Link>
+                </Reveal>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
+        <SectionHeading titre="Le format Liberty Routes" />
+        <div className="mt-6 flex flex-wrap gap-2">
+          <Pill>{MLR_TARIFS.format}</Pill>
+          <Pill>{MLR_TARIFS.idealPour}</Pill>
+        </div>
+      </section>
+
+      <NoteTarifaire texte={NOTE_TARIFAIRE_MLR} />
+      <ReassuranceBar items={MLR_SERVICES} />
+    </>
+  );
+}

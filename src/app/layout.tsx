@@ -1,0 +1,34 @@
+import type { Metadata } from "next";
+import "@fontsource-variable/inter";
+import "@fontsource-variable/oswald";
+import "@fontsource/cormorant-garamond/500.css";
+import "@fontsource/cormorant-garamond/600.css";
+import "@fontsource/cormorant-garamond/700.css";
+import "./globals.css";
+import { UtmCapture } from "@/components/layout/UtmCapture";
+import { siteUrl } from "@/config/site";
+
+export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "Madagascar — Célébration Voyage & Liberty Routes",
+    template: "%s · Madagascar",
+  },
+  description:
+    "Deux façons de vivre Madagascar : le voyage organisé et serein avec Célébration Voyage Madagascar, ou le road trip en liberté avec Madagascar Liberty Routes.",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="fr" className="h-full antialiased">
+      <body className="flex min-h-full flex-col">
+        <UtmCapture />
+        {children}
+      </body>
+    </html>
+  );
+}
