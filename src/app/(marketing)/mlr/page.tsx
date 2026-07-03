@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { QuestionnaireSection } from "@/components/forms/QuestionnaireSection";
 import { Reveal } from "@/components/motion/Reveal";
 import { Hero } from "@/components/sections/Hero";
 import { NoteTarifaire } from "@/components/sections/NoteTarifaire";
@@ -16,7 +17,7 @@ import {
 } from "@/config/content/mlr";
 
 export const metadata: Metadata = {
-  title: "Madagascar Liberty Routes — Road trip roots",
+  title: "Madagascar Liberty Roots — Road trip roots",
   description: MLR_LANDING.hero.sousTitre,
 };
 
@@ -28,7 +29,7 @@ export default function MlrLandingPage() {
         titre={MLR_LANDING.hero.titre}
         sousTitre={MLR_LANDING.hero.sousTitre}
         ctas={[
-          { href: "/mlr/questionnaire", label: "Trouver ma route" },
+          { href: "#questionnaire", label: "Trouver ma route" },
           { href: "#routes", label: "Découvrir les routes", variant: "outline" },
         ]}
         micro={[MLR_TARIFS.dixJours, MLR_TARIFS.quinzeJours]}
@@ -36,10 +37,11 @@ export default function MlrLandingPage() {
         imageAlt={MLR_LANDING.hero.imageAlt}
       />
 
-      <section className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
+      <section className="accent-forest mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
         <SectionHeading
           titre="Choisissez votre durée"
           sousTitre="À titre indicatif — la durée est re-demandée dans le questionnaire."
+          accent
         />
         <div className="mt-8 grid gap-4 sm:grid-cols-2">
           {MLR_LANDING.durees.map((duree) => (
@@ -63,8 +65,9 @@ export default function MlrLandingPage() {
       >
         <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
           <SectionHeading
-            titre="Les 4 routes roots"
+            titre="Les 4 roots"
             sousTitre="Quatre ambiances, un même format : guide local privé + taxi-brousse. La route est une réponse du questionnaire — pas un autre formulaire."
+            accent
           />
           <div className="mt-8 grid gap-4 sm:grid-cols-2">
             {MLR_LANDING.routes.map((route, index) => {
@@ -95,8 +98,8 @@ export default function MlrLandingPage() {
         </div>
       </section>
 
-      <section className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
-        <SectionHeading titre="Le format Liberty Routes" />
+      <section className="accent-forest mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
+        <SectionHeading titre="Le format Liberty Roots" accent />
         <div className="mt-6 flex flex-wrap gap-2">
           <Pill>{MLR_TARIFS.format}</Pill>
           <Pill>{MLR_TARIFS.idealPour}</Pill>
@@ -105,6 +108,9 @@ export default function MlrLandingPage() {
 
       <NoteTarifaire texte={NOTE_TARIFAIRE_MLR} />
       <ReassuranceBar items={MLR_SERVICES} />
+
+      {/* Questionnaire unique MLR, sans pré-remplissage : la route est l'étape 2. */}
+      <QuestionnaireSection funnelType="mlr" />
     </>
   );
 }

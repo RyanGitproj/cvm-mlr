@@ -1,11 +1,12 @@
+import { QuestionnaireSection } from "@/components/forms/QuestionnaireSection";
 import { FaqList } from "@/components/sections/FaqList";
+import { HeroBackground } from "@/components/sections/HeroBackground";
 import { NoteTarifaire } from "@/components/sections/NoteTarifaire";
 import { ReassuranceBar } from "@/components/sections/ReassuranceBar";
 import { SectionHeading } from "@/components/sections/SectionHeading";
 import { TempsForts } from "@/components/sections/TempsForts";
-import { ButtonLink } from "@/components/ui/Button";
-import { PlaceholderImage } from "@/components/ui/PlaceholderImage";
 import { Pill, Stamp } from "@/components/ui/Pill";
+import { ScrollCtaLink } from "@/components/ui/ScrollCtaLink";
 import {
   MLR_SERVICES,
   MLR_STAMP,
@@ -15,42 +16,43 @@ import {
 
 /**
  * Gabarit des 4 pages de présentation de route MLR (brief §8.3) — reprend
- * la structure des brochures. Aucun formulaire ici : le CTA lance le
- * questionnaire unique avec la route pré-sélectionnée.
+ * la structure des brochures. Le questionnaire unique MLR est intégré en
+ * bas de page, route pré-sélectionnée : les CTA scrollent vers lui.
  */
 export function MlrRoutePage({ content }: { content: MlrRouteContent }) {
-  const questionnaireHref = `/mlr/questionnaire?route=${content.slug}`;
-
   return (
     <>
-      <section className="mx-auto grid w-full max-w-6xl items-center gap-8 px-4 pb-12 pt-8 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12">
-        <div className="animate-fade-rise">
-          <Stamp>{MLR_STAMP}</Stamp>
-          <h1 className="mt-4 font-heading text-4xl font-bold uppercase tracking-wide text-ink-strong sm:text-6xl">
-            {content.titre}
-          </h1>
-          <p className="mt-3 max-w-prose text-lg text-ink-soft">
-            {content.sousTitre}
-          </p>
-          <p className="mt-4 font-heading text-lg font-bold uppercase tracking-wide text-accent">
-            {MLR_TARIFS.dixJours} · {MLR_TARIFS.quinzeJours}
-          </p>
-          <div className="mt-2">
-            <Pill>{MLR_TARIFS.format}</Pill>
-          </div>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <ButtonLink href={questionnaireHref}>{content.ctaLabel}</ButtonLink>
-            <ButtonLink href="#devis-explicatif" variant="outline">
-              Découvrir le devis explicatif
-            </ButtonLink>
-          </div>
-          <p className="mt-4 text-xs text-ink-soft">{MLR_TARIFS.idealPour}</p>
-        </div>
-        <PlaceholderImage
-          ratio="4/3"
+      <section className="relative overflow-hidden">
+        <HeroBackground
           label={content.imageAmbiance.label}
           alt={content.imageAmbiance.alt}
         />
+        <div className="relative z-10 mx-auto w-full max-w-6xl px-4 py-14 sm:px-6 sm:py-20 lg:py-24">
+          <div className="animate-fade-rise max-w-2xl">
+            <Stamp>{MLR_STAMP}</Stamp>
+            <h1 className="mt-4 font-heading text-4xl font-bold uppercase tracking-wide text-ink-strong sm:text-6xl">
+              {content.titre}
+            </h1>
+            <p className="mt-3 max-w-prose text-lg text-ink-soft">
+              {content.sousTitre}
+            </p>
+            <p className="mt-4 font-heading text-lg font-bold uppercase tracking-wide text-accent">
+              {MLR_TARIFS.dixJours} · {MLR_TARIFS.quinzeJours}
+            </p>
+            <div className="mt-2">
+              <Pill>{MLR_TARIFS.format}</Pill>
+            </div>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <ScrollCtaLink targetId="questionnaire">
+                {content.ctaLabel}
+              </ScrollCtaLink>
+              <ScrollCtaLink targetId="devis-explicatif" variant="outline">
+                Découvrir le devis explicatif
+              </ScrollCtaLink>
+            </div>
+            <p className="mt-4 text-xs text-ink-soft">{MLR_TARIFS.idealPour}</p>
+          </div>
+        </div>
       </section>
 
       <section className="mx-auto w-full max-w-3xl px-4 pb-6 sm:px-6">
@@ -61,7 +63,12 @@ export function MlrRoutePage({ content }: { content: MlrRouteContent }) {
         ))}
       </section>
 
-      <TempsForts titre={content.tempsFortsTitre} items={content.tempsForts} />
+      <TempsForts
+        titre={content.tempsFortsTitre}
+        items={content.tempsForts}
+        accent
+        className="accent-forest"
+      />
 
       <section className="border-y border-line bg-surface-2">
         <div className="mx-auto grid w-full max-w-6xl gap-10 px-4 py-12 sm:grid-cols-2 sm:px-6">
@@ -101,11 +108,12 @@ export function MlrRoutePage({ content }: { content: MlrRouteContent }) {
 
       <section
         id="devis-explicatif"
-        className="mx-auto w-full max-w-6xl scroll-mt-20 px-4 py-12 sm:px-6"
+        className="accent-forest mx-auto w-full max-w-6xl scroll-mt-20 px-4 py-12 sm:px-6"
       >
         <SectionHeading
           titre="Le devis explicatif"
           sousTitre="Transparence et liberté : comprendre ce qui est inclus et ce qui reste à prévoir."
+          accent
         />
         {content.devis ? (
           <div className="mt-8 max-w-2xl">
@@ -157,7 +165,7 @@ export function MlrRoutePage({ content }: { content: MlrRouteContent }) {
 
       <section className="border-y border-line bg-surface-2">
         <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
-          <SectionHeading titre="Exemple de déroulé — 10 jours" />
+          <SectionHeading titre="Exemple de déroulé — 10 jours" accent />
           <ol className="mt-8 grid gap-4">
             {content.deroule.map((etape) => (
               <li
@@ -193,13 +201,18 @@ export function MlrRoutePage({ content }: { content: MlrRouteContent }) {
         </div>
       </section>
 
-      <TempsForts titre="Ce que comprend le tarif" items={content.inclus} />
-      <TempsForts titre="Ce qui reste à prévoir" items={content.aPrevoir} />
+      <TempsForts
+        titre="Ce que comprend le tarif"
+        items={content.inclus}
+        accent
+        className="accent-forest"
+      />
+      <TempsForts titre="Ce qui reste à prévoir" items={content.aPrevoir} accent />
       <NoteTarifaire texte={content.budgetSurPlace} />
 
-      <section className="mx-auto grid w-full max-w-6xl gap-10 px-4 py-12 sm:px-6 lg:grid-cols-2">
+      <section className="accent-forest mx-auto grid w-full max-w-6xl gap-10 px-4 py-12 sm:px-6 lg:grid-cols-2">
         <div>
-          <SectionHeading titre="Trucs & astuces" />
+          <SectionHeading titre="Trucs & astuces" accent />
           <ul className="mt-6 grid gap-3">
             {content.astuces.map((astuce) => (
               <li key={astuce} className="flex gap-3 text-sm leading-relaxed">
@@ -213,7 +226,7 @@ export function MlrRoutePage({ content }: { content: MlrRouteContent }) {
           </ul>
         </div>
         <div>
-          <SectionHeading titre="Questions fréquentes" />
+          <SectionHeading titre="Questions fréquentes" accent />
           <div className="mt-6">
             <FaqList items={content.faq} />
           </div>
@@ -235,16 +248,11 @@ export function MlrRoutePage({ content }: { content: MlrRouteContent }) {
 
       <ReassuranceBar items={MLR_SERVICES} />
 
-      <section className="mx-auto w-full max-w-6xl px-4 py-16 text-center sm:px-6">
-        <SectionHeading
-          align="center"
-          titre="Prêt à prendre la route ?"
-          sousTitre="Répondez au questionnaire — votre route est déjà pré-sélectionnée."
-        />
-        <ButtonLink href={questionnaireHref} className="mt-6">
-          {content.ctaLabel}
-        </ButtonLink>
-      </section>
+      {/* Fin de page = le questionnaire, route pré-sélectionnée. */}
+      <QuestionnaireSection
+        funnelType="mlr"
+        defaultValues={{ route: content.slug }}
+      />
     </>
   );
 }

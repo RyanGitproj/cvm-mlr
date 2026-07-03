@@ -10,7 +10,7 @@ export default function LegalLayout({
       homeLabel="Madagascar"
       links={[
         { href: "/cvm", label: "Célébration Voyage" },
-        { href: "/mlr", label: "Liberty Routes" },
+        { href: "/mlr", label: "Liberty Roots" },
         { href: "/faq", label: "FAQ" },
       ]}
     >

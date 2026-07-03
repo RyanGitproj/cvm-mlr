@@ -30,16 +30,20 @@
 }
 
 [data-theme="mlr"] {
-  --surface: #fdf5e2;
-  --surface-2: #f8eee2;
-  --card: #fffaf0;
+  /* Fond grisé du PDF Liberty Roots : greige désaturé, pas un crème vif. */
+  --surface: #ece6da;
+  --surface-2: #e7e0cf;
+  --card: #f6f2ea;
   --ink: #2a2410;
   --ink-strong: #1c180a;
   --ink-soft: #5c5230;
   --accent: #a83500;
   --accent-soft: #b45327;
   --accent-contrast: #fdf5e2;
-  --line: #e3d3b3;
+  --line: #d8ccb6;
+  /* Vert olive du PDF : 2e accent, alterné avec le terracotta (.accent-forest). */
+  --forest: #4e5a2c;
+  --forest-soft: #6a743f;
   --kaki: #6b5a1e;
   --sun: #e08a1e;
   --danger: #8f2a00;
@@ -59,6 +63,18 @@
   --accent: #1f7a6d;
   --accent-soft: #7fb5ac;
   --accent-contrast: #fbf5ec;
+}
+
+/*
+ * Accents alternés MLR (funnel Liberty Roots uniquement) : un sous-arbre
+ * marqué .accent-forest bascule la famille d'accent vers le vert olive du
+ * PDF. Le terracotta reste l'accent par défaut ; on alterne section par
+ * section en descendant la page. --accent-contrast (crème) reste lisible sur
+ * les deux teintes, donc inchangé.
+ */
+[data-theme="mlr"] .accent-forest {
+  --accent: var(--forest);
+  --accent-soft: var(--forest-soft);
 }
 
 @theme inline {

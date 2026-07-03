@@ -1,10 +1,10 @@
+import { QuestionnaireSection } from "@/components/forms/QuestionnaireSection";
 import { Etapes } from "@/components/sections/Etapes";
 import { Gallery } from "@/components/sections/Gallery";
 import { Hero } from "@/components/sections/Hero";
 import { NoteTarifaire } from "@/components/sections/NoteTarifaire";
 import { SectionHeading } from "@/components/sections/SectionHeading";
 import { TempsForts } from "@/components/sections/TempsForts";
-import { ButtonLink } from "@/components/ui/Button";
 import { NOTE_TARIFAIRE_CVM } from "@/config/brands";
 import {
   ETAPES_ACCOMPAGNEMENT,
@@ -15,7 +15,8 @@ import { formatEuros } from "@/lib/format";
 /**
  * Gabarit des 4 pages de présentation CVM (brief §7.3) — le contenu vient
  * de config/content/cvm.ts, l'accent (ember/lagon) est surchargé par
- * data-accent sans dupliquer de composant.
+ * data-accent sans dupliquer de composant. Le questionnaire du funnel est
+ * intégré en bas de page : les CTA scrollent vers lui (pas de navigation).
  */
 export function CvmUniversPage({ content }: { content: CvmUniversContent }) {
   return (
@@ -24,7 +25,7 @@ export function CvmUniversPage({ content }: { content: CvmUniversContent }) {
         surtitre={content.surtitre}
         titre={content.titre}
         sousTitre={content.sousTitre}
-        ctas={[{ href: content.questionnaireHref, label: content.ctaLabel }]}
+        ctas={[{ href: "#questionnaire", label: content.ctaLabel }]}
         micro={content.micro}
         imageLabel={`Hero — ${content.surtitre}`}
         imageAlt={`${content.titre} — visuel d'ambiance`}
@@ -88,16 +89,8 @@ export function CvmUniversPage({ content }: { content: CvmUniversContent }) {
 
       <NoteTarifaire texte={NOTE_TARIFAIRE_CVM} />
 
-      <section className="mx-auto w-full max-w-6xl px-4 pb-16 text-center sm:px-6">
-        <SectionHeading
-          align="center"
-          titre="Prêt à structurer votre projet ?"
-          sousTitre="Quelques minutes suffisent — vous recevez une proposition construite sur vos réponses."
-        />
-        <ButtonLink href={content.questionnaireHref} className="mt-6">
-          {content.ctaLabel}
-        </ButtonLink>
-      </section>
+      {/* Fin de page = le questionnaire lui-même (une seule décision : répondre). */}
+      <QuestionnaireSection funnelType={content.funnelType} />
     </div>
   );
 }

@@ -6,7 +6,7 @@ import { FAQ_CVM, FAQ_MLR } from "@/config/content/faq";
 export const metadata: Metadata = {
   title: "Questions fréquentes",
   description:
-    "Niveau physique, budget, ce qui est inclus, réservation : les réponses aux questions fréquentes sur les voyages Célébration Voyage Madagascar et Madagascar Liberty Routes.",
+    "Niveau physique, budget, ce qui est inclus, réservation : les réponses aux questions fréquentes sur les voyages Célébration Voyage Madagascar et Madagascar Liberty Roots.",
 };
 
 export default function FaqPage() {
@@ -26,7 +26,7 @@ export default function FaqPage() {
           </div>
         </section>
         <section data-theme="mlr">
-          <SectionHeading titre="Madagascar Liberty Routes" />
+          <SectionHeading titre="Madagascar Liberty Roots" />
           <div className="mt-6">
             <FaqList items={FAQ_MLR} />
           </div>

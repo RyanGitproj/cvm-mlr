@@ -13,16 +13,26 @@ const VARIANTS = {
   ghost: "text-ink hover:bg-surface-2",
 } as const;
 
-type Variant = keyof typeof VARIANTS;
+export type ButtonVariant = keyof typeof VARIANTS;
 
-type ButtonProps = ComponentPropsWithoutRef<"button"> & { variant?: Variant };
+/** Classes partagées des CTA (Button, ButtonLink, ScrollCtaLink). */
+export function buttonClasses(
+  variant: ButtonVariant = "primary",
+  className?: string,
+) {
+  return cn(BASE, VARIANTS[variant], className);
+}
+
+type ButtonProps = ComponentPropsWithoutRef<"button"> & {
+  variant?: ButtonVariant;
+};
 
 export function Button({ variant = "primary", className, ...props }: ButtonProps) {
-  return <button {...props} className={cn(BASE, VARIANTS[variant], className)} />;
+  return <button {...props} className={buttonClasses(variant, className)} />;
 }
 
 type ButtonLinkProps = ComponentPropsWithoutRef<typeof Link> & {
-  variant?: Variant;
+  variant?: ButtonVariant;
 };
 
 export function ButtonLink({
@@ -30,5 +40,5 @@ export function ButtonLink({
   className,
   ...props
 }: ButtonLinkProps) {
-  return <Link {...props} className={cn(BASE, VARIANTS[variant], className)} />;
+  return <Link {...props} className={buttonClasses(variant, className)} />;
 }

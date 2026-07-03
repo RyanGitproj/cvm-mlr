@@ -20,6 +20,6 @@ export function getFunnelConfig(funnelType: FunnelType): FunnelConfig {
   return FUNNELS[funnelType];
 }
 
-/** Valeurs de route MLR pré-sélectionnables via /mlr/questionnaire?route= */
+/** Valeurs de route MLR pré-sélectionnées par les pages /mlr/{route}. */
 export const MLR_ROUTES = ["nord", "sud", "est", "ouest"] as const;
 export type MlrRoute = (typeof MLR_ROUTES)[number];

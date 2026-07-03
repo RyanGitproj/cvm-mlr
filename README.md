@@ -2,7 +2,7 @@
 
 Site de qualification de leads pour deux marques de voyage à Madagascar :
 **Célébration Voyage Madagascar** (confort, accompagnement) et **Madagascar
-Liberty Routes** (road trip roots). Page mère d'orientation, 2 univers de
+Liberty Roots** (road trip roots). Page mère d'orientation, 2 univers de
 marque, 6 questionnaires multi-étapes, persistance Supabase.
 
 ## Démarrer

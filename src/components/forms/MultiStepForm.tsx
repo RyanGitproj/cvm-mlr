@@ -2,12 +2,13 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FormProvider, useForm, type FieldValues } from "react-hook-form";
 import type { z } from "zod";
 import { submitLead } from "@/actions/submitLead";
 import { Button } from "@/components/ui/Button";
 import { getFunnelConfig } from "@/config/funnels";
+import { scrollToElement } from "@/lib/scroll";
 import { readUtm } from "@/lib/utm";
 import { getSchema } from "@/lib/validations";
 import type { FunnelStep } from "@/types/funnel";
@@ -51,20 +52,27 @@ export function MultiStepForm({ funnelType, defaultValues }: Props) {
   const isLast = stepIndex === total - 1;
   const headingId = `question-${step.id}`;
 
-  function scrollToTop() {
-    topRef.current?.scrollIntoView({ block: "start" });
-  }
+  // À chaque changement d'étape : remonter en haut du formulaire (fluide,
+  // reduced-motion respecté) et poser le focus sur la nouvelle question —
+  // essentiel quand le formulaire est intégré en bas d'une page longue.
+  const isFirstRender = useRef(true);
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    if (topRef.current) scrollToElement(topRef.current);
+    document.getElementById(headingId)?.focus({ preventScroll: true });
+  }, [stepIndex, headingId]);
 
   async function goNext() {
     const valid = await form.trigger(fieldsOfStep(step), { shouldFocus: true });
     if (!valid) return;
     setStepIndex((index) => index + 1);
-    scrollToTop();
   }
 
   function goBack() {
     setStepIndex((index) => Math.max(index - 1, 0));
-    scrollToTop();
   }
 
   async function onSubmit(values: FieldValues) {
@@ -86,7 +94,8 @@ export function MultiStepForm({ funnelType, defaultValues }: Props) {
           <section key={step.id} className="animate-step mt-6" aria-labelledby={headingId}>
             <h2
               id={headingId}
-              className="font-heading text-2xl font-semibold text-ink-strong sm:text-3xl"
+              tabIndex={-1}
+              className="font-heading text-2xl font-semibold text-ink-strong outline-none sm:text-3xl"
             >
               {step.question}
             </h2>

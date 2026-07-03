@@ -405,10 +405,10 @@ export const MLR_SERVICES = ASSISTANCE_COMMUNE;
 /** Landing /mlr. */
 export const MLR_LANDING = {
   hero: {
-    surtitre: "Madagascar Liberty Routes",
+    surtitre: "Madagascar Liberty Roots",
     titre: "Road Trip Madagascar",
     sousTitre:
-      "Voyager autrement, vivre l'essentiel. Quatre routes roots, un guide local privé, le taxi-brousse — et la liberté comme fil conducteur.",
+      "Voyager autrement, vivre l'essentiel. Quatre roots, un guide local privé, le taxi-brousse — et la liberté comme fil conducteur.",
     imageLabel: "Logo baobab + piste — ambiance affiche",
     imageAlt: "Baobab et piste de terre rouge, ambiance affiche vintage",
   },

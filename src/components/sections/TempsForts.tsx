@@ -1,4 +1,5 @@
 import { Reveal } from "@/components/motion/Reveal";
+import { cn } from "@/lib/cn";
 import { SectionHeading } from "./SectionHeading";
 
 type Item = { titre: string; texte?: string };
@@ -7,13 +8,17 @@ type Props = {
   titre: string;
   sousTitre?: string;
   items: readonly Item[];
+  /** Filet d'accent sur le titre (support de l'alternance MLR). */
+  accent?: boolean;
+  /** Ajouté sur la section — ex. `accent-forest` pour basculer au vert. */
+  className?: string;
 };
 
 /** Grille de temps forts / inclus — reveal on scroll avec stagger. */
-export function TempsForts({ titre, sousTitre, items }: Props) {
+export function TempsForts({ titre, sousTitre, items, accent, className }: Props) {
   return (
-    <section className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
-      <SectionHeading titre={titre} sousTitre={sousTitre} />
+    <section className={cn("mx-auto w-full max-w-6xl px-4 py-12 sm:px-6", className)}>
+      <SectionHeading titre={titre} sousTitre={sousTitre} accent={accent} />
       <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {items.map((item, index) => (
           <li key={item.titre}>

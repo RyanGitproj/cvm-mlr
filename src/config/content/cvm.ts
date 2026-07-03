@@ -36,7 +36,6 @@ export type CvmUniversContent = {
   /** Formules et tarifs indicatifs affichés sur la présentation de l'offre. */
   formules: CvmFormule[];
   galerie: { label: string; alt: string }[];
-  questionnaireHref: string;
 };
 
 export const ETAPES_ACCOMPAGNEMENT = [
@@ -104,7 +103,6 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
       { label: "Camp du soir", alt: "Campement de trek au crépuscule" },
       { label: "Plage de fin de parcours", alt: "Plage du Sud-Ouest malgache en fin de trek" },
     ],
-    questionnaireHref: "/cvm/treks/questionnaire",
   },
   explorer: {
     slug: "explorer",
@@ -156,7 +154,6 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
       { label: "Rencontre villageoise", alt: "Échange avec des habitants d'un village isolé" },
       { label: "Zone humide dense", alt: "Progression en forêt humide dense" },
     ],
-    questionnaireHref: "/cvm/explorer/questionnaire",
   },
   iles: {
     slug: "iles",
@@ -205,7 +202,6 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
       { label: "Excursion en bateau", alt: "Bateau d'excursion entre les îles" },
       { label: "Coucher de soleil", alt: "Coucher de soleil sur l'océan Indien" },
     ],
-    questionnaireHref: "/cvm/iles/questionnaire",
   },
   "un-mois": {
     slug: "un-mois",
@@ -255,7 +251,6 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
       { label: "Littoral Est", alt: "Côte Est de Madagascar" },
       { label: "Vie de quartier", alt: "Rue vivante d'un quartier résidentiel" },
     ],
-    questionnaireHref: "/cvm/un-mois/questionnaire",
   },
 };
 

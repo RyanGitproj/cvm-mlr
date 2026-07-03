@@ -21,7 +21,7 @@ export const cvmBrand = {
 
 export const mlrBrand = {
   slug: "mlr",
-  nom: "Madagascar Liberty Routes",
+  nom: "Madagascar Liberty Roots",
   baseline: "Voyager autrement, vivre l'essentiel.",
   positionnement:
     "Aventure, liberté, immersion, roots. Libre mais encadré, sécurité terrain.",

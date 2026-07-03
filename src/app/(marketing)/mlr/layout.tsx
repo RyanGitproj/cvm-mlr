@@ -8,7 +8,7 @@ export default function MlrLayout({
       theme="mlr"
       className="texture-paper"
       homeHref="/mlr"
-      homeLabel="Liberty Routes"
+      homeLabel="Liberty Roots"
       links={[
         { href: "/mlr/nord", label: "Nord" },
         { href: "/mlr/sud", label: "Sud" },
