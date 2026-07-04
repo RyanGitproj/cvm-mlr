@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/Button";
 import { getFunnelConfig } from "@/config/funnels";
 import { cn } from "@/lib/cn";
 import { scrollToElement } from "@/lib/scroll";
+import { pushDataLayerEventOnce } from "@/lib/tracking/gtm";
 import { readUtm } from "@/lib/utm";
 import { getSchema } from "@/lib/validations";
 import type { FunnelStep } from "@/types/funnel";
@@ -86,6 +87,12 @@ export function MultiStepForm({ funnelType, defaultValues }: Props) {
   async function goNext() {
     const valid = await form.trigger(fieldsOfStep(step), { shouldFocus: true });
     if (!valid) return;
+    // Entrée réelle dans le funnel : 1re étape validée (une fois par session).
+    if (stepIndex === 0) {
+      pushDataLayerEventOnce(`funnel_start_${funnelType}`, "funnel_start", {
+        funnel_type: funnelType,
+      });
+    }
     setStepIndex((index) => index + 1);
   }
 

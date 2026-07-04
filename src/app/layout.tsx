@@ -6,6 +6,8 @@ import "@fontsource/cormorant-garamond/600.css";
 import "@fontsource/cormorant-garamond/700.css";
 import "./globals.css";
 import { UtmCapture } from "@/components/layout/UtmCapture";
+import { CookieConsent } from "@/components/tracking/CookieConsent";
+import { RouteTracker } from "@/components/tracking/RouteTracker";
 import { siteUrl } from "@/config/site";
 
 export const metadata: Metadata = {
@@ -23,9 +25,13 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const gtmId = process.env.NEXT_PUBLIC_GTM_ID;
+
   return (
     <html lang="fr" className="h-full antialiased">
       <body className="flex min-h-full flex-col">
+        <CookieConsent gtmId={gtmId} />
+        <RouteTracker />
         <UtmCapture />
         {children}
       </body>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { FunnelShell } from "@/components/layout/FunnelShell";
 import { ButtonLink } from "@/components/ui/Button";
 import { cvmBrand, mlrBrand, NOTE_TARIFAIRE_CVM, NOTE_TARIFAIRE_MLR } from "@/config/brands";
+import { LeadConversionTracker } from "@/components/tracking/LeadConversionTracker";
 import { getFunnelConfig } from "@/config/funnels";
 import { readMerciCookie } from "@/lib/merci-cookie";
 
@@ -46,6 +47,7 @@ export default async function MerciPage() {
       backHref={isMlr ? "/mlr" : "/cvm"}
       backLabel={isMlr ? mlrBrand.nom : cvmBrand.nom}
     >
+      <LeadConversionTracker funnelType={merci.funnelType} brand={config.brand} />
       <div className="animate-fade-rise py-8">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">
           Demande bien reçue

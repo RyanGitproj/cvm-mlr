@@ -53,11 +53,18 @@ export default function ConfidentialitePage() {
 
       <h2 className={H2_CLASS}>Cookies et traceurs</h2>
       <p className={P_CLASS}>
-        Le site dépose un unique cookie technique de courte durée (30 minutes)
-        après l’envoi d’un formulaire, uniquement pour personnaliser la page de
+        Le site dépose un cookie technique de courte durée (30 minutes) après
+        l’envoi d’un formulaire, uniquement pour personnaliser la page de
         confirmation. Les paramètres de campagne (UTM) sont mémorisés le temps
-        de la session de navigation. Aucun cookie publicitaire ni traceur tiers
-        n’est utilisé.
+        de la session de navigation.
+      </p>
+      <p className={P_CLASS}>
+        Avec votre consentement — recueilli via le bandeau affiché à votre
+        arrivée — nous utilisons Google Analytics (chargé par Google Tag Manager)
+        pour mesurer l’audience du site. Ces cookies de mesure ne sont déposés
+        qu’après votre acceptation et ne sont jamais activés si vous refusez.
+        Vous pouvez modifier votre choix à tout moment en effaçant les cookies
+        du site depuis votre navigateur. Aucun cookie publicitaire n’est utilisé.
       </p>
 
       <h2 className={H2_CLASS}>Durée de conservation</h2>
