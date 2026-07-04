@@ -44,7 +44,12 @@ export function MultiStepForm({ funnelType, defaultValues }: Props) {
     resolver: zodResolver(
       getSchema(funnelType) as unknown as z.ZodType<FieldValues, FieldValues>,
     ),
-    mode: "onTouched",
+    // Les erreurs n'apparaissent qu'à la tentative de validation (clic
+    // « Continuer » via `form.trigger`, ou envoi via `handleSubmit`), puis se
+    // corrigent en direct (`reValidateMode: "onChange"` par défaut). En
+    // `onTouched`, un champ vide se marquait en erreur dès qu'on l'effleurait
+    // au passage — surprenant sur l'étape coordonnées, avant toute saisie.
+    mode: "onSubmit",
     defaultValues,
   });
 
@@ -75,6 +80,8 @@ export function MultiStepForm({ funnelType, defaultValues }: Props) {
         funnel_type: funnelType,
       });
     }
+    const nextStep = config.steps[stepIndex + 1];
+    if (nextStep) form.clearErrors(fieldsOfStep(nextStep));
     setStepIndex((index) => index + 1);
   }
 
