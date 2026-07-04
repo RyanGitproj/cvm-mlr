@@ -6,7 +6,12 @@
  * juridique, ne pas en inventer une seconde.
  */
 export const legal = {
+  // Dénomination juridique — réservée aux mentions légales (« Éditeur du
+  // site »), obligation réglementaire : ne pas remplacer par le nom commercial.
   raisonSociale: "LIEUX DE CELEBRATIONS.COM",
+  // Nom commercial sous lequel la société opère les deux marques — utilisé pour
+  // l'affichage grand public (copyright du footer), pas pour le registre légal.
+  nomCommercial: "Célébrations Voyages",
   forme: "SAS",
   capital: "200 €",
   siege: "60 rue François Ier, 75008 Paris",

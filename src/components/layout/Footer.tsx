@@ -50,7 +50,7 @@ export function Footer({ brand }: { brand: Brand | "mere" }) {
         </nav>
       </div>
       <p className="border-t border-line px-4 py-4 text-center text-xs text-ink-soft">
-        © {new Date().getFullYear()} {legal.raisonSociale} — {cvmBrand.nom} &{" "}
+        © {new Date().getFullYear()} {legal.nomCommercial} — {cvmBrand.nom} &{" "}
         {mlrBrand.nom}
       </p>
     </footer>
