@@ -1,7 +1,7 @@
 # Funnel Madagascar — CVM & MLR
 
 Site de qualification de leads pour deux marques de voyage à Madagascar :
-**Célébration Voyage Madagascar** (confort, accompagnement) et **Madagascar
+**Célébrations Voyages Madagascar** (confort, accompagnement) et **Madagascar
 Liberty Roots** (road trip roots). Page mère d'orientation, 2 univers de
 marque, 6 questionnaires multi-étapes, persistance Supabase.
 

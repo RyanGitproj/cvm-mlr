@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/cn";
@@ -48,13 +49,29 @@ export function Header({ homeHref, homeLabel, links, cta }: Props) {
       ref={headerRef}
       className="sticky top-0 z-40 border-b border-line bg-surface/90 backdrop-blur"
     >
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-2 px-4 sm:gap-4 sm:px-6">
+        {/* Emblème Célébrations Voyages (or sur noir). Assumé comme plaque :
+            liseré or (ring-accent, s'accorde au thème actif) + ombre douce pour
+            qu'il se lise comme un emblème voulu, pas une image posée sur le
+            crème. homeLabel = nom accessible du lien.
+            `unoptimized` : blason très détaillé — la recompression Next (q=75,
+            165 Ko → 34 Ko) brouillait les fins traits dorés, on sert le PNG
+            original. `aspect-[619/240]` verrouille le ratio dès le 1er paint
+            (jamais de logo « effondré » étroit pendant le chargement). */}
         <Link
           href={homeHref}
           onClick={() => setOpen(false)}
-          className="shrink-0 font-heading text-lg font-bold text-ink-strong"
+          className="flex shrink-0 items-center"
         >
-          {homeLabel}
+          <Image
+            src="/images/logo-celebrations-voyages.png"
+            alt={homeLabel}
+            width={619}
+            height={240}
+            priority
+            unoptimized
+            className="aspect-[619/240] h-12 w-auto rounded-lg shadow-sm ring-1 ring-accent/40 sm:h-14"
+          />
         </Link>
 
         <div className="flex min-w-0 items-center gap-2">

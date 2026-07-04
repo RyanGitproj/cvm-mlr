@@ -11,7 +11,7 @@ export const NOTE_TARIFAIRE_MLR =
 
 export const cvmBrand = {
   slug: "cvm",
-  nom: "Célébration Voyages Madagascar",
+  nom: "Célébrations Voyages Madagascar",
   baseline: "Vous gardez l'émotion, nous gérons la logistique.",
   positionnement:
     "Agence locale, encadrée, rassurante. Organisation complète, premium accessible.",
@@ -31,7 +31,7 @@ export const mlrBrand = {
     "Aventure, liberté, immersion, roots. Libre mais encadré, sécurité terrain.",
   ctaPrincipal: "Recevoir mon itinéraire Liberty",
   pricing: "Road trip 10 jours dès 1 400 € · 15 jours dès 1 800 €",
-  signature: "Une marque opérée par Célébration Voyages Madagascar",
+  signature: "Une marque opérée par Célébrations Voyages Madagascar",
 } as const;
 
 /**

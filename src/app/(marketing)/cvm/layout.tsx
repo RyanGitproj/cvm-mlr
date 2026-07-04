@@ -8,7 +8,7 @@ export default function CvmLayout({
     <SiteShell
       theme="cvm"
       homeHref="/cvm"
-      homeLabel="Célébration Voyage"
+      homeLabel="Célébrations Voyages"
       links={NAV_DEUX_UNIVERS}
       cta={{ href: "/cvm/orientation/questionnaire", label: "Être conseillé" }}
     >

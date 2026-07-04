@@ -262,7 +262,7 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
  */
 export const CVM_LANDING = {
   hero: {
-    surtitre: "Célébration Voyages Madagascar",
+    surtitre: "Célébrations Voyages Madagascar",
     // L'exclusivité en titre (« autrement » reste la signature MLR).
     titre: "Madagascar, là où les autres ne vont pas",
     sousTitre:

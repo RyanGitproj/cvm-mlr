@@ -7,7 +7,7 @@ export default function CvmFunnelLayout({
     <FunnelShell
       theme="cvm"
       backHref="/cvm"
-      backLabel="Célébration Voyages Madagascar"
+      backLabel="Célébrations Voyages Madagascar"
       tagline="Là où les autres ne vont pas"
     >
       {children}

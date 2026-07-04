@@ -56,7 +56,7 @@ export const MLR_PROFILS = {
   roots_pret: "Prêt pour l'aventure roots — voyage local simple et encadré.",
   roots_a_briefer: "Prêt, avec un briefing clair des règles avant départ.",
   confort_d_abord:
-    "Préfère le confort — une expérience Célébration Voyages Madagascar est sans doute plus adaptée.",
+    "Préfère le confort — une expérience Célébrations Voyages Madagascar est sans doute plus adaptée.",
   a_conseiller: "Souhaite être conseillé avant de choisir.",
 } as const;
 

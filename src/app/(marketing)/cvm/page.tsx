@@ -16,7 +16,7 @@ import { cn } from "@/lib/cn";
 import { formatEuros } from "@/lib/format";
 
 export const metadata: Metadata = {
-  title: "Célébration Voyages Madagascar — 4 expériences encadrées",
+  title: "Célébrations Voyages Madagascar — 4 expériences encadrées",
   description: CVM_LANDING.hero.sousTitre,
 };
 

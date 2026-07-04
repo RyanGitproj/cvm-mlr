@@ -59,7 +59,7 @@ export const mlrFunnel: FunnelConfig = {
       question: "Êtes-vous prêt pour une aventure roots à Madagascar ?",
       hint: "Cette expérience implique des transports locaux, de la débrouillardise, des hébergements simples, des rencontres locales et le respect des consignes de sécurité.",
       message:
-        "Liberty Roots n'est pas une formule confort. Si vous cherchez plus de sérénité, nous pouvons vous orienter vers Célébration Voyages Madagascar.",
+        "Liberty Roots n'est pas une formule confort. Si vous cherchez plus de sérénité, nous pouvons vous orienter vers Célébrations Voyages Madagascar.",
       options: [
         { value: "oui_local_simple", label: "Oui, je veux voyager local, simple et encadré" },
         { value: "oui_comprendre_regles", label: "Oui, mais je souhaite comprendre les règles" },

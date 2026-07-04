@@ -11,7 +11,7 @@ const PROFIL_PAR_REPONSE: Record<MlrLead["pretRoots"], MlrProfil> = {
 
 /**
  * Profil roots MLR (brief §9.3). `orientationCvm` signale honnêtement
- * qu'un profil « confort d'abord » relève plutôt de Célébration Voyage
+ * qu'un profil « confort d'abord » relève plutôt de Célébrations Voyages
  * Madagascar — une donnée pour l'équipe aval, aucune action déclenchée.
  */
 export function segmentMlr(data: MlrLead): Recommendation {

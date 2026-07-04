@@ -9,7 +9,7 @@ import { REASSURANCE_COMMUNE } from "@/config/brands";
 export const metadata: Metadata = {
   title: "Madagascar, deux façons de vivre le voyage — CVM & Liberty Roots",
   description:
-    "D'un côté l'organisation complète et le confort avec Célébration Voyages Madagascar ; de l'autre la liberté brute du road trip avec Madagascar Liberty Roots. Choisissez votre univers.",
+    "D'un côté l'organisation complète et le confort avec Célébrations Voyages Madagascar ; de l'autre la liberté brute du road trip avec Madagascar Liberty Roots. Choisissez votre univers.",
 };
 
 /**
