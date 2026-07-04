@@ -27,6 +27,21 @@ type Props = {
 };
 
 /**
+ * Fenêtre pendant laquelle toute soumission est ignorée après un changement
+ * d'étape. Le bouton « Continuer » (type=button) et le bouton submit occupent
+ * le même emplacement à l'écran : le passage d'étape étant instantané, un
+ * double-clic (souris ou tactile) sur « Continuer » à l'avant-dernière étape
+ * atterrit sur le submit et enverrait un formulaire vide — toutes les alertes
+ * de validation apparaîtraient sans intention d'envoi de l'utilisateur.
+ */
+const SUBMIT_GUARD_MS = 500;
+
+/** Vrai si la soumission survient dans la fenêtre de garde post-changement d'étape. */
+function isWithinSubmitGuard(lastStepChangeAt: number): boolean {
+  return Date.now() - lastStepChangeAt < SUBMIT_GUARD_MS;
+}
+
+/**
  * Moteur de formulaire multi-étapes (brief §9.1) : piloté par la config du
  * funnel, validation Zod par étape, une seule décision par écran.
  */
@@ -71,6 +86,9 @@ export function MultiStepForm({ funnelType, defaultValues }: Props) {
     document.getElementById(headingId)?.focus({ preventScroll: true });
   }, [stepIndex, headingId]);
 
+  // Horodatage du dernier changement d'étape — voir SUBMIT_GUARD_MS.
+  const lastStepChangeAt = useRef(0);
+
   async function goNext() {
     const valid = await form.trigger(fieldsOfStep(step), { shouldFocus: true });
     if (!valid) return;
@@ -82,11 +100,41 @@ export function MultiStepForm({ funnelType, defaultValues }: Props) {
     }
     const nextStep = config.steps[stepIndex + 1];
     if (nextStep) form.clearErrors(fieldsOfStep(nextStep));
+    lastStepChangeAt.current = Date.now();
     setStepIndex((index) => index + 1);
   }
 
   function goBack() {
+    lastStepChangeAt.current = Date.now();
     setStepIndex((index) => Math.max(index - 1, 0));
+  }
+
+  /**
+   * Garde anti double-clic : une soumission qui survient juste après un
+   * changement d'étape est un clic « en trop » hérité de l'étape précédente
+   * (le submit vient de remplacer « Continuer » au même endroit), pas une
+   * intention d'envoi — on l'ignore. Un clic volontaire, forcément plus
+   * tardif, passe normalement et la validation reste entière.
+   */
+  function handleFormSubmit(event: React.SubmitEvent<HTMLFormElement>) {
+    if (isWithinSubmitGuard(lastStepChangeAt.current)) {
+      event.preventDefault();
+      return;
+    }
+    void form.handleSubmit(onSubmit)(event);
+  }
+
+  /**
+   * Bloque la soumission implicite au clavier : la touche Entrée (« aller » /
+   * « OK » des claviers mobiles) dans un champ texte soumettait le formulaire
+   * avant la dernière étape. On ne neutralise que les INPUT — Entrée garde son
+   * rôle dans les TEXTAREA (saut de ligne) et sur les BUTTON (activation).
+   */
+  function handleFormKeyDown(event: React.KeyboardEvent<HTMLFormElement>) {
+    if (event.key !== "Enter") return;
+    if (event.target instanceof HTMLElement && event.target.tagName === "INPUT") {
+      event.preventDefault();
+    }
   }
 
   async function onSubmit(values: FieldValues) {
@@ -102,7 +150,7 @@ export function MultiStepForm({ funnelType, defaultValues }: Props) {
   return (
     <div ref={topRef} className="scroll-mt-24">
       <FormProvider {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
+        <form onSubmit={handleFormSubmit} onKeyDown={handleFormKeyDown} noValidate>
           <StepIndicator current={stepIndex + 1} total={total} label={config.label} />
 
           <section key={step.id} className="animate-step mt-6" aria-labelledby={headingId}>

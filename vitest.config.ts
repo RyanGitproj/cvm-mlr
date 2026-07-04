@@ -5,7 +5,9 @@ export default defineConfig({
     tsconfigPaths: true,
   },
   test: {
+    // Node par défaut (fonctions pures) ; les tests de composants déclarent
+    // jsdom via le pragma « @vitest-environment jsdom » en tête de fichier.
     environment: "node",
-    include: ["src/**/*.test.ts"],
+    include: ["src/**/*.test.{ts,tsx}"],
   },
 });
