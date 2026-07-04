@@ -122,13 +122,13 @@ export function MlrRoutePage({ content }: { content: MlrRouteContent }) {
               {content.devis.titre}
             </p>
             <div className="mt-3 overflow-x-auto rounded-2xl border-2 border-line bg-card">
-              <table className="w-full text-sm">
+              <table className="w-full text-xs sm:text-sm">
                 <thead>
                   <tr className="border-b border-line text-left">
-                    <th scope="col" className="px-4 py-3 font-semibold">
+                    <th scope="col" className="px-3 py-3 font-semibold sm:px-4">
                       Prestation
                     </th>
-                    <th scope="col" className="px-4 py-3 text-right font-semibold">
+                    <th scope="col" className="px-3 py-3 text-right font-semibold sm:px-4">
                       Montant
                     </th>
                   </tr>
@@ -136,8 +136,8 @@ export function MlrRoutePage({ content }: { content: MlrRouteContent }) {
                 <tbody>
                   {content.devis.lignes.map((ligne) => (
                     <tr key={ligne.prestation} className="border-b border-line">
-                      <td className="px-4 py-2.5">{ligne.prestation}</td>
-                      <td className="whitespace-nowrap px-4 py-2.5 text-right">
+                      <td className="px-3 py-2.5 sm:px-4">{ligne.prestation}</td>
+                      <td className="whitespace-nowrap px-3 py-2.5 text-right sm:px-4">
                         {ligne.montant}
                       </td>
                     </tr>
@@ -145,8 +145,8 @@ export function MlrRoutePage({ content }: { content: MlrRouteContent }) {
                 </tbody>
                 <tfoot>
                   <tr>
-                    <td className="px-4 py-3 font-bold">Total estimatif</td>
-                    <td className="whitespace-nowrap px-4 py-3 text-right font-bold">
+                    <td className="px-3 py-3 font-bold sm:px-4">Total estimatif</td>
+                    <td className="px-3 py-3 text-right font-bold sm:px-4">
                       {content.devis.total}
                     </td>
                   </tr>

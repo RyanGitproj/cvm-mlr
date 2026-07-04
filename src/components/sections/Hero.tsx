@@ -57,7 +57,7 @@ export function Hero({
           )}
           <h1
             className={cn(
-              "mt-3 font-heading text-3xl font-bold leading-tight sm:text-5xl",
+              "mt-3 text-balance font-heading text-3xl font-bold leading-tight sm:text-5xl",
               hasImage
                 ? "text-accent-contrast text-shadow-lg text-shadow-ink-strong/70"
                 : "text-ink-strong",
