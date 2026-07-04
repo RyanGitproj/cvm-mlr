@@ -12,7 +12,7 @@ export const cvmOrientationFunnel: FunnelConfig = {
   intro: {
     titre: "Quelle expérience à Madagascar correspond vraiment à votre projet ?",
     sousTitre:
-      "Madagascar peut se vivre comme une expédition, une aventure encadrée, un séjour de rêve ou une immersion d'un mois. Répondez à quelques questions pour recevoir la brochure, la vidéo et la proposition les plus adaptées à votre profil.",
+      "Expédition, trek encadré, séjour de rêve ou immersion d'un mois : quelques questions suffisent — vous recevez la brochure, la vidéo et la proposition faites pour votre profil.",
     note: NOTE_TARIFAIRE_CVM,
   },
   cta: "Recevoir ma recommandation",
@@ -35,7 +35,7 @@ export const cvmOrientationFunnel: FunnelConfig = {
       kind: "radio",
       id: "intention",
       name: "intention",
-      question: "Quelle est votre intention principale ?",
+      question: "Quel voyage avez-vous en tête ?",
       options: [
         { value: "explorer", label: "Une aventure insolite hors des circuits touristiques" },
         { value: "treks", label: "Un trek ou circuit aventure encadré et sécurisé" },
@@ -126,6 +126,7 @@ export const cvmOrientationFunnel: FunnelConfig = {
       kind: "contact",
       id: "coordonnees",
       question: "Recevez votre recommandation",
+      hint: "Réponse sous 24 h · recommandation personnalisée · hors vol & assurance.",
       message:
         "Vous recevrez la brochure, la vidéo et la proposition correspondant à votre profil. Le billet d'avion et l'assurance voyage restent à prévoir séparément.",
       fields: ["periode", "nbVoyageurs", "commentaire"],

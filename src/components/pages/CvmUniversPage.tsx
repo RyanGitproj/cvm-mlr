@@ -57,7 +57,7 @@ export function CvmUniversPage({ content }: { content: CvmUniversContent }) {
 
       <Etapes
         titre="Comment ça se passe"
-        sousTitre="Vous partagez votre projet, on clarifie la meilleure configuration."
+        sousTitre="Vous partagez votre projet, on le transforme en itinéraire concret."
         etapes={ETAPES_ACCOMPAGNEMENT}
       />
 

@@ -12,7 +12,7 @@ export const cvmExplorerFunnel: FunnelConfig = {
   intro: {
     titre: "Expédition insolite & Missions humanitaires",
     sousTitre:
-      "Cette expédition n'est pas adaptée à tout le monde. Une expédition réelle, engagée et encadrée, pour les voyageurs prêts à vivre l'effort, le bivouac, l'immersion humaine et l'exploration terrain.",
+      "Cette expédition n'est pas adaptée à tout le monde. Répondez franchement : ce questionnaire vérifie que l'expédition est faite pour vous.",
     note: "Participation soumise à validation physique, médicale et logistique. Certificat médical obligatoire. Prix hors billet d'avion et assurance.",
   },
   cta: "Envoyer ma demande de pré-validation",

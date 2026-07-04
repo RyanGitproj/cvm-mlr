@@ -167,7 +167,9 @@ export const MLR_ROUTES_CONTENT: Record<MlrRoute, MlrRouteContent> = {
       { titre: "Panoramas côtiers" },
     ],
     faitPour: [
-      "Les voyageurs libres, curieux et amoureux de nature brute. Pour celles et ceux qui cherchent à s'émerveiller, à prendre leur temps, à marcher, à rencontrer et à contempler les plus beaux horizons marins et terrestres. Un road trip authentique, accessible, rythmé par la liberté et la simplicité.",
+      "Les voyageurs libres, curieux et amoureux de nature brute.",
+      "Celles et ceux qui cherchent à s'émerveiller, à prendre leur temps, à marcher, à rencontrer et à contempler les plus beaux horizons marins et terrestres.",
+      "Un road trip authentique, accessible, rythmé par la liberté et la simplicité.",
     ],
     ressentir: [
       { titre: "Horizon", texte: "Des paysages à perte de vue, où la mer et la terre se répondent à chaque instant." },

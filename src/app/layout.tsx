@@ -13,11 +13,11 @@ import { siteUrl } from "@/config/site";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Madagascar — Célébration Voyage & Liberty Roots",
+    default: "Madagascar — Célébration Voyages & Liberty Roots",
     template: "%s · Madagascar",
   },
   description:
-    "Deux façons de vivre Madagascar : le voyage organisé et serein avec Célébration Voyage Madagascar, ou le road trip en liberté avec Madagascar Liberty Roots.",
+    "Deux façons de vivre Madagascar : le voyage organisé et serein avec Célébration Voyages Madagascar, ou le road trip en liberté avec Madagascar Liberty Roots.",
 };
 
 export default function RootLayout({

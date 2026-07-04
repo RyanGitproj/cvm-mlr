@@ -11,7 +11,7 @@ export const NOTE_TARIFAIRE_MLR =
 
 export const cvmBrand = {
   slug: "cvm",
-  nom: "Célébration Voyage Madagascar",
+  nom: "Célébration Voyages Madagascar",
   baseline: "Vous gardez l'émotion, nous gérons la logistique.",
   positionnement:
     "Agence locale, encadrée, rassurante. Organisation complète, premium accessible.",
@@ -44,6 +44,6 @@ export const NAV_DEUX_UNIVERS: { href: string; label: string }[] = [
 export const REASSURANCE_COMMUNE = [
   { titre: "Réponse rapide", texte: "Un retour sous 24 h ouvrées." },
   { titre: "Proposition personnalisée", texte: "Un projet construit sur vos réponses." },
-  { titre: "Accompagnement dédié", texte: "Un interlocuteur qui suit votre dossier." },
+  { titre: "Accompagnement dédié", texte: "Un interlocuteur qui suit votre projet." },
   { titre: "Opérateur local", texte: "Une équipe présente sur le terrain malgache." },
 ] as const;

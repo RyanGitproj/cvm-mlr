@@ -12,7 +12,7 @@ export const cvmUnMoisFunnel: FunnelConfig = {
   intro: {
     titre: "Préparez votre Grand Tour de Madagascar",
     sousTitre:
-      "Environ un mois pour comprendre l'île en profondeur : immersion culturelle, paysages variés, découverte complète. Dites-nous votre rythme et vos priorités — vous recevez un pré-programme adapté, pas une offre générique.",
+      "Un mois pour comprendre l'île en profondeur. Dites-nous votre rythme et vos priorités — vous recevez un pré-programme adapté, pas une offre générique.",
     note: "Les sujets administratifs, fiscaux, juridiques, résidence ou société doivent être confirmés auprès de professionnels compétents. Le programme peut orienter, mais ne remplace pas un conseil spécialisé.",
   },
   cta: "Recevoir le programme Grand Tour Madagascar",
@@ -115,13 +115,13 @@ export const cvmUnMoisFunnel: FunnelConfig = {
       kind: "radio",
       id: "situation",
       name: "situation",
-      question: "Vous partez dans quelle configuration ?",
+      question: "Vous partez avec qui ?",
       options: [
         { value: "seul", label: "Seul" },
         { value: "couple", label: "En couple" },
         { value: "famille", label: "En famille" },
         { value: "associe", label: "Avec associé, investisseur ou partenaire professionnel" },
-        { value: "autre", label: "Autre configuration — je précise", freeText: true },
+        { value: "autre", label: "Autre situation — je précise", freeText: true },
       ],
     },
     {

@@ -60,7 +60,7 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
     surtitre: "Trek Aventure",
     titre: "L'aventure encadrée, à votre niveau",
     sousTitre:
-      "Vivez l'aventure à Madagascar sans partir à l'aveugle : un trek encadré et convivial — en famille, en couple ou entre amis — selon votre niveau, vos paysages et votre rythme.",
+      "Vivez l'aventure sans partir à l'aveugle : un trek encadré, calibré sur votre niveau, vos paysages et votre rythme — en famille, en couple ou entre amis.",
     ctaLabel: "Recevoir mon itinéraire Trek Aventure",
     micro: [
       "Réponse sous 24 h",
@@ -118,7 +118,7 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
       "Hors vol & assurance",
     ],
     presentation: [
-      "Vous cherchez plus qu'un voyage ? L'Expédition insolite vous emmène vers un Madagascar profond, exigeant et humain, loin des circuits touristiques classiques.",
+      "Plus qu'un voyage : l'Expédition insolite vous emmène vers un Madagascar profond, exigeant et humain.",
       "Bivouac permanent — deux nuits d'hôtel seulement —, 15 à 25 km par jour selon profil, terrains difficiles : cette aventure se prépare sérieusement, avec une équipe qui encadre chaque étape.",
       "Cette expédition n'est pas adaptée à tout le monde, et c'est volontaire. Le questionnaire sert à vérifier ensemble, honnêtement, que l'expérience est faite pour vous.",
     ],
@@ -161,7 +161,7 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
     surtitre: "Séjour Collection Plages de rêves & îles paradisiaques",
     titre: "Madagascar côté rêve",
     sousTitre:
-      "Plages paradisiaques, lagons et îles de rêve : séjours romantiques, lune de miel ou détente à deux — Nosy Be, Sainte-Marie ou séjour combiné, composé sur votre ambiance.",
+      "Plages paradisiaques, lagons et îles de rêve : Nosy Be, Sainte-Marie ou séjour combiné — composé sur votre ambiance, du romantique à la lune de miel.",
     ctaLabel: "Créer mon Séjour Collection",
     micro: [
       "Réponse sous 24 h",
@@ -210,7 +210,7 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
     // paysages variés, découverte complète — culture et repos.
     titre: "Un mois pour comprendre l'île en profondeur",
     sousTitre:
-      "Environ un mois à travers les grandes régions de Madagascar : immersion culturelle, paysages variés, découverte complète — avec le temps de la culture et du repos.",
+      "Environ un mois à travers les grandes régions : immersion culturelle, paysages variés, découverte complète — avec le temps de s'imprégner et de se reposer.",
     ctaLabel: "Recevoir le programme Grand Tour Madagascar",
     micro: [
       "Réponse sous 24 h",
@@ -218,7 +218,7 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
       "Hors vol & assurance",
     ],
     presentation: [
-      "Entre lagons turquoise, forêts tropicales, baobabs majestueux et Hautes Terres, Madagascar réunit des mondes d'une exceptionnelle diversité. Le Grand Tour les relie en un seul voyage : la découverte complète, pour qui veut comprendre l'île en profondeur.",
+      "Lagons turquoise, forêts tropicales, baobabs, Hautes Terres : Madagascar réunit des mondes d'une exceptionnelle diversité. Le Grand Tour les relie en un seul voyage — pour comprendre l'île en profondeur.",
       "Le rythme est posé : effort modéré, confort soigné, et l'alternance entre découverte, rencontres et repos. On ne coche pas des étapes — on s'imprègne de la culture, des régions et du quotidien malgache.",
       "Chaque itinéraire est 100 % sur-mesure : un conseiller construit votre mois idéal selon vos envies, votre rythme et votre budget.",
     ],
@@ -262,7 +262,7 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
  */
 export const CVM_LANDING = {
   hero: {
-    surtitre: "Célébration Voyage Madagascar",
+    surtitre: "Célébration Voyages Madagascar",
     // L'exclusivité en titre (« autrement » reste la signature MLR).
     titre: "Madagascar, là où les autres ne vont pas",
     sousTitre:

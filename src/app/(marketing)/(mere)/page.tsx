@@ -9,7 +9,7 @@ import { REASSURANCE_COMMUNE } from "@/config/brands";
 export const metadata: Metadata = {
   title: "Madagascar, deux façons de vivre le voyage — CVM & Liberty Roots",
   description:
-    "D'un côté l'organisation complète et le confort avec Célébration Voyage Madagascar ; de l'autre la liberté brute du road trip avec Madagascar Liberty Roots. Choisissez votre univers.",
+    "D'un côté l'organisation complète et le confort avec Célébration Voyages Madagascar ; de l'autre la liberté brute du road trip avec Madagascar Liberty Roots. Choisissez votre univers.",
 };
 
 /**
@@ -22,7 +22,7 @@ export default function PageMere() {
       <Hero
         surtitre="Deux marques, une île"
         titre="Quel Madagascar voulez-vous vivre ?"
-        sousTitre="Deux parcours s'offrent à vous : le voyage organisé et confortable, ou l'aventure roots en toute liberté. Choisissez le vôtre — votre voyage commence maintenant."
+        sousTitre="Le voyage orchestré, zéro logistique — ou l'aventure roots, en toute liberté. Choisissez le vôtre : votre voyage commence maintenant."
         ctas={[{ href: "#univers", label: "Choisir mon univers" }]}
         imageLabel="Hero — collage des deux mondes"
         imageAlt="Collage évoquant les deux univers : lodge confortable et piste de road trip"
@@ -39,8 +39,8 @@ export default function PageMere() {
               Voyager libre, mais accompagné
             </p>
             <p className="mt-2 max-w-prose text-sm text-surface-2">
-              Nos équipes locales sont là pour vous écouter, vous conseiller et
-              vous soutenir à chaque étape.
+              Partez libre : une équipe locale vous répond et vous épaule à
+              chaque étape du voyage.
             </p>
           </div>
           <span

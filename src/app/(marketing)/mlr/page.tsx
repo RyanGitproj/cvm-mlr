@@ -41,7 +41,7 @@ export default function MlrLandingPage() {
       <section className="accent-forest mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
         <SectionHeading
           titre="Choisissez votre durée"
-          sousTitre="À titre indicatif — la durée est re-demandée dans le questionnaire."
+          sousTitre="Un repère pour vous projeter — vous confirmerez votre durée dans le questionnaire."
           accent
         />
         <div className="mt-8 grid gap-4 sm:grid-cols-2">
@@ -67,7 +67,7 @@ export default function MlrLandingPage() {
         <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
           <SectionHeading
             titre="Les 4 roots"
-            sousTitre="Quatre ambiances, un même format : guide local privé + taxi-brousse. Choisissez celle qui vous appelle — le questionnaire s'occupe du reste."
+            sousTitre="Quatre ambiances, un même format : guide local privé + taxi-brousse. Choisissez celle qui vous appelle — on s'occupe du reste."
             accent
           />
           <div className="mt-8 grid gap-4 sm:grid-cols-2">

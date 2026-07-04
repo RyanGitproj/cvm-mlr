@@ -23,7 +23,7 @@ export const mlrFunnel: FunnelConfig = {
       id: "duree",
       name: "duree",
       question: "Combien de temps voulez-vous partir ?",
-      hint: "Avec la formule Liberty Roots, vous bénéficiez d'un guide local privé, d'un itinéraire préparé, des trajets prévus en taxi-brousse et d'une assistance pendant votre voyage.",
+      hint: "Formule Liberty Roots : guide local privé, itinéraire préparé, taxi-brousse et assistance pendant tout le voyage.",
       message:
         "Hôtels et restaurants hors campement non inclus. Vous restez libre de choisir selon vos envies et votre budget.",
       options: [

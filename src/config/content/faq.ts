@@ -5,7 +5,7 @@
 
 export const FAQ_CVM = [
   {
-    question: "Que comprennent les expériences Célébration Voyage ?",
+    question: "Que comprennent les expériences Célébration Voyages ?",
     reponse:
       "Selon le programme : organisation, accompagnement, logistique locale, hébergements ou bivouacs, transports sur place, activités et partenaires terrain.",
   },

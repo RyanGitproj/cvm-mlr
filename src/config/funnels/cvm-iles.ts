@@ -103,7 +103,7 @@ export const cvmIlesFunnel: FunnelConfig = {
         { value: "famille", label: "En famille" },
         { value: "amis", label: "Entre amis" },
         { value: "solo", label: "Seul / solo" },
-        { value: "autre", label: "Autre configuration — je précise", freeText: true },
+        { value: "autre", label: "Autre situation — je précise", freeText: true },
       ],
     },
     {
