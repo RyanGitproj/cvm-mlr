@@ -3,6 +3,7 @@ import { MailLink, PhoneLink } from "@/components/ui/ContactLinks";
 import { cvmBrand, mlrBrand } from "@/config/brands";
 import { legal } from "@/config/legal";
 import type { Brand } from "@/types/lead";
+import { BaselineBand } from "./BaselineBand";
 
 const FOOTER_LINK_CLASS =
   "text-sm text-ink-soft transition-colors hover:text-ink-strong";
@@ -11,9 +12,12 @@ export function Footer({ brand }: { brand: Brand | "mere" }) {
   return (
     <footer className="mt-auto border-t border-line bg-surface-2">
       {brand === "mlr" && (
-        <p className="torn-edge bg-accent px-4 py-3 text-center text-xs font-semibold uppercase tracking-widest text-accent-contrast">
-          {mlrBrand.signature}
-        </p>
+        <>
+          <BaselineBand />
+          <p className="torn-edge bg-accent px-4 py-3 text-center text-xs font-semibold uppercase tracking-widest text-accent-contrast">
+            {mlrBrand.signature}
+          </p>
+        </>
       )}
       {/* Pas de bloc « Parcours » : directive boss 2026-07 — aucune sortie
           latérale du funnel. Seuls restent le légal (obligation) et le

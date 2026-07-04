@@ -102,9 +102,9 @@ export function UniversPicker() {
                 <Pill>Ouest</Pill>
               </div>
               <p className="mt-4 flex-1 text-sm font-semibold uppercase tracking-wide text-ink-soft">
-                10 jours dès <strong className="text-lg font-bold text-accent">1 442 €</strong>
+                10 jours dès <strong className="text-lg font-bold text-accent">1 400 €</strong>
                 <br />
-                15 jours dès <strong className="text-lg font-bold text-accent">1 855 €</strong>
+                15 jours dès <strong className="text-lg font-bold text-accent">1 800 €</strong>
               </p>
               <span className="cta-pulse mt-5 inline-flex w-fit items-center gap-2 rounded-lg bg-accent px-3 py-2 text-xs font-semibold uppercase tracking-wide text-accent-contrast sm:px-5 sm:py-2.5 sm:text-sm">
                 Choisir cette aventure →

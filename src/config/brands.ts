@@ -22,11 +22,15 @@ export const cvmBrand = {
 export const mlrBrand = {
   slug: "mlr",
   nom: "Madagascar Liberty Roots",
-  baseline: "Voyager autrement, vivre l'essentiel.",
+  // Libellé des brochures officielles (bandeau sous le logo, 4 routes +
+  // fiches devis). Les maquettes 8-visuels disent « Voyagez autrement,
+  // vivez vrai » — dérive de maquette, les brochures font foi (Ryan
+  // 2026-07-04). Affichée sous le header et en pied de page MLR.
+  baseline: "Voyager autrement, vivre l'essentiel",
   positionnement:
     "Aventure, liberté, immersion, roots. Libre mais encadré, sécurité terrain.",
   ctaPrincipal: "Recevoir mon itinéraire Liberty",
-  pricing: "Road trip 10 jours dès 1 442 € · 15 jours dès 1 855 €",
+  pricing: "Road trip 10 jours dès 1 400 € · 15 jours dès 1 800 €",
   signature: "Une marque opérée par Célébration Voyages Madagascar",
 } as const;
 

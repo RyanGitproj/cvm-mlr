@@ -35,8 +35,8 @@ export type MlrRouteContent = {
 };
 
 export const MLR_TARIFS = {
-  dixJours: "10 jours dès 1 442 € / pers",
-  quinzeJours: "15 jours dès 1 855 € / pers",
+  dixJours: "10 jours dès 1 400 € / pers",
+  quinzeJours: "15 jours dès 1 800 € / pers",
   format: "Guide local privé + taxi-brousse",
   idealPour: "Voyageurs libres · Aventure roots · Immersion locale",
 } as const;
@@ -418,12 +418,12 @@ export const MLR_LANDING = {
   durees: [
     {
       titre: "10 jours",
-      prix: "dès 1 442 € / pers",
+      prix: "dès 1 400 € / pers",
       texte: "L'essentiel de la route, au rythme roots.",
     },
     {
       titre: "15 jours",
-      prix: "dès 1 855 € / pers",
+      prix: "dès 1 800 € / pers",
       texte: "Plus de temps, plus de rencontres, plus de pistes.",
     },
   ],

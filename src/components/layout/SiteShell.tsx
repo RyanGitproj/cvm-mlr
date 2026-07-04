@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
+import { BaselineBand } from "./BaselineBand";
 import { Footer } from "./Footer";
 import { Header, type NavLink } from "./Header";
 
@@ -42,6 +43,7 @@ export function SiteShell({
         links={links}
         cta={cta}
       />
+      {theme === "mlr" && <BaselineBand />}
       <main className="flex-1">{children}</main>
       <Footer brand={theme} />
     </div>

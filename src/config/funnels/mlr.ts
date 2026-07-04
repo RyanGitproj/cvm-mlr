@@ -27,8 +27,8 @@ export const mlrFunnel: FunnelConfig = {
       message:
         "Hôtels et restaurants hors campement non inclus. Vous restez libre de choisir selon vos envies et votre budget.",
       options: [
-        { value: "10_jours", label: "10 jours — dès 1 442 €" },
-        { value: "15_jours", label: "15 jours — dès 1 855 €" },
+        { value: "10_jours", label: "10 jours — dès 1 400 €" },
+        { value: "15_jours", label: "15 jours — dès 1 800 €" },
         {
           value: "a_conseiller",
           label: "Je souhaite être conseillé — nos experts vous aident à choisir la durée idéale",
