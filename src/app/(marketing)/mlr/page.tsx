@@ -12,7 +12,7 @@ import { NOTE_TARIFAIRE_MLR } from "@/config/brands";
 import {
   MLR_LANDING,
   MLR_ROUTES_CONTENT,
-  MLR_SERVICES,
+  MLR_SERVICES_LANDING,
   MLR_TARIFS,
 } from "@/config/content/mlr";
 
@@ -108,7 +108,7 @@ export default function MlrLandingPage() {
       </section>
 
       <NoteTarifaire texte={NOTE_TARIFAIRE_MLR} />
-      <ReassuranceBar items={MLR_SERVICES} />
+      <ReassuranceBar items={MLR_SERVICES_LANDING} />
 
       {/* Questionnaire unique MLR, sans pré-remplissage : la route est l'étape 2. */}
       <QuestionnaireSection funnelType="mlr" />

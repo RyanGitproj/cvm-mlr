@@ -404,6 +404,24 @@ export const MLR_ROUTES_CONTENT: Record<MlrRoute, MlrRouteContent> = {
 /** Bandeau de services commun aux 4 routes (bas de brochure). */
 export const MLR_SERVICES = ASSISTANCE_COMMUNE;
 
+const [guideLocal, taxiBrousse, assistance] = ASSISTANCE_COMMUNE;
+
+/**
+ * Bandeau services de la landing /mlr (écran 2/8 des maquettes) : le repas
+ * de campement remplace « budget libre » — l'info budget est déjà portée
+ * par la note tarifaire affichée juste au-dessus. Inclusion validée par
+ * les fiches devis officielles (docs/utils/2.jpeg SUD, 4.jpeg EST).
+ */
+export const MLR_SERVICES_LANDING = [
+  guideLocal,
+  taxiBrousse,
+  {
+    titre: "Repas campement inclus",
+    texte: "Cuisine locale autour du feu, lors des nuits en campement.",
+  },
+  assistance,
+] as const;
+
 /** Landing /mlr. */
 export const MLR_LANDING = {
   hero: {
