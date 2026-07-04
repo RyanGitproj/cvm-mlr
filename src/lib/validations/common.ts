@@ -11,9 +11,16 @@ z.config(z.locales.fr());
 export const commonLeadSchema = z.object({
   prenom: z.string().min(2, "Merci d'indiquer votre prénom."),
   email: z.email("Merci d'indiquer un email valide."),
+  // Numéro au format international E.164 (`+33…`) produit par le champ
+  // `PhoneField` (react-phone-number-input). Regex plutôt que libphonenumber
+  // pour garder ce schéma partagé client/serveur léger et sans dépendance.
   telephone: z
     .string()
-    .min(6, "Merci d'indiquer un numéro de téléphone valide."),
+    .min(1, "Merci d'indiquer votre numéro de téléphone.")
+    .regex(
+      /^\+[1-9]\d{6,14}$/,
+      "Merci d'indiquer un numéro de téléphone valide (avec l'indicatif pays).",
+    ),
   periode: z.string().min(1, "Merci d'indiquer votre période de départ."),
   nbVoyageurs: z.coerce
     .number("Merci d'indiquer le nombre de voyageurs.")

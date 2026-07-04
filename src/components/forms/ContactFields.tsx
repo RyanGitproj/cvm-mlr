@@ -3,6 +3,7 @@
 import Link from "next/link";
 import type { ContactStep } from "@/types/funnel";
 import { CheckboxField } from "./CheckboxField";
+import { PhoneField } from "./PhoneField";
 import { TextAreaField, TextField } from "./TextField";
 
 /** Étape coordonnées : prénom/téléphone/email + champs configurés + RGPD. */
@@ -10,13 +11,7 @@ export function ContactFields({ step }: { step: ContactStep }) {
   return (
     <div className="grid gap-4">
       <TextField name="prenom" label="Prénom" autoComplete="given-name" />
-      <TextField
-        name="telephone"
-        label="Téléphone"
-        type="tel"
-        autoComplete="tel"
-        placeholder="Votre numéro"
-      />
+      <PhoneField name="telephone" label="Téléphone" />
       <TextField name="email" label="Email" type="email" autoComplete="email" />
       {step.fields.includes("periode") && (
         <TextField
