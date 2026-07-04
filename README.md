@@ -19,7 +19,7 @@ simplement désactivé avec un message utilisateur clair.
 ## Base de données
 
 Exécuter `supabase/schema.sql` dans l'éditeur SQL du projet Supabase
-(table unique `leads`, RLS activé, INSERT anon uniquement).
+(table unique `cvm_mlr_leads`, RLS activé, INSERT anon uniquement).
 
 ## Scripts
 

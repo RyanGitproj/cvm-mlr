@@ -6,7 +6,7 @@ export async function insertLead(row: LeadRow): Promise<{ ok: boolean }> {
   const supabase = getSupabaseClient();
   if (supabase === null) return { ok: false };
 
-  const { error } = await supabase.from("leads").insert(row);
+  const { error } = await supabase.from("cvm_mlr_leads").insert(row);
   if (error) {
     console.error("[supabase] insertion du lead échouée :", error.message);
     return { ok: false };

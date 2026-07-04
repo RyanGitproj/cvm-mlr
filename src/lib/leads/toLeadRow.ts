@@ -14,7 +14,7 @@ const COMMON_KEYS = new Set([
 ]);
 
 /**
- * Répartit un payload validé vers les colonnes de la table `leads`
+ * Répartit un payload validé vers les colonnes de la table `cvm_mlr_leads`
  * (brief §4.3). Fonction pure, testable sans mock.
  */
 export function toLeadRow(

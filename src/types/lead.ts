@@ -13,7 +13,7 @@ export const FUNNEL_TYPES = [
 
 export type FunnelType = (typeof FUNNEL_TYPES)[number];
 
-/** Ligne écrite dans public.leads (voir supabase/schema.sql). */
+/** Ligne écrite dans public.cvm_mlr_leads (voir supabase/schema.sql). */
 export type LeadRow = {
   funnel_type: FunnelType;
   brand: Brand;
