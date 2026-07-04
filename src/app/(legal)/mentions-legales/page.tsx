@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { MailLink } from "@/components/ui/ContactLinks";
+import { MailLink, PhoneLink } from "@/components/ui/ContactLinks";
 import { cvmBrand, mlrBrand } from "@/config/brands";
 import { legal } from "@/config/legal";
 
@@ -47,6 +47,7 @@ export default function MentionsLegalesPage() {
           <div>
             <dt className={DT_CLASS}>Contact</dt>
             <dd className={DD_CLASS}>
+              <PhoneLink className="underline" /> —{" "}
               <MailLink className="underline" />
             </dd>
           </div>

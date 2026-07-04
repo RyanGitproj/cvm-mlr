@@ -4,6 +4,10 @@ const nextConfig: NextConfig = {
   // Cible de production : Render (Vercel = preview uniquement).
   output: "standalone",
 
+  // Next 16 exige de déclarer chaque qualité utilisée par <Image quality>
+  // (75 = défaut, 90 = hero MLR).
+  images: { qualities: [75, 90] },
+
   // Les questionnaires CVM/MLR sont intégrés en bas de leur page de
   // présentation : les anciennes URLs dédiées redirigent vers l'ancre.
   // (Orientation garde sa page : c'est un aiguillage sans page produit.)

@@ -46,9 +46,21 @@ export default function ConfidentialitePage() {
 
       <h2 className={H2_CLASS}>Destinataires</h2>
       <p className={P_CLASS}>
-        La société éditrice et ses outils de gestion de la relation client.
-        Vos données ne sont ni vendues ni cédées à des tiers à des fins
-        publicitaires.
+        Vos données sont accessibles à l’équipe de {legal.raisonSociale},
+        ainsi qu’à ses sous-traitants techniques : Render (hébergement du
+        site), Supabase (hébergement de la base de données) et Google
+        (Google Tag Manager / Google Analytics, sous réserve de votre
+        consentement). Vos données ne sont ni vendues ni cédées à des tiers
+        à des fins publicitaires.
+      </p>
+
+      <h2 className={H2_CLASS}>Transferts hors Union européenne</h2>
+      <p className={P_CLASS}>
+        Certains de nos sous-traitants (notamment Google et Render) sont
+        susceptibles de traiter des données en dehors de l’Union européenne,
+        notamment aux États-Unis. Ces transferts sont encadrés par des
+        garanties appropriées, telles que les clauses contractuelles types
+        de la Commission européenne.
       </p>
 
       <h2 className={H2_CLASS}>Cookies et traceurs</h2>
