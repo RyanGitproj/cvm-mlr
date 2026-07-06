@@ -26,6 +26,7 @@ export function MlrRoutePage({ content }: { content: MlrRouteContent }) {
         <HeroBackground
           label={content.imageAmbiance.label}
           alt={content.imageAmbiance.alt}
+          src={content.imageAmbiance.src}
         />
         <div className="relative z-10 mx-auto w-full max-w-6xl px-4 py-14 sm:px-6 sm:py-20 lg:py-24">
           <div className="animate-fade-rise max-w-2xl">

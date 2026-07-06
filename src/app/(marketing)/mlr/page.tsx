@@ -6,6 +6,7 @@ import { Hero } from "@/components/sections/Hero";
 import { NoteTarifaire } from "@/components/sections/NoteTarifaire";
 import { ReassuranceBar } from "@/components/sections/ReassuranceBar";
 import { SectionHeading } from "@/components/sections/SectionHeading";
+import { ContentImage } from "@/components/ui/ContentImage";
 import { PlaceholderImage } from "@/components/ui/PlaceholderImage";
 import { Pill } from "@/components/ui/Pill";
 import { NOTE_TARIFAIRE_MLR } from "@/config/brands";
@@ -79,11 +80,20 @@ export default function MlrLandingPage() {
                     href={`/mlr/${route.slug}`}
                     className="flex h-full flex-col rounded-2xl border-2 border-line bg-card p-5 transition-colors hover:border-accent"
                   >
-                    <PlaceholderImage
-                      ratio="16/9"
-                      label={content.imageAmbiance.label}
-                      alt={content.imageAmbiance.alt}
-                    />
+                    {content.imageAmbiance.src ? (
+                      <ContentImage
+                        ratio="16/9"
+                        src={content.imageAmbiance.src}
+                        alt={content.imageAmbiance.alt}
+                        sizes="(min-width: 1152px) 552px, (min-width: 640px) 50vw, 100vw"
+                      />
+                    ) : (
+                      <PlaceholderImage
+                        ratio="16/9"
+                        label={content.imageAmbiance.label}
+                        alt={content.imageAmbiance.alt}
+                      />
+                    )}
                     <p className="mt-4 font-heading text-2xl font-bold uppercase tracking-wide text-ink-strong">
                       Road Trip {route.titre}
                     </p>

@@ -31,7 +31,11 @@ export type MlrRouteContent = {
   faq: { question: string; reponse: string }[];
   temoignage?: { texte: string; auteur: string };
   ctaLabel: string;
-  imageAmbiance: { label: string; alt: string };
+  /**
+   * Photo d'ambiance de la route — sert deux fois : miniature de carte sur
+   * /mlr et fond du hero de /mlr/{route}. Placeholder tant que `src` absent.
+   */
+  imageAmbiance: { label: string; alt: string; src?: string };
 };
 
 export const MLR_TARIFS = {
@@ -148,7 +152,9 @@ export const MLR_ROUTES_CONTENT: Record<MlrRoute, MlrRouteContent> = {
       auteur: "Charlotte & Julien, voyageurs en août 2024",
     },
     ctaLabel: "Recevoir mon road book Sud",
-    imageAmbiance: { label: "Pistes rouges du Sud", alt: "Piste de terre rouge et 4×4 dans le Sud malgache" },
+    // Pas de 4×4 côté MLR (décision Ryan 2026-07-06) : le transport de la
+    // marque est le taxi-brousse — la photo taxi-brousse illustre le Sud.
+    imageAmbiance: { label: "Pistes rouges du Sud", alt: "Taxi-brousse chargé sur une piste de terre rouge", src: "/images/mlr/taxi-brousse-piste-rouge.jpg" },
   },
   nord: {
     slug: "nord",
@@ -226,7 +232,7 @@ export const MLR_ROUTES_CONTENT: Record<MlrRoute, MlrRouteContent> = {
       { question: "Comment réserver ?", reponse: "Contactez-nous pour recevoir votre road book Nord et valider ensemble votre aventure." },
     ],
     ctaLabel: "Recevoir mon road book Nord",
-    imageAmbiance: { label: "Baie d'Émeraude", alt: "Baie turquoise et reliefs du Nord de Madagascar" },
+    imageAmbiance: { label: "Cascades du Nord", alt: "Cascade au cœur des reliefs verts de Madagascar", src: "/images/mlr/cascade-nord.jpg" },
   },
   est: {
     slug: "est",
@@ -319,7 +325,7 @@ export const MLR_ROUTES_CONTENT: Record<MlrRoute, MlrRouteContent> = {
       { question: "Comment se passe le paiement ?", reponse: "Acompte à la réservation, solde avant le départ." },
     ],
     ctaLabel: "Recevoir mon road book Est",
-    imageAmbiance: { label: "Forêt tropicale de l'Est", alt: "Forêt tropicale dense de l'Est malgache" },
+    imageAmbiance: { label: "Forêt tropicale de l'Est", alt: "Forêt tropicale dense de l'Est malgache vue du ciel", src: "/images/mlr/foret-tropicale-est.jpg" },
   },
   ouest: {
     slug: "ouest",
@@ -397,7 +403,7 @@ export const MLR_ROUTES_CONTENT: Record<MlrRoute, MlrRouteContent> = {
       { question: "À qui s'adresse ce voyage ?", reponse: "Aux voyageurs libres qui aiment l'aventure ouverte, les rencontres sincères et les grands horizons." },
     ],
     ctaLabel: "Recevoir mon road book Ouest",
-    imageAmbiance: { label: "Allée des baobabs au couchant", alt: "Allée des baobabs sous la lumière du soir dans l'Ouest malgache" },
+    imageAmbiance: { label: "Allée des baobabs au couchant", alt: "Marcheurs dans l'allée des baobabs sous la lumière du soir", src: "/images/mlr/allee-baobabs-couchant.jpg" },
   },
 };
 

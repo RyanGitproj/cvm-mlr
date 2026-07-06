@@ -35,7 +35,10 @@ export type CvmUniversContent = {
   };
   /** Formules et tarifs indicatifs affichés sur la présentation de l'offre. */
   formules: CvmFormule[];
-  galerie: { label: string; alt: string }[];
+  /** Photo de fond du hero (`public/images/...`) — placeholder tant qu'absente. */
+  heroSrc?: string;
+  /** Vignettes « En images » — placeholder tant que `src` est absent. */
+  galerie: { label: string; alt: string; src?: string }[];
 };
 
 export const ETAPES_ACCOMPAGNEMENT = [
@@ -94,12 +97,15 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
       { duree: "10 jours", prixEuros: 2200 },
       { duree: "15 jours", prixEuros: 2500 },
     ],
+    heroSrc: "/images/cvm/treks/hero-randonneurs-massif.jpg",
+    // Libellés alignés sur les photos réelles fournies (décision Ryan
+    // 2026-07-06) ; les slots sans photo gardent leur placeholder (TODO.md).
     galerie: [
-      { label: "Crêtes du Nord — randonneurs", alt: "Randonneurs sur les reliefs du Nord de Madagascar" },
-      { label: "Canyons du Makay", alt: "Canyons du massif du Makay" },
+      { label: "Crêtes au couchant", alt: "Randonneurs progressant sur une crête au coucher du soleil", src: "/images/cvm/treks/crete-coucher-soleil.jpg" },
+      { label: "Canyons du Makay", alt: "Marcheurs dans un canyon du massif du Makay", src: "/images/cvm/treks/canyons-makay.jpg" },
       { label: "Allée des baobabs", alt: "Allée des baobabs près de Morondava au coucher du soleil" },
-      { label: "Jungle de l'Est", alt: "Sentier dans la végétation dense de l'Est malgache" },
-      { label: "Camp du soir", alt: "Campement de trek au crépuscule" },
+      { label: "L'aventure en famille", alt: "Famille progressant dans un lit de rivière de sable", src: "/images/cvm/treks/aventure-en-famille.jpg" },
+      { label: "Campement d'étape", alt: "Tentes du campement dressées sur le sable au pied des reliefs", src: "/images/cvm/treks/campement-etape.jpg" },
       { label: "Plage de fin de parcours", alt: "Plage du Sud-Ouest malgache en fin de trek" },
     ],
   },
@@ -145,13 +151,15 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
       { duree: "12 jours", prixEuros: 2800 },
       { duree: "15 jours", prixEuros: 3000 },
     ],
+    heroSrc: "/images/cvm/explorer/hero-sommet-euphorique.jpg",
+    // Libellés alignés sur les photos réelles fournies (décision Ryan 2026-07-06).
     galerie: [
-      { label: "Bivouac au feu de camp", alt: "Bivouac d'expédition autour d'un feu de camp" },
-      { label: "Guides & carte terrain", alt: "Guides préparant l'itinéraire sur carte" },
-      { label: "Traversée aride", alt: "Marcheurs en zone semi-aride du Sud malgache" },
-      { label: "Matériel d'expédition", alt: "Sac, lampe frontale et GPS d'expédition" },
-      { label: "Rencontre villageoise", alt: "Échange avec des habitants d'un village isolé" },
-      { label: "Zone humide dense", alt: "Progression en forêt humide dense" },
+      { label: "Bivouac au feu de camp", alt: "Bivouac d'expédition autour d'un feu de camp", src: "/images/cvm/explorer/bivouac-feu-de-camp.jpg" },
+      { label: "Guides & lecture du terrain", alt: "Guide local indiquant la direction dans la savane", src: "/images/cvm/explorer/guide-lecture-terrain.jpg" },
+      { label: "Traversée aride", alt: "Marcheurs dans un canyon aride du Sud malgache", src: "/images/cvm/explorer/traversee-canyon-aride.jpg" },
+      { label: "Marche de nuit à la frontale", alt: "Progression nocturne à la lampe frontale", src: "/images/cvm/explorer/marche-nocturne-frontale.jpg" },
+      { label: "Rencontre villageoise", alt: "Échange avec les enfants d'un village isolé", src: "/images/cvm/explorer/rencontre-villageoise.jpg" },
+      { label: "Zone humide dense", alt: "Progression le long d'une rivière ferrugineuse bordée de pandanus", src: "/images/cvm/explorer/riviere-rouge-pandanus.jpg" },
     ],
   },
   iles: {
@@ -244,11 +252,13 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
       // Grand Tour Madagascar : formule unique, environ 1 mois (capture + brochure).
       { duree: "Environ 1 mois", prixEuros: 5300 },
     ],
+    heroSrc: "/images/cvm/un-mois/hero-village-rencontre.jpg",
+    // Libellés alignés sur les photos réelles fournies (décision Ryan 2026-07-06).
     galerie: [
       { label: "Hautes Terres & rizières", alt: "Rizières en terrasses des Hautes Terres malgaches" },
-      { label: "Marché & artisanat", alt: "Marché artisanal animé d'une ville malgache" },
+      { label: "Immersion urbaine", alt: "Rue animée d'une ville malgache", src: "/images/cvm/un-mois/rue-ville-malgache.jpg" },
       { label: "Allée des baobabs", alt: "Allée des baobabs dans l'Ouest de Madagascar" },
-      { label: "Tsingy de l'Ouest", alt: "Formations minérales des Tsingy dans l'Ouest malgache" },
+      { label: "Tsingy de l'Ouest", alt: "Randonneurs au cœur des formations minérales des Tsingy", src: "/images/cvm/un-mois/tsingy-ouest.jpg" },
       { label: "Canal des Pangalanes", alt: "Pirogue sur le canal des Pangalanes, côte Est" },
       { label: "Plages du Nord", alt: "Plage bordée d'eaux turquoise dans le Nord de Madagascar" },
     ],

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Reveal } from "@/components/motion/Reveal";
-import { PlaceholderImage } from "@/components/ui/PlaceholderImage";
+import { ContentImage } from "@/components/ui/ContentImage";
 import { Pill } from "@/components/ui/Pill";
 import { cvmBrand, mlrBrand } from "@/config/brands";
 import { CVM_UNIVERS } from "@/config/content/cvm";
@@ -36,10 +36,12 @@ export function UniversPicker() {
             href="/cvm"
             className="flex h-full min-w-0 flex-col rounded-2xl border-2 border-line bg-card p-4 transition-colors hover:border-accent motion-safe:transition-transform motion-safe:hover:-translate-y-1 sm:p-6"
           >
-            <PlaceholderImage
+            {/* Même visuel que le hero /cvm (demande Ryan 2026-07-06). */}
+            <ContentImage
               ratio="16/9"
-              label="Ambiance CVM — lodge face à la mer"
-              alt="Terrasse de lodge confortable face à la côte malgache au couchant"
+              src="/images/cvm/hero-cvm.jpeg"
+              alt="4×4 chargé sur la route bordée de baobabs"
+              sizes="(min-width: 1152px) 552px, 50vw"
             />
             <p className="mt-5 font-heading text-xl font-bold text-ink-strong sm:text-3xl">
               {cvmBrand.nom}
@@ -83,10 +85,11 @@ export function UniversPicker() {
               data-pick="mlr"
               className="texture-paper flex h-full min-w-0 flex-col rounded-2xl border-2 border-line bg-card p-4 transition-colors hover:border-accent motion-safe:transition-transform motion-safe:hover:-translate-y-1 sm:p-6"
             >
-              <PlaceholderImage
+              <ContentImage
                 ratio="16/9"
-                label="Ambiance MLR — taxi-brousse sur piste"
-                alt="Taxi-brousse chargé sur une piste de terre rouge, villageois autour"
+                src="/images/mere/mlr-univers.jpg"
+                alt="Taxi-brousse chargé sur la route, baobabs à l'horizon"
+                sizes="(min-width: 1152px) 552px, 50vw"
               />
               <p className="mt-5 font-heading text-xl font-bold uppercase tracking-wide text-ink-strong sm:text-3xl">
                 {mlrBrand.nom}

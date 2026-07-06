@@ -29,6 +29,7 @@ export function CvmUniversPage({ content }: { content: CvmUniversContent }) {
         micro={content.micro}
         imageLabel={`Hero — ${content.surtitre}`}
         imageAlt={`${content.titre} — visuel d'ambiance`}
+        imageSrc={content.heroSrc}
       />
 
       <section className="mx-auto w-full max-w-3xl px-4 pb-4 sm:px-6">
