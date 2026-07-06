@@ -277,8 +277,8 @@ export const CVM_LANDING = {
     titre: "Madagascar, là où les autres ne vont pas",
     sousTitre:
       "Quatre expériences encadrées par une équipe locale : l'expédition insolite, le trek aventure, le séjour à deux ou le grand tour d'un mois. Vous gardez l'émotion — nous gérons toute la logistique.",
-    imageLabel: "Collage des 4 univers CVM",
-    imageAlt: "Collage des quatre expériences : bivouac, trek, plage et projet de vie",
+    imageLabel: "Triptyque des expériences CVM",
+    imageAlt: "Triptyque des expériences : plage et bateau turquoise, faune insolite, trek vers les massifs",
   },
   orientation: {
     titre: "Vous ne savez pas laquelle choisir ?",

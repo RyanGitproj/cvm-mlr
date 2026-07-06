@@ -22,9 +22,9 @@ type Props = {
  * Hero générique — image en fond plein cadre, identique en mobile et en PC.
  * Le CTA principal reste above the fold en 390×844. Tant qu'aucune photo
  * réelle n'est fournie (`imageSrc`), le texte reste sombre sur le dégradé
- * placeholder clair ; une fois la photo posée, le texte bascule en clair
- * (+ ombre portée) sur un voile sombre concentré en haut du cadre, pour que
- * l'image reste lisible et mise en valeur sur le reste du cadre.
+ * placeholder clair ; une fois la photo posée, l'image reste pleinement
+ * visible (aucun voile global) et le texte bascule en clair sur un cartouche
+ * sombre semi-transparent à coins arrondis, qui porte seul le contraste.
  */
 export function Hero({
   surtitre,
@@ -42,14 +42,19 @@ export function Hero({
     <section className="relative overflow-hidden">
       <HeroBackground label={imageLabel} alt={imageAlt} src={imageSrc} />
       <div className="relative z-10 mx-auto w-full max-w-6xl px-4 py-14 sm:px-6 sm:py-20 lg:py-28">
-        <div className="animate-fade-rise max-w-2xl">
+        <div
+          className={cn(
+            "animate-fade-rise max-w-2xl",
+            // Cartouche sombre : porte le contraste du texte clair sans voiler
+            // l'image (le reste du cadre photo reste net et pleinement visible).
+            hasImage && "rounded-2xl bg-ink-strong/30 p-6 backdrop-blur-sm sm:p-8",
+          )}
+        >
           {surtitre && (
             <p
               className={cn(
                 "text-xs font-semibold uppercase tracking-[0.2em]",
-                hasImage
-                  ? "text-accent-contrast text-shadow-sm text-shadow-ink-strong/70"
-                  : "text-accent",
+                hasImage ? "text-accent-contrast" : "text-accent",
               )}
             >
               {surtitre}
@@ -58,9 +63,7 @@ export function Hero({
           <h1
             className={cn(
               "mt-3 text-balance font-heading text-3xl font-bold leading-tight sm:text-5xl",
-              hasImage
-                ? "text-accent-contrast text-shadow-lg text-shadow-ink-strong/70"
-                : "text-ink-strong",
+              hasImage ? "text-accent-contrast" : "text-ink-strong",
             )}
           >
             {titre}
@@ -68,9 +71,7 @@ export function Hero({
           <p
             className={cn(
               "mt-4 max-w-prose text-base sm:text-lg",
-              hasImage
-                ? "text-accent-contrast/90 text-shadow-md text-shadow-ink-strong/60"
-                : "text-ink-soft",
+              hasImage ? "text-accent-contrast/90" : "text-ink-soft",
             )}
           >
             {sousTitre}
@@ -112,9 +113,7 @@ export function Hero({
             <p
               className={cn(
                 "mt-4 text-xs",
-                hasImage
-                  ? "text-accent-contrast/85 text-shadow-sm text-shadow-ink-strong/60"
-                  : "text-ink-soft",
+                hasImage ? "text-accent-contrast/85" : "text-ink-soft",
               )}
             >
               {micro.join(" · ")}

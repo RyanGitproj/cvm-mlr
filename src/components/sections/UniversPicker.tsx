@@ -40,7 +40,7 @@ export function UniversPicker() {
             <ContentImage
               ratio="16/9"
               src="/images/cvm/hero-cvm.jpeg"
-              alt="4×4 chargé sur la route bordée de baobabs"
+              alt="Triptyque des expériences : plage et bateau turquoise, faune insolite, trek vers les massifs"
               sizes="(min-width: 1152px) 552px, 50vw"
             />
             <p className="mt-5 font-heading text-xl font-bold text-ink-strong sm:text-3xl">

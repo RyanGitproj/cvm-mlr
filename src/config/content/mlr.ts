@@ -436,8 +436,8 @@ export const MLR_LANDING = {
     // Signature dictée par le boss (2026-07) en tête de sous-titre.
     sousTitre:
       "La liberté de vivre simplement une expérience unique. Quatre roots, un guide local privé, le taxi-brousse — et votre liberté comme fil conducteur.",
-    imageLabel: "Logo baobab + piste — ambiance affiche",
-    imageAlt: "Baobab et piste de terre rouge, ambiance affiche vintage",
+    imageLabel: "Triptyque ambiance roots",
+    imageAlt: "Triptyque roots : tuk-tuk à Majunga, immersion en ville, taxi-brousse chargé",
   },
   durees: [
     {

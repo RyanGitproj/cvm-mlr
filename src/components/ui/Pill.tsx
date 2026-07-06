@@ -24,14 +24,18 @@ export function Pill({
 export function Stamp({
   children,
   className,
+  tone = "accent",
 }: {
   children: ReactNode;
   className?: string;
+  /** "contrast" (crème) sur fond sombre — ex. cartouche du hero. */
+  tone?: "accent" | "contrast";
 }) {
   return (
     <span
       className={cn(
-        "stamp inline-block px-3 py-1 text-xs font-bold text-accent",
+        "stamp inline-block px-3 py-1 text-xs font-bold",
+        tone === "contrast" ? "text-accent-contrast" : "text-accent",
         className,
       )}
     >

@@ -7,6 +7,7 @@ import { SectionHeading } from "@/components/sections/SectionHeading";
 import { TempsForts } from "@/components/sections/TempsForts";
 import { Pill, Stamp } from "@/components/ui/Pill";
 import { ScrollCtaLink } from "@/components/ui/ScrollCtaLink";
+import { cn } from "@/lib/cn";
 import {
   MLR_SERVICES,
   MLR_STAMP,
@@ -20,6 +21,9 @@ import {
  * bas de page, route pré-sélectionnée : les CTA scrollent vers lui.
  */
 export function MlrRoutePage({ content }: { content: MlrRouteContent }) {
+  // Photo posée : cartouche sombre + texte clair (l'image reste sans voile) ;
+  // sinon dégradé placeholder clair, texte sombre par-dessus (voir Hero).
+  const hasImage = Boolean(content.imageAmbiance.src);
   return (
     <>
       <section className="relative overflow-hidden">
@@ -29,15 +33,36 @@ export function MlrRoutePage({ content }: { content: MlrRouteContent }) {
           src={content.imageAmbiance.src}
         />
         <div className="relative z-10 mx-auto w-full max-w-6xl px-4 py-14 sm:px-6 sm:py-20 lg:py-24">
-          <div className="animate-fade-rise max-w-2xl">
-            <Stamp>{MLR_STAMP}</Stamp>
-            <h1 className="mt-4 font-heading text-4xl font-bold uppercase tracking-wide text-ink-strong sm:text-6xl">
+          <div
+            className={cn(
+              "animate-fade-rise max-w-2xl",
+              hasImage &&
+                "rounded-2xl bg-ink-strong/30 p-6 backdrop-blur-sm sm:p-8",
+            )}
+          >
+            <Stamp tone={hasImage ? "contrast" : "accent"}>{MLR_STAMP}</Stamp>
+            <h1
+              className={cn(
+                "mt-4 font-heading text-4xl font-bold uppercase tracking-wide sm:text-6xl",
+                hasImage ? "text-accent-contrast" : "text-ink-strong",
+              )}
+            >
               {content.titre}
             </h1>
-            <p className="mt-3 max-w-prose text-lg text-ink-soft">
+            <p
+              className={cn(
+                "mt-3 max-w-prose text-lg",
+                hasImage ? "text-accent-contrast/90" : "text-ink-soft",
+              )}
+            >
               {content.sousTitre}
             </p>
-            <p className="mt-4 font-heading text-lg font-bold uppercase tracking-wide text-accent">
+            <p
+              className={cn(
+                "mt-4 font-heading text-lg font-bold uppercase tracking-wide",
+                hasImage ? "text-accent-contrast" : "text-accent",
+              )}
+            >
               {MLR_TARIFS.dixJours} · {MLR_TARIFS.quinzeJours}
             </p>
             <div className="mt-2">
@@ -47,11 +72,26 @@ export function MlrRoutePage({ content }: { content: MlrRouteContent }) {
               <ScrollCtaLink targetId="questionnaire">
                 {content.ctaLabel}
               </ScrollCtaLink>
-              <ScrollCtaLink targetId="devis-explicatif" variant="outline">
+              <ScrollCtaLink
+                targetId="devis-explicatif"
+                variant="outline"
+                className={
+                  hasImage
+                    ? "!border-accent-contrast !text-accent-contrast hover:!bg-accent-contrast/15"
+                    : undefined
+                }
+              >
                 Découvrir le devis explicatif
               </ScrollCtaLink>
             </div>
-            <p className="mt-4 text-xs text-ink-soft">{MLR_TARIFS.idealPour}</p>
+            <p
+              className={cn(
+                "mt-4 text-xs",
+                hasImage ? "text-accent-contrast/85" : "text-ink-soft",
+              )}
+            >
+              {MLR_TARIFS.idealPour}
+            </p>
           </div>
         </div>
       </section>
