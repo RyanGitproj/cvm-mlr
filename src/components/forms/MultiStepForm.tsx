@@ -76,12 +76,15 @@ export function MultiStepForm({ funnelType, defaultValues }: Props) {
   // À chaque changement d'étape : remonter en haut du formulaire (fluide,
   // reduced-motion respecté) et poser le focus sur la nouvelle question —
   // essentiel quand le formulaire est intégré en bas d'une page longue.
-  const isFirstRender = useRef(true);
+  // On mémorise la dernière étape traitée plutôt que de compter les rendus :
+  // sous Next 16 / React 19, l'effect peut se ré-exécuter sans changement de
+  // deps lors d'une navigation SPA (reconnexion du segment) — un garde
+  // « premier rendu » se faisait consommer et la page atterrissait scrollée
+  // sur le formulaire au lieu du haut de page.
+  const lastHandledStep = useRef(stepIndex);
   useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      return;
-    }
+    if (lastHandledStep.current === stepIndex) return;
+    lastHandledStep.current = stepIndex;
     if (topRef.current) scrollToElement(topRef.current);
     document.getElementById(headingId)?.focus({ preventScroll: true });
   }, [stepIndex, headingId]);
