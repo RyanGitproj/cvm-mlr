@@ -3,7 +3,8 @@ import {
   ORIENTATION_UNIVERS,
   type OrientationUnivers,
 } from "@/config/segmentation";
-import type { CvmOrientationLead } from "@/lib/validations/cvm-orientation";
+import type { CvmOrientationQualification } from "@/lib/validations/cvm-orientation";
+// (import mis à jour : le moteur ne lit que des champs de qualification)
 import type { Recommendation } from "./types";
 
 /**
@@ -22,7 +23,7 @@ import type { Recommendation } from "./types";
  *    rustique + sportif → Explorer ; sinon Treks (l'aventure encadrée est
  *    le cœur de gamme CVM).
  */
-export function segmentOrientation(data: CvmOrientationLead): Recommendation {
+export function segmentOrientation(data: CvmOrientationQualification): Recommendation {
   const univers = resolveUnivers(data);
   const cible = ORIENTATION_UNIVERS[univers];
   return {
@@ -34,7 +35,7 @@ export function segmentOrientation(data: CvmOrientationLead): Recommendation {
   };
 }
 
-function resolveUnivers(data: CvmOrientationLead): OrientationUnivers {
+function resolveUnivers(data: CvmOrientationQualification): OrientationUnivers {
   if (data.intention !== "autre") {
     return guardExplorer(data.intention, data);
   }
@@ -65,7 +66,7 @@ function resolveUnivers(data: CvmOrientationLead): OrientationUnivers {
 
 function guardExplorer(
   univers: OrientationUnivers,
-  data: CvmOrientationLead,
+  data: CvmOrientationQualification,
 ): OrientationUnivers {
   if (univers !== "explorer") return univers;
   const profilConfort =

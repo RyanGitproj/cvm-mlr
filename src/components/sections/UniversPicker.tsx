@@ -16,8 +16,8 @@ const CVM_PRIX_MINI = Math.min(
 /**
  * Cœur de la page mère — copy et hiérarchie du visuel 1/8 du funnel MLR
  * (« Quel Madagascar voulez-vous vivre ? »). La carte MLR porte
- * data-theme="mlr" (tokens locaux) et data-pick="mlr" (bascule d'accent
- * globale, voir globals.css).
+ * data-theme="mlr" (tokens locaux) : son survol passe sa bordure en terracotta,
+ * sans déborder sur le reste de la page (pas de bascule d'accent globale).
  */
 export function UniversPicker() {
   return (
@@ -82,7 +82,6 @@ export function UniversPicker() {
           <div data-theme="mlr" className="h-full min-w-0">
             <Link
               href="/mlr"
-              data-pick="mlr"
               className="texture-paper flex h-full min-w-0 flex-col rounded-2xl border-2 border-line bg-card p-4 transition-colors hover:border-accent motion-safe:transition-transform motion-safe:hover:-translate-y-1 sm:p-6"
             >
               <ContentImage
@@ -98,7 +97,9 @@ export function UniversPicker() {
                 La piste, les rencontres, la liberté — l’aventure brute, avec
                 un guide local qui connaît chaque village.
               </p>
-              <div className="mt-4 flex flex-wrap gap-2">
+              {/* 2×2 en mobile (carte demi-largeur), une seule ligne dès sm
+                  (packées à gauche comme les offres CVM). */}
+              <div className="mt-4 grid grid-cols-2 justify-items-start gap-2 sm:flex sm:flex-wrap">
                 <Pill>Nord</Pill>
                 <Pill>Sud</Pill>
                 <Pill>Est</Pill>

@@ -1,10 +1,9 @@
 import type { FunnelConfig } from "@/types/funnel";
 
 /**
- * Funnel MLR — parcours unique en 7 étapes (brief §8.1 / §13.5), libellés
- * alignés écran par écran sur Madagascar_Liberty_Roots_Funnel_8_visuels.
- * La route est l'étape 2, une réponse du formulaire. Pas de question
- * transport ni hébergement : confirmé par les brochures.
+ * Funnel MLR — parcours unique (brief §8.1 / §13.5), libellés alignés sur
+ * Madagascar_Liberty_Roots_Funnel_8_visuels. La durée (offre) et la route
+ * sont des choix d'étape 1 ; la route pré-remplie depuis /mlr/{route}.
  */
 export const mlrFunnel: FunnelConfig = {
   type: "mlr",
@@ -16,25 +15,14 @@ export const mlrFunnel: FunnelConfig = {
       "Guide local privé, taxi-brousse, itinéraire préparé : l'aventure authentique, en liberté et à votre rythme.",
     note: "Les hôtels, restaurants hors campement, vols et assurances restent à votre charge pour garder votre liberté de choix.",
   },
-  cta: "Recevoir mon itinéraire Liberty",
-  steps: [
-    {
-      kind: "radio",
-      id: "duree",
-      name: "duree",
-      question: "Combien de temps voulez-vous partir ?",
-      hint: "Formule Liberty Roots : guide local privé, itinéraire préparé, taxi-brousse et assistance pendant tout le voyage.",
-      message:
-        "Hôtels et restaurants hors campement non inclus. Vous restez libre de choisir selon vos envies et votre budget.",
-      options: [
-        { value: "10_jours", label: "10 jours — dès 1 400 €" },
-        { value: "15_jours", label: "15 jours — dès 1 800 €" },
-        {
-          value: "a_conseiller",
-          label: "Je souhaite être conseillé — nos experts vous aident à choisir la durée idéale",
-        },
-      ],
-    },
+  ctaStep1: "Enregistrer mes coordonnées",
+  offer: {
+    id: "duree",
+    question: "Votre durée",
+    // La non-inclusion hôtels/restaurants est déjà portée par intro.note.
+    hint: "Formule Liberty Roots : guide local privé, itinéraire préparé, taxi-brousse et assistance pendant tout le voyage.",
+  },
+  preContact: [
     {
       kind: "radio",
       id: "route",
@@ -52,6 +40,15 @@ export const mlrFunnel: FunnelConfig = {
         },
       ],
     },
+  ],
+  contact: {
+    id: "coordonnees",
+    question: "Où pouvons-nous vous envoyer votre itinéraire Liberty ?",
+    hint: "Recevez votre itinéraire personnalisé et confidentiel, conçu selon vos envies et votre profil de voyageur. Téléphone ou WhatsApp.",
+    message:
+      "Vos données sont sécurisées et confidentielles. Hôtels, restaurants hors campement, vols et assurances à prévoir séparément.",
+  },
+  qualification: [
     {
       kind: "radio",
       id: "pret_roots",
@@ -100,20 +97,10 @@ export const mlrFunnel: FunnelConfig = {
         { value: "conseil", label: "Je veux être conseillé" },
       ],
     },
-    {
-      kind: "recap",
-      id: "recap",
-      question: "Récapitulatif de votre demande",
-      hint: "Vérifiez vos réponses avant de recevoir votre itinéraire — guide privé inclus.",
-    },
-    {
-      kind: "contact",
-      id: "coordonnees",
-      question: "Où pouvons-nous vous envoyer votre itinéraire Liberty ?",
-      hint: "Recevez votre itinéraire personnalisé et confidentiel, conçu selon vos envies et votre profil de voyageur. Téléphone ou WhatsApp.",
-      message:
-        "Vos données sont sécurisées et confidentielles. Hôtels, restaurants hors campement, vols et assurances à prévoir séparément.",
-      fields: ["periode", "nbVoyageurs", "commentaire"],
-    },
   ],
+  recap: {
+    id: "recap",
+    question: "Récapitulatif de votre demande",
+    hint: "Vérifiez vos réponses avant de recevoir votre itinéraire — guide privé inclus.",
+  },
 };

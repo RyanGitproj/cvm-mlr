@@ -30,34 +30,36 @@ export type RadioStep = QuestionBase & { kind: "radio" };
 /** Question à sélection multiple (santé Explorer). */
 export type MultiStep = QuestionBase & { kind: "multi" };
 
-/** Champs additionnels de l'étape coordonnées (prénom/tél/email toujours présents). */
-export type ContactField = "periode" | "nbVoyageurs" | "age" | "commentaire";
-
 export type Acceptance = {
   name: "acceptCertificat" | "acceptBriefing";
   label: string;
 };
 
-export type ContactStep = {
-  kind: "contact";
-  id: string;
-  question: string;
-  hint?: string;
-  message?: string;
-  fields: ContactField[];
-  acceptances?: Acceptance[];
-};
-
-/** Écran de résumé des réponses (MLR, étape 6/7) — pas une question. */
-export type RecapStep = {
-  kind: "recap";
+/** Métadonnées communes d'un écran sans champ à options. */
+type ScreenBase = {
   id: string;
   question: string;
   hint?: string;
   message?: string;
 };
 
-export type FunnelStep = RadioStep | MultiStep | ContactStep | RecapStep;
+/**
+ * Choix d'offre (étape 1) — champ inline de l'écran unique, au-dessus du
+ * nombre de participants. Les options tarifaires viennent de offerOptionsFor.
+ */
+export type OfferStep = ScreenBase;
+
+/** Écran unique de l'étape 1 (coordonnées + offre inline). */
+export type ContactStep = ScreenBase;
+
+/** Écran conditions (étape 2, Explorer) — âge facultatif + acceptations. */
+export type ConditionsStep = ScreenBase & {
+  includeAge?: boolean;
+  acceptances: Acceptance[];
+};
+
+/** Écran de résumé des réponses de qualification (MLR, fin d'étape 2). */
+export type RecapStep = ScreenBase;
 
 export type FunnelConfig = {
   type: FunnelType;
@@ -70,7 +72,18 @@ export type FunnelConfig = {
     /** Note tarifaire ou avertissement affiché dès l'entrée. */
     note?: string;
   };
-  /** Libellé du CTA de soumission finale. */
-  cta: string;
-  steps: FunnelStep[];
+  /** Libellé du CTA d'enregistrement (fin de l'étape 1). */
+  ctaStep1: string;
+  /** Choix d'offre inline (étape 1) — absent si pas de choix (orientation, un-mois). */
+  offer?: OfferStep;
+  /** Questions inline avant participants — ex. route MLR (masquée si pré-remplie). */
+  preContact?: RadioStep[];
+  /** Écran unique de l'étape 1 (coordonnées + offre inline). */
+  contact: ContactStep;
+  /** Questions de qualification commerciale (étape 2). */
+  qualification: (RadioStep | MultiStep)[];
+  /** Écran conditions (étape 2) — Explorer uniquement. */
+  conditions?: ConditionsStep;
+  /** Écran récap final (étape 2) — MLR uniquement. */
+  recap?: RecapStep;
 };

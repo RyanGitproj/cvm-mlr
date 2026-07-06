@@ -5,15 +5,15 @@ import { segmentMlr } from "@/lib/segmentation/mlr";
 import { segmentOrientation } from "@/lib/segmentation/orientation";
 import { segmentTreks } from "@/lib/segmentation/treks";
 import type { Recommendation } from "@/lib/segmentation/types";
-import { cvmExplorerSchema } from "@/lib/validations/cvm-explorer";
-import { cvmIlesSchema } from "@/lib/validations/cvm-iles";
-import { cvmOrientationSchema } from "@/lib/validations/cvm-orientation";
-import { cvmTreksSchema } from "@/lib/validations/cvm-treks";
-import { cvmUnMoisSchema } from "@/lib/validations/cvm-un-mois";
-import { mlrSchema } from "@/lib/validations/mlr";
+import { cvmExplorerQualificationSchema } from "@/lib/validations/cvm-explorer";
+import { cvmIlesQualificationSchema } from "@/lib/validations/cvm-iles";
+import { cvmOrientationQualificationSchema } from "@/lib/validations/cvm-orientation";
+import { cvmTreksQualificationSchema } from "@/lib/validations/cvm-treks";
+import { cvmUnMoisQualificationSchema } from "@/lib/validations/cvm-un-mois";
+import { mlrQualificationSchema } from "@/lib/validations/mlr";
 import type { FunnelType } from "@/types/lead";
 
-export type ProcessLeadResult =
+export type ProcessStep2Result =
   | {
       ok: true;
       data: Record<string, unknown>;
@@ -22,16 +22,17 @@ export type ProcessLeadResult =
   | { ok: false; errors: Record<string, string[] | undefined> };
 
 /**
- * Revalidation serveur (même schéma Zod que le client) + segmentation.
- * Fonction pure : aucun accès Supabase, cookies ou réseau — testable sans mock.
+ * Validation stricte de l'étape 2 (qualification) + segmentation. Appelé au
+ * save FINAL de l'étape 2 uniquement (la reco n'existe que si l'étape 2 est
+ * remplie). Fonction pure : aucun accès Supabase, cookies ou réseau.
  */
-export function processLead(
+export function processStep2(
   funnelType: FunnelType,
   raw: unknown,
-): ProcessLeadResult {
+): ProcessStep2Result {
   switch (funnelType) {
     case "cvm_orientation": {
-      const parsed = cvmOrientationSchema.safeParse(raw);
+      const parsed = cvmOrientationQualificationSchema.safeParse(raw);
       if (!parsed.success) return invalid(parsed.error);
       return {
         ok: true,
@@ -40,7 +41,7 @@ export function processLead(
       };
     }
     case "cvm_treks": {
-      const parsed = cvmTreksSchema.safeParse(raw);
+      const parsed = cvmTreksQualificationSchema.safeParse(raw);
       if (!parsed.success) return invalid(parsed.error);
       return {
         ok: true,
@@ -49,7 +50,7 @@ export function processLead(
       };
     }
     case "cvm_explorer": {
-      const parsed = cvmExplorerSchema.safeParse(raw);
+      const parsed = cvmExplorerQualificationSchema.safeParse(raw);
       if (!parsed.success) return invalid(parsed.error);
       return {
         ok: true,
@@ -58,7 +59,7 @@ export function processLead(
       };
     }
     case "cvm_iles": {
-      const parsed = cvmIlesSchema.safeParse(raw);
+      const parsed = cvmIlesQualificationSchema.safeParse(raw);
       if (!parsed.success) return invalid(parsed.error);
       return {
         ok: true,
@@ -67,7 +68,7 @@ export function processLead(
       };
     }
     case "cvm_un_mois": {
-      const parsed = cvmUnMoisSchema.safeParse(raw);
+      const parsed = cvmUnMoisQualificationSchema.safeParse(raw);
       if (!parsed.success) return invalid(parsed.error);
       return {
         ok: true,
@@ -76,7 +77,7 @@ export function processLead(
       };
     }
     case "mlr": {
-      const parsed = mlrSchema.safeParse(raw);
+      const parsed = mlrQualificationSchema.safeParse(raw);
       if (!parsed.success) return invalid(parsed.error);
       return {
         ok: true,
@@ -87,6 +88,6 @@ export function processLead(
   }
 }
 
-function invalid(error: z.ZodError): ProcessLeadResult {
+function invalid(error: z.ZodError): ProcessStep2Result {
   return { ok: false, errors: z.flattenError(error).fieldErrors };
 }

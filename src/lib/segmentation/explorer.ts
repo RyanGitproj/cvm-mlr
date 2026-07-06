@@ -3,7 +3,7 @@ import {
   EXPLORER_LIBELLES,
   type ExplorerCompatibilite,
 } from "@/config/segmentation";
-import type { CvmExplorerLead } from "@/lib/validations/cvm-explorer";
+import type { CvmExplorerQualification } from "@/lib/validations/cvm-explorer";
 import type { Recommendation } from "./types";
 
 /**
@@ -11,7 +11,7 @@ import type { Recommendation } from "./types";
  * réorienter — jamais de validation ferme, la décision finale reste
  * humaine (pré-validation commerciale + certificat médical).
  */
-export function segmentExplorer(data: CvmExplorerLead): Recommendation {
+export function segmentExplorer(data: CvmExplorerQualification): Recommendation {
   const compatibilite = resolveCompatibilite(data);
   return {
     compatibilite,
@@ -20,7 +20,7 @@ export function segmentExplorer(data: CvmExplorerLead): Recommendation {
   };
 }
 
-function resolveCompatibilite(data: CvmExplorerLead): ExplorerCompatibilite {
+function resolveCompatibilite(data: CvmExplorerQualification): ExplorerCompatibilite {
   // Signaux de réorientation explicites des sources : marche < 10 km/j
   // (« réorientation probable »), besoin de confort régulier, refus
   // d'exposition à la faune.

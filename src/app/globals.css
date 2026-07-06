@@ -249,15 +249,13 @@ h4 {
 }
 
 /*
- * Page mère (brief §6.2) : au survol de la carte MLR, l'accent global de la
- * page bascule vers le terracotta — CSS pur via :has(), transition douce
- * portée par les transition-colors des composants.
+ * Page mère : PAS de bascule d'accent globale au survol de la carte MLR
+ * (décision Ryan). L'ancienne règle `.mere-scope:has([data-pick="mlr"]:hover)`
+ * réassignait --accent sur tout le sous-arbre → tout élément non-MLR utilisant
+ * l'accent (halo cta-pulse du bouton CVM, médaillon « aventure en confiance »,
+ * pastilles) héritait du grenat. La carte MLR garde son propre retour visuel :
+ * sa bordure passe en terracotta via data-theme="mlr" + hover:border-accent.
  */
-.mere-scope:has([data-pick="mlr"]:hover) {
-  --accent: #a83500;
-  --accent-soft: #b45327;
-  --accent-contrast: #fdf5e2;
-}
 
 /* Éléments signature MLR : bandeau à bord déchiré + tampon (brief §5.2) */
 

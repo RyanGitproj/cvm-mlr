@@ -9,11 +9,21 @@ export const cvmTreksFunnel: FunnelConfig = {
   intro: {
     titre: "Composez votre Trek Aventure",
     sousTitre:
-      "L'aventure encadrée, à l'intensité maîtrisée. Dites-nous votre niveau, vos décors et votre confort : vous recevez un itinéraire adapté, pas une offre générique.",
+      "L'aventure encadrée, à l'intensité maîtrisée. Choisissez votre formule et laissez-nous vos coordonnées : nous préparons un itinéraire adapté, pas une offre générique.",
     note: NOTE_TARIFAIRE_CVM,
   },
-  cta: "Recevoir mon itinéraire Trek Aventure",
-  steps: [
+  ctaStep1: "Enregistrer mes coordonnées",
+  offer: {
+    id: "offre",
+    question: "Votre formule",
+    hint: "Prix indicatif par personne, hors vol international & assurance.",
+  },
+  contact: {
+    id: "coordonnees",
+    question: "Vos coordonnées",
+    hint: "Réponse sous 24 h · proposition personnalisée · hors vol & assurance.",
+  },
+  qualification: [
     {
       kind: "radio",
       id: "budget",
@@ -105,26 +115,6 @@ export const cvmTreksFunnel: FunnelConfig = {
         { value: "rustique_ponctuel", label: "Rustique ponctuel accepté si l'expérience le justifie" },
         { value: "autre", label: "Autre attente — je précise", freeText: true },
       ],
-    },
-    {
-      kind: "radio",
-      id: "duree",
-      name: "duree",
-      question: "Combien de temps pour votre trek ?",
-      options: [
-        { value: "7_10", label: "7 à 10 jours" },
-        { value: "10_15", label: "10 à 15 jours" },
-        { value: "15_21", label: "15 à 21 jours" },
-        { value: "21_plus", label: "Plus de 21 jours" },
-        { value: "autre", label: "Autre durée — je précise", freeText: true },
-      ],
-    },
-    {
-      kind: "contact",
-      id: "coordonnees",
-      question: "Recevez votre itinéraire Trek Aventure",
-      hint: "Réponse sous 24 h · proposition personnalisée · hors vol & assurance.",
-      fields: ["periode", "nbVoyageurs", "commentaire"],
     },
   ],
 };

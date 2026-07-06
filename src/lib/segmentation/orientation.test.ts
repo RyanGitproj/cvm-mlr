@@ -1,14 +1,8 @@
 import { describe, expect, it } from "vitest";
-import type { CvmOrientationLead } from "@/lib/validations/cvm-orientation";
+import type { CvmOrientationQualification } from "@/lib/validations/cvm-orientation";
 import { segmentOrientation } from "./orientation";
 
-const base: CvmOrientationLead = {
-  prenom: "Riane",
-  email: "riane@example.com",
-  telephone: "0341234567",
-  periode: "Octobre 2026",
-  nbVoyageurs: 2,
-  consentement: true,
+const base: CvmOrientationQualification = {
   budget: "2200_2500",
   intention: "treks",
   delai: "2_4_mois",

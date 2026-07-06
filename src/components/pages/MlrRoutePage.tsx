@@ -37,14 +37,16 @@ export function MlrRoutePage({ content }: { content: MlrRouteContent }) {
             className={cn(
               "animate-fade-rise max-w-2xl",
               hasImage &&
-                "rounded-2xl bg-ink-strong/30 p-6 backdrop-blur-sm sm:p-8",
+                "rounded-2xl bg-ink-strong/25 p-6 backdrop-blur-sm sm:p-8",
             )}
           >
             <Stamp tone={hasImage ? "contrast" : "accent"}>{MLR_STAMP}</Stamp>
             <h1
               className={cn(
                 "mt-4 font-heading text-4xl font-bold uppercase tracking-wide sm:text-6xl",
-                hasImage ? "text-accent-contrast" : "text-ink-strong",
+                hasImage
+                  ? "text-accent-contrast text-shadow-lg text-shadow-ink-strong/80"
+                  : "text-ink-strong",
               )}
             >
               {content.titre}
@@ -52,7 +54,9 @@ export function MlrRoutePage({ content }: { content: MlrRouteContent }) {
             <p
               className={cn(
                 "mt-3 max-w-prose text-lg",
-                hasImage ? "text-accent-contrast/90" : "text-ink-soft",
+                hasImage
+                  ? "text-accent-contrast/90 text-shadow-md text-shadow-ink-strong/70"
+                  : "text-ink-soft",
               )}
             >
               {content.sousTitre}
@@ -60,7 +64,9 @@ export function MlrRoutePage({ content }: { content: MlrRouteContent }) {
             <p
               className={cn(
                 "mt-4 font-heading text-lg font-bold uppercase tracking-wide",
-                hasImage ? "text-accent-contrast" : "text-accent",
+                hasImage
+                  ? "text-accent-contrast text-shadow-sm text-shadow-ink-strong/70"
+                  : "text-accent",
               )}
             >
               {MLR_TARIFS.dixJours} · {MLR_TARIFS.quinzeJours}
@@ -87,7 +93,9 @@ export function MlrRoutePage({ content }: { content: MlrRouteContent }) {
             <p
               className={cn(
                 "mt-4 text-xs",
-                hasImage ? "text-accent-contrast/85" : "text-ink-soft",
+                hasImage
+                  ? "text-accent-contrast/85 text-shadow-sm text-shadow-ink-strong/70"
+                  : "text-ink-soft",
               )}
             >
               {MLR_TARIFS.idealPour}

@@ -1,11 +1,18 @@
 import { z } from "zod";
-import { commonLeadSchema, cvmBudgetValues, precision } from "./common";
+import { cvmBudgetValues, precision } from "./common";
 
 /**
  * Funnel CVM · Orientation (Funnel 0, mission Riane) — pour les visiteurs
- * indécis. La sortie recommande un des 4 univers (voir lib/segmentation).
+ * indécis. Aucune offre à choisir : étape 1 = contact seul ; les 8 questions
+ * d'aiguillage forment l'étape 2. La sortie recommande un des 4 univers
+ * (voir lib/segmentation).
  */
-export const cvmOrientationSchema = commonLeadSchema.extend({
+
+/** Étape 1 — aucune option d'offre (aiguillage sans produit). */
+export const cvmOrientationOfferSchema = z.object({});
+
+/** Étape 2 — questions d'aiguillage (sans contact). */
+export const cvmOrientationQualificationSchema = z.object({
   budget: z.enum(cvmBudgetValues, "Merci de choisir une enveloppe budget."),
   intention: z.enum(
     ["explorer", "treks", "iles", "un_mois", "autre"],
@@ -50,4 +57,6 @@ export const cvmOrientationSchema = commonLeadSchema.extend({
   objectifPrecision: precision(),
 });
 
-export type CvmOrientationLead = z.infer<typeof cvmOrientationSchema>;
+export type CvmOrientationQualification = z.infer<
+  typeof cvmOrientationQualificationSchema
+>;

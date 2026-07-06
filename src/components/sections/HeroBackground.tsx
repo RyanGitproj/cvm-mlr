@@ -11,12 +11,11 @@ type Props = {
 
 /**
  * Fond plein cadre d'un hero. Une fois l'asset fourni (`src`), la photo occupe
- * tout le cadre, nette et pleine résolution, SANS voile assombrissant : la
- * lisibilité du texte clair est assurée localement par un cartouche sombre
- * (voir Hero / MlrRoutePage), pas par un voile global — l'image reste ainsi
- * pleinement visible et mise en valeur. Tant que `src` est absent, un dégradé
- * placeholder clair réserve la place, porte l'alt et laisse lire le texte
- * sombre par-dessus.
+ * tout le cadre, nette et pleine résolution : la lisibilité du texte clair est
+ * assurée localement par un cartouche sombre (voir Hero / MlrRoutePage), pas par
+ * un voile global — l'image reste ainsi pleinement visible. Tant que `src` est
+ * absent, un dégradé placeholder clair réserve la place, porte l'alt et laisse
+ * lire le texte sombre par-dessus.
  */
 export function HeroBackground({ label, alt, src }: Props) {
   return src ? (

@@ -9,11 +9,21 @@ export const cvmIlesFunnel: FunnelConfig = {
   intro: {
     titre: "Composez votre Séjour Collection",
     sousTitre:
-      "Plages, lagons, détente et confort — Nosy Be, Sainte-Marie ou séjour combiné : dites-nous votre ambiance, on compose le reste.",
+      "Plages, lagons, détente et confort — Nosy Be, Sainte-Marie ou séjour combiné : choisissez votre formule, dites-nous votre ambiance, on compose le reste.",
     note: NOTE_TARIFAIRE_CVM,
   },
-  cta: "Recevoir mon Séjour Collection",
-  steps: [
+  ctaStep1: "Enregistrer mes coordonnées",
+  offer: {
+    id: "offre",
+    question: "Votre formule",
+    hint: "Prix indicatif par personne, hors vol international & assurance.",
+  },
+  contact: {
+    id: "coordonnees",
+    question: "Vos coordonnées",
+    hint: "Réponse sous 24 h · proposition personnalisée · hors vol & assurance.",
+  },
+  qualification: [
     {
       kind: "radio",
       id: "budget",
@@ -105,26 +115,6 @@ export const cvmIlesFunnel: FunnelConfig = {
         { value: "solo", label: "Seul / solo" },
         { value: "autre", label: "Autre situation — je précise", freeText: true },
       ],
-    },
-    {
-      kind: "radio",
-      id: "duree",
-      name: "duree",
-      question: "Combien de temps sur place ?",
-      options: [
-        { value: "7", label: "7 jours" },
-        { value: "10", label: "10 jours" },
-        { value: "14", label: "14 jours" },
-        { value: "14_plus", label: "Plus de 14 jours" },
-        { value: "autre", label: "Autre durée — je précise", freeText: true },
-      ],
-    },
-    {
-      kind: "contact",
-      id: "coordonnees",
-      question: "Recevez votre Séjour Collection",
-      hint: "Réponse sous 24 h · proposition personnalisée · hors vol & assurance.",
-      fields: ["periode", "nbVoyageurs", "commentaire"],
     },
   ],
 };

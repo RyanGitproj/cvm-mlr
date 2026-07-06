@@ -1,14 +1,8 @@
 import { describe, expect, it } from "vitest";
-import type { CvmExplorerLead } from "@/lib/validations/cvm-explorer";
+import type { CvmExplorerQualification } from "@/lib/validations/cvm-explorer";
 import { segmentExplorer } from "./explorer";
 
-const base: CvmExplorerLead = {
-  prenom: "Riane",
-  email: "riane@example.com",
-  telephone: "0341234567",
-  periode: "2_4_mois",
-  nbVoyageurs: 1,
-  consentement: true,
+const base: CvmExplorerQualification = {
   budget: "2500_3000",
   capaciteMarche: "15_20",
   terrainDifficile: "irregulier",
@@ -19,6 +13,7 @@ const base: CvmExplorerLead = {
   motivation: "explorer_respect",
   discipline: "respecte_consignes",
   materiel: "equipe",
+  horizon: "2_4_mois",
   acceptCertificat: true,
   acceptBriefing: true,
 };

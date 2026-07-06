@@ -71,7 +71,9 @@ export default function MlrLandingPage() {
             sousTitre="Quatre ambiances, un même format : guide local privé + taxi-brousse. Choisissez celle qui vous appelle — on s'occupe du reste."
             accent
           />
-          <div className="mt-8 grid gap-4 sm:grid-cols-2">
+          {/* 2×2 en mobile, 4 sur une ligne dès sm — aligné sur la grille des
+              univers CVM (grid-cols-2 → sm:grid-cols-4). */}
+          <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
             {MLR_LANDING.routes.map((route, index) => {
               const content = MLR_ROUTES_CONTENT[route.slug];
               return (

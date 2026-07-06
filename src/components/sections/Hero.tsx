@@ -16,6 +16,8 @@ type Props = {
   imageAlt: string;
   /** Chemin de l'asset réel (`public/images/...`) — absent tant que non fourni. */
   imageSrc?: string;
+  /** Alignement du bloc de texte. `center` réservé à la page mère. */
+  align?: "left" | "center";
 };
 
 /**
@@ -35,8 +37,10 @@ export function Hero({
   imageLabel,
   imageAlt,
   imageSrc,
+  align = "left",
 }: Props) {
   const hasImage = Boolean(imageSrc);
+  const isCenter = align === "center";
 
   return (
     <section className="relative overflow-hidden">
@@ -47,14 +51,18 @@ export function Hero({
             "animate-fade-rise max-w-2xl",
             // Cartouche sombre : porte le contraste du texte clair sans voiler
             // l'image (le reste du cadre photo reste net et pleinement visible).
-            hasImage && "rounded-2xl bg-ink-strong/30 p-6 backdrop-blur-sm sm:p-8",
+            hasImage && "rounded-2xl bg-ink-strong/25 p-6 backdrop-blur-sm sm:p-8",
+            // Page mère : bloc centré horizontalement + texte centré.
+            isCenter && "mx-auto text-center",
           )}
         >
           {surtitre && (
             <p
               className={cn(
                 "text-xs font-semibold uppercase tracking-[0.2em]",
-                hasImage ? "text-accent-contrast" : "text-accent",
+                hasImage
+                  ? "text-accent-contrast text-shadow-sm text-shadow-ink-strong/70"
+                  : "text-accent",
               )}
             >
               {surtitre}
@@ -63,7 +71,9 @@ export function Hero({
           <h1
             className={cn(
               "mt-3 text-balance font-heading text-3xl font-bold leading-tight sm:text-5xl",
-              hasImage ? "text-accent-contrast" : "text-ink-strong",
+              hasImage
+                ? "text-accent-contrast text-shadow-lg text-shadow-ink-strong/80"
+                : "text-ink-strong",
             )}
           >
             {titre}
@@ -71,12 +81,20 @@ export function Hero({
           <p
             className={cn(
               "mt-4 max-w-prose text-base sm:text-lg",
-              hasImage ? "text-accent-contrast/90" : "text-ink-soft",
+              hasImage
+                ? "text-accent-contrast/90 text-shadow-md text-shadow-ink-strong/70"
+                : "text-ink-soft",
+              isCenter && "mx-auto",
             )}
           >
             {sousTitre}
           </p>
-          <div className="mt-6 flex flex-wrap gap-3">
+          <div
+            className={cn(
+              "mt-6 flex flex-wrap gap-3",
+              isCenter && "justify-center",
+            )}
+          >
             {ctas.map((cta) => {
               const variant = cta.variant ?? "primary";
               // Le CTA principal porte le halo lumineux (directive boss
@@ -113,7 +131,9 @@ export function Hero({
             <p
               className={cn(
                 "mt-4 text-xs",
-                hasImage ? "text-accent-contrast/85" : "text-ink-soft",
+                hasImage
+                  ? "text-accent-contrast/85 text-shadow-sm text-shadow-ink-strong/70"
+                  : "text-ink-soft",
               )}
             >
               {micro.join(" · ")}

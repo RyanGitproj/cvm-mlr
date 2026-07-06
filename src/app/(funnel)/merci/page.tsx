@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { FunnelShell } from "@/components/layout/FunnelShell";
 import { ButtonLink } from "@/components/ui/Button";
 import { cvmBrand, mlrBrand, NOTE_TARIFAIRE_CVM, NOTE_TARIFAIRE_MLR } from "@/config/brands";
-import { LeadConversionTracker } from "@/components/tracking/LeadConversionTracker";
 import { getFunnelConfig } from "@/config/funnels";
 import { readMerciCookie } from "@/lib/merci-cookie";
 
@@ -47,13 +46,13 @@ export default async function MerciPage() {
       backHref={isMlr ? "/mlr" : "/cvm"}
       backLabel={isMlr ? mlrBrand.nom : cvmBrand.nom}
     >
-      <LeadConversionTracker funnelType={merci.funnelType} brand={config.brand} />
       <div className="animate-fade-rise py-8">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">
           Demande bien reçue
         </p>
         <h1 className="mt-3 font-heading text-3xl font-bold leading-tight text-ink-strong sm:text-4xl">
-          Merci {merci.prenom}, votre demande {config.label} est bien reçue.
+          Merci {merci.prenom ?? merci.nom}, votre demande {config.label} est bien
+          reçue.
         </h1>
         <p className="mt-4 text-ink-soft">
           Un conseiller étudie vos réponses et vous recontacte rapidement avec

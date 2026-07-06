@@ -3,12 +3,11 @@
 import { useFormContext } from "react-hook-form";
 import type { FunnelConfig } from "@/types/funnel";
 
-/** Résumé des réponses avant les coordonnées (MLR, étape 6/7). */
+/** Résumé des réponses de qualification avant l'envoi final (MLR, étape 2). */
 export function RecapList({ config }: { config: FunnelConfig }) {
   const { getValues } = useFormContext();
 
-  const rows = config.steps.flatMap((step) => {
-    if (step.kind !== "radio" && step.kind !== "multi") return [];
+  const rows = config.qualification.flatMap((step) => {
     const raw: unknown = getValues(step.name);
     const values = Array.isArray(raw) ? (raw as string[]) : [raw];
     const labels = step.options

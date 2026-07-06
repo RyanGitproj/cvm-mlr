@@ -1,11 +1,16 @@
 import { z } from "zod";
-import { commonLeadSchema, cvmBudgetValues, precision } from "./common";
+import { cvmBudgetValues, precision } from "./common";
 
 /**
  * Funnel CVM · Un mois à Madagascar (brief §13.4).
- * L'horizon de départ (question 4) alimente le champ commun `periode`.
+ * Formule unique (« Environ 1 mois ») : pas de choix d'offre en étape 1.
  */
-export const cvmUnMoisSchema = commonLeadSchema.extend({
+
+/** Étape 1 — aucune option d'offre (formule unique). */
+export const cvmUnMoisOfferSchema = z.object({});
+
+/** Étape 2 — qualification commerciale (sans contact ni offre). */
+export const cvmUnMoisQualificationSchema = z.object({
   budget: z.enum(cvmBudgetValues, "Merci de choisir une enveloppe budget."),
   objectifMois: z.enum(
     ["expatriation", "creation_societe", "retraite", "decouverte", "autre"],
@@ -17,12 +22,13 @@ export const cvmUnMoisSchema = commonLeadSchema.extend({
     "Merci de choisir une réponse.",
   ),
   maturitePrecision: precision(),
-  // Question 4 « Horizon de départ » : réponse guidée qui remplit le champ commun.
-  periode: z.enum(
+  // Horizon de départ (réponse guidée) — renommé pour ne pas entrer en
+  // collision avec le champ `periode` (texte libre) du contact.
+  horizon: z.enum(
     ["2_4_mois", "4_6_mois", "6_10_mois", "1_an_plus", "precise"],
     "Merci de choisir un horizon de départ.",
   ),
-  periodePrecision: precision(),
+  horizonPrecision: precision(),
   sujets: z.enum(
     [
       "cadre_de_vie",
@@ -55,4 +61,6 @@ export const cvmUnMoisSchema = commonLeadSchema.extend({
   confortPrecision: precision(),
 });
 
-export type CvmUnMoisLead = z.infer<typeof cvmUnMoisSchema>;
+export type CvmUnMoisQualification = z.infer<
+  typeof cvmUnMoisQualificationSchema
+>;

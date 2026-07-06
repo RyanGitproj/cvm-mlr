@@ -20,6 +20,7 @@ export default function PageMere() {
   return (
     <div className="mere-scope">
       <Hero
+        align="center"
         surtitre="Deux marques, une île"
         titre="Quel Madagascar voulez-vous vivre ?"
         sousTitre="Le voyage orchestré, zéro logistique — ou l'aventure roots, en toute liberté. Choisissez le vôtre : votre voyage commence maintenant."

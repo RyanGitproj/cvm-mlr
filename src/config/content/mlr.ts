@@ -441,13 +441,17 @@ export const MLR_LANDING = {
   },
   durees: [
     {
+      value: "10_jours",
       titre: "10 jours",
       prix: "dès 1 400 € / pers",
+      prixDes: 1400,
       texte: "L'essentiel de la route, au rythme roots.",
     },
     {
+      value: "15_jours",
       titre: "15 jours",
       prix: "dès 1 800 € / pers",
+      prixDes: 1800,
       texte: "Plus de temps, plus de rencontres, plus de pistes.",
     },
   ],

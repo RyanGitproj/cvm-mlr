@@ -1,8 +1,18 @@
 import { z } from "zod";
-import { commonLeadSchema, cvmBudgetValues, precision } from "./common";
+import { cvmBudgetValues, precision } from "./common";
 
 /** Funnel CVM · Treks Aventure — gabarit de référence (brief §13.1). */
-export const cvmTreksSchema = commonLeadSchema.extend({
+
+/** Étape 1 — choix de formule (10 ou 15 jours, ou conseil). */
+export const cvmTreksOfferSchema = z.object({
+  offreDuree: z.enum(
+    ["10_jours", "15_jours", "a_conseiller"],
+    "Merci de choisir une formule.",
+  ),
+});
+
+/** Étape 2 — qualification commerciale (sans contact ni offre). */
+export const cvmTreksQualificationSchema = z.object({
   budget: z.enum(cvmBudgetValues, "Merci de choisir une enveloppe budget."),
   kmParJour: z.enum(
     ["5_8", "8_12", "12_18", "18_plus", "autre"],
@@ -33,11 +43,6 @@ export const cvmTreksSchema = commonLeadSchema.extend({
     "Merci de choisir une réponse.",
   ),
   confortPrecision: precision(),
-  duree: z.enum(
-    ["7_10", "10_15", "15_21", "21_plus", "autre"],
-    "Merci de choisir une réponse.",
-  ),
-  dureePrecision: precision(),
 });
 
-export type CvmTreksLead = z.infer<typeof cvmTreksSchema>;
+export type CvmTreksQualification = z.infer<typeof cvmTreksQualificationSchema>;

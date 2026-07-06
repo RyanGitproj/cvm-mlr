@@ -1,52 +1,43 @@
 "use client";
 
 import Link from "next/link";
-import type { ContactStep } from "@/types/funnel";
+import type { ReactNode } from "react";
 import { CheckboxField } from "./CheckboxField";
 import { PhoneField } from "./PhoneField";
 import { TextAreaField, TextField } from "./TextField";
 
-/** Étape coordonnées : prénom/téléphone/email + champs configurés + RGPD. */
-export function ContactFields({ step }: { step: ContactStep }) {
+/**
+ * Coordonnées communes (composant b) — identiques pour tous les funnels.
+ * Nom obligatoire, prénom facultatif ; période en texte libre. `offerSlot`
+ * insère le choix d'offre (et la route MLR) au-dessus du nombre de
+ * participants — l'étape 1 tient sur un seul écran.
+ */
+export function ContactFields({ offerSlot }: { offerSlot?: ReactNode }) {
   return (
     <div className="grid gap-4">
-      <TextField name="prenom" label="Prénom" autoComplete="given-name" />
+      <TextField name="nom" label="Nom" autoComplete="family-name" />
+      <TextField name="prenom" label="Prénom" autoComplete="given-name" optional />
       <PhoneField name="telephone" label="Téléphone" />
       <TextField name="email" label="Email" type="email" autoComplete="email" />
-      {step.fields.includes("periode") && (
-        <TextField
-          name="periode"
-          label="Période souhaitée"
-          placeholder="Ex. octobre 2026"
-        />
-      )}
-      {step.fields.includes("nbVoyageurs") && (
-        <TextField
-          name="nbVoyageurs"
-          label="Nombre de voyageurs"
-          type="number"
-          min={1}
-          max={20}
-        />
-      )}
-      {step.fields.includes("age") && (
-        <TextField name="age" label="Âge" type="number" min={16} max={99} optional />
-      )}
-      {step.fields.includes("commentaire") && (
-        <TextAreaField
-          name="commentaire"
-          label="Commentaire libre"
-          placeholder="Dites-nous en plus sur votre projet…"
-          optional
-        />
-      )}
-      {step.acceptances?.map((acceptance) => (
-        <CheckboxField
-          key={acceptance.name}
-          name={acceptance.name}
-          label={acceptance.label}
-        />
-      ))}
+      {offerSlot}
+      <TextField
+        name="nbVoyageurs"
+        label="Nombre de participants"
+        type="number"
+        min={1}
+        max={20}
+      />
+      <TextField
+        name="periode"
+        label="Période souhaitée"
+        placeholder="Octobre 2026"
+      />
+      <TextAreaField
+        name="commentaire"
+        label="Commentaire libre"
+        placeholder="Dites-nous en plus sur votre projet…"
+        optional
+      />
       <CheckboxField
         name="consentement"
         label={

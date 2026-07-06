@@ -1,8 +1,18 @@
 import { z } from "zod";
-import { commonLeadSchema, cvmBudgetValues, precision } from "./common";
+import { cvmBudgetValues, precision } from "./common";
 
 /** Funnel CVM · Îles de Rêve (brief §13.3). */
-export const cvmIlesSchema = commonLeadSchema.extend({
+
+/** Étape 1 — choix de formule (10 ou 15 jours, ou conseil). */
+export const cvmIlesOfferSchema = z.object({
+  offreDuree: z.enum(
+    ["10_jours", "15_jours", "a_conseiller"],
+    "Merci de choisir une formule.",
+  ),
+});
+
+/** Étape 2 — qualification commerciale (sans contact ni offre). */
+export const cvmIlesQualificationSchema = z.object({
   budget: z.enum(cvmBudgetValues, "Merci de choisir une enveloppe budget."),
   destination: z.enum(
     ["nosy_be", "sainte_marie", "combine", "selon_saison", "autre"],
@@ -34,11 +44,6 @@ export const cvmIlesSchema = commonLeadSchema.extend({
     "Merci de choisir une réponse.",
   ),
   voyageursPrecision: precision(),
-  duree: z.enum(
-    ["7", "10", "14", "14_plus", "autre"],
-    "Merci de choisir une réponse.",
-  ),
-  dureePrecision: precision(),
 });
 
-export type CvmIlesLead = z.infer<typeof cvmIlesSchema>;
+export type CvmIlesQualification = z.infer<typeof cvmIlesQualificationSchema>;

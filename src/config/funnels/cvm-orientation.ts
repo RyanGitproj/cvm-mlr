@@ -3,7 +3,8 @@ import { NOTE_TARIFAIRE_CVM } from "../brands";
 
 /**
  * Funnel 0 · Orientation CVM (mission Riane) — sas d'entrée pour les
- * visiteurs indécis. La sortie recommande un des 4 univers (segmentation).
+ * visiteurs indécis. Aucune offre : étape 1 = contact seul ; les 8 questions
+ * d'aiguillage forment l'étape 2. La sortie recommande un des 4 univers.
  */
 export const cvmOrientationFunnel: FunnelConfig = {
   type: "cvm_orientation",
@@ -12,11 +13,18 @@ export const cvmOrientationFunnel: FunnelConfig = {
   intro: {
     titre: "Quelle expérience à Madagascar correspond vraiment à votre projet ?",
     sousTitre:
-      "Expédition, trek encadré, séjour de rêve ou immersion d'un mois : quelques questions suffisent — vous recevez la brochure, la vidéo et la proposition faites pour votre profil.",
+      "Expédition, trek encadré, séjour de rêve ou immersion d'un mois : laissez-nous vos coordonnées, puis quelques questions suffisent — vous recevez la brochure, la vidéo et la proposition faites pour votre profil.",
     note: NOTE_TARIFAIRE_CVM,
   },
-  cta: "Recevoir ma recommandation",
-  steps: [
+  ctaStep1: "Enregistrer mes coordonnées",
+  contact: {
+    id: "coordonnees",
+    question: "Vos coordonnées",
+    hint: "Réponse sous 24 h · recommandation personnalisée · hors vol & assurance.",
+    message:
+      "Vous recevrez la brochure, la vidéo et la proposition correspondant à votre profil. Le billet d'avion et l'assurance voyage restent à prévoir séparément.",
+  },
+  qualification: [
     {
       kind: "radio",
       id: "budget",
@@ -121,15 +129,6 @@ export const cvmOrientationFunnel: FunnelConfig = {
         { value: "projet_de_vie", label: "Comprendre Madagascar avant un projet de vie ou d'activité" },
         { value: "autre", label: "Autre objectif — je précise", freeText: true },
       ],
-    },
-    {
-      kind: "contact",
-      id: "coordonnees",
-      question: "Recevez votre recommandation",
-      hint: "Réponse sous 24 h · recommandation personnalisée · hors vol & assurance.",
-      message:
-        "Vous recevrez la brochure, la vidéo et la proposition correspondant à votre profil. Le billet d'avion et l'assurance voyage restent à prévoir séparément.",
-      fields: ["periode", "nbVoyageurs", "commentaire"],
     },
   ],
 };

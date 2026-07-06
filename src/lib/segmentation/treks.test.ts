@@ -1,14 +1,8 @@
 import { describe, expect, it } from "vitest";
-import type { CvmTreksLead } from "@/lib/validations/cvm-treks";
+import type { CvmTreksQualification } from "@/lib/validations/cvm-treks";
 import { segmentTreks } from "./treks";
 
-const base: CvmTreksLead = {
-  prenom: "Riane",
-  email: "riane@example.com",
-  telephone: "0341234567",
-  periode: "Octobre 2026",
-  nbVoyageurs: 2,
-  consentement: true,
+const base: CvmTreksQualification = {
   budget: "2200_2500",
   kmParJour: "8_12",
   denivele: "modere",
@@ -16,7 +10,6 @@ const base: CvmTreksLead = {
   passagesRocheux: "aucun",
   decor: "sud",
   confort: "mixte",
-  duree: "10_15",
 };
 
 describe("segmentTreks", () => {

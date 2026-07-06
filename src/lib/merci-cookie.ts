@@ -9,7 +9,10 @@ const MAX_AGE_SECONDS = 30 * 60;
  * personnaliser la page merci — jamais de données sensibles.
  */
 export type MerciData = {
-  prenom: string;
+  /** Nom (obligatoire depuis la refonte contact). */
+  nom: string;
+  /** Prénom facultatif — salutation préférée s'il est présent. */
+  prenom?: string;
   funnelType: FunnelType;
   /** Libellé de recommandation affichable (segmentation), si le funnel en produit une. */
   recommandation?: string;
@@ -38,7 +41,7 @@ export async function readMerciCookie(): Promise<MerciData | null> {
     const funnelValide = (FUNNEL_TYPES as readonly string[]).includes(
       typeof candidate.funnelType === "string" ? candidate.funnelType : "",
     );
-    if (typeof candidate.prenom !== "string" || !funnelValide) return null;
+    if (typeof candidate.nom !== "string" || !funnelValide) return null;
     return parsed as MerciData;
   } catch {
     return null;

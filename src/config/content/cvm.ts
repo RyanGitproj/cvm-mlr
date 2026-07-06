@@ -13,7 +13,16 @@ export type CvmUniversSlug = "explorer" | "treks" | "iles" | "un-mois";
  * unique sans durée). Prix indicatif par personne, hors vol & assurance.
  * Source : grille tarifaire CVM fournie par Ryan (2026-07).
  */
-export type CvmFormule = { duree?: string; prixEuros: number };
+export type CvmFormule = {
+  /**
+   * Clé stable de la formule — partagée entre l'UI (OfferCards), l'enum Zod
+   * (`offreDuree`) et la colonne `offre_ref`. Absente = formule unique non
+   * choisie (Grand Tour).
+   */
+  value?: string;
+  duree?: string;
+  prixEuros: number;
+};
 
 export type CvmUniversContent = {
   slug: CvmUniversSlug;
@@ -94,8 +103,8 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
       ],
     },
     formules: [
-      { duree: "10 jours", prixEuros: 2200 },
-      { duree: "15 jours", prixEuros: 2500 },
+      { value: "10_jours", duree: "10 jours", prixEuros: 2200 },
+      { value: "15_jours", duree: "15 jours", prixEuros: 2500 },
     ],
     heroSrc: "/images/cvm/treks/hero-randonneurs-massif.jpg",
     // Libellés alignés sur les photos réelles fournies (décision Ryan
@@ -148,8 +157,8 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
       note: "Jamais de devis ferme à ce stade : votre demande est une pré-validation, suivie d'un échange humain.",
     },
     formules: [
-      { duree: "12 jours", prixEuros: 2800 },
-      { duree: "15 jours", prixEuros: 3000 },
+      { value: "12_jours", duree: "12 jours", prixEuros: 2800 },
+      { value: "15_jours", duree: "15 jours", prixEuros: 3000 },
     ],
     heroSrc: "/images/cvm/explorer/hero-sommet-euphorique.jpg",
     // Libellés alignés sur les photos réelles fournies (décision Ryan 2026-07-06).
@@ -198,8 +207,8 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
       ],
     },
     formules: [
-      { duree: "10 jours", prixEuros: 2200 },
-      { duree: "15 jours", prixEuros: 2500 },
+      { value: "10_jours", duree: "10 jours", prixEuros: 2200 },
+      { value: "15_jours", duree: "15 jours", prixEuros: 2500 },
     ],
     galerie: [
       { label: "Lagon de Nosy Be", alt: "Lagon turquoise de Nosy Be" },
@@ -250,7 +259,7 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
     },
     formules: [
       // Grand Tour Madagascar : formule unique, environ 1 mois (capture + brochure).
-      { duree: "Environ 1 mois", prixEuros: 5300 },
+      { value: "un_mois", duree: "Environ 1 mois", prixEuros: 5300 },
     ],
     heroSrc: "/images/cvm/un-mois/hero-village-rencontre.jpg",
     // Libellés alignés sur les photos réelles fournies (décision Ryan 2026-07-06).

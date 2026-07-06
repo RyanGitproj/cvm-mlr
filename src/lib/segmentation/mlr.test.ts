@@ -1,16 +1,8 @@
 import { describe, expect, it } from "vitest";
-import type { MlrLead } from "@/lib/validations/mlr";
+import type { MlrQualification } from "@/lib/validations/mlr";
 import { segmentMlr } from "./mlr";
 
-const base: MlrLead = {
-  prenom: "Riane",
-  email: "riane@example.com",
-  telephone: "0341234567",
-  periode: "Octobre 2026",
-  nbVoyageurs: 2,
-  consentement: true,
-  duree: "10_jours",
-  route: "sud",
+const base: MlrQualification = {
   pretRoots: "oui_local_simple",
   securite: "respecte_consignes",
   budgetJour: "50_75",

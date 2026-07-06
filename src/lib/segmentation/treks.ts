@@ -5,7 +5,7 @@ import {
   TREKS_NIVEAU_PAR_KM,
   type TreksNiveau,
 } from "@/config/segmentation";
-import type { CvmTreksLead } from "@/lib/validations/cvm-treks";
+import type { CvmTreksQualification } from "@/lib/validations/cvm-treks";
 import type { Recommendation } from "./types";
 
 /**
@@ -13,7 +13,7 @@ import type { Recommendation } from "./types";
  * ajustée d'un cran par le dénivelé. Toute réponse « autre » ou
  * « à orienter » renvoie vers un conseiller plutôt que de deviner.
  */
-export function segmentTreks(data: CvmTreksLead): Recommendation {
+export function segmentTreks(data: CvmTreksQualification): Recommendation {
   const niveau = resolveNiveau(data);
   return {
     niveau,
@@ -22,7 +22,7 @@ export function segmentTreks(data: CvmTreksLead): Recommendation {
   };
 }
 
-function resolveNiveau(data: CvmTreksLead): TreksNiveau {
+function resolveNiveau(data: CvmTreksQualification): TreksNiveau {
   const base = TREKS_NIVEAU_PAR_KM[data.kmParJour];
   if (
     base === undefined ||

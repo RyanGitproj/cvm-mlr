@@ -1,12 +1,22 @@
 import { z } from "zod";
-import { commonLeadSchema, cvmBudgetValues, precision } from "./common";
+import { cvmBudgetValues, precision } from "./common";
 
 /**
  * Funnel CVM · Expédition Explorer (brief §13.2) — questionnaire long,
- * très qualifiant. La période (question 11) alimente le champ commun
- * `periode` ; l'âge est optionnel (« si utile commercialement »).
+ * très qualifiant. L'âge et les acceptations (certificat / briefing) sont
+ * collectés en étape 2 (qualification), pas au contact minimal de l'étape 1.
  */
-export const cvmExplorerSchema = commonLeadSchema.extend({
+
+/** Étape 1 — choix de formule (12 ou 15 jours, ou conseil). */
+export const cvmExplorerOfferSchema = z.object({
+  offreDuree: z.enum(
+    ["12_jours", "15_jours", "a_conseiller"],
+    "Merci de choisir une formule.",
+  ),
+});
+
+/** Étape 2 — qualification commerciale (sans contact ni offre). */
+export const cvmExplorerQualificationSchema = z.object({
   budget: z.enum(cvmBudgetValues, "Merci de choisir une enveloppe budget."),
   capaciteMarche: z.enum(
     ["moins_10", "10_15", "15_20", "20_25", "autre"],
@@ -78,12 +88,13 @@ export const cvmExplorerSchema = commonLeadSchema.extend({
     "Merci de choisir une réponse.",
   ),
   materielPrecision: precision(),
-  // Question 11 « Période » : réponse guidée qui remplit le champ commun.
-  periode: z.enum(
+  // Horizon de départ (réponse guidée) — renommé pour ne pas entrer en
+  // collision avec le champ `periode` (texte libre) du contact.
+  horizon: z.enum(
     ["2_4_mois", "4_6_mois", "6_10_mois", "1_an_plus", "precise"],
     "Merci de choisir une période.",
   ),
-  periodePrecision: precision(),
+  horizonPrecision: precision(),
   age: z.preprocess(
     (value) => (value === "" || value === null ? undefined : value),
     z.coerce
@@ -101,4 +112,6 @@ export const cvmExplorerSchema = commonLeadSchema.extend({
   }),
 });
 
-export type CvmExplorerLead = z.infer<typeof cvmExplorerSchema>;
+export type CvmExplorerQualification = z.infer<
+  typeof cvmExplorerQualificationSchema
+>;

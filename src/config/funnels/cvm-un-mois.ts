@@ -3,6 +3,7 @@ import type { FunnelConfig } from "@/types/funnel";
 /**
  * Questionnaire CVM · Grand Tour Madagascar (structure : brief §13.4 ;
  * cadrage « immersion culturelle / découverte complète » : brochure 2026-07).
+ * Formule unique (pas de choix d'offre) — affichée en tête de l'écran contact.
  * Prudence obligatoire : admin/fiscal/juridique = orientation, pas conseil.
  */
 export const cvmUnMoisFunnel: FunnelConfig = {
@@ -12,11 +13,16 @@ export const cvmUnMoisFunnel: FunnelConfig = {
   intro: {
     titre: "Préparez votre Grand Tour de Madagascar",
     sousTitre:
-      "Un mois pour comprendre l'île en profondeur. Dites-nous votre rythme et vos priorités — vous recevez un pré-programme adapté, pas une offre générique.",
+      "Un mois pour comprendre l'île en profondeur. Laissez-nous vos coordonnées, puis précisez votre rythme et vos priorités — vous recevez un pré-programme adapté, pas une offre générique.",
     note: "Les sujets administratifs, fiscaux, juridiques, résidence ou société doivent être confirmés auprès de professionnels compétents. Le programme peut orienter, mais ne remplace pas un conseil spécialisé.",
   },
-  cta: "Recevoir le programme Grand Tour Madagascar",
-  steps: [
+  ctaStep1: "Enregistrer mes coordonnées",
+  contact: {
+    id: "coordonnees",
+    question: "Vos coordonnées",
+    hint: "Réponse sous 24 h · pré-programme personnalisé · hors vol & assurance.",
+  },
+  qualification: [
     {
       kind: "radio",
       id: "budget",
@@ -37,7 +43,6 @@ export const cvmUnMoisFunnel: FunnelConfig = {
       name: "objectifMois",
       question: "Quel est l'objectif de ce mois ?",
       options: [
-        // Découverte en tête : c'est le positionnement Grand Tour (brochure).
         { value: "decouverte", label: "Découverte approfondie du pays et immersion culturelle" },
         { value: "expatriation", label: "Projet d'expatriation ou changement de vie" },
         { value: "creation_societe", label: "Création de société, investissement ou activité professionnelle" },
@@ -61,7 +66,7 @@ export const cvmUnMoisFunnel: FunnelConfig = {
     {
       kind: "radio",
       id: "horizon",
-      name: "periode",
+      name: "horizon",
       question: "Quel horizon de départ ?",
       options: [
         { value: "2_4_mois", label: "Dans 2 à 4 mois" },
@@ -89,7 +94,6 @@ export const cvmUnMoisFunnel: FunnelConfig = {
       id: "regions",
       name: "regions",
       question: "Quelles régions découvrir ?",
-      // Descriptifs alignés sur « Nos grandes régions » (brochure p.2).
       options: [
         { value: "tana_hautes_terres", label: "Hautes Terres & Antananarivo : culture, artisanat, villages accueillants" },
         { value: "nord", label: "Le Nord : Nosy Be, plages de rêve, îles idylliques" },
@@ -136,13 +140,6 @@ export const cvmUnMoisFunnel: FunnelConfig = {
         { value: "premium", label: "Premium avec accompagnement renforcé" },
         { value: "autre", label: "Autre attente — je précise", freeText: true },
       ],
-    },
-    {
-      kind: "contact",
-      id: "coordonnees",
-      question: "Recevez le programme Grand Tour Madagascar",
-      hint: "Réponse sous 24 h · pré-programme personnalisé · hors vol & assurance.",
-      fields: ["nbVoyageurs", "commentaire"],
     },
   ],
 };

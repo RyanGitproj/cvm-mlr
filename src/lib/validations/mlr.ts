@@ -1,14 +1,16 @@
 import { z } from "zod";
-import { commonLeadSchema, precision } from "./common";
+import { precision } from "./common";
 
 /**
- * Funnel MLR — parcours unique en 7 étapes (brief §13.5).
- * La route (Nord/Sud/Est/Ouest) est l'étape 2, une réponse du formulaire —
- * jamais un sous-funnel. Pas de question transport ni hébergement :
- * confirmé par les brochures (taxi-brousse inclus, hôtels non inclus).
+ * Funnel MLR — parcours unique (brief §13.5).
+ * La durée (10/15 jours) et la route (Nord/Sud/Est/Ouest) sont des choix
+ * d'étape 1 (offre + pré-contact) ; la route pré-remplie depuis /mlr/{route}.
+ * Pas de question transport ni hébergement (taxi-brousse inclus, hôtels non).
  */
-export const mlrSchema = commonLeadSchema.extend({
-  duree: z.enum(
+
+/** Étape 1 — durée (offre) + route (pré-contact, pré-remplie par la page route). */
+export const mlrOfferSchema = z.object({
+  offreDuree: z.enum(
     ["10_jours", "15_jours", "a_conseiller"],
     "Merci de choisir une durée.",
   ),
@@ -16,6 +18,10 @@ export const mlrSchema = commonLeadSchema.extend({
     ["nord", "sud", "est", "ouest", "a_orienter"],
     "Merci de choisir une route.",
   ),
+});
+
+/** Étape 2 — qualification commerciale (sans contact ni offre). */
+export const mlrQualificationSchema = z.object({
   pretRoots: z.enum(
     [
       "oui_local_simple",
@@ -43,4 +49,4 @@ export const mlrSchema = commonLeadSchema.extend({
   ),
 });
 
-export type MlrLead = z.infer<typeof mlrSchema>;
+export type MlrQualification = z.infer<typeof mlrQualificationSchema>;

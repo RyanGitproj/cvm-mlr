@@ -3,7 +3,8 @@ import type { FunnelConfig } from "@/types/funnel";
 /**
  * Questionnaire CVM · Expédition Explorer (brief §13.2) — très qualifiant.
  * Règles de texte : jamais de devis ferme, santé = pré-qualification
- * (pas d'avis médical), ne pas glorifier le danger.
+ * (pas d'avis médical), ne pas glorifier le danger. Âge + acceptations
+ * (certificat / briefing) sont collectés en étape 2 (écran conditions).
  */
 export const cvmExplorerFunnel: FunnelConfig = {
   type: "cvm_explorer",
@@ -12,11 +13,22 @@ export const cvmExplorerFunnel: FunnelConfig = {
   intro: {
     titre: "Expédition insolite & Missions humanitaires",
     sousTitre:
-      "Cette expédition n'est pas adaptée à tout le monde. Répondez franchement : ce questionnaire vérifie que l'expédition est faite pour vous.",
+      "Cette expédition n'est pas adaptée à tout le monde. Choisissez votre formule et laissez-nous vos coordonnées : le questionnaire vérifiera ensuite que l'expédition est faite pour vous.",
     note: "Participation soumise à validation physique, médicale et logistique. Certificat médical obligatoire. Prix hors billet d'avion et assurance.",
   },
-  cta: "Envoyer ma demande de pré-validation",
-  steps: [
+  ctaStep1: "Enregistrer mes coordonnées",
+  offer: {
+    id: "offre",
+    question: "Votre formule",
+    hint: "Prix indicatif par personne, hors vol international & assurance.",
+  },
+  contact: {
+    id: "coordonnees",
+    question: "Vos coordonnées",
+    message:
+      "Cette demande ne confirme pas la participation. Elle permet de vérifier le profil, la condition physique, la motivation et les conditions nécessaires à une expédition sécurisée.",
+  },
+  qualification: [
     {
       kind: "radio",
       id: "budget",
@@ -157,8 +169,8 @@ export const cvmExplorerFunnel: FunnelConfig = {
     },
     {
       kind: "radio",
-      id: "periode",
-      name: "periode",
+      id: "horizon",
+      name: "horizon",
       question: "Quand souhaitez-vous partir ?",
       options: [
         { value: "2_4_mois", label: "Dans 2 à 4 mois" },
@@ -168,23 +180,21 @@ export const cvmExplorerFunnel: FunnelConfig = {
         { value: "precise", label: "Période précise — je l'indique", freeText: true },
       ],
     },
-    {
-      kind: "contact",
-      id: "coordonnees",
-      question: "Demande de pré-validation Explorer",
-      message:
-        "Cette demande ne confirme pas la participation. Elle permet de vérifier le profil, la condition physique, la motivation et les conditions nécessaires à une expédition sécurisée.",
-      fields: ["age", "nbVoyageurs", "commentaire"],
-      acceptances: [
-        {
-          name: "acceptCertificat",
-          label: "J'accepte le principe du certificat médical obligatoire.",
-        },
-        {
-          name: "acceptBriefing",
-          label: "J'accepte le briefing sécurité avant l'engagement.",
-        },
-      ],
-    },
   ],
+  conditions: {
+    id: "conditions",
+    question: "Conditions de participation",
+    hint: "L'âge nous aide à préparer votre pré-validation ; les acceptations encadrent l'expédition.",
+    includeAge: true,
+    acceptances: [
+      {
+        name: "acceptCertificat",
+        label: "J'accepte le principe du certificat médical obligatoire.",
+      },
+      {
+        name: "acceptBriefing",
+        label: "J'accepte le briefing sécurité avant l'engagement.",
+      },
+    ],
+  },
 };
