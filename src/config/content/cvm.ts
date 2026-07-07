@@ -11,10 +11,10 @@ export type CvmUniversSlug = "explorer" | "treks" | "iles" | "un-mois";
 /**
  * Formule tarifaire d'une offre — durée optionnelle (Grand Tour = formule
  * unique sans durée). Prix indicatif par personne, hors vol & assurance.
- * Source : grille tarifaire CVM fournie par Ryan (2026-07). Les textes de
- * carte (phrase d'appui, pilule) sont propres à chaque aventure — créa
- * validée par Ryan le 2026-07-07, ancrée dans la brochure
- * `Celebrations_Voyages_Madagascar.pdf` (p.5 « Nos 4 univers »).
+ * Source : grille tarifaire CVM fournie par Ryan (2026-07). La phrase
+ * d'appui est propre à chaque aventure — créa validée par Ryan le
+ * 2026-07-07, ancrée dans la brochure `Celebrations_Voyages_Madagascar.pdf`
+ * (p.5 « Nos 4 univers »).
  */
 export type CvmFormule = {
   /**
@@ -27,8 +27,6 @@ export type CvmFormule = {
   prixEuros: number;
   /** Phrase d'appui de la carte d'offre (maquette 3). */
   texte?: string;
-  /** Pilule décorative de la carte (« Je choisis 10 jours »). */
-  cta?: string;
   /** Volet photo de la carte — photo d'ambiance réutilisée ou placeholder. */
   image?: { label: string; alt: string; src?: string };
 };
@@ -36,8 +34,12 @@ export type CvmFormule = {
 export type CvmUniversContent = {
   slug: CvmUniversSlug;
   funnelType: FunnelType;
-  /** Surcharge d'accent du thème CVM (ember = Expédition, lagon = Séjour Collection). */
-  accent?: "ember" | "lagon";
+  /**
+   * Couleur dominante de l'aventure (directive boss 2026-07-07) : rouge =
+   * Expédition, vert = Trek, lagon = Îles (référence, inchangée), orange =
+   * Grand Tour. Appliquée à la page, à son wizard et à sa card landing.
+   */
+  accent?: "rouge" | "vert" | "lagon" | "orange";
   surtitre: string;
   titre: string;
   sousTitre: string;
@@ -87,6 +89,7 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
   treks: {
     slug: "treks",
     funnelType: "cvm_treks",
+    accent: "vert",
     surtitre: "Trek Aventure",
     titre: "L'aventure encadrée, à votre niveau",
     sousTitre:
@@ -139,7 +142,6 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
         prixEuros: 2200,
         texte:
           "Cascades, forêts et villages : l'aventure accessible, idéale pour une première immersion.",
-        cta: "Je choisis 10 jours",
         // Photo d'ambiance reprise de la galerie (remplaçable par le studio).
         image: {
           label: "Crêtes au couchant",
@@ -153,7 +155,6 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
         prixEuros: 2500,
         texte:
           "Plus de paysages, plus de rencontres : le trek qui prend le temps d'aller plus loin.",
-        cta: "Je choisis 15 jours",
         image: {
           label: "Canyons du Makay",
           alt: "Marcheurs dans un canyon du massif du Makay",
@@ -176,7 +177,7 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
   explorer: {
     slug: "explorer",
     funnelType: "cvm_explorer",
-    accent: "ember",
+    accent: "rouge",
     surtitre: "Expédition insolite & Missions humanitaires",
     titre: "Madagascar profond, là où les circuits classiques ne vont pas",
     sousTitre:
@@ -230,7 +231,6 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
         prixEuros: 2800,
         texte:
           "L'expédition pure : hors sentiers, bivouac permanent, immersion profonde.",
-        cta: "Je choisis 12 jours",
         image: {
           label: "Bivouac au feu de camp",
           alt: "Bivouac d'expédition autour d'un feu de camp",
@@ -243,7 +243,6 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
         prixEuros: 3000,
         texte:
           "Trois jours plus loin dans l'isolement : l'expédition dans toute son intensité.",
-        cta: "Je choisis 15 jours",
         image: {
           label: "Traversée aride",
           alt: "Marcheurs dans un canyon aride du Sud malgache",
@@ -316,7 +315,6 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
         prixEuros: 2200,
         texte:
           "Eaux cristallines, sable blanc, sérénité absolue : l'essentiel du rêve.",
-        cta: "Je choisis 10 jours",
         // Aucune photo îles en stock : placeholder (visuel studio attendu).
         image: { label: "Lagon de Nosy Be", alt: "Lagon turquoise de Nosy Be" },
       },
@@ -326,7 +324,6 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
         prixEuros: 2500,
         texte:
           "Deux semaines de douceur : les îles, le lagon et le temps de tout savourer.",
-        cta: "Je choisis 15 jours",
         image: {
           label: "Plage de Sainte-Marie",
           alt: "Plage bordée de cocotiers à Sainte-Marie",
@@ -345,6 +342,7 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
   "un-mois": {
     slug: "un-mois",
     funnelType: "cvm_un_mois",
+    accent: "orange",
     surtitre: "Grand Tour Madagascar",
     // Positionnement brochure 2026-07 (p.4-5) : immersion culturelle,
     // paysages variés, découverte complète — culture et repos.
@@ -400,7 +398,6 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
         prixEuros: 5300,
         texte:
           "Un mois pour relier les mondes de l'île : culture, paysages et repos.",
-        cta: "Je choisis le Grand Tour",
         image: {
           label: "Tsingy de l'Ouest",
           alt: "Randonneurs au cœur des formations minérales des Tsingy",

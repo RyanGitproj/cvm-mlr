@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { departFenetreSchema, nbVoyageursSchema, precision } from "./common";
+import { departFenetreSchema, nbVoyageursPrecisionSchema, nbVoyageursSchema, precision } from "./common";
 
 /**
  * Funnel CVM · Grand Tour Madagascar — gabarit maquette 2026-07-07 :
@@ -19,6 +19,7 @@ export const cvmUnMoisQualificationSchema = z.object({
   objectifMoisPrecision: precision(),
   departFenetre: departFenetreSchema,
   nbVoyageurs: nbVoyageursSchema,
+  nbVoyageursPrecision: nbVoyageursPrecisionSchema,
 });
 
 export type CvmUnMoisQualification = z.infer<

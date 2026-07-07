@@ -27,9 +27,9 @@ export type LeadInfoRow = {
   periode: string | null;
   commentaire: string | null;
   consentement: boolean;
-  // Opt-ins wizard MLR (null = non demandé, leads CVM ; false = refusé)
-  optin_documents: boolean | null;
-  optin_conseils: boolean | null;
+  // Newsletter facultative (les 2 marques) — null = non demandé (anciens
+  // leads) ; false = décochée. RGPD simplifié, décision Ryan 2026-07-07.
+  optin_newsletter: boolean | null;
   // Offre
   offre_ref: string | null;
   offre_label: string | null;

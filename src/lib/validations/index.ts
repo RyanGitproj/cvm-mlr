@@ -1,5 +1,6 @@
 import { z } from "zod";
 import type { FunnelType } from "@/types/lead";
+import { exigeEffectifGroupe } from "./common";
 import { contactCoreSchema, mlrContactSchema } from "./contact";
 import {
   cvmExplorerOfferSchema,
@@ -21,31 +22,40 @@ import { mlrWizardSchema } from "./mlr";
  * Schéma complet du parcours wizard — resolver react-hook-form côté client
  * ET validation serveur (submitLead). La validation par écran se fait via
  * `form.trigger([...])` ; l'enregistrement n'a lieu qu'au submit final.
+ * La règle transverse « Plus de 4 » ⇒ effectif approximatif requis est
+ * posée ici, une seule fois pour les 6 funnels.
  */
 export function getFormSchema(funnelType: FunnelType) {
   switch (funnelType) {
     case "cvm_orientation":
       return contactCoreSchema
         .extend(cvmOrientationOfferSchema.shape)
-        .extend(cvmOrientationQualificationSchema.shape);
+        .extend(cvmOrientationQualificationSchema.shape)
+        .superRefine(exigeEffectifGroupe);
     case "cvm_explorer":
       return contactCoreSchema
         .extend(cvmExplorerOfferSchema.shape)
-        .extend(cvmExplorerQualificationSchema.shape);
+        .extend(cvmExplorerQualificationSchema.shape)
+        .superRefine(exigeEffectifGroupe);
     case "cvm_treks":
       return contactCoreSchema
         .extend(cvmTreksOfferSchema.shape)
-        .extend(cvmTreksQualificationSchema.shape);
+        .extend(cvmTreksQualificationSchema.shape)
+        .superRefine(exigeEffectifGroupe);
     case "cvm_iles":
       return contactCoreSchema
         .extend(cvmIlesOfferSchema.shape)
-        .extend(cvmIlesQualificationSchema.shape);
+        .extend(cvmIlesQualificationSchema.shape)
+        .superRefine(exigeEffectifGroupe);
     case "cvm_un_mois":
       return contactCoreSchema
         .extend(cvmUnMoisOfferSchema.shape)
-        .extend(cvmUnMoisQualificationSchema.shape);
+        .extend(cvmUnMoisQualificationSchema.shape)
+        .superRefine(exigeEffectifGroupe);
     case "mlr":
-      return mlrContactSchema.extend(mlrWizardSchema.shape);
+      return mlrContactSchema
+        .extend(mlrWizardSchema.shape)
+        .superRefine(exigeEffectifGroupe);
   }
 }
 

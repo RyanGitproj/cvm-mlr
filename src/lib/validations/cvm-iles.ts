@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { departFenetreSchema, nbVoyageursSchema, precision } from "./common";
+import { departFenetreSchema, nbVoyageursPrecisionSchema, nbVoyageursSchema, precision } from "./common";
 
 /**
  * Funnel CVM · Séjour Collection — gabarit maquette 2026-07-07 :
@@ -12,12 +12,14 @@ export const cvmIlesOfferSchema = z.object({
 
 export const cvmIlesQualificationSchema = z.object({
   destination: z.enum(
-    ["nosy_be", "sainte_marie", "combine", "selon_saison", "autre"],
+    // « selon_saison » retirée le 2026-07-07 (demande Ryan).
+    ["nosy_be", "sainte_marie", "combine", "autre"],
     "Merci de choisir une réponse.",
   ),
   destinationPrecision: precision(),
   departFenetre: departFenetreSchema,
   nbVoyageurs: nbVoyageursSchema,
+  nbVoyageursPrecision: nbVoyageursPrecisionSchema,
 });
 
 export type CvmIlesQualification = z.infer<typeof cvmIlesQualificationSchema>;

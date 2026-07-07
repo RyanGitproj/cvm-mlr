@@ -14,6 +14,7 @@ import type { Recommendation } from "@/lib/segmentation/types";
 import { pushDataLayerEventOnce } from "@/lib/tracking/gtm";
 import { readUtm } from "@/lib/utm";
 import { getFormSchema } from "@/lib/validations";
+import { MESSAGE_EFFECTIF_GROUPE } from "@/lib/validations/common";
 import type { WizardStep } from "@/types/funnel";
 import type { FunnelType } from "@/types/lead";
 import { CheckboxField } from "./CheckboxField";
@@ -29,6 +30,8 @@ type Props = {
   funnelType: FunnelType;
   /** Pré-remplissage (ex. route MLR depuis /mlr/nord) — l'écran est sauté. */
   defaultValues?: Record<string, string>;
+  /** h1 sur page dédiée (défaut), h2 quand le wizard est intégré sous un Hero. */
+  headingLevel?: "h1" | "h2";
 };
 
 /**
@@ -51,7 +54,11 @@ type Screen =
  * écran final conditionnel rendu depuis la recommendation retournée par
  * l'action. Un seul useForm/FormProvider pour tout le parcours.
  */
-export function LeadFunnel({ funnelType, defaultValues }: Props) {
+export function LeadFunnel({
+  funnelType,
+  defaultValues,
+  headingLevel: Heading = "h1",
+}: Props) {
   const config = getFunnelConfig(funnelType);
   const topRef = useRef<HTMLDivElement>(null);
 
@@ -135,6 +142,31 @@ export function LeadFunnel({ funnelType, defaultValues }: Props) {
     }
   }
 
+  /**
+   * Garde locale de l'écran : « Plus de 4 » exige l'effectif approximatif.
+   * La même règle vit dans le schéma complet (exigeEffectifGroupe) pour le
+   * submit final et le serveur — mais un refinement d'objet ne tourne que
+   * si le parse de base réussit, ce qui n'est jamais le cas en cours de
+   * parcours (les champs contact sont encore vides).
+   */
+  function precisionNumberFilled(screen: Screen): boolean {
+    if (screen.kind !== "step" || screen.step.kind !== "radio") return true;
+    const step = screen.step;
+    const selected: unknown = form.getValues(step.name);
+    const option = step.options.find((o) => o.value === selected);
+    if (!option?.precisionInput) return true;
+    const raw: unknown = form.getValues(`${step.name}Precision`);
+    if (raw !== undefined && raw !== null && String(raw).trim() !== "") {
+      return true;
+    }
+    form.setError(`${step.name}Precision`, {
+      type: "custom",
+      message: MESSAGE_EFFECTIF_GROUPE,
+    });
+    form.setFocus(`${step.name}Precision`);
+    return false;
+  }
+
   /** Avance d'un écran de décision — bouton « Continuer » ou auto-avance. */
   async function advanceFrom(screen: Screen) {
     if (inFlight.current || withinGuard()) return;
@@ -144,6 +176,7 @@ export function LeadFunnel({ funnelType, defaultValues }: Props) {
         shouldFocus: true,
       });
       if (!valid) return;
+      if (!precisionNumberFilled(screen)) return;
       lastNavAt.current = Date.now();
       setScreenIndex((index) => index + 1);
     } finally {
@@ -208,6 +241,18 @@ export function LeadFunnel({ funnelType, defaultValues }: Props) {
         >
           {currentScreen.kind === "step" && (
             <>
+              {screenIndex === 0 && (
+                // Intro visible sur le seul écran d'entrée : dès la première
+                // réponse, l'écran de décision se suffit (compacité 07-07).
+                <header className="mb-4">
+                  <Heading className="font-heading text-2xl font-bold leading-tight text-ink-strong">
+                    {config.intro.titre}
+                  </Heading>
+                  <p className="mt-1.5 text-sm text-ink-soft">
+                    {config.intro.sousTitre}
+                  </p>
+                </header>
+              )}
               <StepIndicator
                 current={screenIndex + 1}
                 total={visibleSteps.length}
@@ -215,22 +260,22 @@ export function LeadFunnel({ funnelType, defaultValues }: Props) {
               />
               <section
                 key={currentKey}
-                className="animate-step mt-6"
+                className="animate-step mt-4"
                 aria-labelledby={headingId}
               >
                 <h2
                   id={headingId}
                   tabIndex={-1}
-                  className="font-heading text-2xl font-semibold text-ink-strong outline-none sm:text-3xl"
+                  className="font-heading text-xl font-semibold text-ink-strong outline-none sm:text-2xl"
                 >
                   {currentScreen.step.question}
                 </h2>
                 {currentScreen.step.hint && (
-                  <p className="mt-2 text-sm text-ink-soft">
+                  <p className="mt-1.5 text-sm text-ink-soft">
                     {currentScreen.step.hint}
                   </p>
                 )}
-                <div className="mt-5">
+                <div className="mt-3">
                   {currentScreen.step.kind === "radio" && (
                     <RadioCards
                       name={currentScreen.step.name}
@@ -265,10 +310,10 @@ export function LeadFunnel({ funnelType, defaultValues }: Props) {
                         }}
                       />
                       {currentScreen.step.reorientation && (
-                        <div className="mt-4 grid grid-cols-[minmax(0,4fr)_minmax(0,5fr)] overflow-hidden rounded-3xl border-2 border-line bg-surface-2">
+                        <div className="mt-3 grid grid-cols-[minmax(0,4fr)_minmax(0,5fr)] overflow-hidden rounded-3xl border-2 border-line bg-surface-2">
                           {currentScreen.step.reorientation.image && (
-                            <span className="p-3 pr-0">
-                              <span className="relative block h-full min-h-28 overflow-hidden rounded-2xl">
+                            <span className="p-2.5 pr-0">
+                              <span className="relative block h-full min-h-24 overflow-hidden rounded-2xl">
                                 <MediaBackdrop
                                   image={currentScreen.step.reorientation.image}
                                   sizes="(min-width: 640px) 260px, 45vw"
@@ -279,8 +324,8 @@ export function LeadFunnel({ funnelType, defaultValues }: Props) {
                               </span>
                             </span>
                           )}
-                          <div className="flex flex-col items-start gap-1.5 p-4">
-                            <p className="font-medium text-ink-strong">
+                          <div className="flex flex-col items-start gap-1 p-3">
+                            <p className="text-sm font-medium text-ink-strong">
                               {currentScreen.step.reorientation.label}
                             </p>
                             {currentScreen.step.reorientation.hint && (
@@ -301,7 +346,7 @@ export function LeadFunnel({ funnelType, defaultValues }: Props) {
                   )}
                 </div>
                 {currentScreen.step.message && (
-                  <p className="mt-4 rounded-lg bg-surface-2 px-4 py-3 text-sm text-ink-soft">
+                  <p className="mt-3 rounded-lg bg-surface-2 px-3 py-2 text-sm text-ink-soft">
                     {currentScreen.step.message}
                   </p>
                 )}

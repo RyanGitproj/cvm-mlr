@@ -1,7 +1,7 @@
 "use client";
 
 import { useFormContext } from "react-hook-form";
-import { MediaBackdrop, MediaLabelChip } from "@/components/ui/MediaBackdrop";
+import { MediaBackdrop } from "@/components/ui/MediaBackdrop";
 import { cn } from "@/lib/cn";
 import { splitOptionLabel } from "@/lib/optionLabel";
 import type { ChoiceOption } from "@/types/funnel";
@@ -24,24 +24,28 @@ type Props = {
 /**
  * Grandes cartes radio tactiles — une décision par écran. Deux rendus
  * (maquettes boss 2026-07-07) :
- * - option avec image → carte immersive maquette étape 1 : large rectangle,
+ * - option avec image → carte immersive maquette étape 1 : rectangle large,
  *   photo en fond, voile de lisibilité, titre display + phrase d'appui +
  *   pilule CTA posés dessus. Sans photo réelle (placeholder clair), le
  *   contraste s'inverse : texte encre, pilule contour — comme la 3ᵉ carte
  *   de la maquette.
  * - option sans image → carte texte sobre (période, personnes…).
- * La phrase d'appui vient de `option.description`, sinon de la scission du
- * libellé source (« Nord : Diego, reliefs… »).
+ * Densité (2026-07-07) : l'écran doit se voir d'un bloc — hauteurs au
+ * contenu, marges serrées, deux colonnes dès `sm` quand l'écran compte
+ * au moins 3 options.
  */
 export function RadioCards({ name, options, labelledBy, onSelect }: Props) {
   const { register, watch } = useFormContext();
   const selected: unknown = watch(name);
-  const freeTextActive = options.some(
-    (option) => option.freeText === true && option.value === selected,
-  );
+  const selectedOption = options.find((option) => option.value === selected);
+  const freeTextActive = selectedOption?.freeText === true;
 
   return (
-    <div role="radiogroup" aria-labelledby={labelledBy} className="grid gap-3">
+    <div
+      role="radiogroup"
+      aria-labelledby={labelledBy}
+      className={cn("grid gap-2.5", options.length >= 3 && "sm:grid-cols-2")}
+    >
       {options.map((option) => {
         const isSelected = option.value === selected;
         const { title, description } =
@@ -66,7 +70,10 @@ export function RadioCards({ name, options, labelledBy, onSelect }: Props) {
             <label
               key={option.value}
               className={cn(
-                "relative isolate flex min-h-52 cursor-pointer flex-col overflow-hidden rounded-3xl border-2 p-5 transition-colors has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent sm:min-h-56 sm:p-6",
+                "relative isolate flex cursor-pointer flex-col overflow-hidden rounded-3xl border-2 p-4 transition-colors has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent sm:p-5",
+                // Seules les cartes photo imposent une hauteur (présence de
+                // l'image) ; les cartes claires se serrent sur leur contenu.
+                hasPhoto && "min-h-40 sm:min-h-44",
                 isSelected
                   ? "border-accent"
                   : hasPhoto
@@ -77,22 +84,19 @@ export function RadioCards({ name, options, labelledBy, onSelect }: Props) {
               {input}
               <MediaBackdrop
                 image={option.image}
-                sizes="(min-width: 640px) 640px, 100vw"
+                sizes="(min-width: 640px) 320px, 100vw"
                 showLabel={false}
                 className="-z-20"
               />
               {hasPhoto && (
                 <span aria-hidden className="photo-veil absolute inset-0 -z-10" />
               )}
-              {!hasPhoto && (
-                // Pastille studio dans le flux : en coin absolu, elle
-                // croiserait les titres longs (cartes claires Orientation).
-                <MediaLabelChip label={option.image.label} className="self-end" />
-              )}
-              <span className="mt-auto flex max-w-[34ch] flex-col items-start gap-1.5 pt-3">
+              {/* Pas de pilule « Je choisis… » : retirée le 2026-07-07
+                  (compacité, décision Ryan) — la carte entière est cliquable. */}
+              <span className="mt-auto flex max-w-[34ch] flex-col items-start gap-1">
                 <span
                   className={cn(
-                    "font-heading text-2xl font-bold leading-tight sm:text-3xl",
+                    "font-heading text-xl font-bold leading-tight sm:text-2xl",
                     hasPhoto ? "text-on-veil" : "text-ink-strong",
                   )}
                 >
@@ -101,24 +105,11 @@ export function RadioCards({ name, options, labelledBy, onSelect }: Props) {
                 {description && (
                   <span
                     className={cn(
-                      "text-sm leading-snug sm:text-base",
+                      "text-sm leading-snug",
                       hasPhoto ? "text-on-veil/90" : "text-ink-soft",
                     )}
                   >
                     {description}
-                  </span>
-                )}
-                {option.ctaLabel && (
-                  <span
-                    aria-hidden
-                    className={cn(
-                      "mt-3 inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold",
-                      hasPhoto
-                        ? "bg-accent text-accent-contrast"
-                        : "border-2 border-accent text-accent",
-                    )}
-                  >
-                    {option.ctaLabel} →
                   </span>
                 )}
               </span>
@@ -130,12 +121,15 @@ export function RadioCards({ name, options, labelledBy, onSelect }: Props) {
           <label
             key={option.value}
             className={cn(
-              "flex cursor-pointer flex-col gap-3 rounded-xl border-2 bg-card p-4 transition-colors has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent",
+              // justify-center : dans une grille mixte avec des cartes à
+              // image (Îles, Orientation), la carte texte étirée centre son
+              // contenu au lieu de paraître creuse.
+              "flex cursor-pointer flex-col justify-center gap-2 rounded-xl border-2 bg-card p-3 transition-colors has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent",
               isSelected ? "border-accent" : "border-line hover:border-accent-soft",
             )}
           >
             {input}
-            <span className="flex items-start gap-3">
+            <span className="flex items-start gap-2.5">
               <span
                 aria-hidden
                 className={cn(
@@ -143,7 +137,7 @@ export function RadioCards({ name, options, labelledBy, onSelect }: Props) {
                   isSelected ? "border-accent bg-accent" : "border-line",
                 )}
               />
-              <span className="grid flex-1 gap-1">
+              <span className="grid flex-1 gap-0.5">
                 <span className="text-sm font-semibold leading-snug text-ink-strong sm:text-base">
                   {title}
                 </span>
@@ -157,8 +151,17 @@ export function RadioCards({ name, options, labelledBy, onSelect }: Props) {
           </label>
         );
       })}
-      {freeTextActive && <PrecisionField name={`${name}Precision`} />}
-      <FieldError name={name} />
+      {freeTextActive && (
+        <div className="sm:col-span-full">
+          <PrecisionField
+            name={`${name}Precision`}
+            number={selectedOption?.precisionInput}
+          />
+        </div>
+      )}
+      <div className="sm:col-span-full empty:hidden">
+        <FieldError name={name} />
+      </div>
     </div>
   );
 }

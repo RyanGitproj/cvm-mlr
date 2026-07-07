@@ -28,22 +28,23 @@ export const contactCoreSchema = z.object({
       /^\+[1-9]\d{6,14}$/,
       "Merci d'indiquer un numéro de téléphone valide (avec l'indicatif pays).",
     ),
-  // RGPD : case obligatoire (recontact au sujet du projet).
+  // RGPD simplifié (décision Ryan 2026-07-07 soir) : UNE case obligatoire
+  // qui couvre l'utilisation des données pour préparer le voyage et le
+  // recontact — les anciennes cases brochure/conseils sont fusionnées.
   consentement: z.literal(true, {
     error: "Votre consentement est nécessaire pour envoyer votre demande.",
   }),
+  // Newsletter : seule case facultative, jamais pré-cochée.
+  optinNewsletter: z.boolean().optional(),
 });
 
 /**
  * Coordonnées MLR — écran « Ta route est presque prête » (maquette 6 du
  * 2026-07-07). Le mois de départ précis reste facultatif (« si déjà
- * connu ») ; opt-ins jamais pré-cochés — l'envoi lui-même est géré par
- * l'équipe, hors application.
+ * connu »).
  */
 export const mlrContactSchema = contactCoreSchema.extend({
   moisDepart: z.string().max(100, "100 caractères maximum.").optional(),
-  optinDocuments: z.boolean().optional(),
-  optinConseils: z.boolean().optional(),
 });
 
 export type MlrContactData = z.infer<typeof mlrContactSchema>;

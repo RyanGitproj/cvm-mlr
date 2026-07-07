@@ -24,8 +24,7 @@ const parcoursMlr = {
   nbVoyageurs: "3",
   comprehension: true,
   moisDepart: "Novembre 2026",
-  optinDocuments: true,
-  optinConseils: false,
+  optinNewsletter: false,
 };
 
 describe("toLeadInfoRow", () => {
@@ -39,13 +38,30 @@ describe("toLeadInfoRow", () => {
     expect(row.consentement).toBe(true);
   });
 
-  it("laisse à null ce que le gabarit ne demande plus côté CVM", () => {
+  it("laisse à null ce que le parcours n'a pas demandé (anciens leads)", () => {
     const row = toLeadInfoRow("cvm_treks", { ...parcoursCvm, offreDuree: "10_jours" }, null);
     expect(row.periode).toBeNull();
     expect(row.commentaire).toBeNull();
-    expect(row.optin_documents).toBeNull();
-    expect(row.optin_conseils).toBeNull();
+    expect(row.optin_newsletter).toBeNull();
     expect(row.route).toBeNull();
+  });
+
+  it("stocke l'effectif approximatif quand « Plus de 4 » est choisi", () => {
+    const row = toLeadInfoRow(
+      "cvm_treks",
+      { ...parcoursCvm, offreDuree: "10_jours", nbVoyageurs: "plus", nbVoyageursPrecision: 8 },
+      null,
+    );
+    expect(row.nb_voyageurs).toBe(8);
+  });
+
+  it("mappe la newsletter cochée (les 2 marques la proposent)", () => {
+    const row = toLeadInfoRow(
+      "cvm_treks",
+      { ...parcoursCvm, offreDuree: "10_jours", optinNewsletter: true },
+      null,
+    );
+    expect(row.optin_newsletter).toBe(true);
   });
 
   it("résout l'offre CVM en libellé/durée/prix", () => {
@@ -67,13 +83,12 @@ describe("toLeadInfoRow", () => {
     expect(row.offre_prix_indicatif).toBeNull();
   });
 
-  it("mappe le wizard MLR : voyageurs « 3 » → 3, mois de départ → periode, opt-ins distincts du null", () => {
+  it("mappe le wizard MLR : voyageurs « 3 » → 3, mois de départ → periode, newsletter décochée ≠ null", () => {
     const row = toLeadInfoRow("mlr", parcoursMlr, null);
     expect(row.brand).toBe("mlr");
     expect(row.nb_voyageurs).toBe(3);
     expect(row.periode).toBe("Novembre 2026");
-    expect(row.optin_documents).toBe(true);
-    expect(row.optin_conseils).toBe(false);
+    expect(row.optin_newsletter).toBe(false);
     expect(row.route).toBe("ouest");
     expect(row.offre_ref).toBe("10_jours");
     expect(row.offre_duree).toContain("10 jours");

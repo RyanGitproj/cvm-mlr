@@ -33,9 +33,20 @@ export const CVM_STEP_VOYAGEURS: RadioStep = {
     { value: "1", label: "Je pars seul" },
     { value: "2", label: "Nous sommes 2" },
     { value: "3", label: "Nous sommes 3" },
-    // « 4 ou plus » : plancher indicatif stocké 4, le conseiller précise
-    // pour les grands groupes (décision Ryan 2026-07-07).
-    { value: "4", label: "Nous sommes 4 ou plus" },
+    { value: "4", label: "Nous sommes 4" },
+    // « Plus de 4 » révèle le champ nombre — l'effectif réel est stocké
+    // (décision Ryan 2026-07-07 : plus de plancher indicatif).
+    {
+      value: "plus",
+      label: "Plus de 4",
+      freeText: true,
+      precisionInput: {
+        label: "Combien serez-vous environ ?",
+        placeholder: "6",
+        min: 5,
+        max: 20,
+      },
+    },
   ],
 };
 

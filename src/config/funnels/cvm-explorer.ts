@@ -23,17 +23,48 @@ export const cvmExplorerFunnel: FunnelConfig = {
   },
   steps: [
     {
+      // Q1 de projection « choix d'endroit » (demande Ryan 07-07 soir) :
+      // zones d'expédition de la brochure p.6 (« jungles profondes,
+      // canyons, plateaux retirés »), corroborées par la question terrain
+      // de la mission Riane. L'ancienne question bivouac est posée par
+      // les commerciaux (TODO.md) ; la réalité bivouac reste en hint.
       kind: "radio",
-      id: "bivouac",
-      name: "bivouac",
-      question: "Le bivouac permanent, vous êtes prêt ?",
-      hint: "Deux nuits en hôtel seulement, le reste en bivouac.",
+      id: "terrain",
+      name: "terrain",
+      question: "Quel terrain d'expédition vous appelle ?",
+      hint: "Bivouac permanent — deux nuits d'hôtel seulement, le reste sur le terrain.",
       options: [
-        { value: "oui_pleinement", label: "Oui, j'accepte pleinement le bivouac et le confort rustique" },
-        { value: "oui_liste_materiel", label: "Oui, si je reçois une liste claire du matériel et des conditions" },
-        { value: "jamais_teste", label: "Je n'ai jamais testé, mais je veux être évalué sérieusement" },
-        { value: "besoin_confort", label: "J'ai besoin de nuits en hôtel ou d'un confort régulier" },
-        { value: "autre", label: "Autre précision — je détaille", freeText: true },
+        {
+          value: "jungles",
+          label: "Jungles profondes",
+          description: "Zones humides, denses, difficiles d'accès",
+          image: {
+            label: "Zone humide dense",
+            alt: "Progression le long d'une rivière ferrugineuse bordée de pandanus",
+            src: "/images/cvm/explorer/riviere-rouge-pandanus.jpg",
+          },
+        },
+        {
+          value: "canyons",
+          label: "Canyons",
+          description: "Zones arides, chaleur et effort prolongé",
+          image: {
+            label: "Traversée aride",
+            alt: "Marcheurs dans un canyon aride du Sud malgache",
+            src: "/images/cvm/explorer/traversee-canyon-aride.jpg",
+          },
+        },
+        {
+          value: "plateaux",
+          label: "Plateaux retirés",
+          description: "Hors des sentiers, là où peu de voyageurs vont",
+          image: {
+            label: "Guides & lecture du terrain",
+            alt: "Guide local indiquant la direction dans la savane",
+            src: "/images/cvm/explorer/guide-lecture-terrain.jpg",
+          },
+        },
+        { value: "autre", label: "Autre terrain — je précise", freeText: true },
       ],
     },
     {

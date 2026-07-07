@@ -8,8 +8,10 @@ import { TextField } from "./TextField";
 /**
  * Coordonnées MLR — écran « Ta route est presque prête » (maquette 6 du
  * 2026-07-07). Le nombre de voyageurs et la fenêtre de départ sont des
- * questions du wizard, pas des champs ici. Une case de consentement
- * obligatoire (recontact) + deux opt-ins facultatifs, jamais pré-cochés.
+ * questions du wizard, pas des champs ici. RGPD simplifié (décision Ryan
+ * 2026-07-07 soir) : UNE case obligatoire qui couvre l'utilisation des
+ * données (préparation du voyage, envoi des documents, recontact) + une
+ * newsletter facultative, jamais pré-cochée.
  */
 export function ContactFieldsMlr() {
   return (
@@ -28,7 +30,8 @@ export function ContactFieldsMlr() {
         name="consentement"
         label={
           <>
-            J’accepte d’être recontacté au sujet de mon projet Liberty Roots.
+            J’accepte que Madagascar Liberty Roots utilise mes données pour
+            préparer mon voyage, m’envoyer ma proposition et me recontacter.
             Voir la{" "}
             <Link href="/confidentialite" className="underline">
               politique de confidentialité
@@ -38,12 +41,8 @@ export function ContactFieldsMlr() {
         }
       />
       <CheckboxField
-        name="optinDocuments"
-        label="J’accepte de recevoir la brochure, la vidéo et le devis indicatif."
-      />
-      <CheckboxField
-        name="optinConseils"
-        label="J’accepte de recevoir les conseils de préparation par email ou WhatsApp."
+        name="optinNewsletter"
+        label="J’accepte de recevoir la newsletter (facultatif)."
       />
     </div>
   );

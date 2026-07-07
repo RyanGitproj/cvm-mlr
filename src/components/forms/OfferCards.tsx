@@ -77,7 +77,13 @@ export function OfferCards({ funnelType, labelledBy, onSelect }: Props) {
 
   return (
     <div className="grid gap-1.5">
-      <div role="radiogroup" aria-labelledby={labelledBy} className="grid gap-4">
+      <div
+        role="radiogroup"
+        aria-labelledby={labelledBy}
+        // Une offre par ligne, PC compris (demande Ryan 2026-07-07) : sans
+        // les faux boutons, deux cartes pleine largeur tiennent à l'écran.
+        className="grid gap-3"
+      >
         {options.map((option) => {
           const isSelected = option.value === selected;
           return (
@@ -95,8 +101,8 @@ export function OfferCards({ funnelType, labelledBy, onSelect }: Props) {
                 onClick={() => onSelect?.(option.value)}
                 className="sr-only"
               />
-              <span className="p-3 pr-0 sm:p-4 sm:pr-0">
-                <span className="relative block h-full min-h-44 overflow-hidden rounded-2xl">
+              <span className="p-2.5 pr-0 sm:p-3 sm:pr-0">
+                <span className="relative block h-full min-h-36 overflow-hidden rounded-2xl">
                   {option.image ? (
                     <MediaBackdrop
                       image={option.image}
@@ -110,28 +116,32 @@ export function OfferCards({ funnelType, labelledBy, onSelect }: Props) {
                   )}
                 </span>
               </span>
-              <span className="flex flex-col items-start gap-2 p-4 sm:p-5">
-                {option.icon && (
-                  <span
-                    aria-hidden
-                    className="flex h-10 w-10 items-center justify-center rounded-full bg-accent text-accent-contrast"
-                  >
-                    <svg
-                      width="22"
-                      height="22"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinejoin="round"
-                      strokeLinecap="round"
+              <span className="flex flex-col items-start gap-1.5 p-3.5 sm:p-4">
+                {/* Badge aligné avec le titre : une rangée de moins par
+                    carte (compacité 2026-07-07). */}
+                <span className="flex items-center gap-2">
+                  {option.icon && (
+                    <span
+                      aria-hidden
+                      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent text-accent-contrast"
                     >
-                      {OFFER_ICON_PATHS[option.icon]}
-                    </svg>
+                      <svg
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinejoin="round"
+                        strokeLinecap="round"
+                      >
+                        {OFFER_ICON_PATHS[option.icon]}
+                      </svg>
+                    </span>
+                  )}
+                  <span className="font-heading text-lg font-bold leading-snug text-ink-strong sm:text-xl">
+                    {option.label}
                   </span>
-                )}
-                <span className="font-heading text-xl font-bold leading-snug text-ink-strong sm:text-2xl">
-                  {option.label}
                 </span>
                 {option.description && (
                   <span className="text-sm leading-snug text-ink-soft">
@@ -141,7 +151,7 @@ export function OfferCards({ funnelType, labelledBy, onSelect }: Props) {
                 <span aria-hidden className="h-0.5 w-10 rounded-full bg-accent/70" />
                 <span className="text-sm text-ink">
                   À partir de{" "}
-                  <strong className="text-xl font-bold text-accent sm:text-2xl">
+                  <strong className="text-lg font-bold text-accent sm:text-xl">
                     {option.priceText}
                   </strong>
                   {/* Bloc insécable : jamais de « / » orphelin en fin de ligne. */}
@@ -152,15 +162,9 @@ export function OfferCards({ funnelType, labelledBy, onSelect }: Props) {
                     {option.priceNote}
                   </span>
                 )}
-                {option.ctaLabel && (
-                  <span
-                    aria-hidden
-                    className="mt-2 inline-flex w-full items-center justify-between gap-2 rounded-xl bg-accent px-4 py-3 text-sm font-semibold text-accent-contrast"
-                  >
-                    <span>{option.ctaLabel}</span>
-                    <span>→</span>
-                  </span>
-                )}
+                {/* Pas de faux bouton « Je choisis… » : retiré le 2026-07-07
+                    (demande Ryan — il alourdissait et élargissait la carte) ;
+                    la carte entière est cliquable, le prix fait l'ancre. */}
               </span>
             </label>
           );

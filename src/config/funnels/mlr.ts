@@ -16,25 +16,14 @@ const routeStep: RadioStep = {
   name: "route",
   question: "Quelle route t'appelle le plus ?",
   hint: "Deux visages de Madagascar. Deux façons de sentir la piste.",
-  options: [
-    ...MLR_LANDING.routes.map((route) => ({
-      value: route.slug,
-      label: route.titre,
-      description: route.texte,
-      ctaLabel: route.cta,
-      image: MLR_ROUTES_CONTENT[route.slug].imageAmbiance,
-    })),
-    {
-      value: "a_orienter",
-      label: "Je ne sais pas encore",
-      description: "Je veux être orienté par un expert malgache.",
-      ctaLabel: "Aidez-moi à choisir",
-      image: {
-        label: "Guide local face à l'horizon",
-        alt: "Guide local Liberty Roots assis face aux paysages malgaches",
-      },
-    },
-  ],
+  // « Je ne sais pas encore » retirée le 2026-07-07 au soir (demande Ryan) :
+  // le choix se fait entre les 2 routes du catalogue.
+  options: MLR_LANDING.routes.map((route) => ({
+    value: route.slug,
+    label: route.titre,
+    description: route.texte,
+    image: MLR_ROUTES_CONTENT[route.slug].imageAmbiance,
+  })),
 };
 
 export const mlrFunnel: FunnelConfig = {
@@ -93,8 +82,20 @@ export const mlrFunnel: FunnelConfig = {
         { value: "1", label: "Je pars seul" },
         { value: "2", label: "Nous sommes 2" },
         { value: "3", label: "Nous sommes 3" },
-        // « 4 ou plus » : plancher indicatif stocké 4 (décision Ryan 07-07).
-        { value: "4", label: "Nous sommes 4 ou plus" },
+        { value: "4", label: "Nous sommes 4" },
+        // « Plus de 4 » révèle le champ nombre — l'effectif réel est stocké
+        // (décision Ryan 2026-07-07 : plus de plancher indicatif).
+        {
+          value: "plus",
+          label: "Plus de 4",
+          freeText: true,
+          precisionInput: {
+            label: "Vous serez combien, environ ?",
+            placeholder: "6",
+            min: 5,
+            max: 20,
+          },
+        },
       ],
       confirm: {
         name: "comprehension",

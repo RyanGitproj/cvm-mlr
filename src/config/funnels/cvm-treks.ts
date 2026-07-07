@@ -27,7 +27,6 @@ export const cvmTreksFunnel: FunnelConfig = {
         {
           value: "nord",
           label: "Nord : Diego, reliefs puissants, îles et extension Nosy Be possible",
-          ctaLabel: "Je choisis le Nord",
           image: {
             label: "Reliefs du Nord — Diego",
             alt: "Reliefs puissants et mer turquoise autour de Diego-Suarez",
@@ -36,7 +35,6 @@ export const cvmTreksFunnel: FunnelConfig = {
         {
           value: "ouest",
           label: "Ouest : baobabs, pistes, Morondava, grands espaces et aventure encadrée",
-          ctaLabel: "Je choisis l'Ouest",
           image: {
             label: "Baobabs de l'Ouest",
             alt: "Allée des baobabs et pistes de l'Ouest malgache",
@@ -45,7 +43,6 @@ export const cvmTreksFunnel: FunnelConfig = {
         {
           value: "sud",
           label: "Sud / Sud-Ouest : Makay, canyons, zones arides, Tuléar et fin de parcours plage",
-          ctaLabel: "Je choisis le Sud",
           image: {
             label: "Massif du Makay",
             alt: "Canyons et zones arides du massif du Makay",
@@ -54,7 +51,6 @@ export const cvmTreksFunnel: FunnelConfig = {
         {
           value: "est",
           label: "Est : jungle, végétation dense, ambiance sauvage et Sainte-Marie",
-          ctaLabel: "Je choisis l'Est",
           image: {
             label: "Jungle de l'Est",
             alt: "Végétation dense et sauvage de la côte Est",
@@ -63,7 +59,6 @@ export const cvmTreksFunnel: FunnelConfig = {
         {
           value: "a_orienter",
           label: "Je ne sais pas encore — je veux être orienté",
-          ctaLabel: "Aidez-moi à choisir",
           image: {
             label: "Conseil d'un expert",
             alt: "Guide local conseillant des voyageurs sur le choix de l'itinéraire",

@@ -12,15 +12,21 @@ export type ChoiceOption = {
    */
   image?: { label: string; alt: string; src?: string };
   /**
-   * Libellé du faux bouton de la carte (« Je choisis le Nord ») — décoratif,
-   * la carte entière est cliquable (maquettes : un CTA visible par option).
-   */
-  ctaLabel?: string;
-  /**
-   * Option « Autre — je précise » : révèle un champ texte libre lié au
-   * champ `${name}Precision` du schéma Zod du funnel.
+   * Option qui révèle un champ de précision (`${name}Precision`) et exige
+   * le bouton « Continuer » au lieu de l'avance automatique : « Autre — je
+   * précise » (texte libre) ou « Plus de 4 » (effectif du groupe).
    */
   freeText?: boolean;
+  /**
+   * Rend le champ de précision numérique (« Plus de 4 » → « environ
+   * combien ? ») au lieu du texte libre par défaut.
+   */
+  precisionInput?: {
+    label: string;
+    placeholder?: string;
+    min: number;
+    max: number;
+  };
 };
 
 type QuestionBase = {

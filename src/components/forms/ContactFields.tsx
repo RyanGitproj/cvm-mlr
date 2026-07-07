@@ -8,8 +8,9 @@ import { TextField } from "./TextField";
 
 /**
  * Coordonnées CVM — écran final de saisie épuré (gabarit maquette
- * 2026-07-07) : identité + contact + consentement. Le nombre de voyageurs
- * et la période sont des questions du wizard. `conditionsSlot` insère les
+ * 2026-07-07) : identité + contact + consentement RGPD unique + newsletter
+ * facultative (décision Ryan 2026-07-07 soir). Le nombre de voyageurs et la
+ * période sont des questions du wizard. `conditionsSlot` insère les
  * acceptations réglementaires (Explorer) avant le consentement.
  */
 export function ContactFields({ conditionsSlot }: { conditionsSlot?: ReactNode }) {
@@ -24,14 +25,18 @@ export function ContactFields({ conditionsSlot }: { conditionsSlot?: ReactNode }
         name="consentement"
         label={
           <>
-            J’accepte que mes réponses soient utilisées pour préparer ma
-            proposition de voyage et me recontacter. Voir la{" "}
+            J’accepte que Célébrations Voyages Madagascar utilise mes données
+            pour préparer mon projet de voyage et me recontacter. Voir la{" "}
             <Link href="/confidentialite" className="underline">
               politique de confidentialité
             </Link>
             .
           </>
         }
+      />
+      <CheckboxField
+        name="optinNewsletter"
+        label="J’accepte de recevoir la newsletter (facultatif)."
       />
     </div>
   );

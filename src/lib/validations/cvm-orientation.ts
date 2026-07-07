@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { departFenetreSchema, nbVoyageursSchema, precision } from "./common";
+import { departFenetreSchema, nbVoyageursPrecisionSchema, nbVoyageursSchema, precision } from "./common";
 
 /**
  * Funnel CVM · Orientation — aiguillage (pas d'offre à prix) :
@@ -17,6 +17,7 @@ export const cvmOrientationQualificationSchema = z.object({
   intentionPrecision: precision(),
   departFenetre: departFenetreSchema,
   nbVoyageurs: nbVoyageursSchema,
+  nbVoyageursPrecision: nbVoyageursPrecisionSchema,
 });
 
 export type CvmOrientationQualification = z.infer<

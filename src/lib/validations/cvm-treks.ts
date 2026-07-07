@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { departFenetreSchema, nbVoyageursSchema } from "./common";
+import { departFenetreSchema, nbVoyageursPrecisionSchema, nbVoyageursSchema } from "./common";
 
 /**
  * Funnel CVM · Treks Aventure — gabarit maquette 2026-07-07 :
@@ -17,6 +17,7 @@ export const cvmTreksQualificationSchema = z.object({
   ),
   departFenetre: departFenetreSchema,
   nbVoyageurs: nbVoyageursSchema,
+  nbVoyageursPrecision: nbVoyageursPrecisionSchema,
 });
 
 export type CvmTreksQualification = z.infer<typeof cvmTreksQualificationSchema>;

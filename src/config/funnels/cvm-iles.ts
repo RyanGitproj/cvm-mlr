@@ -27,7 +27,6 @@ export const cvmIlesFunnel: FunnelConfig = {
         {
           value: "nosy_be",
           label: "Nosy Be et ses îles : lagons, excursions, plages, confort balnéaire",
-          ctaLabel: "Je choisis Nosy Be",
           image: {
             label: "Lagon de Nosy Be",
             alt: "Lagon turquoise et plages de Nosy Be",
@@ -36,7 +35,6 @@ export const cvmIlesFunnel: FunnelConfig = {
         {
           value: "sainte_marie",
           label: "Sainte-Marie : plus sauvage, exotique, historique, ancien univers de pirates",
-          ctaLabel: "Je choisis Sainte-Marie",
           image: {
             label: "Sainte-Marie sauvage",
             alt: "Côte sauvage et végétation de l'île Sainte-Marie",
@@ -45,16 +43,13 @@ export const cvmIlesFunnel: FunnelConfig = {
         {
           value: "combine",
           label: "Combiné circuit touristique sécurisé + île de rêve : découverte + repos",
-          ctaLabel: "Je choisis le combiné",
           image: {
             label: "Circuit + île de rêve",
             alt: "Route de découverte puis plage paradisiaque en fin de séjour",
           },
         },
-        {
-          value: "selon_saison",
-          label: "La meilleure option selon la saison et mon budget",
-        },
+        // « La meilleure option selon la saison et mon budget » retirée le
+        // 2026-07-07 (demande Ryan — carte creuse dans la grille).
         { value: "autre", label: "Autre envie — je précise", freeText: true },
       ],
     },

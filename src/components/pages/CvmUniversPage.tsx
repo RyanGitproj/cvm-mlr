@@ -14,9 +14,10 @@ import { formatEuros } from "@/lib/format";
 
 /**
  * Gabarit des 4 pages de présentation CVM (brief §7.3) — le contenu vient
- * de config/content/cvm.ts, l'accent (ember/lagon) est surchargé par
- * data-accent sans dupliquer de composant. Le questionnaire du funnel est
- * intégré en bas de page : les CTA scrollent vers lui (pas de navigation).
+ * de config/content/cvm.ts, la couleur de l'aventure (rouge/vert/lagon/
+ * orange) est surchargée par data-accent sans dupliquer de composant.
+ * Le questionnaire du funnel est intégré en bas de page : les CTA
+ * scrollent vers lui (pas de navigation).
  */
 export function CvmUniversPage({ content }: { content: CvmUniversContent }) {
   return (

@@ -33,25 +33,21 @@ export const cvmOrientationFunnel: FunnelConfig = {
         {
           value: "explorer",
           label: "Une aventure insolite hors des circuits touristiques",
-          ctaLabel: "Je choisis l'Expédition",
           image: CVM_UNIVERS.explorer.card.image,
         },
         {
           value: "treks",
           label: "Un trek ou circuit aventure encadré et sécurisé",
-          ctaLabel: "Je choisis le Trek",
           image: CVM_UNIVERS.treks.card.image,
         },
         {
           value: "iles",
           label: "Des plages paradisiaques, des îles et un séjour détente",
-          ctaLabel: "Je choisis les Îles",
           image: CVM_UNIVERS.iles.card.image,
         },
         {
           value: "un_mois",
           label: "Un Grand Tour d'un mois pour découvrir Madagascar en profondeur",
-          ctaLabel: "Je choisis le Grand Tour",
           image: CVM_UNIVERS["un-mois"].card.image,
         },
         { value: "autre", label: "Autre projet — je précise", freeText: true },

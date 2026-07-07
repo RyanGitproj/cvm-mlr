@@ -13,14 +13,20 @@ const asOptBool = (value: unknown): boolean | null =>
   typeof value === "boolean" ? value : null;
 
 /**
- * Le wizard MLR produit un nombre de voyageurs en chaîne (radio « 1 »–« 4 »),
- * les coordonnées CVM un nombre (coerce Zod) — conversion centralisée ici.
+ * Q4 : radios « 1 »–« 4 » (chaîne) ou « plus » — auquel cas l'effectif
+ * approximatif saisi (`nbVoyageursPrecision`, nombre coercé par Zod) fait
+ * foi. Conversion centralisée ici.
  */
 const asNbVoyageurs = (value: unknown): number | null => {
   if (typeof value === "number" && Number.isFinite(value)) return value;
   if (typeof value === "string" && /^\d+$/.test(value)) return Number(value);
   return null;
 };
+
+const nbVoyageursFrom = (data: Record<string, unknown>): number | null =>
+  data.nbVoyageurs === "plus"
+    ? asNbVoyageurs(data.nbVoyageursPrecision)
+    : asNbVoyageurs(data.nbVoyageurs);
 
 /**
  * Construit la ligne `funnel_cvm_mlr_info` depuis les données validées du
@@ -44,14 +50,13 @@ export function toLeadInfoRow(
     prenom: asOptString(data.prenom),
     telephone: asString(data.telephone),
     email: asString(data.email),
-    nb_voyageurs: asNbVoyageurs(data.nbVoyageurs),
+    nb_voyageurs: nbVoyageursFrom(data),
     // Depuis le gabarit 2026-07-07, seul le « Mois de départ » facultatif
     // MLR alimente cette colonne (la fenêtre Q3 vit dans answers).
     periode: asOptString(data.moisDepart),
     commentaire: asOptString(data.commentaire),
     consentement: data.consentement === true,
-    optin_documents: asOptBool(data.optinDocuments),
-    optin_conseils: asOptBool(data.optinConseils),
+    optin_newsletter: asOptBool(data.optinNewsletter),
     offre_ref: offre?.ref ?? null,
     offre_label: offre?.label ?? null,
     offre_duree: offre?.duree ?? null,

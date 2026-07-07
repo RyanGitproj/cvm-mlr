@@ -4,8 +4,8 @@
  * Tokens sémantiques des trois univers (brief §5).
  * Les composants ne consomment JAMAIS de couleur en dur : uniquement
  * bg-surface / text-ink / bg-accent… Le thème est fixé par le layout du
- * route group via data-theme="mere|cvm|mlr" ; les nuances par sous-univers
- * CVM (Explorer/Îles) surchargent --accent via data-accent="ember|lagon".
+ * route group via data-theme="mere|cvm|mlr" ; chaque aventure CVM surcharge
+ * --accent via data-accent="rouge|vert|lagon|orange".
  */
 
 :root,
@@ -28,6 +28,9 @@
      texte affiché par-dessus — noir chaud neutre, crème du thème. */
   --veil: #1d1207;
   --on-veil: #fffdf8;
+  /* Or de marque Célébrations Voyages — fixe, jamais surchargé par les
+     accents d'aventure (bordure du logo, éléments de marque). */
+  --brand-gold: #b8892b;
 
   --font-heading: "Cormorant Garamond", serif;
   --font-body: "Inter Variable", system-ui, sans-serif;
@@ -53,21 +56,40 @@
   --danger: #8f2a00;
   --veil: #1d1207;
   --on-veil: #fdf5e2;
+  --brand-gold: #b8892b;
 
   --font-heading: "Oswald Variable", sans-serif;
   --font-body: "Inter Variable", system-ui, sans-serif;
 }
 
-/* Nuances par sous-univers CVM (brief §5.1) */
-[data-accent="ember"] {
-  --accent: #7a3b1e;
-  --accent-soft: #a86a44;
+/*
+ * Nuances par sous-univers CVM (directive boss 2026-07-07 : une couleur
+ * dominante par aventure) : Expédition = rouge, Trek = vert, Îles = lagon
+ * (bleu-vert de référence, inchangé — validé Ryan), Grand Tour = orange.
+ * Chaque bloc surcharge la famille --accent ; tout ce qui consomme les
+ * tokens (CTA, pilules, prix, filets, bordures, barre d'étapes) suit.
+ */
+[data-accent="rouge"] {
+  --accent: #a12b1c;
+  --accent-soft: #c4705c;
+  --accent-contrast: #fbf5ec;
+}
+
+[data-accent="vert"] {
+  --accent: #2e7b4d;
+  --accent-soft: #7fb096;
   --accent-contrast: #fbf5ec;
 }
 
 [data-accent="lagon"] {
   --accent: #1f7a6d;
   --accent-soft: #7fb5ac;
+  --accent-contrast: #fbf5ec;
+}
+
+[data-accent="orange"] {
+  --accent: #b0570e;
+  --accent-soft: #d29a63;
   --accent-contrast: #fbf5ec;
 }
 
@@ -99,6 +121,7 @@
   --color-danger: var(--danger);
   --color-veil: var(--veil);
   --color-on-veil: var(--on-veil);
+  --color-brand-gold: var(--brand-gold);
   --font-heading: var(--font-heading);
   --font-body: var(--font-body);
 }

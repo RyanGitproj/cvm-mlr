@@ -1,5 +1,5 @@
 import type { FunnelType } from "@/types/lead";
-import { Questionnaire } from "./Questionnaire";
+import { LeadFunnel } from "./LeadFunnel";
 
 type Props = {
   funnelType: FunnelType;
@@ -20,8 +20,8 @@ export function QuestionnaireSection({ funnelType, defaultValues }: Props) {
       tabIndex={-1}
       className="scroll-mt-20 border-t-2 border-line bg-surface-2 outline-none"
     >
-      <div className="mx-auto w-full max-w-2xl px-4 py-12 sm:px-6">
-        <Questionnaire
+      <div className="mx-auto w-full max-w-2xl px-4 py-6 sm:px-6 sm:py-8">
+        <LeadFunnel
           funnelType={funnelType}
           defaultValues={defaultValues}
           headingLevel="h2"

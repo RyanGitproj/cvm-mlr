@@ -40,8 +40,6 @@ export type OfferOption = {
   priceText: string;
   /** Note d'exclusion affichée sous le prix (« Hors vols… »). */
   priceNote?: string;
-  /** Faux bouton décoratif de la carte (« Je veux le vrai road trip »). */
-  ctaLabel?: string;
   /** Visuel du volet photo — placeholder si src absent. */
   image?: { label: string; alt: string; src?: string };
   icon?: OfferIcon;
@@ -68,7 +66,6 @@ export function offerOptionsFor(funnelType: FunnelType): OfferOption[] {
       description: d.texte,
       priceText: formatEuros(d.prixDes),
       priceNote: MLR_DUREES_NOTE,
-      ctaLabel: d.cta,
       image: d.image,
       icon: d.icon,
     }));
@@ -86,7 +83,6 @@ export function offerOptionsFor(funnelType: FunnelType): OfferOption[] {
             label: f.duree ?? "Formule",
             description: f.texte,
             priceText: formatEuros(f.prixEuros),
-            ctaLabel: f.cta,
             image: f.image,
             icon: CVM_OFFER_ICONS[slug],
           },

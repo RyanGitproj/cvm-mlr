@@ -32,10 +32,11 @@ create table public.funnel_cvm_mlr_info (
   commentaire           text,
   consentement          boolean not null default false,
 
-  -- Opt-ins wizard MLR (2026-07-07) — nullable : seuls les leads MLR les
-  -- portent. NULL = non demandé (CVM, anciens leads) ; false = refusé.
-  optin_documents       boolean,
-  optin_conseils        boolean,
+  -- Newsletter facultative, les 2 marques (RGPD simplifié, décision Ryan
+  -- 2026-07-07 soir : une seule case obligatoire d'utilisation des données
+  -- + cette case facultative). NULL = non demandé (anciens leads) ;
+  -- false = décochée.
+  optin_newsletter      boolean,
 
   -- Choix d'offre (triplet générique, NULL pour orientation / offre unique)
   offre_ref             text,

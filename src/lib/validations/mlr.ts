@@ -1,20 +1,26 @@
 import { z } from "zod";
-import { departFenetreSchema, NB_VOYAGEURS } from "./common";
+import {
+  departFenetreSchema,
+  NB_VOYAGEURS,
+  nbVoyageursPrecisionSchema,
+} from "./common";
 
 /**
  * Funnel MLR — wizard 4 questions (maquettes boss 2026-07-07, vocal comme
- * source d'autorité) : Q1 route (Nord/Ouest + orientation), Q2 durée (offre),
- * Q3 fenêtre de départ, Q4 voyageurs + case de compréhension des exclusions.
- * Le wizard tutoie le lead (phrases du boss) — messages d'erreur compris.
+ * source d'autorité) : Q1 route (Nord/Ouest — « je ne sais pas encore »
+ * retirée le 07-07 au soir, demande Ryan), Q2 durée (offre), Q3 fenêtre de
+ * départ, Q4 voyageurs + case de compréhension des exclusions. Le wizard
+ * tutoie le lead (phrases du boss) — messages d'erreur compris.
  */
 export const mlrWizardSchema = z.object({
-  route: z.enum(["nord", "ouest", "a_orienter"], "Merci de choisir une route."),
+  route: z.enum(["nord", "ouest"], "Merci de choisir une route."),
   offreDuree: z.enum(["10_jours", "15_jours"], "Merci de choisir une durée."),
   departFenetre: departFenetreSchema,
   nbVoyageurs: z.enum(
     NB_VOYAGEURS,
     "Merci d'indiquer le nombre de voyageurs.",
   ),
+  nbVoyageursPrecision: nbVoyageursPrecisionSchema,
   comprehension: z.literal(true, {
     error:
       "Merci de confirmer que tu as compris ce qui est inclus et ce qui ne l'est pas.",

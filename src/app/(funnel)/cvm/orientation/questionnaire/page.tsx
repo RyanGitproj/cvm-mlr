@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Questionnaire } from "@/components/forms/Questionnaire";
+import { LeadFunnel } from "@/components/forms/LeadFunnel";
 import { getFunnelConfig } from "@/config/funnels";
 
 const config = getFunnelConfig("cvm_orientation");
@@ -10,5 +10,5 @@ export const metadata: Metadata = {
 };
 
 export default function OrientationQuestionnairePage() {
-  return <Questionnaire funnelType="cvm_orientation" />;
+  return <LeadFunnel funnelType="cvm_orientation" />;
 }

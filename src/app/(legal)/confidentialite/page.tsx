@@ -33,9 +33,8 @@ export default function ConfidentialitePage() {
       <p className={P_CLASS}>
         Identité (nom, prénom), coordonnées (téléphone, email) ; réponses du
         parcours (préférence d’aventure, formule choisie, période de départ,
-        nombre de voyageurs) ; vos préférences de communication (réception
-        de la brochure, de la vidéo et du devis indicatif, conseils de
-        préparation) ; et, le cas échéant, paramètres de campagne (UTM,
+        nombre de voyageurs) ; votre choix d’abonnement à la newsletter
+        (facultatif) ; et, le cas échéant, paramètres de campagne (UTM,
         référent) de votre première visite.
       </p>
 

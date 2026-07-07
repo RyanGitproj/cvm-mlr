@@ -24,15 +24,14 @@ export type ProcessLeadResult =
  * voyageurs, la route et l'offre vivent en colonnes de la table info —
  * pas de duplication dans le JSONB.
  */
-const orientationAnswers = cvmOrientationQualificationSchema.omit({
-  nbVoyageurs: true,
-});
-const treksAnswers = cvmTreksQualificationSchema.omit({ nbVoyageurs: true });
-const explorerAnswers = cvmExplorerQualificationSchema.omit({
-  nbVoyageurs: true,
-});
-const ilesAnswers = cvmIlesQualificationSchema.omit({ nbVoyageurs: true });
-const unMoisAnswers = cvmUnMoisQualificationSchema.omit({ nbVoyageurs: true });
+// L'effectif (nbVoyageurs + précision « plus de 4 ») vit en colonne
+// nb_voyageurs de la table info — exclu du JSONB comme le reste.
+const COLONNES_INFO = { nbVoyageurs: true, nbVoyageursPrecision: true } as const;
+const orientationAnswers = cvmOrientationQualificationSchema.omit(COLONNES_INFO);
+const treksAnswers = cvmTreksQualificationSchema.omit(COLONNES_INFO);
+const explorerAnswers = cvmExplorerQualificationSchema.omit(COLONNES_INFO);
+const ilesAnswers = cvmIlesQualificationSchema.omit(COLONNES_INFO);
+const unMoisAnswers = cvmUnMoisQualificationSchema.omit(COLONNES_INFO);
 const mlrAnswers = mlrWizardSchema.pick({
   departFenetre: true,
   comprehension: true,

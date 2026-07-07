@@ -50,27 +50,29 @@ export function Header({ homeHref, homeLabel, links, cta }: Props) {
       className="sticky top-0 z-40 border-b border-line bg-surface/90 backdrop-blur"
     >
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-2 px-4 sm:gap-4 sm:px-6">
-        {/* Emblème Célébrations Voyages (or sur noir). Assumé comme plaque :
-            liseré or (ring-accent, s'accorde au thème actif) + ombre douce pour
-            qu'il se lise comme un emblème voulu, pas une image posée sur le
-            crème. homeLabel = nom accessible du lien.
-            `unoptimized` : blason très détaillé — la recompression Next (q=75,
-            165 Ko → 34 Ko) brouillait les fins traits dorés, on sert le PNG
-            original. `aspect-[619/240]` verrouille le ratio dès le 1er paint
-            (jamais de logo « effondré » étroit pendant le chargement). */}
+        {/* Lockup or « Célébrations Voyages » (logo fourni par Ryan le
+            2026-07-07, remplace la plaque noire) : plaque claire assumée,
+            coins arrondis + bordure dorée (demande Ryan). `border-brand-gold`
+            = or de marque fixe, jamais surchargé par l'accent d'aventure.
+            homeLabel = nom accessible du lien. `unoptimized` : dorures
+            fines, on sert le fichier original. `aspect-[1600/311]`
+            verrouille le ratio dès le 1er paint. */}
         <Link
           href={homeHref}
           onClick={() => setOpen(false)}
           className="flex shrink-0 items-center"
         >
           <Image
-            src="/images/logo-celebrations-voyages.png"
+            src="/images/logo-celebrations-voyages-or.jpeg"
             alt={homeLabel}
-            width={619}
-            height={240}
+            width={1600}
+            height={311}
             priority
             unoptimized
-            className="aspect-[619/240] h-12 w-auto rounded-lg shadow-sm ring-1 ring-accent/40 sm:h-14"
+            // h-6 mobile (≈ 124 px de large) : même encombrement que
+            // l'ancienne plaque — le CTA le plus long du header (« Choisir
+            // mon aventure », /mlr à 390 px) tient sans ellipse.
+            className="aspect-[1600/311] h-6 w-auto rounded-md border border-brand-gold/80 shadow-sm sm:h-12 sm:rounded-xl"
           />
         </Link>
 

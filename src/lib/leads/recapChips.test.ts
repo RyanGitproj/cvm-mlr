@@ -25,20 +25,27 @@ describe("recapChips", () => {
     ).toEqual(["Nord", "10 jours", "1 voyageur", "Départ dans plus de 10 mois"]);
   });
 
-  it("libelle « 4 ou plus » et la formule unique du Grand Tour", () => {
+  it("libelle l'effectif « Plus de 4 » et la formule unique du Grand Tour", () => {
     expect(
       recapChips(getFunnelConfig("cvm_un_mois"), {
         objectifMois: "decouverte",
         offreDuree: "un_mois",
-        nbVoyageurs: "4",
+        nbVoyageurs: "plus",
+        nbVoyageursPrecision: 7,
         departFenetre: "0_2",
       }),
     ).toEqual([
       "Découverte approfondie du pays et immersion culturelle",
       "Environ 1 mois",
-      "4 voyageurs ou plus",
+      "7 voyageurs environ",
       "Départ dans 0 à 2 mois",
     ]);
+  });
+
+  it("retombe sur « Plus de 4 voyageurs » sans effectif saisi", () => {
+    expect(
+      recapChips(getFunnelConfig("mlr"), { nbVoyageurs: "plus" }),
+    ).toEqual(["Plus de 4 voyageurs"]);
   });
 
   it("omet les valeurs manquantes ou inconnues sans inventer", () => {

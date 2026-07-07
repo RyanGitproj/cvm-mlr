@@ -64,14 +64,14 @@ describe("processLead — cvm", () => {
 
   it("explorer : les acceptations réglementaires sont exigées et stockées", () => {
     const sans = processLead("cvm_explorer", {
-      bivouac: "oui_pleinement",
+      terrain: "canyons",
       departFenetre: "2_4",
       nbVoyageurs: "1",
     });
     expect(sans.ok).toBe(false);
 
     const avec = processLead("cvm_explorer", {
-      bivouac: "oui_pleinement",
+      terrain: "canyons",
       departFenetre: "2_4",
       nbVoyageurs: "1",
       acceptCertificat: true,

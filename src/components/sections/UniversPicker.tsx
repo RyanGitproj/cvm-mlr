@@ -54,16 +54,20 @@ export function UniversPicker() {
                 lumière (directive boss 2026-07). */}
             <div className="mt-4 flex flex-wrap gap-2">
               <Pill
-                data-accent="ember"
+                data-accent="rouge"
                 className="cta-pulse-soft pill-accent font-semibold"
               >
                 Expédition insolite
               </Pill>
-              <Pill className="pill-accent">Trek Aventure</Pill>
+              <Pill data-accent="vert" className="pill-accent">
+                Trek Aventure
+              </Pill>
               <Pill data-accent="lagon" className="pill-accent">
                 Séjour Collection
               </Pill>
-              <Pill className="pill-accent">Grand Tour</Pill>
+              <Pill data-accent="orange" className="pill-accent">
+                Grand Tour
+              </Pill>
             </div>
             <p className="mt-4 flex-1 text-sm text-ink-soft">
               <span className="text-xs uppercase tracking-wide">À partir de </span>
