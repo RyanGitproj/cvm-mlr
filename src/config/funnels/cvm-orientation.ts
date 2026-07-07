@@ -50,7 +50,8 @@ export const cvmOrientationFunnel: FunnelConfig = {
           label: "Un Grand Tour d'un mois pour découvrir Madagascar en profondeur",
           image: CVM_UNIVERS["un-mois"].card.image,
         },
-        { value: "autre", label: "Autre projet — je précise", freeText: true },
+        // « Autre projet — je précise » retirée le 2026-07-07 au soir
+        // (demande Ryan) : l'aiguillage se fait entre les 4 univers.
       ],
     },
     CVM_STEP_PERIODE,

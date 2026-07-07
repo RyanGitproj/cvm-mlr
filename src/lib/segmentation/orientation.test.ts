@@ -20,11 +20,4 @@ describe("segmentOrientation", () => {
     expect(reco.fenetre).toBe("lointain");
     expect(typeof reco.libelle).toBe("string");
   });
-
-  it("une intention « autre » ne recommande aucun univers (donnée honnête)", () => {
-    const reco = segmentOrientation({ intention: "autre", departFenetre: "0_2" });
-    expect(reco.univers).toBeUndefined();
-    expect(reco.href).toBeUndefined();
-    expect(reco.fenetre).toBe("proche");
-  });
 });
