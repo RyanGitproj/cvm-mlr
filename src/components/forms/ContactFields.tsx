@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import type { ReactNode } from "react";
 import { CheckboxField } from "./CheckboxField";
 import { PhoneField } from "./PhoneField";
 import { TextField } from "./TextField";
@@ -10,17 +9,15 @@ import { TextField } from "./TextField";
  * Coordonnées CVM — écran final de saisie épuré (gabarit maquette
  * 2026-07-07) : identité + contact + consentement RGPD unique + newsletter
  * facultative (décision Ryan 2026-07-07 soir). Le nombre de voyageurs et la
- * période sont des questions du wizard. `conditionsSlot` insère les
- * acceptations réglementaires (Explorer) avant le consentement.
+ * période sont des questions du wizard.
  */
-export function ContactFields({ conditionsSlot }: { conditionsSlot?: ReactNode }) {
+export function ContactFields() {
   return (
     <div className="grid gap-4">
       <TextField name="nom" label="Nom" autoComplete="family-name" />
       <TextField name="prenom" label="Prénom" autoComplete="given-name" optional />
       <PhoneField name="telephone" label="Téléphone" />
       <TextField name="email" label="Email" type="email" autoComplete="email" />
-      {conditionsSlot}
       <CheckboxField
         name="consentement"
         label={

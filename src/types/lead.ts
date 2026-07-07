@@ -17,7 +17,7 @@ export type FunnelType = (typeof FUNNEL_TYPES)[number];
 /**
  * Colonnes de qualification de la table unique — extraites du parcours par
  * `processLead`. Toutes nullables : null = non demandé par ce funnel
- * (comprehension hors MLR, accept_* hors Explorer, projection pour MLR dont
+ * (comprehension hors MLR, projection pour MLR dont
  * la Q1 est la colonne `route`, reco_univers hors orientation) ou
  * qualification invalide (théorique — le lead est conservé quand même).
  */
@@ -28,8 +28,6 @@ export type LeadQualifColumns = {
   projection_precision: string | null;
   depart_fenetre: DepartFenetre | null;
   comprehension: boolean | null;
-  accept_certificat: boolean | null;
-  accept_briefing: boolean | null;
   reco_fenetre: Fenetre | null;
   reco_univers: OrientationUnivers | null;
 };
@@ -40,8 +38,6 @@ export const EMPTY_QUALIF: LeadQualifColumns = {
   projection_precision: null,
   depart_fenetre: null,
   comprehension: null,
-  accept_certificat: null,
-  accept_briefing: null,
   reco_fenetre: null,
   reco_univers: null,
 };

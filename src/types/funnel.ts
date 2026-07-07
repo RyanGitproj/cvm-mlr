@@ -56,11 +56,6 @@ export type RadioStep = QuestionBase & {
   confirm?: { name: string; label: string; cta: string };
 };
 
-export type Acceptance = {
-  name: "acceptCertificat" | "acceptBriefing";
-  label: string;
-};
-
 /** Métadonnées communes d'un écran sans champ à options. */
 type ScreenBase = {
   id: string;
@@ -95,8 +90,6 @@ export type ContactStep = ScreenBase & {
   variant: "cvm" | "mlr";
   /** Libellé du CTA d'envoi (« Recevoir ma route »…). */
   cta: string;
-  /** Acceptations réglementaires (Explorer : certificat + briefing). */
-  conditions?: { acceptances: Acceptance[] };
 };
 
 export type SuiteCta = {

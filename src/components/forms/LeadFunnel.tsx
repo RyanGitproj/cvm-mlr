@@ -18,7 +18,6 @@ import { MESSAGE_EFFECTIF_GROUPE } from "@/lib/validations/common";
 import type { WizardStep } from "@/types/funnel";
 import type { FunnelType } from "@/types/lead";
 import { CheckboxField } from "./CheckboxField";
-import { ConditionsFields } from "./ConditionsFields";
 import { ContactFields } from "./ContactFields";
 import { ContactFieldsMlr } from "./ContactFieldsMlr";
 import { FinalScreen } from "./FinalScreen";
@@ -383,15 +382,7 @@ export function LeadFunnel({
                 {config.contact.variant === "mlr" ? (
                   <ContactFieldsMlr />
                 ) : (
-                  <ContactFields
-                    conditionsSlot={
-                      config.contact.conditions && (
-                        <ConditionsFields
-                          acceptances={config.contact.conditions.acceptances}
-                        />
-                      )
-                    }
-                  />
+                  <ContactFields />
                 )}
               </div>
               {config.contact.message && (

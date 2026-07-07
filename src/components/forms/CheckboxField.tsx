@@ -9,13 +9,13 @@ export function CheckboxField({ name, label }: { name: string; label: ReactNode 
   const { register } = useFormContext();
   return (
     <div className="grid gap-1.5">
-      <label className="flex cursor-pointer items-start gap-3 rounded-xl border-2 border-line bg-card p-4 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent">
+      <label className="flex cursor-pointer items-start gap-2.5">
         <input
           type="checkbox"
           {...register(name)}
-          className="mt-0.5 h-4 w-4 shrink-0 accent-accent"
+          className="mt-0.5 h-4 w-4 shrink-0 accent-accent focus-visible:ring-2 focus-visible:ring-accent"
         />
-        <span className="text-sm leading-snug">{label}</span>
+        <span className="text-sm leading-snug text-ink-soft">{label}</span>
       </label>
       <FieldError name={name} />
     </div>

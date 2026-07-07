@@ -8,8 +8,7 @@ import {
 /**
  * Funnel CVM · Expédition Explorer — gabarit maquette 2026-07-07 (4 étapes).
  * Règles de texte : jamais de devis ferme, pré-qualification (pas d'avis
- * médical), ne pas glorifier le danger. Les acceptations (certificat /
- * briefing) vivent sur l'écran coordonnées.
+ * médical), ne pas glorifier le danger.
  */
 export const cvmExplorerFunnel: FunnelConfig = {
   type: "cvm_explorer",
@@ -83,18 +82,6 @@ export const cvmExplorerFunnel: FunnelConfig = {
     question: "Vos coordonnées",
     message:
       "Cette demande ne confirme pas la participation. Elle permet de vérifier le profil, la motivation et les conditions nécessaires à une expédition sécurisée.",
-    conditions: {
-      acceptances: [
-        {
-          name: "acceptCertificat",
-          label: "J'accepte le principe du certificat médical obligatoire.",
-        },
-        {
-          name: "acceptBriefing",
-          label: "J'accepte le briefing sécurité avant l'engagement.",
-        },
-      ],
-    },
   },
   final: { cases: CVM_FINAL_CASES },
 };

@@ -76,33 +76,21 @@ describe("processLead — cvm", () => {
     expect(result.recommendation.href).toBe("/cvm/iles");
   });
 
-  it("explorer : les acceptations réglementaires sont exigées et stockées", () => {
-    const sans = processLead("cvm_explorer", {
+  it("explorer : projection = terrain, sans acceptation réglementaire", () => {
+    const result = processLead("cvm_explorer", {
       terrain: "canyons",
       departFenetre: "2_4",
       nbVoyageurs: "1",
     });
-    expect(sans.ok).toBe(false);
-
-    const avec = processLead("cvm_explorer", {
-      terrain: "canyons",
-      departFenetre: "2_4",
-      nbVoyageurs: "1",
-      acceptCertificat: true,
-      acceptBriefing: true,
-    });
-    expect(avec.ok).toBe(true);
-    if (!avec.ok) return;
-    expect(avec.qualif.accept_certificat).toBe(true);
-    expect(avec.qualif.accept_briefing).toBe(true);
+    expect(result.ok).toBe(true);
+    if (!result.ok) return;
+    expect(result.qualif.projection).toBe("canyons");
   });
 
   it("stocke la précision seulement quand « autre » est retenue", () => {
     const commun = {
       departFenetre: "2_4",
       nbVoyageurs: "1",
-      acceptCertificat: true,
-      acceptBriefing: true,
       terrainPrecision: "les tsingy",
     };
     const autre = processLead("cvm_explorer", { ...commun, terrain: "autre" });

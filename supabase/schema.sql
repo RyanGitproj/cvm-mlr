@@ -70,9 +70,6 @@ create table public.funnel_cvm_mlr_leads (
   depart_fenetre        text check (depart_fenetre in ('0_2', '2_4', '4_6', '6_10', '10_plus')),
   -- Case de compréhension des exclusions (MLR uniquement).
   comprehension         boolean,
-  -- Acceptations réglementaires (Explorer uniquement).
-  accept_certificat     boolean,
-  accept_briefing       boolean,
 
   -- Recommendation (moteur de segmentation, src/lib/segmentation/) — une
   -- donnée pour l'équipe aval, jamais un score ni une action.

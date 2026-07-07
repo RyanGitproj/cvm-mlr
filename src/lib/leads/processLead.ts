@@ -105,8 +105,6 @@ export function processLead(
             parsed.data.terrain,
             parsed.data.terrainPrecision,
           ),
-          accept_certificat: parsed.data.acceptCertificat,
-          accept_briefing: parsed.data.acceptBriefing,
         },
         recommendation: segmentDepart(parsed.data),
       };
