@@ -80,9 +80,10 @@ export function OfferCards({ funnelType, labelledBy, onSelect }: Props) {
       <div
         role="radiogroup"
         aria-labelledby={labelledBy}
-        // Une offre par ligne, PC compris (demande Ryan 2026-07-07) : sans
-        // les faux boutons, deux cartes pleine largeur tiennent à l'écran.
-        className="grid gap-3"
+        // Empilées en mobile ; côte à côte en PC dès qu'il y a 2 offres
+        // (demande Ryan 2026-07-08). Une offre seule (Grand Tour) reste
+        // pleine largeur — jamais une carte orpheline en demi-colonne.
+        className={cn("grid gap-3", options.length >= 2 && "sm:grid-cols-2")}
       >
         {options.map((option) => {
           const isSelected = option.value === selected;
@@ -151,11 +152,14 @@ export function OfferCards({ funnelType, labelledBy, onSelect }: Props) {
                 <span aria-hidden className="h-0.5 w-10 rounded-full bg-accent/70" />
                 <span className="text-sm text-ink">
                   À partir de{" "}
-                  <strong className="text-lg font-bold text-accent sm:text-xl">
-                    {option.priceText}
-                  </strong>
-                  {/* Bloc insécable : jamais de « / » orphelin en fin de ligne. */}
-                  <span className="whitespace-nowrap text-ink-soft"> / personne</span>
+                  {/* Prix + « / personne » soudés : « / personne » ne doit
+                      jamais retomber seul sous le prix (mobile compris). */}
+                  <span className="whitespace-nowrap">
+                    <strong className="text-lg font-bold text-accent sm:text-xl">
+                      {option.priceText}
+                    </strong>
+                    <span className="text-ink-soft"> / personne</span>
+                  </span>
                 </span>
                 {option.priceNote && (
                   <span className="-mt-1 text-xs text-ink-soft">

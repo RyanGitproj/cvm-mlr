@@ -27,7 +27,7 @@ export default function PageMere() {
         ctas={[{ href: "#univers", label: "Choisir mon univers" }]}
         imageLabel="Hero — collage des deux mondes"
         imageAlt="Collage évoquant les deux univers : lodge confortable et piste de road trip"
-        imageSrc="/images/mere/hero-mere.jpeg"
+        imageSrc="/images/mere/hero-mere.png"
       />
 
       <UniversPicker />

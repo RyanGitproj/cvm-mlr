@@ -30,6 +30,7 @@ export const cvmIlesFunnel: FunnelConfig = {
           image: {
             label: "Lagon de Nosy Be",
             alt: "Lagon turquoise et plages de Nosy Be",
+            src: "/images/cvm/iles/destination-nosy-be.png",
           },
         },
         {
@@ -38,6 +39,7 @@ export const cvmIlesFunnel: FunnelConfig = {
           image: {
             label: "Sainte-Marie sauvage",
             alt: "Côte sauvage et végétation de l'île Sainte-Marie",
+            src: "/images/cvm/iles/destination-sainte-marie.png",
           },
         },
         {
@@ -46,6 +48,7 @@ export const cvmIlesFunnel: FunnelConfig = {
           image: {
             label: "Circuit + île de rêve",
             alt: "Route de découverte puis plage paradisiaque en fin de séjour",
+            src: "/images/cvm/iles/destination-combine.png",
           },
         },
         // « La meilleure option selon la saison et mon budget » retirée le

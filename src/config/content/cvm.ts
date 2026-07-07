@@ -144,11 +144,10 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
         prixEuros: 2200,
         texte:
           "Cascades, forêts et villages : l'aventure accessible, idéale pour une première immersion.",
-        // Photo d'ambiance reprise de la galerie (remplaçable par le studio).
         image: {
-          label: "Crêtes au couchant",
-          alt: "Randonneurs progressant sur une crête au coucher du soleil",
-          src: "/images/cvm/treks/crete-coucher-soleil.jpg",
+          label: "Forêts & rivière",
+          alt: "Vue aérienne d'une rivière serpentant dans une forêt tropicale dense",
+          src: "/images/cvm/treks/offre-10j-foret-riviere.png",
         },
       },
       {
@@ -158,22 +157,22 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
         texte:
           "Plus de paysages, plus de rencontres : le trek qui prend le temps d'aller plus loin.",
         image: {
-          label: "Canyons du Makay",
-          alt: "Marcheurs dans un canyon du massif du Makay",
-          src: "/images/cvm/treks/canyons-makay.jpg",
+          label: "Tsingy — pierres levées",
+          alt: "Deux randonneurs surplombant le labyrinthe de pics calcaires des Tsingy",
+          src: "/images/cvm/treks/offre-15j-tsingy.png",
         },
       },
     ],
-    heroSrc: "/images/cvm/treks/hero-randonneurs-massif.jpg",
+    heroSrc: "/images/cvm/treks/hero-randonneurs-massif.png",
     // Libellés alignés sur les photos réelles fournies (décision Ryan
     // 2026-07-06) ; les slots sans photo gardent leur placeholder (TODO.md).
     galerie: [
       { label: "Crêtes au couchant", alt: "Randonneurs progressant sur une crête au coucher du soleil", src: "/images/cvm/treks/crete-coucher-soleil.jpg" },
       { label: "Canyons du Makay", alt: "Marcheurs dans un canyon du massif du Makay", src: "/images/cvm/treks/canyons-makay.jpg" },
-      { label: "Allée des baobabs", alt: "Allée des baobabs près de Morondava au coucher du soleil" },
+      { label: "Allée des baobabs", alt: "Allée des baobabs près de Morondava au coucher du soleil", src: "/images/cvm/treks/galerie-allee-baobabs.png" },
       { label: "L'aventure en famille", alt: "Famille progressant dans un lit de rivière de sable", src: "/images/cvm/treks/aventure-en-famille.jpg" },
       { label: "Campement d'étape", alt: "Tentes du campement dressées sur le sable au pied des reliefs", src: "/images/cvm/treks/campement-etape.jpg" },
-      { label: "Plage de fin de parcours", alt: "Plage du Sud-Ouest malgache en fin de trek" },
+      { label: "Plage de fin de parcours", alt: "Plage du Sud-Ouest malgache en fin de trek", src: "/images/cvm/treks/galerie-plage-fin-parcours.png" },
     ],
   },
   explorer: {
@@ -233,9 +232,9 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
         texte:
           "L'expédition pure : hors sentiers, bivouac permanent, immersion profonde.",
         image: {
-          label: "Bivouac au feu de camp",
-          alt: "Bivouac d'expédition autour d'un feu de camp",
-          src: "/images/cvm/explorer/bivouac-feu-de-camp.jpg",
+          label: "Bivouac & repas partagé",
+          alt: "Voyageurs et guides locaux partageant un repas au bivouac devant un massif rocheux",
+          src: "/images/cvm/explorer/offre-12j-bivouac-repas.png",
         },
       },
       {
@@ -245,13 +244,13 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
         texte:
           "Trois jours plus loin dans l'isolement : l'expédition dans toute son intensité.",
         image: {
-          label: "Traversée aride",
-          alt: "Marcheurs dans un canyon aride du Sud malgache",
-          src: "/images/cvm/explorer/traversee-canyon-aride.jpg",
+          label: "Rivière au fond du canyon",
+          alt: "Marcheur longeant la rivière rouge au fond d'un canyon verdoyant",
+          src: "/images/cvm/explorer/offre-15j-riviere-canyon.png",
         },
       },
     ],
-    heroSrc: "/images/cvm/explorer/hero-sommet-euphorique.jpg",
+    heroSrc: "/images/cvm/explorer/hero-belvedere-canyon.png",
     // Libellés alignés sur les photos réelles fournies (décision Ryan 2026-07-06).
     galerie: [
       { label: "Bivouac au feu de camp", alt: "Bivouac d'expédition autour d'un feu de camp", src: "/images/cvm/explorer/bivouac-feu-de-camp.jpg" },
@@ -315,8 +314,7 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
         prixEuros: 2200,
         texte:
           "Eaux cristallines, sable blanc, sérénité absolue : l'essentiel du rêve.",
-        // Aucune photo îles en stock : placeholder (visuel studio attendu).
-        image: { label: "Lagon de Nosy Be", alt: "Lagon turquoise de Nosy Be" },
+        image: { label: "Lagon de Nosy Be", alt: "Lagon turquoise de Nosy Be", src: "/images/cvm/iles/lagon-nosy-be.png" },
       },
       {
         value: "15_jours",
@@ -325,18 +323,20 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
         texte:
           "Deux semaines de douceur : les îles, le lagon et le temps de tout savourer.",
         image: {
-          label: "Plage de Sainte-Marie",
-          alt: "Plage bordée de cocotiers à Sainte-Marie",
+          label: "Sortie en pirogue",
+          alt: "Sortie en pirogue avec un piroguier local sur le lagon turquoise",
+          src: "/images/cvm/iles/offre-15j-pirogue-lagon.png",
         },
       },
     ],
+    heroSrc: "/images/cvm/iles/hero-iles-couchant.png",
     galerie: [
-      { label: "Lagon de Nosy Be", alt: "Lagon turquoise de Nosy Be" },
-      { label: "Plage de Sainte-Marie", alt: "Plage bordée de cocotiers à Sainte-Marie" },
-      { label: "Snorkeling", alt: "Snorkeling dans les eaux claires malgaches" },
-      { label: "Détente au spa", alt: "Moment de détente et de bien-être en bord de mer" },
-      { label: "Excursion en bateau", alt: "Bateau d'excursion entre les îles" },
-      { label: "Coucher de soleil", alt: "Coucher de soleil sur l'océan Indien" },
+      { label: "Lagon de Nosy Be", alt: "Lagon turquoise de Nosy Be", src: "/images/cvm/iles/lagon-nosy-be.png" },
+      { label: "Plage de Sainte-Marie", alt: "Plage de Sainte-Marie et son canon historique face au lagon", src: "/images/cvm/iles/galerie-sainte-marie.png" },
+      { label: "Snorkeling", alt: "Snorkeling dans les eaux claires malgaches", src: "/images/cvm/iles/galerie-snorkeling.png" },
+      { label: "Détente au spa", alt: "Massage bien-être sous une paillote face au lagon turquoise", src: "/images/cvm/iles/galerie-spa.png" },
+      { label: "Excursion en bateau", alt: "Bateau d'excursion entre les îles", src: "/images/cvm/iles/galerie-excursion-bateau.png" },
+      { label: "Coucher de soleil", alt: "Pirogue à balancier et couple sur la plage au coucher du soleil, baobabs en silhouette", src: "/images/cvm/iles/galerie-coucher-soleil.png" },
     ],
   },
   "un-mois": {
@@ -429,8 +429,8 @@ export const CVM_LANDING = {
     titre: "Madagascar, là où les autres ne vont pas",
     sousTitre:
       "Quatre expériences encadrées par une équipe locale. Vous gardez l'émotion — nous gérons toute la logistique.",
-    imageLabel: "Triptyque des expériences CVM",
-    imageAlt: "Triptyque des expériences : plage et bateau turquoise, faune insolite, trek vers les massifs",
+    imageLabel: "Allée des baobabs — voyageurs accompagnés",
+    imageAlt: "Groupe de voyageurs marchant dans l'allée des baobabs à la lumière dorée, sacs au dos",
   },
   orientation: {
     titre: "Vous ne savez pas laquelle choisir ?",

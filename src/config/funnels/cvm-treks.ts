@@ -30,6 +30,7 @@ export const cvmTreksFunnel: FunnelConfig = {
           image: {
             label: "Reliefs du Nord — Diego",
             alt: "Reliefs puissants et mer turquoise autour de Diego-Suarez",
+            src: "/images/cvm/treks/decor-nord.png",
           },
         },
         {
@@ -38,6 +39,7 @@ export const cvmTreksFunnel: FunnelConfig = {
           image: {
             label: "Baobabs de l'Ouest",
             alt: "Allée des baobabs et pistes de l'Ouest malgache",
+            src: "/images/cvm/treks/decor-ouest.png",
           },
         },
         {
@@ -46,6 +48,7 @@ export const cvmTreksFunnel: FunnelConfig = {
           image: {
             label: "Massif du Makay",
             alt: "Canyons et zones arides du massif du Makay",
+            src: "/images/cvm/treks/decor-sud.png",
           },
         },
         {
@@ -54,6 +57,7 @@ export const cvmTreksFunnel: FunnelConfig = {
           image: {
             label: "Jungle de l'Est",
             alt: "Végétation dense et sauvage de la côte Est",
+            src: "/images/cvm/treks/decor-est.png",
           },
         },
         {

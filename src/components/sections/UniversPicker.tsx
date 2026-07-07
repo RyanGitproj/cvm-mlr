@@ -36,11 +36,10 @@ export function UniversPicker() {
             href="/cvm"
             className="flex h-full min-w-0 flex-col rounded-2xl border-2 border-line bg-card p-4 transition-colors hover:border-accent motion-safe:transition-transform motion-safe:hover:-translate-y-1 sm:p-6"
           >
-            {/* Même visuel que le hero /cvm (demande Ryan 2026-07-06). */}
             <ContentImage
               ratio="16/9"
-              src="/images/cvm/hero-cvm.jpeg"
-              alt="Triptyque des expériences : plage et bateau turquoise, faune insolite, trek vers les massifs"
+              src="/images/mere/cvm-univers.png"
+              alt="Plage confidentielle au couchant : terrasse lounge d'un lodge et transats face au lagon turquoise"
               sizes="(min-width: 1152px) 552px, (min-width: 640px) 50vw, 100vw"
             />
             <p className="mt-5 font-heading text-xl font-bold text-ink-strong sm:text-3xl">
@@ -71,10 +70,14 @@ export function UniversPicker() {
             </div>
             <p className="mt-4 flex-1 text-sm text-ink-soft">
               <span className="text-xs uppercase tracking-wide">À partir de </span>
-              <strong className="text-xl font-bold text-ink-strong">
-                {formatEuros(CVM_PRIX_MINI)}
-              </strong>
-              <span className="text-xs uppercase tracking-wide"> / personne</span>
+              {/* Prix + « / personne » soudés : « / personne » ne retombe
+                  jamais seul sous le prix (mobile compris). */}
+              <span className="whitespace-nowrap">
+                <strong className="text-xl font-bold text-ink-strong">
+                  {formatEuros(CVM_PRIX_MINI)}
+                </strong>
+                <span className="text-xs uppercase tracking-wide"> / personne</span>
+              </span>
             </p>
             <span className="cta-pulse mt-5 inline-flex w-fit items-center gap-2 rounded-lg bg-ink-strong px-3 py-2 text-xs font-semibold uppercase tracking-wide text-surface sm:px-5 sm:py-2.5 sm:text-sm">
               Choisir ce voyage →
@@ -90,8 +93,8 @@ export function UniversPicker() {
             >
               <ContentImage
                 ratio="16/9"
-                src="/images/mere/mlr-univers.jpg"
-                alt="Taxi-brousse chargé sur la route, baobabs à l'horizon"
+                src="/images/mere/mlr-univers.png"
+                alt="Taxi-brousse chargé sur la piste rouge dans l'allée des baobabs au couchant"
                 sizes="(min-width: 1152px) 552px, (min-width: 640px) 50vw, 100vw"
               />
               <p className="mt-5 font-heading text-xl font-bold uppercase tracking-wide text-ink-strong sm:text-3xl">

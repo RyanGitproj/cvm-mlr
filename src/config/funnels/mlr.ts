@@ -50,8 +50,8 @@ export const mlrFunnel: FunnelConfig = {
         cta: "Voir Célébrations Voyages",
         image: {
           label: "Univers Célébrations Voyages",
-          alt: "Triptyque des expériences : plage et bateau turquoise, faune insolite, trek vers les massifs",
-          src: "/images/cvm/hero-cvm.jpeg",
+          alt: "Groupe de voyageurs marchant dans l'allée des baobabs à la lumière dorée, sacs au dos",
+          src: "/images/cvm/hero-cvm.png",
         },
       },
     },
