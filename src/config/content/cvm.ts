@@ -96,9 +96,12 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
       "Un trek encadré, calibré sur votre niveau et votre rythme — en famille, en couple ou entre amis.",
     ctaLabel: "Recevoir mon itinéraire Trek Aventure",
     card: {
+      // Visuel studio livré le 2026-07-07 (lot WhatsApp docs/, placement
+      // validé par la capture de référence).
       image: {
-        label: "Visuel studio — Treks Aventure",
+        label: "Card Treks Aventure",
         alt: "Treks Aventure : randonneur au sommet des tsingy face aux massifs et à la forêt",
+        src: "/images/cvm/cards/card-treks-aventure.jpg",
       },
       puces: [
         "Trekking sur circuits aménagés",
@@ -184,8 +187,9 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
     ctaLabel: "Voir si je suis compatible",
     card: {
       image: {
-        label: "Visuel studio — Expédition Explorer",
-        alt: "Expédition Explorer : cordée de randonneurs en zone extrême au couchant, hélicoptère en appui",
+        label: "Card Expédition Explorer",
+        alt: "Expédition Explorer : cordée de randonneurs en zone extrême au couchant",
+        src: "/images/cvm/cards/card-expedition-explorer.jpg",
       },
       puces: [
         "Zones extrêmes et inexplorées",
@@ -269,8 +273,9 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
     ctaLabel: "Créer mon Séjour Collection",
     card: {
       image: {
-        label: "Visuel studio — Plages de rêve & îles paradisiaques",
+        label: "Card Plages de rêve",
         alt: "Plages de rêve et îles paradisiaques : hamac au-dessus d'un lagon turquoise bordé de palmiers",
+        src: "/images/cvm/cards/card-plages-de-reve.jpg",
       },
       puces: [
         "Séjours bien-être en bord de mer",
@@ -347,8 +352,9 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
     ctaLabel: "Recevoir le programme Grand Tour Madagascar",
     card: {
       image: {
-        label: "Visuel studio — Grand Mada Tour",
+        label: "Card Grand Mada Tour",
         alt: "Grand Tour Madagascar : 4x4 chargé traversant l'allée des baobabs dans la lumière dorée",
+        src: "/images/cvm/cards/card-grand-mada-tour.jpg",
       },
       puces: [
         "Itinéraire touristique – Sans hors-piste",
