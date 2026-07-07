@@ -12,10 +12,10 @@ export const FUNNEL_TYPES = [
 export type FunnelType = (typeof FUNNEL_TYPES)[number];
 
 /**
- * Ligne écrite dans `public.funnel_cvm_mlr_info` (étape 1) — colonnes indépendantes
+ * Ligne écrite dans `public.funnel_cvm_mlr_info` — colonnes indépendantes
  * (voir supabase/schema.sql). `id` et `created_at` sont générés en base.
  */
-export type LeadStep1Row = {
+export type LeadInfoRow = {
   funnel_type: FunnelType;
   brand: Brand;
   // Contact
@@ -27,6 +27,9 @@ export type LeadStep1Row = {
   periode: string | null;
   commentaire: string | null;
   consentement: boolean;
+  // Opt-ins wizard MLR (null = non demandé, leads CVM ; false = refusé)
+  optin_documents: boolean | null;
+  optin_conseils: boolean | null;
   // Offre
   offre_ref: string | null;
   offre_label: string | null;
@@ -43,10 +46,10 @@ export type LeadStep1Row = {
 };
 
 /**
- * Ligne écrite dans `public.funnel_cvm_mlr_com` (étape 2) — satellite lié
- * par `lead_id`. `answers` regroupe les réponses commerciales (JSONB).
+ * Ligne écrite dans `public.funnel_cvm_mlr_com` — satellite lié par
+ * `lead_id`. `answers` regroupe les réponses de qualification (JSONB).
  */
-export type LeadStep2Row = {
+export type LeadComRow = {
   lead_id: string;
   answers: Record<string, unknown>;
   recommendation: Record<string, unknown> | null;

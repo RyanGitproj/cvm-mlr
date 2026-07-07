@@ -12,8 +12,6 @@ export const publicRoutes = [
   "/cvm/orientation/questionnaire",
   "/mlr",
   "/mlr/nord",
-  "/mlr/sud",
-  "/mlr/est",
   "/mlr/ouest",
   "/faq",
   "/mentions-legales",

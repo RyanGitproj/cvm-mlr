@@ -11,6 +11,7 @@ import { PlaceholderImage } from "@/components/ui/PlaceholderImage";
 import { Pill } from "@/components/ui/Pill";
 import { NOTE_TARIFAIRE_MLR } from "@/config/brands";
 import {
+  MLR_DUREES_NOTE,
   MLR_LANDING,
   MLR_ROUTES_CONTENT,
   MLR_SERVICES_LANDING,
@@ -33,7 +34,11 @@ export default function MlrLandingPage() {
           { href: "#questionnaire", label: "Trouver ma route" },
           { href: "#routes", label: "Découvrir les routes", variant: "outline" },
         ]}
-        micro={[MLR_TARIFS.dixJours, MLR_TARIFS.quinzeJours]}
+        micro={[
+          ...MLR_LANDING.hero.badges,
+          MLR_TARIFS.dixJours,
+          MLR_TARIFS.quinzeJours,
+        ]}
         imageLabel={MLR_LANDING.hero.imageLabel}
         imageAlt={MLR_LANDING.hero.imageAlt}
         imageSrc="/images/mlr/hero.jpg"
@@ -41,8 +46,8 @@ export default function MlrLandingPage() {
 
       <section className="accent-forest mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
         <SectionHeading
-          titre="Choisissez votre durée"
-          sousTitre="Un repère pour vous projeter — vous confirmerez votre durée dans le questionnaire."
+          titre="Choisis ton niveau d'aventure"
+          sousTitre="Un repère pour te projeter — tu confirmeras ta durée dans le parcours."
           accent
         />
         <div className="mt-8 grid gap-4 sm:grid-cols-2">
@@ -56,6 +61,7 @@ export default function MlrLandingPage() {
               </p>
               <p className="mt-1 font-semibold text-accent">{duree.prix}</p>
               <p className="mt-2 text-sm text-ink-soft">{duree.texte}</p>
+              <p className="mt-2 text-xs text-ink-soft">{MLR_DUREES_NOTE}</p>
             </div>
           ))}
         </div>
@@ -67,13 +73,11 @@ export default function MlrLandingPage() {
       >
         <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
           <SectionHeading
-            titre="Les 4 roots"
-            sousTitre="Quatre ambiances, un même format : guide local privé + taxi-brousse. Choisissez celle qui vous appelle — on s'occupe du reste."
+            titre="Deux routes. Deux visages de Madagascar."
+            sousTitre="Nord ou Ouest — même format : guide local privé + taxi-brousse. Choisis celle qui t'appelle, on s'occupe du reste."
             accent
           />
-          {/* 2×2 en mobile, 4 sur une ligne dès sm — aligné sur la grille des
-              univers CVM (grid-cols-2 → sm:grid-cols-4). */}
-          <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
+          <div className="mt-8 grid gap-4 sm:grid-cols-2">
             {MLR_LANDING.routes.map((route, index) => {
               const content = MLR_ROUTES_CONTENT[route.slug];
               return (
@@ -97,7 +101,7 @@ export default function MlrLandingPage() {
                       />
                     )}
                     <p className="mt-4 font-heading text-2xl font-bold uppercase tracking-wide text-ink-strong">
-                      Road Trip {route.titre}
+                      {content.titre}
                     </p>
                     <p className="mt-1 flex-1 text-sm text-ink-soft">{route.texte}</p>
                     <span className="mt-3 text-sm font-semibold text-accent">

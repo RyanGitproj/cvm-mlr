@@ -31,9 +31,11 @@ export default function ConfidentialitePage() {
 
       <h2 className={H2_CLASS}>Données collectées</h2>
       <p className={P_CLASS}>
-        Identité (prénom), coordonnées (téléphone, email), réponses de
-        qualification (budget, préférences, période, nombre de voyageurs,
-        commentaire libre) et, le cas échéant, paramètres de campagne (UTM,
+        Identité (nom, prénom), coordonnées (téléphone, email) ; réponses du
+        parcours (préférence d’aventure, formule choisie, période de départ,
+        nombre de voyageurs) ; vos préférences de communication (réception
+        de la brochure, de la vidéo et du devis indicatif, conseils de
+        préparation) ; et, le cas échéant, paramètres de campagne (UTM,
         référent) de votre première visite.
       </p>
 

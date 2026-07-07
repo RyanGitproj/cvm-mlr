@@ -1,64 +1,24 @@
 import { z } from "zod";
-import { cvmBudgetValues, precision } from "./common";
+import { departFenetreSchema, nbVoyageursSchema, precision } from "./common";
 
 /**
- * Funnel CVM · Un mois à Madagascar (brief §13.4).
- * Formule unique (« Environ 1 mois ») : pas de choix d'offre en étape 1.
+ * Funnel CVM · Grand Tour Madagascar — gabarit maquette 2026-07-07 :
+ * Q1 objectif du Grand Tour (projection de vie), Q2 formule unique
+ * (carte à prix), Q3 période, Q4 voyageurs.
  */
 
-/** Étape 1 — aucune option d'offre (formule unique). */
-export const cvmUnMoisOfferSchema = z.object({});
+export const cvmUnMoisOfferSchema = z.object({
+  offreDuree: z.enum(["un_mois"], "Merci de confirmer la formule."),
+});
 
-/** Étape 2 — qualification commerciale (sans contact ni offre). */
 export const cvmUnMoisQualificationSchema = z.object({
-  budget: z.enum(cvmBudgetValues, "Merci de choisir une enveloppe budget."),
   objectifMois: z.enum(
-    ["expatriation", "creation_societe", "retraite", "decouverte", "autre"],
+    ["decouverte", "expatriation", "creation_societe", "retraite", "autre"],
     "Merci de choisir une réponse.",
   ),
   objectifMoisPrecision: precision(),
-  maturite: z.enum(
-    ["premiere_reflexion", "serieux_compare", "avance", "engage", "autre"],
-    "Merci de choisir une réponse.",
-  ),
-  maturitePrecision: precision(),
-  // Horizon de départ (réponse guidée) — renommé pour ne pas entrer en
-  // collision avec le champ `periode` (texte libre) du contact.
-  horizon: z.enum(
-    ["2_4_mois", "4_6_mois", "6_10_mois", "1_an_plus", "precise"],
-    "Merci de choisir un horizon de départ.",
-  ),
-  horizonPrecision: precision(),
-  sujets: z.enum(
-    [
-      "cadre_de_vie",
-      "activite_partenaires",
-      "logement_installation",
-      "administratif",
-      "autre",
-    ],
-    "Merci de choisir une réponse.",
-  ),
-  sujetsPrecision: precision(),
-  regions: z.enum(
-    ["tana_hautes_terres", "nord", "est", "ouest_sud", "quatre_coins"],
-    "Merci de choisir une réponse.",
-  ),
-  accompagnement: z.enum(
-    ["tres_accompagne", "semi_guide", "autonome", "orientation_business", "autre"],
-    "Merci de choisir une réponse.",
-  ),
-  accompagnementPrecision: precision(),
-  situation: z.enum(
-    ["seul", "couple", "famille", "associe", "autre"],
-    "Merci de choisir une réponse.",
-  ),
-  situationPrecision: precision(),
-  confort: z.enum(
-    ["simple_eco", "correct", "superieur", "premium", "autre"],
-    "Merci de choisir une réponse.",
-  ),
-  confortPrecision: precision(),
+  departFenetre: departFenetreSchema,
+  nbVoyageurs: nbVoyageursSchema,
 });
 
 export type CvmUnMoisQualification = z.infer<

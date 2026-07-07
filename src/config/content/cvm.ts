@@ -11,7 +11,10 @@ export type CvmUniversSlug = "explorer" | "treks" | "iles" | "un-mois";
 /**
  * Formule tarifaire d'une offre — durée optionnelle (Grand Tour = formule
  * unique sans durée). Prix indicatif par personne, hors vol & assurance.
- * Source : grille tarifaire CVM fournie par Ryan (2026-07).
+ * Source : grille tarifaire CVM fournie par Ryan (2026-07). Les textes de
+ * carte (phrase d'appui, pilule) sont propres à chaque aventure — créa
+ * validée par Ryan le 2026-07-07, ancrée dans la brochure
+ * `Celebrations_Voyages_Madagascar.pdf` (p.5 « Nos 4 univers »).
  */
 export type CvmFormule = {
   /**
@@ -22,6 +25,12 @@ export type CvmFormule = {
   value?: string;
   duree?: string;
   prixEuros: number;
+  /** Phrase d'appui de la carte d'offre (maquette 3). */
+  texte?: string;
+  /** Pilule décorative de la carte (« Je choisis 10 jours »). */
+  cta?: string;
+  /** Volet photo de la carte — photo d'ambiance réutilisée ou placeholder. */
+  image?: { label: string; alt: string; src?: string };
 };
 
 export type CvmUniversContent = {
@@ -48,6 +57,15 @@ export type CvmUniversContent = {
   heroSrc?: string;
   /** Vignettes « En images » — placeholder tant que `src` est absent. */
   galerie: { label: string; alt: string; src?: string }[];
+  /**
+   * Card de la landing /cvm (maquette avant_vocale du 2026-07-07) : image
+   * portrait fournie par le studio avec titre et badges incrustés, puis
+   * 4 puces sous l'image — seuls textes portés par le code.
+   */
+  card: {
+    image: { label: string; alt: string; src?: string };
+    puces: readonly [string, string, string, string];
+  };
 };
 
 export const ETAPES_ACCOMPAGNEMENT = [
@@ -74,6 +92,18 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
     sousTitre:
       "Vivez l'aventure sans partir à l'aveugle : un trek encadré, calibré sur votre niveau, vos paysages et votre rythme — en famille, en couple ou entre amis.",
     ctaLabel: "Recevoir mon itinéraire Trek Aventure",
+    card: {
+      image: {
+        label: "Visuel studio — Treks Aventure",
+        alt: "Treks Aventure : randonneur au sommet des tsingy face aux massifs et à la forêt",
+      },
+      puces: [
+        "Trekking sur circuits aménagés",
+        "Paysages spectaculaires et rencontres locales",
+        "Adapté à tous les niveaux",
+        "Aventure et découverte garanties",
+      ],
+    },
     micro: [
       "Réponse sous 24 h",
       "Proposition personnalisée",
@@ -103,8 +133,33 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
       ],
     },
     formules: [
-      { value: "10_jours", duree: "10 jours", prixEuros: 2200 },
-      { value: "15_jours", duree: "15 jours", prixEuros: 2500 },
+      {
+        value: "10_jours",
+        duree: "10 jours",
+        prixEuros: 2200,
+        texte:
+          "Cascades, forêts et villages : l'aventure accessible, idéale pour une première immersion.",
+        cta: "Je choisis 10 jours",
+        // Photo d'ambiance reprise de la galerie (remplaçable par le studio).
+        image: {
+          label: "Crêtes au couchant",
+          alt: "Randonneurs progressant sur une crête au coucher du soleil",
+          src: "/images/cvm/treks/crete-coucher-soleil.jpg",
+        },
+      },
+      {
+        value: "15_jours",
+        duree: "15 jours",
+        prixEuros: 2500,
+        texte:
+          "Plus de paysages, plus de rencontres : le trek qui prend le temps d'aller plus loin.",
+        cta: "Je choisis 15 jours",
+        image: {
+          label: "Canyons du Makay",
+          alt: "Marcheurs dans un canyon du massif du Makay",
+          src: "/images/cvm/treks/canyons-makay.jpg",
+        },
+      },
     ],
     heroSrc: "/images/cvm/treks/hero-randonneurs-massif.jpg",
     // Libellés alignés sur les photos réelles fournies (décision Ryan
@@ -127,6 +182,18 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
     sousTitre:
       "Une expédition réelle, engagée et encadrée, pour les voyageurs prêts à vivre l'effort, le bivouac, l'immersion humaine et l'exploration terrain.",
     ctaLabel: "Voir si je suis compatible",
+    card: {
+      image: {
+        label: "Visuel studio — Expédition Explorer",
+        alt: "Expédition Explorer : cordée de randonneurs en zone extrême au couchant, hélicoptère en appui",
+      },
+      puces: [
+        "Zones extrêmes et inexplorées",
+        "Cartographie, relevés GPS, données scientifiques",
+        "Engagement physique et mental",
+        "Encadré par des experts – Sécurité maîtrisée",
+      ],
+    },
     micro: [
       "Certificat médical obligatoire",
       "Pré-validation humaine",
@@ -157,8 +224,32 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
       note: "Jamais de devis ferme à ce stade : votre demande est une pré-validation, suivie d'un échange humain.",
     },
     formules: [
-      { value: "12_jours", duree: "12 jours", prixEuros: 2800 },
-      { value: "15_jours", duree: "15 jours", prixEuros: 3000 },
+      {
+        value: "12_jours",
+        duree: "12 jours",
+        prixEuros: 2800,
+        texte:
+          "L'expédition pure : hors sentiers, bivouac permanent, immersion profonde.",
+        cta: "Je choisis 12 jours",
+        image: {
+          label: "Bivouac au feu de camp",
+          alt: "Bivouac d'expédition autour d'un feu de camp",
+          src: "/images/cvm/explorer/bivouac-feu-de-camp.jpg",
+        },
+      },
+      {
+        value: "15_jours",
+        duree: "15 jours",
+        prixEuros: 3000,
+        texte:
+          "Trois jours plus loin dans l'isolement : l'expédition dans toute son intensité.",
+        cta: "Je choisis 15 jours",
+        image: {
+          label: "Traversée aride",
+          alt: "Marcheurs dans un canyon aride du Sud malgache",
+          src: "/images/cvm/explorer/traversee-canyon-aride.jpg",
+        },
+      },
     ],
     heroSrc: "/images/cvm/explorer/hero-sommet-euphorique.jpg",
     // Libellés alignés sur les photos réelles fournies (décision Ryan 2026-07-06).
@@ -180,6 +271,18 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
     sousTitre:
       "Plages paradisiaques, lagons et îles de rêve : Nosy Be, Sainte-Marie ou séjour combiné — composé sur votre ambiance, du romantique à la lune de miel.",
     ctaLabel: "Créer mon Séjour Collection",
+    card: {
+      image: {
+        label: "Visuel studio — Plages de rêve & îles paradisiaques",
+        alt: "Plages de rêve et îles paradisiaques : hamac au-dessus d'un lagon turquoise bordé de palmiers",
+      },
+      puces: [
+        "Séjours bien-être en bord de mer",
+        "Îles secrètes, lagons cristallins",
+        "Hébergements de charme",
+        "Déconnexion et ressourcement",
+      ],
+    },
     micro: [
       "Réponse sous 24 h",
       "Proposition personnalisée",
@@ -207,8 +310,28 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
       ],
     },
     formules: [
-      { value: "10_jours", duree: "10 jours", prixEuros: 2200 },
-      { value: "15_jours", duree: "15 jours", prixEuros: 2500 },
+      {
+        value: "10_jours",
+        duree: "10 jours",
+        prixEuros: 2200,
+        texte:
+          "Eaux cristallines, sable blanc, sérénité absolue : l'essentiel du rêve.",
+        cta: "Je choisis 10 jours",
+        // Aucune photo îles en stock : placeholder (visuel studio attendu).
+        image: { label: "Lagon de Nosy Be", alt: "Lagon turquoise de Nosy Be" },
+      },
+      {
+        value: "15_jours",
+        duree: "15 jours",
+        prixEuros: 2500,
+        texte:
+          "Deux semaines de douceur : les îles, le lagon et le temps de tout savourer.",
+        cta: "Je choisis 15 jours",
+        image: {
+          label: "Plage de Sainte-Marie",
+          alt: "Plage bordée de cocotiers à Sainte-Marie",
+        },
+      },
     ],
     galerie: [
       { label: "Lagon de Nosy Be", alt: "Lagon turquoise de Nosy Be" },
@@ -229,6 +352,18 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
     sousTitre:
       "Environ un mois à travers les grandes régions : immersion culturelle, paysages variés, découverte complète — avec le temps de s'imprégner et de se reposer.",
     ctaLabel: "Recevoir le programme Grand Tour Madagascar",
+    card: {
+      image: {
+        label: "Visuel studio — Grand Mada Tour",
+        alt: "Grand Tour Madagascar : 4x4 chargé traversant l'allée des baobabs dans la lumière dorée",
+      },
+      puces: [
+        "Itinéraire touristique – Sans hors-piste",
+        "Découverte des incontournables",
+        "Confort et liberté en 4x4",
+        "Un mois d'immersion en toute autonomie",
+      ],
+    },
     micro: [
       "Réponse sous 24 h",
       "Pré-programme personnalisé",
@@ -259,7 +394,19 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
     },
     formules: [
       // Grand Tour Madagascar : formule unique, environ 1 mois (capture + brochure).
-      { value: "un_mois", duree: "Environ 1 mois", prixEuros: 5300 },
+      {
+        value: "un_mois",
+        duree: "Environ 1 mois",
+        prixEuros: 5300,
+        texte:
+          "Un mois pour relier les mondes de l'île : culture, paysages et repos.",
+        cta: "Je choisis le Grand Tour",
+        image: {
+          label: "Tsingy de l'Ouest",
+          alt: "Randonneurs au cœur des formations minérales des Tsingy",
+          src: "/images/cvm/un-mois/tsingy-ouest.jpg",
+        },
+      },
     ],
     heroSrc: "/images/cvm/un-mois/hero-village-rencontre.jpg",
     // Libellés alignés sur les photos réelles fournies (décision Ryan 2026-07-06).

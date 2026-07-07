@@ -6,6 +6,8 @@ import { NoteTarifaire } from "@/components/sections/NoteTarifaire";
 import { ReassuranceBar } from "@/components/sections/ReassuranceBar";
 import { SectionHeading } from "@/components/sections/SectionHeading";
 import { ButtonLink } from "@/components/ui/Button";
+import { ContentImage } from "@/components/ui/ContentImage";
+import { PlaceholderImage } from "@/components/ui/PlaceholderImage";
 import { NOTE_TARIFAIRE_CVM } from "@/config/brands";
 import {
   CVM_LANDING,
@@ -13,7 +15,6 @@ import {
   type CvmUniversSlug,
 } from "@/config/content/cvm";
 import { cn } from "@/lib/cn";
-import { formatEuros } from "@/lib/format";
 
 export const metadata: Metadata = {
   title: "Célébrations Voyages Madagascar — 4 expériences encadrées",
@@ -48,28 +49,21 @@ export default function CvmLandingPage() {
         className="mx-auto w-full max-w-6xl scroll-mt-20 px-4 py-12 sm:px-6"
       >
         <SectionHeading
-          titre="Quatre expériences, un seul interlocuteur"
-          sousTitre="Chaque expérience a son ambiance et son rythme. Reconnaissez la vôtre — nous construisons le reste."
+          titre="Quatre expériences. Un seul choix : votre éveil."
+          sousTitre="À chacun son rythme, à chacun son aventure. Madagascar, selon vos envies."
         />
-        {/* 2×2 en mobile (décision Ryan 2026-07-03) : 4 colonnes à 390 px
-            coupaient les mots des titres. */}
-        <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
+        {/* Cards maquette avant_vocale (2026-07-07) : l'image studio porte le
+            titre et les badges incrustés — le code porte les 4 puces. */}
+        <div className="mt-8 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
           {UNIVERS_ORDER.map((slug, index) => {
             const univers = CVM_UNIVERS[slug];
-            const prixMini = Math.min(
-              ...univers.formules.map((formule) => formule.prixEuros),
-            );
-            const prixLabel =
-              univers.formules.length > 1
-                ? `dès ${formatEuros(prixMini)}`
-                : formatEuros(prixMini);
             return (
               <Reveal key={slug} delay={index * 80} className="h-full min-w-0">
                 <Link
                   href={`/cvm/${slug}`}
                   data-accent={univers.accent}
                   className={cn(
-                    "flex h-full min-w-0 flex-col rounded-2xl border-2 bg-card p-3 transition-colors hover:border-accent sm:p-6",
+                    "flex h-full min-w-0 flex-col rounded-2xl border-2 bg-card p-3 transition-colors hover:border-accent sm:p-4",
                     // L'Expédition porte couleur + lumière (directive boss
                     // 2026-07) ; les trois autres restent en bordure neutre.
                     slug === "explorer"
@@ -77,23 +71,42 @@ export default function CvmLandingPage() {
                       : "border-line",
                   )}
                 >
-                  <p className="text-[10px] font-semibold uppercase tracking-wide text-accent sm:text-xs sm:tracking-[0.2em]">
-                    {univers.surtitre}
-                  </p>
-                  <p className="mt-2 break-words font-heading text-sm font-bold text-ink-strong sm:text-2xl">
-                    {univers.titre}
-                  </p>
-                  <p className="mt-2 hidden flex-1 break-words text-sm text-ink-soft sm:block">
-                    {univers.sousTitre}
-                  </p>
-                  <div className="mt-auto flex flex-col gap-1 pt-3 sm:flex-row sm:items-center sm:justify-between">
-                    <span className="text-xs font-semibold text-accent sm:text-sm">
-                      Découvrir →
-                    </span>
-                    <span className="text-xs font-semibold text-ink-strong sm:text-sm">
-                      {prixLabel}
-                    </span>
-                  </div>
+                  <h3 className="sr-only">{univers.titre}</h3>
+                  {univers.card.image.src ? (
+                    <ContentImage
+                      ratio="3/4"
+                      src={univers.card.image.src}
+                      alt={univers.card.image.alt}
+                      sizes="(min-width: 1024px) 264px, 50vw"
+                    />
+                  ) : (
+                    <PlaceholderImage
+                      ratio="3/4"
+                      label={univers.card.image.label}
+                      alt={univers.card.image.alt}
+                    />
+                  )}
+                  <ul className="mt-3 grid flex-1 content-start gap-1.5 text-[11px] leading-snug sm:gap-2 sm:text-sm">
+                    {univers.card.puces.map((puce) => (
+                      <li key={puce} className="flex gap-1.5 sm:gap-2">
+                        <svg
+                          aria-hidden
+                          width="14"
+                          height="14"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="3"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className="mt-0.5 shrink-0 text-accent"
+                        >
+                          <path d="m4 12.5 5.5 5.5L20 6.5" />
+                        </svg>
+                        {puce}
+                      </li>
+                    ))}
+                  </ul>
                 </Link>
               </Reveal>
             );

@@ -20,6 +20,9 @@ export function getFunnelConfig(funnelType: FunnelType): FunnelConfig {
   return FUNNELS[funnelType];
 }
 
-/** Valeurs de route MLR pré-sélectionnées par les pages /mlr/{route}. */
-export const MLR_ROUTES = ["nord", "sud", "est", "ouest"] as const;
+/**
+ * Valeurs de route MLR pré-sélectionnées par les pages /mlr/{route}.
+ * Nord et Ouest uniquement (directive boss 2026-07-07 — Sud et Est retirés).
+ */
+export const MLR_ROUTES = ["nord", "ouest"] as const;
 export type MlrRoute = (typeof MLR_ROUTES)[number];

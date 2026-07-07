@@ -1,6 +1,6 @@
 import { resolveOffer } from "@/config/offers";
 import type { UtmData } from "@/lib/utm";
-import type { FunnelType, LeadStep1Row } from "@/types/lead";
+import type { FunnelType, LeadInfoRow } from "@/types/lead";
 
 const asString = (value: unknown): string =>
   typeof value === "string" ? value : "";
@@ -8,16 +8,30 @@ const asString = (value: unknown): string =>
 const asOptString = (value: unknown): string | null =>
   typeof value === "string" && value.trim() !== "" ? value : null;
 
+/** Booléen explicite ou null — null = information non demandée (leads CVM). */
+const asOptBool = (value: unknown): boolean | null =>
+  typeof value === "boolean" ? value : null;
+
 /**
- * Construit la ligne `leads` (étape 1) depuis les données validées du
- * contact + de l'offre. Fonction pure, testable sans mock. L'offre est
- * résolue en label/durée/prix depuis les contenus éditoriaux.
+ * Le wizard MLR produit un nombre de voyageurs en chaîne (radio « 1 »–« 4 »),
+ * les coordonnées CVM un nombre (coerce Zod) — conversion centralisée ici.
  */
-export function toLeadStep1Row(
+const asNbVoyageurs = (value: unknown): number | null => {
+  if (typeof value === "number" && Number.isFinite(value)) return value;
+  if (typeof value === "string" && /^\d+$/.test(value)) return Number(value);
+  return null;
+};
+
+/**
+ * Construit la ligne `funnel_cvm_mlr_info` depuis les données validées du
+ * parcours complet. Fonction pure, testable sans mock. L'offre est résolue
+ * en label/durée/prix depuis les contenus éditoriaux.
+ */
+export function toLeadInfoRow(
   funnelType: FunnelType,
   data: Record<string, unknown>,
   utm: UtmData | null,
-): LeadStep1Row {
+): LeadInfoRow {
   const offre = resolveOffer(
     funnelType,
     typeof data.offreDuree === "string" ? data.offreDuree : undefined,
@@ -30,10 +44,14 @@ export function toLeadStep1Row(
     prenom: asOptString(data.prenom),
     telephone: asString(data.telephone),
     email: asString(data.email),
-    nb_voyageurs: typeof data.nbVoyageurs === "number" ? data.nbVoyageurs : null,
-    periode: asOptString(data.periode),
+    nb_voyageurs: asNbVoyageurs(data.nbVoyageurs),
+    // Depuis le gabarit 2026-07-07, seul le « Mois de départ » facultatif
+    // MLR alimente cette colonne (la fenêtre Q3 vit dans answers).
+    periode: asOptString(data.moisDepart),
     commentaire: asOptString(data.commentaire),
     consentement: data.consentement === true,
+    optin_documents: asOptBool(data.optinDocuments),
+    optin_conseils: asOptBool(data.optinConseils),
     offre_ref: offre?.ref ?? null,
     offre_label: offre?.label ?? null,
     offre_duree: offre?.duree ?? null,

@@ -32,12 +32,17 @@ create table public.funnel_cvm_mlr_info (
   commentaire           text,
   consentement          boolean not null default false,
 
+  -- Opt-ins wizard MLR (2026-07-07) — nullable : seuls les leads MLR les
+  -- portent. NULL = non demandé (CVM, anciens leads) ; false = refusé.
+  optin_documents       boolean,
+  optin_conseils        boolean,
+
   -- Choix d'offre (triplet générique, NULL pour orientation / offre unique)
   offre_ref             text,
   offre_label           text,
   offre_duree           text,
   offre_prix_indicatif  integer,
-  route                 text,       -- MLR uniquement (Nord/Sud/Est/Ouest)
+  route                 text,       -- MLR uniquement (Nord/Ouest)
 
   -- Total indicatif (colonne GÉNÉRÉE, calculée par Postgres) : nb participants
   -- × prix/pers de l'offre. NULL quand « Conseillez-moi » (offre_prix_indicatif

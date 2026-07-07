@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { cn } from "@/lib/cn";
 
-type Ratio = "16/9" | "4/3";
+type Ratio = "16/9" | "4/3" | "3/4";
 
 type Props = {
   /** Chemin de l'asset réel (`public/images/...`). */

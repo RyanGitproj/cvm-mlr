@@ -1,12 +1,14 @@
 import { CVM_UNIVERS, type CvmUniversSlug } from "@/config/content/cvm";
-import { MLR_LANDING } from "@/config/content/mlr";
+import { MLR_DUREES_NOTE, MLR_LANDING } from "@/config/content/mlr";
 import { formatEuros } from "@/lib/format";
 import type { FunnelType } from "@/types/lead";
 
 /**
- * Offres du parcours (composant a) — source unique reliant l'UI (OfferCards),
- * l'enum Zod (`offreDuree`) et les colonnes `offre_*` de `funnel_cvm_mlr_info`.
- * Les prix/durées viennent des contenus éditoriaux (config/content).
+ * Offres du parcours (Q2 du gabarit maquette) — source unique reliant l'UI
+ * (OfferCards), l'enum Zod (`offreDuree`) et les colonnes `offre_*` de
+ * `funnel_cvm_mlr_info`. Les prix/durées viennent des contenus éditoriaux
+ * (config/content). Cartes sèches à prix, sans option « Conseillez-moi »
+ * (décision Ryan 2026-07-07).
  */
 
 const CVM_FUNNEL_TO_SLUG: Partial<Record<FunnelType, CvmUniversSlug>> = {
@@ -16,19 +18,33 @@ const CVM_FUNNEL_TO_SLUG: Partial<Record<FunnelType, CvmUniversSlug>> = {
   cvm_un_mois: "un-mois",
 };
 
-const ADVISORY_VALUE = "a_conseiller";
-// Libellé court : la carte vit dans une rangée de 3 colonnes, même à 390px.
-const ADVISORY_LABEL_UI = "Conseillez-moi";
-const ADVISORY_LABEL_STORE = "À conseiller sur mesure";
+/** Pictogramme du badge rond de la carte d'offre (maquette 3, décoratif). */
+export type OfferIcon = "bus" | "jeep" | "trek" | "plage" | "bivouac" | "grand-tour";
 
-/** Option d'offre présentée dans OfferCards (étape 1). */
+/** Icône par univers CVM — MLR distingue ses durées (bus / jeep) en contenu. */
+const CVM_OFFER_ICONS: Record<CvmUniversSlug, OfferIcon> = {
+  treks: "trek",
+  iles: "plage",
+  explorer: "bivouac",
+  "un-mois": "grand-tour",
+};
+
+/** Option d'offre présentée dans OfferCards. */
 export type OfferOption = {
   value: string;
-  /** Libellé principal (durée) affiché sur la carte. */
+  /** Libellé principal (durée / formule) affiché sur la carte. */
   label: string;
-  /** Prix affiché, ou null pour l'option « conseil ». */
-  priceText: string | null;
-  advisory: boolean;
+  /** Phrase d'appui de la carte — textes propres à chaque aventure. */
+  description?: string;
+  /** Prix nu (« 1 400 € ») — la carte l'habille en « À partir de … / personne ». */
+  priceText: string;
+  /** Note d'exclusion affichée sous le prix (« Hors vols… »). */
+  priceNote?: string;
+  /** Faux bouton décoratif de la carte (« Je veux le vrai road trip »). */
+  ctaLabel?: string;
+  /** Visuel du volet photo — placeholder si src absent. */
+  image?: { label: string; alt: string; src?: string };
+  icon?: OfferIcon;
 };
 
 /** Offre résolue pour stockage dans la table `funnel_cvm_mlr_info`. */
@@ -39,83 +55,53 @@ export type ResolvedOffer = {
   prixIndicatif: number | null;
 };
 
-function advisoryOption(): OfferOption {
-  return {
-    value: ADVISORY_VALUE,
-    label: ADVISORY_LABEL_UI,
-    priceText: null,
-    advisory: true,
-  };
-}
-
 /**
- * Options d'offre à afficher pour un funnel. Vide pour orientation (aucune
- * offre) et un-mois (formule unique, affichée sans choix).
+ * Options d'offre à afficher pour un funnel. Vide pour l'orientation
+ * (aiguillage sans produit). Grand Tour : une carte unique — le prix
+ * s'affiche d'entrée (vocal boss).
  */
 export function offerOptionsFor(funnelType: FunnelType): OfferOption[] {
   if (funnelType === "mlr") {
-    return [
-      ...MLR_LANDING.durees.map((d) => ({
-        value: d.value,
-        label: d.titre,
-        // Version compacte de d.prix (« dès 1 400 € / pers ») pour la carte.
-        priceText: `dès ${formatEuros(d.prixDes)}`,
-        advisory: false,
-      })),
-      advisoryOption(),
-    ];
+    return MLR_LANDING.durees.map((d) => ({
+      value: d.value,
+      label: d.titre,
+      description: d.texte,
+      priceText: formatEuros(d.prixDes),
+      priceNote: MLR_DUREES_NOTE,
+      ctaLabel: d.cta,
+      image: d.image,
+      icon: d.icon,
+    }));
   }
 
   const slug = CVM_FUNNEL_TO_SLUG[funnelType];
-  if (slug === undefined || slug === "un-mois") return [];
+  if (slug === undefined) return [];
 
-  return [
-    ...CVM_UNIVERS[slug].formules.flatMap<OfferOption>((f) =>
-      f.value === undefined
-        ? []
-        : [
-            {
-              value: f.value,
-              label: f.duree ?? "Formule",
-              priceText: formatEuros(f.prixEuros),
-              advisory: false,
-            },
-          ],
-    ),
-    advisoryOption(),
-  ];
+  return CVM_UNIVERS[slug].formules.flatMap<OfferOption>((f) =>
+    f.value === undefined
+      ? []
+      : [
+          {
+            value: f.value,
+            label: f.duree ?? "Formule",
+            description: f.texte,
+            priceText: formatEuros(f.prixEuros),
+            ctaLabel: f.cta,
+            image: f.image,
+            icon: CVM_OFFER_ICONS[slug],
+          },
+        ],
+  );
 }
 
 /**
- * Résout l'offre choisie (ou implicite) en données de stockage. `offreRef`
- * vient du champ `offreDuree` validé ; ignoré pour un-mois (formule unique)
- * et orientation (aucune offre).
+ * Résout l'offre choisie en données de stockage. `offreRef` vient du champ
+ * `offreDuree` validé ; null pour l'orientation (aucune offre).
  */
 export function resolveOffer(
   funnelType: FunnelType,
   offreRef: string | undefined,
 ): ResolvedOffer | null {
-  if (funnelType === "cvm_orientation") return null;
-
-  if (offreRef === ADVISORY_VALUE) {
-    return {
-      ref: ADVISORY_VALUE,
-      label: ADVISORY_LABEL_STORE,
-      duree: null,
-      prixIndicatif: null,
-    };
-  }
-
-  if (funnelType === "cvm_un_mois") {
-    const f = CVM_UNIVERS["un-mois"].formules[0];
-    return {
-      ref: f.value ?? "un_mois",
-      label: f.duree ?? "Formule unique",
-      duree: f.duree ?? null,
-      prixIndicatif: f.prixEuros,
-    };
-  }
-
   if (funnelType === "mlr") {
     const d = MLR_LANDING.durees.find((x) => x.value === offreRef);
     if (d === undefined) return null;
@@ -137,10 +123,4 @@ export function resolveOffer(
     duree: f.duree ?? null,
     prixIndicatif: f.prixEuros,
   };
-}
-
-/** Offre à afficher quand il n'y a pas de choix (un-mois) — sinon null. */
-export function singleOfferFor(funnelType: FunnelType): ResolvedOffer | null {
-  if (funnelType === "cvm_un_mois") return resolveOffer(funnelType, undefined);
-  return null;
 }

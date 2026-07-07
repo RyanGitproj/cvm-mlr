@@ -1,10 +1,11 @@
 import type { MlrRoute } from "@/config/funnels";
 
 /**
- * Contenu éditorial MLR (landing + 4 pages de présentation de route) —
- * extrait fidèlement des brochures ROAD_TRIP_{SUD,NORD,EST,OUEST} et des
- * one-pagers. Ces pages ne portent aucun formulaire : elles lancent le
- * questionnaire unique avec la route pré-sélectionnée (?route=).
+ * Contenu éditorial MLR (landing + 2 pages de présentation de route) —
+ * extrait fidèlement des brochures ROAD_TRIP_{NORD,OUEST} et des maquettes
+ * boss 2026-07-07 (Sud et Est retirés du catalogue : « le sud en
+ * taxi-brousse c'est pas possible »). Ces pages ne portent aucun formulaire :
+ * elles intègrent le wizard avec la route pré-sélectionnée.
  */
 
 export type MlrRouteContent = {
@@ -16,12 +17,6 @@ export type MlrRouteContent = {
   tempsForts: { titre: string; texte?: string }[];
   faitPour: string[];
   ressentir: { titre: string; texte: string }[];
-  devis?: {
-    titre: string;
-    lignes: { prestation: string; montant: string }[];
-    total: string;
-    note: string;
-  };
   deroule: { jours: string; titre: string; texte?: string }[];
   quinzeJours: { titre: string; texte: string }[];
   inclus: { titre: string; texte: string }[];
@@ -29,11 +24,11 @@ export type MlrRouteContent = {
   budgetSurPlace: string;
   astuces: string[];
   faq: { question: string; reponse: string }[];
-  temoignage?: { texte: string; auteur: string };
   ctaLabel: string;
   /**
-   * Photo d'ambiance de la route — sert deux fois : miniature de carte sur
-   * /mlr et fond du hero de /mlr/{route}. Placeholder tant que `src` absent.
+   * Photo d'ambiance de la route — sert trois fois : miniature de carte sur
+   * /mlr, fond du hero de /mlr/{route} et carte-option Q1 du wizard.
+   * Placeholder tant que `src` absent.
    */
   imageAmbiance: { label: string; alt: string; src?: string };
 };
@@ -45,8 +40,6 @@ export const MLR_TARIFS = {
   idealPour: "Voyageurs libres · Aventure roots · Immersion locale",
 } as const;
 
-export const MLR_STAMP = "Exemple de devis — non nominatif";
-
 const ASSISTANCE_COMMUNE = [
   { titre: "Guide local privé", texte: "Un guide expérimenté et francophone à vos côtés." },
   { titre: "Taxi-brousse", texte: "Transport local rustique, au plus près de la vie." },
@@ -55,107 +48,6 @@ const ASSISTANCE_COMMUNE = [
 ] as const;
 
 export const MLR_ROUTES_CONTENT: Record<MlrRoute, MlrRouteContent> = {
-  sud: {
-    slug: "sud",
-    titre: "Road Trip Sud",
-    sousTitre: "Pistes rouges, canyons, villages et aventure locale.",
-    accroche: [
-      "Laissez la route vous guider. Entre pistes rouges, canyons majestueux et villages authentiques, ce voyage vous reconnecte à l'essentiel : à vous-même, aux autres, à la liberté.",
-      "Ici, le temps ralentit, l'air est plus pur, les rencontres sont vraies. Un souffle d'espace, une aventure humaine, un dépassement de soi tout en douceur.",
-    ],
-    tempsFortsTitre: "5 temps forts du voyage",
-    tempsForts: [
-      { titre: "Pistes rouges", texte: "Des routes mythiques au cœur de la brousse et des grands espaces." },
-      { titre: "Villages & marchés", texte: "Rencontres sincères, artisanat, saveurs locales et vie de village." },
-      { titre: "Canyons & massifs", texte: "Formations spectaculaires, falaises, gorges et canyons à couper le souffle." },
-      { titre: "Rencontres locales", texte: "Échanges authentiques avec les habitants, partages et générosité." },
-      { titre: "Couchers de soleil du Sud", texte: "Des fins de journée inoubliables, entre lumière chaude et silence." },
-    ],
-    faitPour: [
-      "Voyageurs libres — en quête d'aventure, d'espace et de liberté.",
-      "Amateurs d'immersion — qui aiment aller à la rencontre des cultures locales.",
-      "Profils curieux — passionnés de nature, de paysages et d'authenticité.",
-      "Envie de déconnexion et de dépassement — pour se recentrer, se dépasser et revenir transformé.",
-    ],
-    ressentir: [
-      { titre: "Reconnexion", texte: "Ralentir, se recentrer, respirer. Retrouver l'essentiel au rythme des paysages." },
-      { titre: "Immersion locale", texte: "Partager le quotidien des habitants, découvrir des savoir-faire et des moments vrais." },
-      { titre: "Dépassement de soi", texte: "Sortir de sa zone de confort, marcher, s'émerveiller et grandir à chaque étape." },
-    ],
-    devis: {
-      titre: "Road Trip Sud — 10 jours / 9 nuits",
-      lignes: [
-        { prestation: "Accompagnement par guide local privé francophone", montant: "650 €" },
-        { prestation: "Préparation de l'itinéraire & logistique", montant: "200 €" },
-        { prestation: "Transports en taxi-brousse (trajets prévus)", montant: "310 €" },
-        { prestation: "Nuits en campement (sous tente) × 7", montant: "350 €" },
-        { prestation: "Visites & entrées sur les sites prévus", montant: "120 €" },
-        { prestation: "Assistance 7j/7 pendant le voyage", montant: "60 €" },
-        { prestation: "Guides locaux selon sites & activités", montant: "150 €" },
-        { prestation: "Repas pendant les phases de campement", montant: "280 €" },
-      ],
-      total: "2 120 €",
-      note: "Estimation indicative pour 2 personnes. Devis personnalisé selon la saison, le nombre de voyageurs et vos préférences.",
-    },
-    deroule: [
-      { jours: "J1-2", titre: "Hauts plateaux et mise en route", texte: "Prise en main, premiers paysages, adaptation en douceur." },
-      { jours: "J3", titre: "Villages et route locale", texte: "Pistes rouges, rencontres et première immersion." },
-      { jours: "J4-5", titre: "Immersion canyons et paysages minéraux", texte: "Exploration de canyons spectaculaires et terres minérales." },
-      { jours: "J6-7", titre: "Rencontres, marche, panoramas", texte: "Randonnées, points de vue, échanges humains forts." },
-      { jours: "J8", titre: "Route vers le Sud profond", texte: "Cap vers les terres plus sauvages et reculées." },
-      { jours: "J9-10", titre: "Émotion de clôture", texte: "Derniers instants, gratitude et retour." },
-    ],
-    quinzeJours: [
-      { titre: "Plus de temps", texte: "Pour savourer chaque étape sans se presser." },
-      { titre: "Plus de marche", texte: "Itinéraires de randonnée plus variés et engagés." },
-      { titre: "Plus de rencontres", texte: "Temps prolongé avec les communautés locales." },
-      { titre: "Plus de villages reclus", texte: "Accès à des lieux encore plus authentiques." },
-    ],
-    inclus: [
-      { titre: "Guide local privé", texte: "Accompagnement par un guide local francophone dédié." },
-      { titre: "Itinéraire préparé", texte: "Un parcours pensé pour découvrir l'essentiel du Sud, hors des sentiers battus." },
-      { titre: "Taxi-brousse prévus", texte: "Tous les trajets prévus en taxi-brousse locale, inclus." },
-      { titre: "Visites prévues", texte: "Sites incontournables et expériences authentiques incluses." },
-      { titre: "Assistance 7j/7", texte: "Une équipe disponible chaque jour pendant votre voyage." },
-      { titre: "Guides locaux selon les sites", texte: "Interventions de guides locaux spécialisés selon les lieux." },
-      { titre: "Repas pendant les campements", texte: "Tous les repas inclus lors des nuits en campement." },
-    ],
-    aPrevoir: [
-      { titre: "Hôtels hors campement", texte: "Les nuits en hôtels ou chez l'habitant hors campement." },
-      { titre: "Restaurants hors campement", texte: "Les repas pris en ville ou dans les restaurants." },
-      { titre: "Vols", texte: "Les vols internationaux et/ou intérieurs jusqu'à Madagascar." },
-      { titre: "Assurances", texte: "Assurance voyage, santé, rapatriement (fortement conseillé)." },
-      { titre: "Visa", texte: "Frais de visa à l'arrivée ou en ligne selon votre nationalité." },
-      { titre: "Dépenses personnelles", texte: "Boissons, souvenirs, pourboires et dépenses personnelles." },
-    ],
-    budgetSurPlace:
-      "Budget conseillé sur place : 45 à 75 € / jour — pour vos repas hors campement, boissons, petits achats, pourboires et imprévus.",
-    astuces: [
-      "Buvez uniquement de l'eau en bouteille scellée.",
-      "Prévoyez des pièces en petites coupures, bien réparties.",
-      "Habillez-vous simplement et sobrement.",
-      "Suivez les recommandations du guide, il connaît le terrain.",
-      "Ne sortez pas seul tard le soir.",
-      "Privilégiez toujours les restaurants recommandés.",
-    ],
-    faq: [
-      { question: "Quel niveau physique faut-il ?", reponse: "Voyage accessible à tous avec un peu de marche." },
-      { question: "Le voyage inclut-il tous les repas ?", reponse: "Non, uniquement les repas pendant les nuits en campement." },
-      { question: "Quel budget prévoir par jour ?", reponse: "Entre 45 et 75 € / jour selon votre style de voyage." },
-      { question: "À qui s'adresse ce voyage ?", reponse: "Aux voyageurs libres, curieux, ouverts et amoureux d'authenticité." },
-      { question: "Peut-on adapter le programme ?", reponse: "Oui, selon vos envies, la saison et vos contraintes." },
-      { question: "Comment réserver ?", reponse: "Demandez votre devis personnalisé, sans engagement." },
-    ],
-    temoignage: {
-      texte:
-        "Ce road trip nous a reconnectés à l'essentiel. Des paysages à couper le souffle, des rencontres vraies, et une organisation au top. On se sent libres, en confiance, et profondément enrichis.",
-      auteur: "Charlotte & Julien, voyageurs en août 2024",
-    },
-    ctaLabel: "Recevoir mon road book Sud",
-    // Pas de 4×4 côté MLR (décision Ryan 2026-07-06) : le transport de la
-    // marque est le taxi-brousse — la photo taxi-brousse illustre le Sud.
-    imageAmbiance: { label: "Pistes rouges du Sud", alt: "Taxi-brousse chargé sur une piste de terre rouge", src: "/images/mlr/taxi-brousse-piste-rouge.jpg" },
-  },
   nord: {
     slug: "nord",
     titre: "Road Trip Nord",
@@ -233,99 +125,6 @@ export const MLR_ROUTES_CONTENT: Record<MlrRoute, MlrRouteContent> = {
     ],
     ctaLabel: "Recevoir mon road book Nord",
     imageAmbiance: { label: "Cascades du Nord", alt: "Cascade au cœur des reliefs verts de Madagascar", src: "/images/mlr/cascade-nord.jpg" },
-  },
-  est: {
-    slug: "est",
-    titre: "Road Trip Est",
-    sousTitre: "Forêt tropicale, lémuriens, sentiers et immersion verte.",
-    accroche: [
-      "Respirez l'humidité douce de la forêt. Écoutez le chant des oiseaux, le cri lointain des lémuriens. Laissez le temps ralentir, le cœur s'ouvrir, l'esprit s'apaiser.",
-      "Ici, la nature est reine et l'authenticité une évidence. Un voyage pour vous reconnecter à l'essentiel, vous calmer, et vous ouvrir aux autres… et à vous-même.",
-    ],
-    tempsFortsTitre: "5 temps forts de votre Road Trip Est",
-    tempsForts: [
-      { titre: "Forêt tropicale", texte: "Marchez au cœur d'une nature luxuriante, préservée et pleine de vie." },
-      { titre: "Lémuriens", texte: "Observez ces animaux uniques dans leur habitat naturel." },
-      { titre: "Sentiers verts", texte: "Parcourez des chemins sauvages, entre forêts, rizières et rivières." },
-      { titre: "Villages de l'Est", texte: "Plongez dans la culture locale et partagez des instants sincères." },
-      { titre: "Panoramas & eau", texte: "Cascades, rivières et paysages à couper le souffle." },
-    ],
-    faitPour: [
-      "Les voyageurs sensibles à la nature.",
-      "Ceux en quête de douceur et de calme.",
-      "Les amoureux d'immersion locale.",
-      "Ceux qui recherchent des rencontres vraies.",
-    ],
-    ressentir: [
-      { titre: "Nature vivante", texte: "Une connexion profonde avec la forêt, les animaux et les éléments." },
-      { titre: "Rencontres vraies", texte: "Des échanges sincères avec des habitants accueillants." },
-      { titre: "Apaisement intérieur", texte: "Un rythme doux pour se recentrer et retrouver l'essentiel." },
-    ],
-    devis: {
-      titre: "Road Trip Est — exemple de devis (base 2 personnes)",
-      lignes: [
-        { prestation: "Guide privé francophone (10 jours)", montant: "650 €" },
-        { prestation: "Itinéraire et organisation complète", montant: "250 €" },
-        { prestation: "Transports taxi-brousse (estimation)", montant: "450 €" },
-        { prestation: "Guides locaux selon sites", montant: "120 €" },
-        { prestation: "Visites et entrées prévues", montant: "120 €" },
-        { prestation: "Repas pendant campement (estimation)", montant: "180 €" },
-        { prestation: "Assistance 7j/7", montant: "Incluse" },
-      ],
-      total: "1 800 € (hors vols & hébergements)",
-      note: "Tarifs indicatifs à la date d'édition du devis. Variables selon la saison, le nombre de voyageurs et les disponibilités.",
-    },
-    deroule: [
-      { jours: "J1-2", titre: "Entrée dans l'Est et premières forêts", texte: "Arrivée, installation, découverte des premiers sentiers verdoyants." },
-      { jours: "J3", titre: "Marche en pleine nature", texte: "Randonnée au cœur d'une nature luxuriante et préservée." },
-      { jours: "J4-5", titre: "Lémuriens et immersion verte", texte: "Observation des lémuriens et exploration des forêts tropicales." },
-      { jours: "J6", titre: "Villages et culture locale", texte: "Rencontres, partage et découverte des traditions locales." },
-      { jours: "J7-8", titre: "Cascades, eau et respiration", texte: "Baignades, cascades, rivières et paysages d'exception." },
-      { jours: "J9-10", titre: "Retour avec sensation de renaissance", texte: "Temps de retour, bilan et dernières découvertes mémorables." },
-    ],
-    quinzeJours: [
-      { titre: "Plus de nature", texte: "Plus de forêts, de sentiers et de lieux préservés." },
-      { titre: "Plus d'observation", texte: "Encore plus de temps pour observer la faune et la flore." },
-      { titre: "Plus de lenteur", texte: "Un rythme encore plus doux pour intégrer chaque instant." },
-      { titre: "Plus de rencontres", texte: "Plus d'échanges avec les habitants et les artisans locaux." },
-    ],
-    inclus: [
-      { titre: "Guide privé", texte: "Un accompagnement bienveillant et expert tout au long du voyage." },
-      { titre: "Itinéraire préparé", texte: "Un parcours optimisé, testé et ajustable selon vos envies." },
-      { titre: "Taxi-brousse prévus", texte: "Transports locaux planifiés pour une immersion authentique." },
-      { titre: "Assistance 7j/7", texte: "Nous sommes à chaque étape pour vous aider." },
-      { titre: "Visites prévues", texte: "Sites, activités et temps forts sélectionnés pour vous." },
-      { titre: "Guides locaux selon sites", texte: "Connaissance du terrain et partage culturel authentique." },
-      { titre: "Repas pendant campement", texte: "Cuisine locale préparée avec soin lors des nuits en campement." },
-    ],
-    aPrevoir: [
-      { titre: "Hôtels hors campement", texte: "Hébergements en hôtels ou lodges non inclus (nous conseillons)." },
-      { titre: "Restaurants hors campement", texte: "Repas pris en ville ou en hébergement non inclus." },
-      { titre: "Vols internationaux et domestiques", texte: "À la charge du voyageur." },
-      { titre: "Assurances", texte: "Assurance voyage, santé et rapatriement non incluses." },
-      { titre: "Visa et formalités", texte: "Frais de visa et démarches administratives à votre charge." },
-      { titre: "Dépenses personnelles", texte: "Achats souvenirs, boissons, pourboires et extras personnels." },
-    ],
-    budgetSurPlace:
-      "Budget conseillé sur place : 45 à 75 € / jour — hors hébergements et repas en ville. Ce budget couvre repas, snacks, boissons, petits transports, entrées de sites et extras.",
-    astuces: [
-      "Climat humide : attendez-vous à de la chaleur et de l'humidité.",
-      "Chaussures adaptées : sentiers, boue et rivières.",
-      "Vêtements légers et respirants, chapeau et protège-pluie utiles.",
-      "Eau scellée recommandée, buvez régulièrement.",
-      "Anti-moustiques indispensable, surtout en soirée.",
-      "Respectez les conseils du guide et les consignes locales.",
-      "Goûtez la cuisine locale et demandez nos restaurants recommandés !",
-    ],
-    faq: [
-      { question: "Le devis est-il ferme ?", reponse: "Non, il est indicatif. Nous l'ajustons ensemble selon vos envies et la saison." },
-      { question: "Peut-on personnaliser l'itinéraire ?", reponse: "Oui, tout est modulable selon vos centres d'intérêt et votre rythme." },
-      { question: "Quel niveau de marche est nécessaire ?", reponse: "Accessible à tous. Des options plus sportives sont possibles." },
-      { question: "Faut-il réserver longtemps à l'avance ?", reponse: "Oui, surtout en haute saison (mai à octobre)." },
-      { question: "Comment se passe le paiement ?", reponse: "Acompte à la réservation, solde avant le départ." },
-    ],
-    ctaLabel: "Recevoir mon road book Est",
-    imageAmbiance: { label: "Forêt tropicale de l'Est", alt: "Forêt tropicale dense de l'Est malgache vue du ciel", src: "/images/mlr/foret-tropicale-est.jpg" },
   },
   ouest: {
     slug: "ouest",
@@ -407,7 +206,7 @@ export const MLR_ROUTES_CONTENT: Record<MlrRoute, MlrRouteContent> = {
   },
 };
 
-/** Bandeau de services commun aux 4 routes (bas de brochure). */
+/** Bandeau de services commun aux routes (bas de brochure). */
 export const MLR_SERVICES = ASSISTANCE_COMMUNE;
 
 const [guideLocal, taxiBrousse, assistance] = ASSISTANCE_COMMUNE;
@@ -428,37 +227,65 @@ export const MLR_SERVICES_LANDING = [
   assistance,
 ] as const;
 
-/** Landing /mlr. */
+/** Note d'exclusion affichée sous chaque prix (maquette 3 du 2026-07-07). */
+export const MLR_DUREES_NOTE = "Hors vols, hôtels et restaurants.";
+
+/** Landing /mlr — hero et wording des maquettes boss 2026-07-07 (tutoiement). */
 export const MLR_LANDING = {
   hero: {
     surtitre: "Madagascar Liberty Roots",
-    titre: "Road Trip Madagascar",
-    // Signature dictée par le boss (2026-07) en tête de sous-titre.
+    titre: "Madagascar ne se visite pas. Elle se traverse.",
     sousTitre:
-      "La liberté de vivre simplement une expérience unique. Quatre roots, un guide local privé, le taxi-brousse — et votre liberté comme fil conducteur.",
+      "Découvre la route qui te correspond : Nord ou Ouest, 10 ou 15 jours, avec un guide local à tes côtés.",
+    badges: ["Petit groupe", "Guide local", "Liberté", "Sécurité"],
+    // Image actuelle (triptyque) — le studio livrera le visuel maquette
+    // (taxi-brousse mythique sur la piste des baobabs), voir TODO.md.
     imageLabel: "Triptyque ambiance roots",
     imageAlt: "Triptyque roots : tuk-tuk à Majunga, immersion en ville, taxi-brousse chargé",
   },
   durees: [
     {
       value: "10_jours",
-      titre: "10 jours",
+      titre: "10 jours — Taxi-brousse intégral",
       prix: "dès 1 400 € / pers",
       prixDes: 1400,
-      texte: "L'essentiel de la route, au rythme roots.",
+      texte: "Le plus brut. Le plus local. Le plus proche des Malgaches.",
+      cta: "Je veux le vrai road trip",
+      icon: "bus",
+      image: {
+        label: "Taxi-brousse intégral",
+        alt: "Taxi-brousse chargé de bagages sur la piste rouge, voyageurs sac au dos",
+        src: "/images/mlr/taxi-brousse-piste-rouge.jpg",
+      },
     },
     {
+      // Retour en 4x4 officialisé par la maquette 3 du boss (2026-07-07) —
+      // le taxi-brousse reste le véhicule d'identité de la marque.
       value: "15_jours",
-      titre: "15 jours",
+      titre: "15 jours — Immersion + retour 4x4",
       prix: "dès 1 800 € / pers",
       prixDes: 1800,
-      texte: "Plus de temps, plus de rencontres, plus de pistes.",
+      texte: "Tu ressens la vraie route, puis tu récupères avec plus de confort.",
+      cta: "Je veux l'aventure avec plus de confort",
+      icon: "jeep",
+      image: {
+        label: "Immersion + retour 4x4",
+        alt: "Voyageurs près d'un 4x4 face aux grands espaces de l'Ouest au couchant",
+      },
     },
   ],
   routes: [
-    { slug: "nord", titre: "Nord", texte: "Reliefs, baies turquoise, cascades." },
-    { slug: "sud", titre: "Sud", texte: "Pistes rouges, canyons, villages." },
-    { slug: "est", titre: "Est", texte: "Forêt tropicale, lémuriens, ambiance verte." },
-    { slug: "ouest", titre: "Ouest", texte: "Baobabs, pistes, grands horizons." },
+    {
+      slug: "nord",
+      titre: "Le Nord",
+      texte: "Forêts, mer, villages, pistes et rencontres.",
+      cta: "Je choisis le Nord",
+    },
+    {
+      slug: "ouest",
+      titre: "L'Ouest",
+      texte: "Baobabs, pistes rouges, grands espaces et couchers de soleil.",
+      cta: "Je choisis l'Ouest",
+    },
   ],
 } as const;

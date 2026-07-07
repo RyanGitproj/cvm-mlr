@@ -97,12 +97,9 @@ export function UniversPicker() {
                 La piste, les rencontres, la liberté — l’aventure brute, avec
                 un guide local qui connaît chaque village.
               </p>
-              {/* 2×2 en mobile (carte demi-largeur), une seule ligne dès sm
-                  (packées à gauche comme les offres CVM). */}
-              <div className="mt-4 grid grid-cols-2 justify-items-start gap-2 sm:flex sm:flex-wrap">
+              {/* Deux routes au catalogue (directive boss 2026-07-07). */}
+              <div className="mt-4 flex flex-wrap gap-2">
                 <Pill>Nord</Pill>
-                <Pill>Sud</Pill>
-                <Pill>Est</Pill>
                 <Pill>Ouest</Pill>
               </div>
               <p className="mt-4 flex-1 text-sm font-semibold uppercase tracking-wide text-ink-soft">

@@ -20,13 +20,20 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/mlr/questionnaire",
-        has: [{ type: "query", key: "route", value: "(?<route>nord|sud|est|ouest)" }],
+        has: [{ type: "query", key: "route", value: "(?<route>nord|ouest)" }],
         destination: "/mlr/:route#questionnaire",
         permanent: true,
       },
       {
         source: "/mlr/questionnaire",
         destination: "/mlr#questionnaire",
+        permanent: true,
+      },
+      // Sud et Est retirés du catalogue (directive boss 2026-07-07) : les
+      // anciennes URLs retombent sur la landing MLR.
+      {
+        source: "/mlr/:route(sud|est)",
+        destination: "/mlr",
         permanent: true,
       },
     ];

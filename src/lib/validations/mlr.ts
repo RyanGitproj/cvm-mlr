@@ -1,52 +1,29 @@
 import { z } from "zod";
-import { precision } from "./common";
+import { departFenetreSchema, NB_VOYAGEURS } from "./common";
 
 /**
- * Funnel MLR — parcours unique (brief §13.5).
- * La durée (10/15 jours) et la route (Nord/Sud/Est/Ouest) sont des choix
- * d'étape 1 (offre + pré-contact) ; la route pré-remplie depuis /mlr/{route}.
- * Pas de question transport ni hébergement (taxi-brousse inclus, hôtels non).
+ * Funnel MLR — wizard 4 questions (maquettes boss 2026-07-07, vocal comme
+ * source d'autorité) : Q1 route (Nord/Ouest + orientation), Q2 durée (offre),
+ * Q3 fenêtre de départ, Q4 voyageurs + case de compréhension des exclusions.
+ * Le wizard tutoie le lead (phrases du boss) — messages d'erreur compris.
  */
-
-/** Étape 1 — durée (offre) + route (pré-contact, pré-remplie par la page route). */
-export const mlrOfferSchema = z.object({
-  offreDuree: z.enum(
-    ["10_jours", "15_jours", "a_conseiller"],
-    "Merci de choisir une durée.",
+export const mlrWizardSchema = z.object({
+  route: z.enum(["nord", "ouest", "a_orienter"], "Merci de choisir une route."),
+  offreDuree: z.enum(["10_jours", "15_jours"], "Merci de choisir une durée."),
+  departFenetre: departFenetreSchema,
+  nbVoyageurs: z.enum(
+    NB_VOYAGEURS,
+    "Merci d'indiquer le nombre de voyageurs.",
   ),
-  route: z.enum(
-    ["nord", "sud", "est", "ouest", "a_orienter"],
-    "Merci de choisir une route.",
-  ),
+  comprehension: z.literal(true, {
+    error:
+      "Merci de confirmer que tu as compris ce qui est inclus et ce qui ne l'est pas.",
+  }),
 });
 
-/** Étape 2 — qualification commerciale (sans contact ni offre). */
-export const mlrQualificationSchema = z.object({
-  pretRoots: z.enum(
-    [
-      "oui_local_simple",
-      "oui_comprendre_regles",
-      "hesite_prefere_confort",
-      "veut_conseil",
-    ],
-    "Merci de choisir une réponse.",
-  ),
-  securite: z.enum(
-    [
-      "respecte_consignes",
-      "veut_encadrement",
-      "experience_terrain",
-      "besoin_briefing",
-      "autre",
-    ],
-    "Merci de choisir une réponse.",
-  ),
-  securitePrecision: precision(),
-  // Tranches de l'écran 7/8 du document 8-visuels (budget conseillé 45-75 €/j).
-  budgetJour: z.enum(
-    ["moins_35", "35_50", "50_75", "plus_75", "conseil"],
-    "Merci de choisir une réponse.",
-  ),
-});
+export type MlrWizardData = z.infer<typeof mlrWizardSchema>;
 
-export type MlrQualification = z.infer<typeof mlrQualificationSchema>;
+/** Choix de suite enregistré depuis l'écran final (answers.suite). */
+export const mlrSuiteSchema = z.enum(["rdv", "brochure"]);
+
+export type MlrSuite = z.infer<typeof mlrSuiteSchema>;

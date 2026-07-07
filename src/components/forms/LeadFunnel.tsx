@@ -1,77 +1,59 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { FormProvider, useForm, type FieldValues } from "react-hook-form";
 import type { z } from "zod";
-import { saveStep2Progress } from "@/actions/saveStep2Progress";
-import { submitStep1 } from "@/actions/submitStep1";
-import { Button } from "@/components/ui/Button";
-import { Modal } from "@/components/ui/Modal";
+import { submitLead } from "@/actions/submitLead";
+import { Button, buttonClasses } from "@/components/ui/Button";
+import { MediaBackdrop } from "@/components/ui/MediaBackdrop";
 import { getFunnelConfig } from "@/config/funnels";
-import { singleOfferFor } from "@/config/offers";
-import { formatEuros } from "@/lib/format";
 import { scrollToElement } from "@/lib/scroll";
-import { pushDataLayerEvent, pushDataLayerEventOnce } from "@/lib/tracking/gtm";
+import type { Recommendation } from "@/lib/segmentation/types";
+import { pushDataLayerEventOnce } from "@/lib/tracking/gtm";
 import { readUtm } from "@/lib/utm";
 import { getFormSchema } from "@/lib/validations";
-import type {
-  ConditionsStep,
-  MultiStep,
-  RadioStep,
-  RecapStep,
-} from "@/types/funnel";
+import type { WizardStep } from "@/types/funnel";
 import type { FunnelType } from "@/types/lead";
-import { CheckboxCards } from "./CheckboxCards";
+import { CheckboxField } from "./CheckboxField";
 import { ConditionsFields } from "./ConditionsFields";
 import { ContactFields } from "./ContactFields";
+import { ContactFieldsMlr } from "./ContactFieldsMlr";
+import { FinalScreen } from "./FinalScreen";
 import { OfferCards } from "./OfferCards";
 import { RadioCards } from "./RadioCards";
-import { RecapList } from "./RecapList";
 import { StepIndicator } from "./StepIndicator";
 
 type Props = {
   funnelType: FunnelType;
-  /** Pré-remplissage (ex. route MLR depuis /mlr/sud). */
+  /** Pré-remplissage (ex. route MLR depuis /mlr/nord) — l'écran est sauté. */
   defaultValues?: Record<string, string>;
 };
 
 /**
- * Fenêtre d'ignorance des soumissions après un changement d'écran (étape 2) :
- * le bouton final remplace « Continuer » au même emplacement — le second clic
- * d'un double-clic ne doit pas déclencher l'envoi.
+ * Fenêtre d'ignorance des clics après un changement d'écran : l'auto-avance
+ * place les options au même endroit d'un écran à l'autre — le second clic
+ * d'un double-clic ne doit ni sauter un écran ni déclencher l'envoi.
  */
 const SUBMIT_GUARD_MS = 500;
-const STEP2_CTA = "Envoyer mes réponses";
 
-const CONTACT_FIELDS = [
-  "nom",
-  "prenom",
-  "telephone",
-  "email",
-  "nbVoyageurs",
-  "periode",
-  "commentaire",
-  "consentement",
-];
-
-type Step2Screen =
-  | { kind: "question"; step: RadioStep | MultiStep }
-  | { kind: "conditions"; step: ConditionsStep }
-  | { kind: "recap"; step: RecapStep };
+type Screen =
+  | { kind: "step"; step: WizardStep }
+  | { kind: "contact" }
+  | { kind: "final" };
 
 /**
- * Parcours de lead en 2 étapes (brief refonte) : étape 1 = ÉCRAN UNIQUE
- * (coordonnées + choix d'offre inline + route MLR inline) → enregistrement
- * Table 1 ; popup Oui/Non ; étape 2 = qualification multi-écrans avec
- * sauvegarde progressive. Un seul useForm/FormProvider.
+ * Moteur wizard unique des 6 funnels — gabarit maquette boss 2026-07-07 :
+ * Q1 projection → Q2 offre à prix → Q3 période → Q4 voyageurs, un écran par
+ * décision avec avance au clic et barre « Étape X/N », puis écran
+ * coordonnées (submit unique — l'enregistrement n'a lieu qu'à la fin), puis
+ * écran final conditionnel rendu depuis la recommendation retournée par
+ * l'action. Un seul useForm/FormProvider pour tout le parcours.
  */
 export function LeadFunnel({ funnelType, defaultValues }: Props) {
   const config = getFunnelConfig(funnelType);
-  const router = useRouter();
   const topRef = useRef<HTMLDivElement>(null);
-  const singleOffer = singleOfferFor(funnelType);
 
   const form = useForm<FieldValues>({
     // Schéma résolu à l'exécution parmi les 6 funnels : on élargit au format
@@ -83,40 +65,31 @@ export function LeadFunnel({ funnelType, defaultValues }: Props) {
     defaultValues,
   });
 
-  // Étape 1 : la route MLR s'affiche inline sauf si la page l'a pré-remplie.
-  const inlineRouteSteps = (config.preContact ?? []).filter(
-    (step) => !defaultValues?.[step.name],
+  // Les écrans radio pré-remplis par la page (route MLR) sont sautés — la
+  // barre d'étapes compte les écrans réellement affichés (X/3 sur /mlr/nord).
+  const visibleSteps = config.steps.filter(
+    (step) => !(step.kind === "radio" && defaultValues?.[step.name]),
   );
-  const step1Fields = [
-    ...(config.offer ? ["offreDuree"] : []),
-    ...(config.preContact ?? []).map((step) => step.name),
-    ...CONTACT_FIELDS,
+  const screens: Screen[] = [
+    ...visibleSteps.map((step) => ({ kind: "step" as const, step })),
+    { kind: "contact" as const },
+    { kind: "final" as const },
   ];
 
-  // Écrans de l'étape 2 : questions → conditions (Explorer) → récap (MLR).
-  const step2Screens: Step2Screen[] = config.qualification.map((step) => ({
-    kind: "question" as const,
-    step,
-  }));
-  if (config.conditions) {
-    step2Screens.push({ kind: "conditions", step: config.conditions });
-  }
-  if (config.recap) step2Screens.push({ kind: "recap", step: config.recap });
-
-  const [phase, setPhase] = useState<"step1" | "step2">("step1");
   const [screenIndex, setScreenIndex] = useState(0);
-  const [modalOpen, setModalOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
+  const [recommendation, setRecommendation] = useState<Recommendation | null>(null);
 
-  const currentScreen = phase === "step2" ? step2Screens[screenIndex] : undefined;
-  const isLast = screenIndex === step2Screens.length - 1;
+  const currentScreen = screens[screenIndex];
   const headingId =
-    phase === "step1" || currentScreen === undefined
-      ? `question-${config.contact.id}`
-      : `question-${currentScreen.step.id}`;
+    currentScreen.kind === "step"
+      ? `question-${currentScreen.step.id}`
+      : currentScreen.kind === "contact"
+        ? `question-${config.contact.id}`
+        : "question-final";
 
-  // Entrée réelle dans le funnel : première saisie dans le formulaire
+  // Entrée réelle dans le funnel : première interaction avec le formulaire
   // (onChange bubbles depuis les champs ; dédup session dans pushDataLayerEventOnce).
   function handleFormChange() {
     pushDataLayerEventOnce(`funnel_start_${funnelType}`, "funnel_start", {
@@ -126,8 +99,8 @@ export function LeadFunnel({ funnelType, defaultValues }: Props) {
 
   // Scroll + focus au changement d'écran (mémoire next16-effects-reconnexion-spa :
   // on compare la dernière valeur traitée, jamais un garde « premier rendu »).
-  const currentKey = phase === "step1" ? "step1" : `step2:${screenIndex}`;
-  const lastHandledKey = useRef("step1");
+  const currentKey = `screen:${screenIndex}`;
+  const lastHandledKey = useRef("screen:0");
   useEffect(() => {
     if (lastHandledKey.current === currentKey) return;
     lastHandledKey.current = currentKey;
@@ -140,16 +113,18 @@ export function LeadFunnel({ funnelType, defaultValues }: Props) {
   const lastNavAt = useRef(0);
   const withinGuard = () => Date.now() - lastNavAt.current < SUBMIT_GUARD_MS;
 
-  function fieldsOfStep2(screen: Step2Screen): string[] {
-    switch (screen.kind) {
-      case "question":
-        return [screen.step.name, `${screen.step.name}Precision`];
-      case "conditions": {
-        const fields = screen.step.includeAge ? ["age"] : [];
-        return [...fields, ...screen.step.acceptances.map((a) => a.name)];
-      }
-      case "recap":
-        return [];
+  function fieldsOfScreen(screen: Screen): string[] {
+    if (screen.kind !== "step") return [];
+    const step = screen.step;
+    switch (step.kind) {
+      case "radio":
+        return [
+          step.name,
+          `${step.name}Precision`,
+          ...(step.confirm ? [step.confirm.name] : []),
+        ];
+      case "offer":
+        return ["offreDuree"];
     }
   }
 
@@ -160,15 +135,32 @@ export function LeadFunnel({ funnelType, defaultValues }: Props) {
     }
   }
 
-  async function step1Submit() {
-    if (inFlight.current) return;
+  /** Avance d'un écran de décision — bouton « Continuer » ou auto-avance. */
+  async function advanceFrom(screen: Screen) {
+    if (inFlight.current || withinGuard()) return;
     inFlight.current = true;
     try {
-      const valid = await form.trigger(step1Fields, { shouldFocus: true });
+      const valid = await form.trigger(fieldsOfScreen(screen), {
+        shouldFocus: true,
+      });
+      if (!valid) return;
+      lastNavAt.current = Date.now();
+      setScreenIndex((index) => index + 1);
+    } finally {
+      inFlight.current = false;
+    }
+  }
+
+  /** Submit unique du parcours, depuis l'écran coordonnées. */
+  async function submit() {
+    if (inFlight.current || withinGuard()) return;
+    inFlight.current = true;
+    try {
+      const valid = await form.trigger(undefined, { shouldFocus: true });
       if (!valid) return;
       setServerError(null);
       setSubmitting(true);
-      const result = await submitStep1(funnelType, form.getValues(), readUtm());
+      const result = await submitLead(funnelType, form.getValues(), readUtm());
       setSubmitting(false);
       if (!result.ok) {
         setServerError(result.message);
@@ -178,68 +170,9 @@ export function LeadFunnel({ funnelType, defaultValues }: Props) {
         funnel_type: funnelType,
         brand: config.brand,
       });
-      setModalOpen(true);
-    } finally {
-      inFlight.current = false;
-    }
-  }
-
-  function acceptStep2() {
-    setModalOpen(false);
-    setServerError(null);
-    pushDataLayerEvent("step2_started", {
-      funnel_type: funnelType,
-      brand: config.brand,
-    });
-    setPhase("step2");
-    setScreenIndex(0);
-  }
-
-  function declineStep2() {
-    setModalOpen(false);
-    router.push("/merci");
-  }
-
-  async function step2Next() {
-    if (inFlight.current) return;
-    inFlight.current = true;
-    try {
-      const screen = step2Screens[screenIndex];
-      const valid = await form.trigger(fieldsOfStep2(screen), {
-        shouldFocus: true,
-      });
-      if (!valid) return;
+      setRecommendation(result.recommendation);
       lastNavAt.current = Date.now();
-      // Sauvegarde progressive best-effort — ne bloque pas la navigation.
-      void saveStep2Progress(form.getValues());
       setScreenIndex((index) => index + 1);
-    } finally {
-      inFlight.current = false;
-    }
-  }
-
-  async function step2Finish() {
-    if (withinGuard() || inFlight.current) return;
-    inFlight.current = true;
-    try {
-      const allFields = step2Screens.flatMap(fieldsOfStep2);
-      const valid = await form.trigger(allFields, { shouldFocus: true });
-      if (!valid) return;
-      setServerError(null);
-      setSubmitting(true);
-      const result = await saveStep2Progress(form.getValues(), { final: true });
-      setSubmitting(false);
-      if (!result.ok) {
-        setServerError(
-          "Certaines réponses sont invalides ou l'enregistrement est momentanément indisponible. Merci de vérifier et réessayer.",
-        );
-        return;
-      }
-      pushDataLayerEvent("step2_completed", {
-        funnel_type: funnelType,
-        brand: config.brand,
-      });
-      router.push("/merci");
     } finally {
       inFlight.current = false;
     }
@@ -250,52 +183,19 @@ export function LeadFunnel({ funnelType, defaultValues }: Props) {
     setScreenIndex((index) => Math.max(index - 1, 0));
   }
 
-  // Choix d'offre + route MLR, insérés au-dessus du nombre de participants.
-  const offerSlot = (
-    <>
-      {config.offer && (
-        <div className="grid gap-1.5">
-          <p id="offre-libelle" className="text-sm font-medium text-ink-strong">
-            {config.offer.question}
-          </p>
-          {config.offer.hint && (
-            <p className="text-xs text-ink-soft">{config.offer.hint}</p>
-          )}
-          <OfferCards funnelType={funnelType} labelledBy="offre-libelle" />
-        </div>
-      )}
-      {singleOffer && (
-        <div className="grid gap-1.5">
-          <p className="text-sm font-medium text-ink-strong">Votre formule</p>
-          <p className="rounded-xl border-2 border-accent-soft bg-surface-2 px-4 py-3 text-sm">
-            <span className="font-medium text-ink-strong">{singleOffer.label}</span>
-            {singleOffer.prixIndicatif !== null && (
-              <span className="text-ink-soft">
-                {" "}
-                — {formatEuros(singleOffer.prixIndicatif)} / pers
-              </span>
-            )}
-          </p>
-        </div>
-      )}
-      {inlineRouteSteps.map((step) => (
-        <div key={step.id} className="grid gap-1.5">
-          <p
-            id={`inline-${step.id}-libelle`}
-            className="text-sm font-medium text-ink-strong"
-          >
-            {step.question}
-          </p>
-          {step.hint && <p className="text-xs text-ink-soft">{step.hint}</p>}
-          <RadioCards
-            name={step.name}
-            options={step.options}
-            labelledBy={`inline-${step.id}-libelle`}
-          />
-        </div>
-      ))}
-    </>
-  );
+  // Écrans à validation explicite : case de confirmation (Q4 MLR) ou option
+  // « Autre » sélectionnée (précision à saisir avant de continuer).
+  const explicitCta = (() => {
+    if (currentScreen.kind !== "step") return null;
+    const step = currentScreen.step;
+    if (step.kind !== "radio") return null;
+    if (step.confirm) return step.confirm.cta;
+    const selected: unknown = form.watch(step.name);
+    const freeTextSelected = step.options.some(
+      (option) => option.freeText === true && option.value === selected,
+    );
+    return freeTextSelected ? "Continuer →" : null;
+  })();
 
   return (
     <div ref={topRef} className="scroll-mt-24">
@@ -306,9 +206,121 @@ export function LeadFunnel({ funnelType, defaultValues }: Props) {
           onKeyDown={handleFormKeyDown}
           noValidate
         >
-          {phase === "step1" ? (
+          {currentScreen.kind === "step" && (
+            <>
+              <StepIndicator
+                current={screenIndex + 1}
+                total={visibleSteps.length}
+                label={config.label}
+              />
+              <section
+                key={currentKey}
+                className="animate-step mt-6"
+                aria-labelledby={headingId}
+              >
+                <h2
+                  id={headingId}
+                  tabIndex={-1}
+                  className="font-heading text-2xl font-semibold text-ink-strong outline-none sm:text-3xl"
+                >
+                  {currentScreen.step.question}
+                </h2>
+                {currentScreen.step.hint && (
+                  <p className="mt-2 text-sm text-ink-soft">
+                    {currentScreen.step.hint}
+                  </p>
+                )}
+                <div className="mt-5">
+                  {currentScreen.step.kind === "radio" && (
+                    <RadioCards
+                      name={currentScreen.step.name}
+                      options={currentScreen.step.options}
+                      labelledBy={headingId}
+                      onSelect={
+                        currentScreen.step.confirm
+                          ? undefined
+                          : (option) => {
+                              // La valeur est posée explicitement avant la
+                              // validation : l'ordre onChange/onClick de React
+                              // sur un radio n'est pas garanti.
+                              if (currentScreen.step.kind === "radio") {
+                                form.setValue(
+                                  currentScreen.step.name,
+                                  option.value,
+                                );
+                              }
+                              void advanceFrom(currentScreen);
+                            }
+                      }
+                    />
+                  )}
+                  {currentScreen.step.kind === "offer" && (
+                    <>
+                      <OfferCards
+                        funnelType={funnelType}
+                        labelledBy={headingId}
+                        onSelect={(value) => {
+                          form.setValue("offreDuree", value);
+                          void advanceFrom(currentScreen);
+                        }}
+                      />
+                      {currentScreen.step.reorientation && (
+                        <div className="mt-4 grid grid-cols-[minmax(0,4fr)_minmax(0,5fr)] overflow-hidden rounded-3xl border-2 border-line bg-surface-2">
+                          {currentScreen.step.reorientation.image && (
+                            <span className="p-3 pr-0">
+                              <span className="relative block h-full min-h-28 overflow-hidden rounded-2xl">
+                                <MediaBackdrop
+                                  image={currentScreen.step.reorientation.image}
+                                  sizes="(min-width: 640px) 260px, 45vw"
+                                  // Le triptyque CVM se cadre sur son volet
+                                  // gauche (plage) dans cette vignette étroite.
+                                  objectPosition="left center"
+                                />
+                              </span>
+                            </span>
+                          )}
+                          <div className="flex flex-col items-start gap-1.5 p-4">
+                            <p className="font-medium text-ink-strong">
+                              {currentScreen.step.reorientation.label}
+                            </p>
+                            {currentScreen.step.reorientation.hint && (
+                              <p className="text-sm text-ink-soft">
+                                {currentScreen.step.reorientation.hint}
+                              </p>
+                            )}
+                            <Link
+                              href={currentScreen.step.reorientation.href}
+                              className={buttonClasses("outline", "mt-1")}
+                            >
+                              {currentScreen.step.reorientation.cta} →
+                            </Link>
+                          </div>
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
+                {currentScreen.step.message && (
+                  <p className="mt-4 rounded-lg bg-surface-2 px-4 py-3 text-sm text-ink-soft">
+                    {currentScreen.step.message}
+                  </p>
+                )}
+                {currentScreen.step.kind === "radio" &&
+                  currentScreen.step.confirm && (
+                    <div className="mt-4">
+                      <CheckboxField
+                        name={currentScreen.step.confirm.name}
+                        label={currentScreen.step.confirm.label}
+                      />
+                    </div>
+                  )}
+              </section>
+            </>
+          )}
+
+          {currentScreen.kind === "contact" && (
             <section
-              key="step1"
+              key={currentKey}
               className="animate-step"
               aria-labelledby={headingId}
             >
@@ -323,7 +335,19 @@ export function LeadFunnel({ funnelType, defaultValues }: Props) {
                 <p className="mt-2 text-sm text-ink-soft">{config.contact.hint}</p>
               )}
               <div className="mt-5">
-                <ContactFields offerSlot={offerSlot} />
+                {config.contact.variant === "mlr" ? (
+                  <ContactFieldsMlr />
+                ) : (
+                  <ContactFields
+                    conditionsSlot={
+                      config.contact.conditions && (
+                        <ConditionsFields
+                          acceptances={config.contact.conditions.acceptances}
+                        />
+                      )
+                    }
+                  />
+                )}
               </div>
               {config.contact.message && (
                 <p className="mt-4 rounded-lg bg-surface-2 px-4 py-3 text-sm text-ink-soft">
@@ -331,62 +355,21 @@ export function LeadFunnel({ funnelType, defaultValues }: Props) {
                 </p>
               )}
             </section>
-          ) : (
-            currentScreen && (
-              <>
-                <StepIndicator
-                  current={screenIndex + 1}
-                  total={step2Screens.length}
-                  label={`${config.label} · précisions`}
-                />
-                <section
-                  key={currentKey}
-                  className="animate-step mt-6"
-                  aria-labelledby={headingId}
-                >
-                  <h2
-                    id={headingId}
-                    tabIndex={-1}
-                    className="font-heading text-2xl font-semibold text-ink-strong outline-none sm:text-3xl"
-                  >
-                    {currentScreen.step.question}
-                  </h2>
-                  {currentScreen.step.hint && (
-                    <p className="mt-2 text-sm text-ink-soft">
-                      {currentScreen.step.hint}
-                    </p>
-                  )}
-                  <div className="mt-5">
-                    {currentScreen.kind === "question" &&
-                      (currentScreen.step.kind === "multi" ? (
-                        <CheckboxCards
-                          name={currentScreen.step.name}
-                          options={currentScreen.step.options}
-                          labelledBy={headingId}
-                        />
-                      ) : (
-                        <RadioCards
-                          name={currentScreen.step.name}
-                          options={currentScreen.step.options}
-                          labelledBy={headingId}
-                        />
-                      ))}
-                    {currentScreen.kind === "conditions" && (
-                      <ConditionsFields
-                        includeAge={currentScreen.step.includeAge}
-                        acceptances={currentScreen.step.acceptances}
-                      />
-                    )}
-                    {currentScreen.kind === "recap" && <RecapList config={config} />}
-                  </div>
-                  {currentScreen.step.message && (
-                    <p className="mt-4 rounded-lg bg-surface-2 px-4 py-3 text-sm text-ink-soft">
-                      {currentScreen.step.message}
-                    </p>
-                  )}
-                </section>
-              </>
-            )
+          )}
+
+          {currentScreen.kind === "final" && (
+            <section
+              key={currentKey}
+              className="animate-step"
+              aria-labelledby={headingId}
+            >
+              <FinalScreen
+                config={config}
+                values={form.getValues()}
+                recommendation={recommendation}
+                headingId={headingId}
+              />
+            </section>
           )}
 
           {serverError && (
@@ -398,64 +381,36 @@ export function LeadFunnel({ funnelType, defaultValues }: Props) {
             </p>
           )}
 
-          <div className="mt-8 flex flex-wrap items-center justify-between gap-3">
-            {phase === "step2" && screenIndex > 0 ? (
-              <Button type="button" variant="ghost" onClick={goBack}>
-                ← Retour
-              </Button>
-            ) : (
-              <span aria-hidden />
-            )}
-            {phase === "step1" ? (
-              <Button type="button" disabled={submitting} onClick={step1Submit}>
-                {submitting ? "Envoi en cours…" : config.ctaStep1}
-              </Button>
-            ) : !isLast ? (
-              <Button type="button" onClick={step2Next}>
-                Continuer →
-              </Button>
-            ) : (
-              <Button type="button" disabled={submitting} onClick={step2Finish}>
-                {submitting ? "Envoi en cours…" : STEP2_CTA}
-              </Button>
-            )}
-          </div>
+          {currentScreen.kind !== "final" && (
+            <div className="mt-8 flex flex-wrap items-center justify-between gap-3">
+              {screenIndex > 0 ? (
+                <Button type="button" variant="ghost" onClick={goBack}>
+                  ← Retour
+                </Button>
+              ) : (
+                <span aria-hidden />
+              )}
+              {currentScreen.kind === "contact" ? (
+                <Button type="button" disabled={submitting} onClick={submit}>
+                  {submitting ? "Envoi en cours…" : config.contact.cta}
+                </Button>
+              ) : explicitCta !== null ? (
+                <Button type="button" onClick={() => void advanceFrom(currentScreen)}>
+                  {explicitCta}
+                </Button>
+              ) : null}
+            </div>
+          )}
 
-          {/* Note tarifaire (« hors vol & assurance ») — sous le CTA
-              d'enregistrement, en clôture de l'écran unique. */}
-          {phase === "step1" && config.intro.note && (
+          {/* Note tarifaire (« hors vol & assurance ») — sous le CTA d'envoi,
+              en clôture de l'écran coordonnées. */}
+          {currentScreen.kind === "contact" && config.intro.note && (
             <p className="mt-6 rounded-lg border-2 border-accent-soft bg-surface-2 px-4 py-3 text-sm text-ink-soft">
               {config.intro.note}
             </p>
           )}
         </form>
       </FormProvider>
-
-      <Modal
-        open={modalOpen}
-        onClose={declineStep2}
-        titleId="lead-modal-title"
-        descriptionId="lead-modal-desc"
-      >
-        <h2
-          id="lead-modal-title"
-          className="font-heading text-xl font-bold text-ink-strong"
-        >
-          Vos informations sont bien enregistrées.
-        </h2>
-        <p id="lead-modal-desc" className="mt-3 text-sm text-ink-soft">
-          Notre équipe va préparer votre projet avec attention. Pour affiner
-          votre proposition, précisez votre projet en quelques questions rapides.
-        </p>
-        <div className="mt-6 flex flex-col gap-3">
-          <Button type="button" onClick={acceptStep2}>
-            Oui, préciser mon projet
-          </Button>
-          <Button type="button" variant="ghost" onClick={declineStep2}>
-            Non merci
-          </Button>
-        </div>
-      </Modal>
     </div>
   );
 }

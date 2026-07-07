@@ -1,10 +1,15 @@
 import type { FunnelConfig } from "@/types/funnel";
+import {
+  CVM_FINAL_CASES,
+  CVM_STEP_PERIODE,
+  CVM_STEP_VOYAGEURS,
+} from "./cvm-commun";
 
 /**
- * Questionnaire CVM · Grand Tour Madagascar (structure : brief §13.4 ;
- * cadrage « immersion culturelle / découverte complète » : brochure 2026-07).
- * Formule unique (pas de choix d'offre) — affichée en tête de l'écran contact.
- * Prudence obligatoire : admin/fiscal/juridique = orientation, pas conseil.
+ * Funnel CVM · Grand Tour Madagascar — gabarit maquette 2026-07-07
+ * (4 étapes). Nom d'usage : « Grand Tour », plus « un mois » (Ryan
+ * 2026-07-07). Prudence obligatoire : admin/fiscal/juridique = orientation,
+ * pas conseil.
  */
 export const cvmUnMoisFunnel: FunnelConfig = {
   type: "cvm_un_mois",
@@ -13,35 +18,15 @@ export const cvmUnMoisFunnel: FunnelConfig = {
   intro: {
     titre: "Préparez votre Grand Tour de Madagascar",
     sousTitre:
-      "Un mois pour comprendre l'île en profondeur. Laissez-nous vos coordonnées, puis précisez votre rythme et vos priorités — vous recevez un pré-programme adapté, pas une offre générique.",
+      "Un mois pour comprendre l'île en profondeur. Répondez en moins d'une minute : vous recevez un pré-programme adapté, pas une offre générique.",
     note: "Les sujets administratifs, fiscaux, juridiques, résidence ou société doivent être confirmés auprès de professionnels compétents. Le programme peut orienter, mais ne remplace pas un conseil spécialisé.",
   },
-  ctaStep1: "Enregistrer mes coordonnées",
-  contact: {
-    id: "coordonnees",
-    question: "Vos coordonnées",
-    hint: "Réponse sous 24 h · pré-programme personnalisé · hors vol & assurance.",
-  },
-  qualification: [
-    {
-      kind: "radio",
-      id: "budget",
-      name: "budget",
-      question: "Quelle enveloppe pour un mois complet sur place ?",
-      hint: "Hors billet d'avion international et assurance voyage — hébergement, déplacements, accompagnement et visites.",
-      options: [
-        { value: "1800_2200", label: "1 800 € à 2 200 € — enveloppe très limitée pour un mois complet, à vérifier" },
-        { value: "2200_2500", label: "2 200 € à 2 500 € — programme optimisé, à construire avec prudence" },
-        { value: "2500_3000", label: "2 500 € à 3 000 € — programme plus structuré selon durée réelle et confort" },
-        { value: "3000_plus", label: "Plus de 3 000 € — profil le plus adapté à une expérience longue, accompagnée et confortable" },
-        { value: "conseil", label: "Je ne sais pas encore — je souhaite être conseillé" },
-      ],
-    },
+  steps: [
     {
       kind: "radio",
       id: "objectif_mois",
       name: "objectifMois",
-      question: "Quel est l'objectif de ce mois ?",
+      question: "Quel est l'objectif de votre Grand Tour ?",
       options: [
         { value: "decouverte", label: "Découverte approfondie du pays et immersion culturelle" },
         { value: "expatriation", label: "Projet d'expatriation ou changement de vie" },
@@ -51,95 +36,20 @@ export const cvmUnMoisFunnel: FunnelConfig = {
       ],
     },
     {
-      kind: "radio",
-      id: "maturite",
-      name: "maturite",
-      question: "Où en est votre projet ?",
-      options: [
-        { value: "premiere_reflexion", label: "Première réflexion, je veux comprendre le pays" },
-        { value: "serieux_compare", label: "Projet sérieux, je compare encore plusieurs options" },
-        { value: "avance", label: "Projet avancé, je souhaite me déplacer prochainement" },
-        { value: "engage", label: "Projet déjà engagé, j'ai besoin d'un repérage structuré" },
-        { value: "autre", label: "Autre situation — je précise", freeText: true },
-      ],
+      kind: "offer",
+      id: "offre",
+      question: "Votre Grand Tour",
+      hint: "Formule unique — prix indicatif par personne, hors vol international & assurance.",
     },
-    {
-      kind: "radio",
-      id: "horizon",
-      name: "horizon",
-      question: "Quel horizon de départ ?",
-      options: [
-        { value: "2_4_mois", label: "Dans 2 à 4 mois" },
-        { value: "4_6_mois", label: "Dans 4 à 6 mois" },
-        { value: "6_10_mois", label: "Dans 6 à 10 mois" },
-        { value: "1_an_plus", label: "Dans 1 an ou plus" },
-        { value: "precise", label: "Période précise — je l'indique", freeText: true },
-      ],
-    },
-    {
-      kind: "radio",
-      id: "sujets",
-      name: "sujets",
-      question: "Quels sujets voulez-vous approfondir en priorité ?",
-      options: [
-        { value: "cadre_de_vie", label: "Régions, villes, cadre de vie et quotidien" },
-        { value: "activite_partenaires", label: "Création d'activité, partenaires, opportunités locales" },
-        { value: "logement_installation", label: "Logement, quartiers, installation, rythme de vie" },
-        { value: "administratif", label: "Administratif, résidence, fiscalité ou société — orientation uniquement" },
-        { value: "autre", label: "Autre sujet — je précise", freeText: true },
-      ],
-    },
-    {
-      kind: "radio",
-      id: "regions",
-      name: "regions",
-      question: "Quelles régions découvrir ?",
-      options: [
-        { value: "tana_hautes_terres", label: "Hautes Terres & Antananarivo : culture, artisanat, villages accueillants" },
-        { value: "nord", label: "Le Nord : Nosy Be, plages de rêve, îles idylliques" },
-        { value: "est", label: "L'Est : forêts luxuriantes, route des Pangalanes et Sainte-Marie" },
-        { value: "ouest_sud", label: "L'Ouest / Sud : baobabs, Tsingy, terres rouges et grands espaces" },
-        { value: "quatre_coins", label: "Je veux découvrir les quatre coins du pays" },
-      ],
-    },
-    {
-      kind: "radio",
-      id: "accompagnement",
-      name: "accompagnement",
-      question: "Quel niveau d'accompagnement ?",
-      options: [
-        { value: "tres_accompagne", label: "Très accompagné : programme structuré, contacts, repères, conseils" },
-        { value: "semi_guide", label: "Semi-guidé : itinéraire préparé avec temps libre" },
-        { value: "autonome", label: "Autonome avec points de contact et recommandations" },
-        { value: "orientation_business", label: "Orientation business avec rendez-vous ciblés si possible" },
-        { value: "autre", label: "Autre besoin — je précise", freeText: true },
-      ],
-    },
-    {
-      kind: "radio",
-      id: "situation",
-      name: "situation",
-      question: "Vous partez avec qui ?",
-      options: [
-        { value: "seul", label: "Seul" },
-        { value: "couple", label: "En couple" },
-        { value: "famille", label: "En famille" },
-        { value: "associe", label: "Avec associé, investisseur ou partenaire professionnel" },
-        { value: "autre", label: "Autre situation — je précise", freeText: true },
-      ],
-    },
-    {
-      kind: "radio",
-      id: "confort",
-      name: "confort",
-      question: "Quel confort pour une expérience longue ?",
-      options: [
-        { value: "simple_eco", label: "Simple et économique" },
-        { value: "correct", label: "Confort correct et fonctionnel" },
-        { value: "superieur", label: "Confort supérieur pour vivre le mois sereinement" },
-        { value: "premium", label: "Premium avec accompagnement renforcé" },
-        { value: "autre", label: "Autre attente — je précise", freeText: true },
-      ],
-    },
+    CVM_STEP_PERIODE,
+    CVM_STEP_VOYAGEURS,
   ],
+  contact: {
+    id: "coordonnees",
+    variant: "cvm",
+    cta: "Enregistrer mes coordonnées",
+    question: "Vos coordonnées",
+    hint: "Réponse sous 24 h · pré-programme personnalisé · hors vol & assurance.",
+  },
+  final: { cases: CVM_FINAL_CASES },
 };

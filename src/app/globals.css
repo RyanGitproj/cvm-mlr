@@ -24,6 +24,10 @@
   --ember: #7a3b1e;
   --lagon: #1f7a6d;
   --danger: #9c2f22;
+  /* Voile de lisibilité posé sur les photos (cartes maquette étape 1) et
+     texte affiché par-dessus — noir chaud neutre, crème du thème. */
+  --veil: #1d1207;
+  --on-veil: #fffdf8;
 
   --font-heading: "Cormorant Garamond", serif;
   --font-body: "Inter Variable", system-ui, sans-serif;
@@ -47,6 +51,8 @@
   --kaki: #6b5a1e;
   --sun: #e08a1e;
   --danger: #8f2a00;
+  --veil: #1d1207;
+  --on-veil: #fdf5e2;
 
   --font-heading: "Oswald Variable", sans-serif;
   --font-body: "Inter Variable", system-ui, sans-serif;
@@ -91,6 +97,8 @@
   --color-ember: var(--ember);
   --color-lagon: var(--lagon);
   --color-danger: var(--danger);
+  --color-veil: var(--veil);
+  --color-on-veil: var(--on-veil);
   --font-heading: var(--font-heading);
   --font-body: var(--font-body);
 }
@@ -209,6 +217,28 @@ h4 {
 .pill-accent {
   border-color: var(--accent);
   color: var(--accent);
+}
+
+/*
+ * Voile de lisibilité des cartes à fond photo (maquette étape 1 du
+ * 2026-07-07) : la zone de texte à gauche est assombrie par un dégradé
+ * latéral, une assise basse ancre la pilule CTA — le sujet de la photo
+ * reste visible à droite. Posé uniquement sur les vraies photos ; les
+ * placeholders clairs gardent leur texte encre sans voile.
+ */
+.photo-veil {
+  background:
+    linear-gradient(
+      to right,
+      color-mix(in srgb, var(--veil) 78%, transparent) 0%,
+      color-mix(in srgb, var(--veil) 44%, transparent) 55%,
+      color-mix(in srgb, var(--veil) 10%, transparent) 100%
+    ),
+    linear-gradient(
+      to top,
+      color-mix(in srgb, var(--veil) 52%, transparent) 0%,
+      transparent 55%
+    );
 }
 
 /* Intensités actées (Ryan 2026-07-03) : « actuelle » pour les CTA

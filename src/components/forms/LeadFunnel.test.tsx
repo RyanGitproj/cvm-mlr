@@ -1,23 +1,20 @@
 /**
  * @vitest-environment jsdom
  *
- * Écran unique de l'étape 1 (formule + route MLR + coordonnées ensemble),
- * validation au CTA d'enregistrement et blocage de la soumission implicite
- * clavier. Exception à la règle « fonctions pures uniquement » : ces
+ * Moteur wizard (gabarit maquette 5 écrans) : une décision par écran, avance
+ * au clic, garde anti double-clic, case de confirmation Q4 MLR, submit unique
+ * aux coordonnées. Exception à la règle « fonctions pures uniquement » : ces
  * comportements vivent dans le câblage DOM, ils ne se testent qu'en rendant
  * le composant.
  */
 import { cleanup, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeAll, expect, it, vi } from "vitest";
-import { submitStep1 } from "@/actions/submitStep1";
+import { submitLead } from "@/actions/submitLead";
 import { LeadFunnel } from "./LeadFunnel";
 
-vi.mock("next/navigation", () => ({
-  useRouter: () => ({ push: () => undefined }),
-}));
-vi.mock("@/actions/submitStep1", () => ({ submitStep1: vi.fn() }));
-vi.mock("@/actions/saveStep2Progress", () => ({ saveStep2Progress: vi.fn() }));
+vi.mock("@/actions/submitLead", () => ({ submitLead: vi.fn() }));
+vi.mock("@/actions/saveSuite", () => ({ saveSuite: vi.fn() }));
 
 beforeAll(() => {
   window.matchMedia = (query: string): MediaQueryList => ({
@@ -39,54 +36,115 @@ afterEach(() => {
   sessionStorage.clear();
 });
 
-const boutonEnregistrer = () =>
-  screen.findByRole("button", { name: /enregistrer mes coordonnées/i });
+/** L'auto-avance ignore les clics pendant la fenêtre anti double-clic. */
+const settleGuard = () => new Promise((resolve) => setTimeout(resolve, 550));
 
-/** Laisse aboutir une éventuelle validation asynchrone avant d'asserter. */
-const flush = () => new Promise((resolve) => setTimeout(resolve, 50));
+it(
+  "wizard MLR : une décision par écran, avance au clic, garde anti double-clic",
+  async () => {
+    const user = userEvent.setup();
+    render(<LeadFunnel funnelType="mlr" />);
 
-it("affiche l'étape 1 en écran unique : formule, route MLR et coordonnées ensemble", async () => {
-  render(<LeadFunnel funnelType="mlr" />);
-  // Tout coexiste sur le même écran, sans « Continuer » intermédiaire.
-  expect(await screen.findByRole("radio", { name: /10 jours/i })).toBeTruthy();
-  expect(screen.getByRole("radio", { name: /^Nord/i })).toBeTruthy();
-  expect(screen.getByLabelText("Nom")).toBeTruthy();
-  expect(screen.queryByRole("button", { name: /continuer/i })).toBeNull();
-});
+    // Q1 seule à l'écran — aucune coordonnée visible.
+    expect(await screen.findByText(/quelle route t'appelle le plus/i)).toBeTruthy();
+    expect(screen.queryByLabelText("Nom")).toBeNull();
 
-it("masque la route quand la page l'a pré-remplie (/mlr/{route})", async () => {
-  render(<LeadFunnel funnelType="mlr" defaultValues={{ route: "sud" }} />);
-  expect(await screen.findByRole("radio", { name: /10 jours/i })).toBeTruthy();
-  expect(screen.queryByRole("radio", { name: /^Nord/i })).toBeNull();
-  expect(screen.getByLabelText("Nom")).toBeTruthy();
-});
+    await user.click(screen.getByRole("radio", { name: /le nord/i }));
+    expect(await screen.findByText(/quel niveau d'aventure/i)).toBeTruthy();
 
-it("valide tout l'écran au CTA : envoi à vide → alertes, pas d'appel serveur", async () => {
-  const user = userEvent.setup();
-  render(<LeadFunnel funnelType="cvm_treks" />);
-  await user.click(await boutonEnregistrer());
-  const alertes = await screen.findAllByRole("alert");
-  expect(alertes.length).toBeGreaterThan(0);
-  expect(vi.mocked(submitStep1)).not.toHaveBeenCalled();
-});
+    // Un clic immédiat après le changement d'écran est ignoré (double-clic).
+    await user.click(
+      screen.getByRole("radio", { name: /taxi-brousse intégral/i }),
+    );
+    expect(screen.queryByText(/quand sens-tu que madagascar/i)).toBeNull();
 
-it("n'envoie pas le formulaire quand Entrée est pressée dans le champ Nom", async () => {
-  const user = userEvent.setup();
-  render(<LeadFunnel funnelType="cvm_treks" />);
-  await user.click(await screen.findByLabelText("Nom"));
-  await user.keyboard("{Enter}");
-  await flush();
-  expect(screen.queryAllByRole("alert")).toHaveLength(0);
-  expect(vi.mocked(submitStep1)).not.toHaveBeenCalled();
-});
+    await settleGuard();
+    await user.click(
+      screen.getByRole("radio", { name: /taxi-brousse intégral/i }),
+    );
+    expect(
+      await screen.findByText(/quand sens-tu que madagascar/i),
+    ).toBeTruthy();
+  },
+  15000,
+);
 
-it("laisse Entrée insérer un saut de ligne dans le commentaire (textarea)", async () => {
-  const user = userEvent.setup();
-  render(<LeadFunnel funnelType="cvm_treks" />);
-  const commentaire = await screen.findByLabelText(/commentaire libre/i);
-  if (!(commentaire instanceof HTMLTextAreaElement)) {
-    throw new Error("Le champ commentaire devrait être un textarea.");
-  }
-  await user.type(commentaire, "ligne 1{Enter}ligne 2");
-  expect(commentaire.value).toBe("ligne 1\nligne 2");
-});
+it(
+  "route pré-remplie : Q1 sautée, case Q4 exigée, submit vide → alertes sans appel serveur",
+  async () => {
+    const user = userEvent.setup();
+    render(<LeadFunnel funnelType="mlr" defaultValues={{ route: "ouest" }} />);
+
+    // Q1 sautée : le parcours démarre au niveau d'aventure, barre sur 3.
+    expect(await screen.findByText(/quel niveau d'aventure/i)).toBeTruthy();
+    expect(screen.getByText(/étape 1 sur 3/i)).toBeTruthy();
+
+    await user.click(
+      screen.getByRole("radio", { name: /taxi-brousse intégral/i }),
+    );
+    expect(await screen.findByText(/quand sens-tu/i)).toBeTruthy();
+    await settleGuard();
+
+    await user.click(screen.getByRole("radio", { name: /0 à 2 mois/i }));
+    expect(await screen.findByText(/combien de places/i)).toBeTruthy();
+    await settleGuard();
+
+    // La sélection des voyageurs n'avance pas seule : case de confirmation.
+    await user.click(screen.getByRole("radio", { name: /je pars seul/i }));
+    expect(screen.getByText(/combien de places/i)).toBeTruthy();
+
+    // CTA sans la case cochée → erreur, on reste sur Q4.
+    await user.click(
+      screen.getByRole("button", { name: /voir ma route liberty roots/i }),
+    );
+    expect((await screen.findAllByRole("alert")).length).toBeGreaterThan(0);
+    expect(screen.queryByText(/ta route est presque prête/i)).toBeNull();
+
+    await user.click(
+      screen.getByRole("checkbox", { name: /j'ai compris que les vols/i }),
+    );
+    await user.click(
+      screen.getByRole("button", { name: /voir ma route liberty roots/i }),
+    );
+    expect(await screen.findByText(/ta route est presque prête/i)).toBeTruthy();
+    await settleGuard();
+
+    // Submit à vide → alertes de validation, aucun appel serveur.
+    await user.click(screen.getByRole("button", { name: /recevoir ma route/i }));
+    expect((await screen.findAllByRole("alert")).length).toBeGreaterThan(0);
+    expect(vi.mocked(submitLead)).not.toHaveBeenCalled();
+
+    // Entrée dans un champ texte ne soumet pas le formulaire.
+    await user.click(screen.getByLabelText("Nom"));
+    await user.keyboard("{Enter}");
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    expect(vi.mocked(submitLead)).not.toHaveBeenCalled();
+  },
+  20000,
+);
+
+it(
+  "cvm_treks (gabarit 4 étapes) : décor → offre 2 cartes à prix, sans « Conseillez-moi »",
+  async () => {
+    const user = userEvent.setup();
+    render(<LeadFunnel funnelType="cvm_treks" />);
+
+    // Q1 = projection décor, barre sur 4 écrans.
+    expect(
+      await screen.findByText(/quel grand décor vous fait rêver/i),
+    ).toBeTruthy();
+    expect(screen.getByText(/étape 1 sur 4/i)).toBeTruthy();
+    expect(screen.queryByLabelText("Nom")).toBeNull();
+
+    await user.click(screen.getByRole("radio", { name: /morondava/i }));
+    // Q2 = offre : 2 cartes avec prix, plus d'option « Conseillez-moi ».
+    expect(
+      await screen.findByText(/quelle formule vous correspond/i),
+    ).toBeTruthy();
+    expect(screen.getAllByRole("radio")).toHaveLength(2);
+    expect(screen.queryByText(/conseillez-moi/i)).toBeNull();
+    expect(screen.getByText(/2 200 €/)).toBeTruthy();
+    expect(screen.getByText(/2 500 €/)).toBeTruthy();
+  },
+  15000,
+);
