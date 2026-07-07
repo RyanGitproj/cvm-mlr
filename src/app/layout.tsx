@@ -4,7 +4,7 @@ import "@fontsource/poppins/400-italic.css";
 import "@fontsource/poppins/500.css";
 import "@fontsource/poppins/600.css";
 import "@fontsource/poppins/700.css";
-import "@fontsource-variable/exo";
+import "@fontsource-variable/exo/index.css";
 import "./globals.css";
 import { UtmCapture } from "@/components/layout/UtmCapture";
 import { CookieConsent } from "@/components/tracking/CookieConsent";
