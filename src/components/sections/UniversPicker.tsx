@@ -30,7 +30,7 @@ export function UniversPicker() {
         titre="Choisissez votre univers"
         sousTitre="Deux chemins, pas un de plus — la même équipe locale derrière chacun. Reconnaissez le vôtre."
       />
-      <div className="mt-8 grid grid-cols-2 gap-3 sm:gap-5">
+      <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5">
         <Reveal className="h-full min-w-0">
           <Link
             href="/cvm"
@@ -41,7 +41,7 @@ export function UniversPicker() {
               ratio="16/9"
               src="/images/cvm/hero-cvm.jpeg"
               alt="Triptyque des expériences : plage et bateau turquoise, faune insolite, trek vers les massifs"
-              sizes="(min-width: 1152px) 552px, 50vw"
+              sizes="(min-width: 1152px) 552px, (min-width: 640px) 50vw, 100vw"
             />
             <p className="mt-5 font-heading text-xl font-bold text-ink-strong sm:text-3xl">
               {cvmBrand.nom}
@@ -92,7 +92,7 @@ export function UniversPicker() {
                 ratio="16/9"
                 src="/images/mere/mlr-univers.jpg"
                 alt="Taxi-brousse chargé sur la route, baobabs à l'horizon"
-                sizes="(min-width: 1152px) 552px, 50vw"
+                sizes="(min-width: 1152px) 552px, (min-width: 640px) 50vw, 100vw"
               />
               <p className="mt-5 font-heading text-xl font-bold uppercase tracking-wide text-ink-strong sm:text-3xl">
                 {mlrBrand.nom}

@@ -32,8 +32,11 @@
      accents d'aventure (bordure du logo, éléments de marque). */
   --brand-gold: #b8892b;
 
-  --font-heading: "Cormorant Garamond", serif;
-  --font-body: "Inter Variable", system-ui, sans-serif;
+  /* Polices communes aux trois thèmes (directive Ryan 2026-07-07 soir) :
+     Exo pour les titres, Poppins pour le corps — aucun thème ne les
+     surcharge, seules ces deux familles existent dans le projet. */
+  --font-heading: "Exo Variable", sans-serif;
+  --font-body: "Poppins", system-ui, sans-serif;
 }
 
 [data-theme="mlr"] {
@@ -57,9 +60,6 @@
   --veil: #1d1207;
   --on-veil: #fdf5e2;
   --brand-gold: #b8892b;
-
-  --font-heading: "Oswald Variable", sans-serif;
-  --font-body: "Inter Variable", system-ui, sans-serif;
 }
 
 /*

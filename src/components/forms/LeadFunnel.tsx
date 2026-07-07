@@ -260,7 +260,7 @@ export function LeadFunnel({
               />
               <section
                 key={currentKey}
-                className="animate-step mt-4"
+                className="animate-step mt-3"
                 aria-labelledby={headingId}
               >
                 <h2

@@ -44,7 +44,7 @@ export function RadioCards({ name, options, labelledBy, onSelect }: Props) {
     <div
       role="radiogroup"
       aria-labelledby={labelledBy}
-      className={cn("grid gap-2.5", options.length >= 3 && "sm:grid-cols-2")}
+      className={cn("grid gap-2", options.length >= 3 && "sm:grid-cols-2")}
     >
       {options.map((option) => {
         const isSelected = option.value === selected;
@@ -70,10 +70,10 @@ export function RadioCards({ name, options, labelledBy, onSelect }: Props) {
             <label
               key={option.value}
               className={cn(
-                "relative isolate flex cursor-pointer flex-col overflow-hidden rounded-3xl border-2 p-4 transition-colors has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent sm:p-5",
-                // Seules les cartes photo imposent une hauteur (présence de
-                // l'image) ; les cartes claires se serrent sur leur contenu.
-                hasPhoto && "min-h-40 sm:min-h-44",
+                "relative isolate flex cursor-pointer flex-col overflow-hidden rounded-3xl border-2 transition-colors has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent sm:p-5",
+                // Seules les cartes photo imposent hauteur et cadre larges ;
+                // les cartes claires se serrent sur leur contenu (fold mobile).
+                hasPhoto ? "min-h-40 p-4 sm:min-h-44" : "p-3",
                 isSelected
                   ? "border-accent"
                   : hasPhoto
