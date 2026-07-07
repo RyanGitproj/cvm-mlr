@@ -33,7 +33,9 @@ export function CvmUniversPage({ content }: { content: CvmUniversContent }) {
         imageSrc={content.heroSrc}
       />
 
-      <section className="mx-auto w-full max-w-3xl px-4 pb-4 sm:px-6">
+      {/* max-w-5xl : gouttières réduites (demande Ryan 07-07 soir) — la
+          présentation tient en 2 phrases, la ligne longue reste lisible. */}
+      <section className="mx-auto w-full max-w-5xl px-4 pb-4 sm:px-6">
         {content.presentation.map((paragraphe) => (
           <p
             key={paragraphe}

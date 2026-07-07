@@ -93,7 +93,7 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
     surtitre: "Trek Aventure",
     titre: "L'aventure encadrée, à votre niveau",
     sousTitre:
-      "Vivez l'aventure sans partir à l'aveugle : un trek encadré, calibré sur votre niveau, vos paysages et votre rythme — en famille, en couple ou entre amis.",
+      "Un trek encadré, calibré sur votre niveau et votre rythme — en famille, en couple ou entre amis.",
     ctaLabel: "Recevoir mon itinéraire Trek Aventure",
     card: {
       image: {
@@ -112,10 +112,9 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
       "Proposition personnalisée",
       "Hors vol & assurance",
     ],
+    // Présentations condensées au maximum (demande Ryan 2026-07-07 soir).
     presentation: [
-      "Madagascar se mérite à pied. Crêtes du Nord, pistes de l'Ouest entre les baobabs, canyons du Makay, jungle dense de l'Est : chaque région offre un décor de trek radicalement différent, loin des circuits classiques.",
-      "Vous marchez, nous gérons le reste : guide local, itinéraire calibré sur votre niveau réel, transferts, hébergements choisis pour récupérer correctement chaque soir.",
-      "C'est l'intensité maîtrisée, jamais l'expédition brute. Vous choisissez le rythme, le dénivelé et le confort — nous construisons le trek qui vous ressemble.",
+      "Crêtes du Nord, baobabs de l'Ouest, canyons du Makay, jungle de l'Est : vous marchez, nous gérons le reste. L'intensité maîtrisée, calibrée sur votre niveau réel — jamais l'expédition brute.",
     ],
     inclus: [
       { titre: "Guide local privé", texte: "Un accompagnateur qui connaît le terrain et ses habitants." },
@@ -181,7 +180,7 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
     surtitre: "Expédition insolite & Missions humanitaires",
     titre: "Madagascar profond, là où les circuits classiques ne vont pas",
     sousTitre:
-      "Une expédition réelle, engagée et encadrée, pour les voyageurs prêts à vivre l'effort, le bivouac, l'immersion humaine et l'exploration terrain.",
+      "Une expédition réelle, engagée et encadrée : l'effort, le bivouac, l'immersion humaine.",
     ctaLabel: "Voir si je suis compatible",
     card: {
       image: {
@@ -201,9 +200,7 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
       "Hors vol & assurance",
     ],
     presentation: [
-      "Plus qu'un voyage : l'Expédition insolite vous emmène vers un Madagascar profond, exigeant et humain.",
-      "Bivouac permanent — deux nuits d'hôtel seulement —, 15 à 25 km par jour selon profil, terrains difficiles : cette aventure se prépare sérieusement, avec une équipe qui encadre chaque étape.",
-      "Cette expédition n'est pas adaptée à tout le monde, et c'est volontaire. Le questionnaire sert à vérifier ensemble, honnêtement, que l'expérience est faite pour vous.",
+      "Bivouac permanent, 15 à 25 km par jour, terrains difficiles : une vraie expédition encadrée, vers un Madagascar profond et humain. Elle n'est pas adaptée à tout le monde — le questionnaire vérifie honnêtement qu'elle est faite pour vous.",
     ],
     inclus: [
       { titre: "Encadrement terrain", texte: "Guides et responsables terrain expérimentés à chaque étape." },
@@ -268,7 +265,7 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
     surtitre: "Séjour Collection Plages de rêves & îles paradisiaques",
     titre: "Madagascar côté rêve",
     sousTitre:
-      "Plages paradisiaques, lagons et îles de rêve : Nosy Be, Sainte-Marie ou séjour combiné — composé sur votre ambiance, du romantique à la lune de miel.",
+      "Nosy Be, Sainte-Marie ou séjour combiné — plages, lagons et détente, composés sur votre ambiance.",
     ctaLabel: "Créer mon Séjour Collection",
     card: {
       image: {
@@ -288,9 +285,7 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
       "Hors vol & assurance",
     ],
     presentation: [
-      "Lagons turquoise, sable clair, couchers de soleil sur l'océan Indien : les îles malgaches offrent un décor balnéaire encore préservé, loin des plages standardisées.",
-      "Nosy Be et ses îles pour le confort balnéaire, Sainte-Marie pour l'exotisme sauvage et l'histoire, ou un combiné circuit + île pour équilibrer découverte et repos.",
-      "Vous rêvez, nous composons : hébergement, activités douces, rythme du séjour — une proposition construite sur votre ambiance, pas un package standard.",
+      "Nosy Be pour le confort balnéaire, Sainte-Marie pour l'exotisme sauvage, ou le combiné découverte + repos. Vous rêvez, nous composons : hébergement, activités douces, rythme — sur votre ambiance, jamais un package standard.",
     ],
     inclus: [
       { titre: "Hébergements sélectionnés", texte: "Du charme simple au premium, alignés sur votre budget." },
@@ -348,7 +343,7 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
     // paysages variés, découverte complète — culture et repos.
     titre: "Un mois pour comprendre l'île en profondeur",
     sousTitre:
-      "Environ un mois à travers les grandes régions : immersion culturelle, paysages variés, découverte complète — avec le temps de s'imprégner et de se reposer.",
+      "Environ un mois à travers les grandes régions : immersion culturelle, découverte complète, repos.",
     ctaLabel: "Recevoir le programme Grand Tour Madagascar",
     card: {
       image: {
@@ -368,9 +363,7 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
       "Hors vol & assurance",
     ],
     presentation: [
-      "Lagons turquoise, forêts tropicales, baobabs, Hautes Terres : Madagascar réunit des mondes d'une exceptionnelle diversité. Le Grand Tour les relie en un seul voyage — pour comprendre l'île en profondeur.",
-      "Le rythme est posé : effort modéré, confort soigné, et l'alternance entre découverte, rencontres et repos. On ne coche pas des étapes — on s'imprègne de la culture, des régions et du quotidien malgache.",
-      "Chaque itinéraire est 100 % sur-mesure : un conseiller construit votre mois idéal selon vos envies, votre rythme et votre budget.",
+      "Lagons, forêts, baobabs, Hautes Terres : le Grand Tour relie les mondes de l'île en un seul voyage, pour la comprendre en profondeur. Rythme posé, confort soigné, itinéraire 100 % sur-mesure — selon vos envies et votre budget.",
     ],
     inclus: [
       { titre: "Équipe locale engagée", texte: "Des experts passionnés, à vos côtés avant, pendant et après le voyage." },
@@ -429,7 +422,7 @@ export const CVM_LANDING = {
     // L'exclusivité en titre (« autrement » reste la signature MLR).
     titre: "Madagascar, là où les autres ne vont pas",
     sousTitre:
-      "Quatre expériences encadrées par une équipe locale : l'expédition insolite, le trek aventure, le séjour à deux ou le grand tour d'un mois. Vous gardez l'émotion — nous gérons toute la logistique.",
+      "Quatre expériences encadrées par une équipe locale. Vous gardez l'émotion — nous gérons toute la logistique.",
     imageLabel: "Triptyque des expériences CVM",
     imageAlt: "Triptyque des expériences : plage et bateau turquoise, faune insolite, trek vers les massifs",
   },

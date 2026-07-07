@@ -52,9 +52,9 @@ export const MLR_ROUTES_CONTENT: Record<MlrRoute, MlrRouteContent> = {
     slug: "nord",
     titre: "Road Trip Nord",
     sousTitre: "Reliefs, baies, cascades et aventure du Nord.",
+    // Accroche condensée au maximum (demande Ryan 2026-07-07 soir).
     accroche: [
-      "Au Nord de Madagascar, la route serpente entre terre rouge et mer turquoise. Chaque virage ouvre une émotion nouvelle : la brise salée sur la peau, les panoramas à couper le souffle, les cascades cachées qui murmurent dans la jungle, les sourires des villages qui réchauffent le cœur.",
-      "Ici, le temps ralentit, l'essentiel revient. Vous respirez, vous explorez, vous vibrez. Et vous repartez transformé, reconnecté à ce qui compte vraiment.",
+      "Au Nord, la route serpente entre terre rouge et mer turquoise : panoramas, cascades cachées, sourires des villages. Le temps ralentit, l'essentiel revient — vous repartez transformé.",
     ],
     tempsFortsTitre: "5 incontournables du Nord",
     tempsForts: [
@@ -66,8 +66,8 @@ export const MLR_ROUTES_CONTENT: Record<MlrRoute, MlrRouteContent> = {
     ],
     faitPour: [
       "Les voyageurs libres, curieux et amoureux de nature brute.",
-      "Celles et ceux qui cherchent à s'émerveiller, à prendre leur temps, à marcher, à rencontrer et à contempler les plus beaux horizons marins et terrestres.",
-      "Un road trip authentique, accessible, rythmé par la liberté et la simplicité.",
+      "Marcher, rencontrer, contempler — prendre le temps de s'émerveiller.",
+      "Un road trip authentique, rythmé par la liberté et la simplicité.",
     ],
     ressentir: [
       { titre: "Horizon", texte: "Des paysages à perte de vue, où la mer et la terre se répondent à chaque instant." },
@@ -131,8 +131,7 @@ export const MLR_ROUTES_CONTENT: Record<MlrRoute, MlrRouteContent> = {
     titre: "Road Trip Ouest",
     sousTitre: "Baobabs, pistes, villages isolés et grands espaces.",
     accroche: [
-      "Ici, le silence a une voix. L'horizon s'étire à perte de vue, les baobabs millénaires veillent sur la terre rouge, les pistes nous mènent là où le temps ralentit.",
-      "Au fil des villages et des rencontres vraies, on se reconnecte à l'essentiel. On respire plus profondément, on voit plus loin, on revient différent. Ce n'est pas qu'un voyage. C'est une transformation intérieure.",
+      "Ici, le silence a une voix : baobabs millénaires, terre rouge, pistes où le temps ralentit. Au fil des rencontres vraies, on revient différent — ce n'est pas qu'un voyage, c'est une transformation.",
     ],
     tempsFortsTitre: "Les temps forts du voyage",
     tempsForts: [

@@ -20,7 +20,9 @@ export function QuestionnaireSection({ funnelType, defaultValues }: Props) {
       tabIndex={-1}
       className="scroll-mt-20 border-t-2 border-line bg-surface-2 outline-none"
     >
-      <div className="mx-auto w-full max-w-2xl px-4 py-6 sm:px-6 sm:py-8">
+      {/* max-w-3xl : le wizard respire en PC (cellules 2 col ≈ 368 px) —
+          gouttières réduites, demande Ryan 07-07 soir. */}
+      <div className="mx-auto w-full max-w-3xl px-4 py-6 sm:px-6 sm:py-8">
         <LeadFunnel
           funnelType={funnelType}
           defaultValues={defaultValues}

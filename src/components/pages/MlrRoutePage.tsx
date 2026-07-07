@@ -91,7 +91,8 @@ export function MlrRoutePage({ content }: { content: MlrRouteContent }) {
         </div>
       </section>
 
-      <section className="mx-auto w-full max-w-3xl px-4 pb-6 sm:px-6">
+      {/* max-w-5xl : gouttières réduites (demande Ryan 07-07 soir). */}
+      <section className="mx-auto w-full max-w-5xl px-4 pb-6 sm:px-6">
         {content.accroche.map((paragraphe) => (
           <p key={paragraphe} className="mt-4 text-base leading-relaxed sm:text-lg">
             {paragraphe}
