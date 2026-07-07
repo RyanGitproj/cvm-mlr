@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { toLeadInfoRow } from "./toLeadInfoRow";
+import { EMPTY_QUALIF } from "@/types/lead";
+import { toLeadRow } from "./toLeadRow";
 
 /** Parcours CVM (gabarit 4 étapes) : coordonnées épurées + Q4 voyageurs. */
 const parcoursCvm = {
@@ -27,9 +28,14 @@ const parcoursMlr = {
   optinNewsletter: false,
 };
 
-describe("toLeadInfoRow", () => {
+describe("toLeadRow", () => {
   it("mappe le contact vers des colonnes indépendantes (snake_case)", () => {
-    const row = toLeadInfoRow("cvm_treks", { ...parcoursCvm, offreDuree: "10_jours" }, null);
+    const row = toLeadRow(
+      "cvm_treks",
+      { ...parcoursCvm, offreDuree: "10_jours" },
+      null,
+      EMPTY_QUALIF,
+    );
     expect(row.nom).toBe("Rakoto");
     expect(row.prenom).toBe("Riane");
     expect(row.email).toBe("riane@example.com");
@@ -39,52 +45,87 @@ describe("toLeadInfoRow", () => {
   });
 
   it("laisse à null ce que le parcours n'a pas demandé (anciens leads)", () => {
-    const row = toLeadInfoRow("cvm_treks", { ...parcoursCvm, offreDuree: "10_jours" }, null);
+    const row = toLeadRow(
+      "cvm_treks",
+      { ...parcoursCvm, offreDuree: "10_jours" },
+      null,
+      EMPTY_QUALIF,
+    );
     expect(row.periode).toBeNull();
     expect(row.commentaire).toBeNull();
     expect(row.optin_newsletter).toBeNull();
     expect(row.route).toBeNull();
   });
 
+  it("fusionne le fragment de qualification dans la ligne", () => {
+    const row = toLeadRow(
+      "cvm_treks",
+      { ...parcoursCvm, offreDuree: "10_jours" },
+      null,
+      {
+        ...EMPTY_QUALIF,
+        projection: "ouest",
+        depart_fenetre: "4_6",
+        reco_fenetre: "proche",
+      },
+    );
+    expect(row.projection).toBe("ouest");
+    expect(row.depart_fenetre).toBe("4_6");
+    expect(row.reco_fenetre).toBe("proche");
+    expect(row.comprehension).toBeNull();
+  });
+
   it("stocke l'effectif approximatif quand « Plus de 4 » est choisi", () => {
-    const row = toLeadInfoRow(
+    const row = toLeadRow(
       "cvm_treks",
       { ...parcoursCvm, offreDuree: "10_jours", nbVoyageurs: "plus", nbVoyageursPrecision: 8 },
       null,
+      EMPTY_QUALIF,
     );
     expect(row.nb_voyageurs).toBe(8);
   });
 
   it("mappe la newsletter cochée (les 2 marques la proposent)", () => {
-    const row = toLeadInfoRow(
+    const row = toLeadRow(
       "cvm_treks",
       { ...parcoursCvm, offreDuree: "10_jours", optinNewsletter: true },
       null,
+      EMPTY_QUALIF,
     );
     expect(row.optin_newsletter).toBe(true);
   });
 
   it("résout l'offre CVM en libellé/durée/prix", () => {
-    const row = toLeadInfoRow("cvm_treks", { ...parcoursCvm, offreDuree: "15_jours" }, null);
+    const row = toLeadRow(
+      "cvm_treks",
+      { ...parcoursCvm, offreDuree: "15_jours" },
+      null,
+      EMPTY_QUALIF,
+    );
     expect(row.offre_ref).toBe("15_jours");
     expect(row.offre_duree).toBe("15 jours");
     expect(row.offre_prix_indicatif).toBe(2500);
   });
 
   it("résout la formule unique du Grand Tour", () => {
-    const row = toLeadInfoRow("cvm_un_mois", { ...parcoursCvm, offreDuree: "un_mois" }, null);
+    const row = toLeadRow(
+      "cvm_un_mois",
+      { ...parcoursCvm, offreDuree: "un_mois" },
+      null,
+      EMPTY_QUALIF,
+    );
     expect(row.offre_ref).toBe("un_mois");
     expect(row.offre_prix_indicatif).toBe(5300);
   });
 
   it("laisse l'offre nulle pour l'orientation (aiguillage sans produit)", () => {
-    const row = toLeadInfoRow("cvm_orientation", parcoursCvm, null);
+    const row = toLeadRow("cvm_orientation", parcoursCvm, null, EMPTY_QUALIF);
     expect(row.offre_ref).toBeNull();
     expect(row.offre_prix_indicatif).toBeNull();
   });
 
   it("mappe le wizard MLR : voyageurs « 3 » → 3, mois de départ → periode, newsletter décochée ≠ null", () => {
-    const row = toLeadInfoRow("mlr", parcoursMlr, null);
+    const row = toLeadRow("mlr", parcoursMlr, null, EMPTY_QUALIF);
     expect(row.brand).toBe("mlr");
     expect(row.nb_voyageurs).toBe(3);
     expect(row.periode).toBe("Novembre 2026");
@@ -96,20 +137,27 @@ describe("toLeadInfoRow", () => {
   });
 
   it("garde une periode null quand le mois de départ n'est pas renseigné", () => {
-    const row = toLeadInfoRow("mlr", { ...parcoursMlr, moisDepart: undefined }, null);
+    const row = toLeadRow(
+      "mlr",
+      { ...parcoursMlr, moisDepart: undefined },
+      null,
+      EMPTY_QUALIF,
+    );
     expect(row.periode).toBeNull();
   });
 
   it("dérive la marque du funnel_type", () => {
-    expect(toLeadInfoRow("cvm_treks", parcoursCvm, null).brand).toBe("cvm");
-    expect(toLeadInfoRow("mlr", parcoursMlr, null).brand).toBe("mlr");
+    expect(toLeadRow("cvm_treks", parcoursCvm, null, EMPTY_QUALIF).brand).toBe("cvm");
+    expect(toLeadRow("mlr", parcoursMlr, null, EMPTY_QUALIF).brand).toBe("mlr");
   });
 
   it("aplatit l'UTM en colonnes, null si absent", () => {
-    const row = toLeadInfoRow("cvm_treks", { ...parcoursCvm, offreDuree: "10_jours" }, {
-      utm_source: "meta",
-      referrer: "https://exemple.com",
-    });
+    const row = toLeadRow(
+      "cvm_treks",
+      { ...parcoursCvm, offreDuree: "10_jours" },
+      { utm_source: "meta", referrer: "https://exemple.com" },
+      EMPTY_QUALIF,
+    );
     expect(row.utm_source).toBe("meta");
     expect(row.referrer).toBe("https://exemple.com");
     expect(row.utm_medium).toBeNull();

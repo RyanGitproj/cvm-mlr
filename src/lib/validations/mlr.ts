@@ -29,7 +29,7 @@ export const mlrWizardSchema = z.object({
 
 export type MlrWizardData = z.infer<typeof mlrWizardSchema>;
 
-/** Choix de suite enregistré depuis l'écran final (answers.suite). */
+/** Choix de suite enregistré depuis l'écran final (colonne `suite`). */
 export const mlrSuiteSchema = z.enum(["rdv", "brochure"]);
 
 export type MlrSuite = z.infer<typeof mlrSuiteSchema>;

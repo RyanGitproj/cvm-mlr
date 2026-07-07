@@ -1,3 +1,6 @@
+import type { Fenetre, OrientationUnivers } from "@/config/segmentation";
+import type { DepartFenetre } from "@/lib/validations/common";
+
 export type Brand = "cvm" | "mlr";
 
 export const FUNNEL_TYPES = [
@@ -12,10 +15,44 @@ export const FUNNEL_TYPES = [
 export type FunnelType = (typeof FUNNEL_TYPES)[number];
 
 /**
- * Ligne écrite dans `public.funnel_cvm_mlr_info` — colonnes indépendantes
- * (voir supabase/schema.sql). `id` et `created_at` sont générés en base.
+ * Colonnes de qualification de la table unique — extraites du parcours par
+ * `processLead`. Toutes nullables : null = non demandé par ce funnel
+ * (comprehension hors MLR, accept_* hors Explorer, projection pour MLR dont
+ * la Q1 est la colonne `route`, reco_univers hors orientation) ou
+ * qualification invalide (théorique — le lead est conservé quand même).
  */
-export type LeadInfoRow = {
+export type LeadQualifColumns = {
+  /** Réponse Q1 de projection (intention/decor/terrain/destination/objectifMois). */
+  projection: string | null;
+  /** Texte libre « Autre — je précise », seulement si projection = "autre". */
+  projection_precision: string | null;
+  depart_fenetre: DepartFenetre | null;
+  comprehension: boolean | null;
+  accept_certificat: boolean | null;
+  accept_briefing: boolean | null;
+  reco_fenetre: Fenetre | null;
+  reco_univers: OrientationUnivers | null;
+};
+
+/** Fragment qualif vide — insert de secours quand la qualification échoue. */
+export const EMPTY_QUALIF: LeadQualifColumns = {
+  projection: null,
+  projection_precision: null,
+  depart_fenetre: null,
+  comprehension: null,
+  accept_certificat: null,
+  accept_briefing: null,
+  reco_fenetre: null,
+  reco_univers: null,
+};
+
+/**
+ * Ligne écrite dans `public.funnel_cvm_mlr_leads` — table plate unique
+ * (voir supabase/schema.sql). `id` et `created_at` sont générés en base ;
+ * la colonne `suite` est écrite après coup par `updateLeadSuite` (écran
+ * final), jamais à l'insert.
+ */
+export type LeadRow = {
   funnel_type: FunnelType;
   brand: Brand;
   // Contact
@@ -43,15 +80,4 @@ export type LeadInfoRow = {
   utm_content: string | null;
   utm_term: string | null;
   referrer: string | null;
-};
-
-/**
- * Ligne écrite dans `public.funnel_cvm_mlr_com` — satellite lié par
- * `lead_id`. `answers` regroupe les réponses de qualification (JSONB).
- */
-export type LeadComRow = {
-  lead_id: string;
-  answers: Record<string, unknown>;
-  recommendation: Record<string, unknown> | null;
-  completed: boolean;
-};
+} & LeadQualifColumns;

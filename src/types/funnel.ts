@@ -101,7 +101,7 @@ export type ContactStep = ScreenBase & {
 
 export type SuiteCta = {
   label: string;
-  /** Choix enregistré en base (`answers.suite`) au clic. */
+  /** Choix enregistré en base (colonne `suite`) au clic. */
   suite: "rdv" | "brochure";
 };
 

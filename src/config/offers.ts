@@ -6,7 +6,7 @@ import type { FunnelType } from "@/types/lead";
 /**
  * Offres du parcours (Q2 du gabarit maquette) — source unique reliant l'UI
  * (OfferCards), l'enum Zod (`offreDuree`) et les colonnes `offre_*` de
- * `funnel_cvm_mlr_info`. Les prix/durées viennent des contenus éditoriaux
+ * `funnel_cvm_mlr_leads`. Les prix/durées viennent des contenus éditoriaux
  * (config/content). Cartes sèches à prix, sans option « Conseillez-moi »
  * (décision Ryan 2026-07-07).
  */
@@ -45,7 +45,7 @@ export type OfferOption = {
   icon?: OfferIcon;
 };
 
-/** Offre résolue pour stockage dans la table `funnel_cvm_mlr_info`. */
+/** Offre résolue pour stockage dans la table `funnel_cvm_mlr_leads`. */
 export type ResolvedOffer = {
   ref: string;
   label: string;

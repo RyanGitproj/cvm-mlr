@@ -1,26 +1,27 @@
-import type { LeadComRow, LeadInfoRow } from "@/types/lead";
 import type { MlrSuite } from "@/lib/validations/mlr";
+import type { LeadRow } from "@/types/lead";
 import { getServiceClient } from "./serverClient";
 
 /**
- * Insertion du lead (table `funnel_cvm_mlr_info`) via `service_role` —
- * retourne l'id créé (nécessaire pour lier la table com). Le returning
- * fonctionne car service_role bypasse la RLS.
+ * Insertion du lead (table plate `funnel_cvm_mlr_leads`) via `service_role`
+ * — une seule écriture au submit final, colonnes de qualification comprises.
+ * Retourne l'id créé (cookie lead signé). Le returning fonctionne car
+ * service_role bypasse la RLS.
  */
-export async function insertLeadInfo(
-  row: LeadInfoRow,
+export async function insertLead(
+  row: LeadRow,
 ): Promise<{ ok: true; id: string } | { ok: false }> {
   const supabase = getServiceClient();
   if (supabase === null) return { ok: false };
 
   const { data, error } = await supabase
-    .from("funnel_cvm_mlr_info")
+    .from("funnel_cvm_mlr_leads")
     .insert(row)
     .select("id")
     .single();
 
   if (error !== null || data === null) {
-    console.error("[supabase] insertion lead info échouée :", error?.message);
+    console.error("[supabase] insertion lead échouée :", error?.message);
     return { ok: false };
   }
 
@@ -30,37 +31,9 @@ export async function insertLeadInfo(
 }
 
 /**
- * Écriture des réponses de qualification (table `funnel_cvm_mlr_com`) via
- * `service_role` — une ligne par lead. Upsert `onConflict: lead_id` par
- * idempotence (re-submit après erreur réseau côté client).
- */
-export async function insertLeadCom(row: LeadComRow): Promise<{ ok: boolean }> {
-  const supabase = getServiceClient();
-  if (supabase === null) return { ok: false };
-
-  const { error } = await supabase.from("funnel_cvm_mlr_com").upsert(
-    {
-      lead_id: row.lead_id,
-      answers: row.answers,
-      recommendation: row.recommendation,
-      completed: row.completed,
-      updated_at: new Date().toISOString(),
-    },
-    { onConflict: "lead_id" },
-  );
-
-  if (error) {
-    console.error("[supabase] écriture réponses échouée :", error.message);
-    return { ok: false };
-  }
-  return { ok: true };
-}
-
-/**
- * Enregistre le choix de suite (`answers.suite`) depuis l'écran final MLR.
- * Le `lead_id` vient exclusivement du cookie de session signé HMAC. Upsert :
- * si l'écriture des réponses avait échoué au submit, le choix crée la ligne
- * plutôt que d'être perdu.
+ * Enregistre le choix de suite (colonne `suite`) depuis l'écran final.
+ * Le `leadId` vient exclusivement du cookie de session signé HMAC, posé
+ * après un insert réussi — la ligne existe donc toujours.
  */
 export async function updateLeadSuite(
   leadId: string,
@@ -69,35 +42,13 @@ export async function updateLeadSuite(
   const supabase = getServiceClient();
   if (supabase === null) return { ok: false };
 
-  const { data, error } = await supabase
-    .from("funnel_cvm_mlr_com")
-    .select("answers")
-    .eq("lead_id", leadId)
-    .maybeSingle();
+  const { error } = await supabase
+    .from("funnel_cvm_mlr_leads")
+    .update({ suite })
+    .eq("id", leadId);
 
   if (error) {
-    console.error("[supabase] lecture réponses échouée :", error.message);
-    return { ok: false };
-  }
-
-  const existing =
-    data !== null && typeof data.answers === "object" && data.answers !== null
-      ? (data.answers as Record<string, unknown>)
-      : {};
-
-  const { error: upsertError } = await supabase
-    .from("funnel_cvm_mlr_com")
-    .upsert(
-      {
-        lead_id: leadId,
-        answers: { ...existing, suite },
-        updated_at: new Date().toISOString(),
-      },
-      { onConflict: "lead_id" },
-    );
-
-  if (upsertError) {
-    console.error("[supabase] choix de suite non enregistré :", upsertError.message);
+    console.error("[supabase] choix de suite non enregistré :", error.message);
     return { ok: false };
   }
   return { ok: true };

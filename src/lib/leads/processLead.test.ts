@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { EMPTY_QUALIF } from "@/types/lead";
 import { processLead } from "./processLead";
 
 /** Parcours MLR complet tel que soumis par le wizard (contact + réponses). */
@@ -15,18 +16,23 @@ const parcoursMlr = {
 };
 
 describe("processLead — mlr", () => {
-  it("ne garde en answers que la fenêtre de départ et la compréhension", () => {
+  it("projette fenêtre + compréhension en colonnes (projection null : la Q1 MLR est la route)", () => {
     const result = processLead("mlr", parcoursMlr);
     expect(result.ok).toBe(true);
     if (!result.ok) return;
-    expect(result.data).toEqual({ departFenetre: "4_6", comprehension: true });
+    expect(result.qualif).toEqual({
+      ...EMPTY_QUALIF,
+      depart_fenetre: "4_6",
+      comprehension: true,
+      reco_fenetre: "proche",
+    });
   });
 
   it("calcule la recommendation fenêtre (départ 4-6 mois → proche)", () => {
     const result = processLead("mlr", parcoursMlr);
     if (!result.ok) throw new Error("parcours attendu valide");
-    expect(result.recommendation?.fenetre).toBe("proche");
-    expect(typeof result.recommendation?.libelle).toBe("string");
+    expect(result.recommendation.fenetre).toBe("proche");
+    expect(typeof result.recommendation.libelle).toBe("string");
   });
 
   it("rejette une fenêtre de départ inconnue", () => {
@@ -38,7 +44,7 @@ describe("processLead — mlr", () => {
 });
 
 describe("processLead — cvm", () => {
-  it("treks : answers = décor + fenêtre (voyageurs en colonne), reco fenêtre", () => {
+  it("treks : projection = décor, fenêtre en colonne, reco fenêtre", () => {
     const result = processLead("cvm_treks", {
       decor: "ouest",
       departFenetre: "10_plus",
@@ -46,11 +52,16 @@ describe("processLead — cvm", () => {
     });
     expect(result.ok).toBe(true);
     if (!result.ok) return;
-    expect(result.data).toEqual({ decor: "ouest", departFenetre: "10_plus" });
-    expect(result.recommendation?.fenetre).toBe("lointain");
+    expect(result.qualif).toEqual({
+      ...EMPTY_QUALIF,
+      projection: "ouest",
+      depart_fenetre: "10_plus",
+      reco_fenetre: "lointain",
+    });
+    expect(result.recommendation.fenetre).toBe("lointain");
   });
 
-  it("orientation : la reco porte la fenêtre ET l'univers recommandé", () => {
+  it("orientation : projection et reco_univers = intention, la reco porte fenêtre ET univers", () => {
     const result = processLead("cvm_orientation", {
       intention: "iles",
       departFenetre: "0_2",
@@ -58,8 +69,11 @@ describe("processLead — cvm", () => {
     });
     expect(result.ok).toBe(true);
     if (!result.ok) return;
-    expect(result.recommendation?.fenetre).toBe("proche");
-    expect(result.recommendation?.href).toBe("/cvm/iles");
+    expect(result.qualif.projection).toBe("iles");
+    expect(result.qualif.reco_univers).toBe("iles");
+    expect(result.qualif.reco_fenetre).toBe("proche");
+    expect(result.recommendation.fenetre).toBe("proche");
+    expect(result.recommendation.href).toBe("/cvm/iles");
   });
 
   it("explorer : les acceptations réglementaires sont exigées et stockées", () => {
@@ -79,7 +93,26 @@ describe("processLead — cvm", () => {
     });
     expect(avec.ok).toBe(true);
     if (!avec.ok) return;
-    expect(avec.data.acceptCertificat).toBe(true);
+    expect(avec.qualif.accept_certificat).toBe(true);
+    expect(avec.qualif.accept_briefing).toBe(true);
+  });
+
+  it("stocke la précision seulement quand « autre » est retenue", () => {
+    const commun = {
+      departFenetre: "2_4",
+      nbVoyageurs: "1",
+      acceptCertificat: true,
+      acceptBriefing: true,
+      terrainPrecision: "les tsingy",
+    };
+    const autre = processLead("cvm_explorer", { ...commun, terrain: "autre" });
+    if (!autre.ok) throw new Error("parcours attendu valide");
+    expect(autre.qualif.projection_precision).toBe("les tsingy");
+
+    // Texte saisi puis option fermée re-choisie : la précision ne va pas en base.
+    const ferme = processLead("cvm_explorer", { ...commun, terrain: "canyons" });
+    if (!ferme.ok) throw new Error("parcours attendu valide");
+    expect(ferme.qualif.projection_precision).toBeNull();
   });
 
   it("rejette une qualification incomplète", () => {

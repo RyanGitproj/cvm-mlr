@@ -1,19 +1,19 @@
--- Schéma des leads — parcours 2 étapes / 2 tables relationnelles.
+-- Schéma des leads — table plate UNIQUE (décision Ryan 2026-07-07 :
+-- colonnes typées distinctes, pensées pour l'automatisation aval).
 -- À exécuter dans l'éditeur SQL Supabase.
 --
 -- Sécurité : RLS activée SANS aucune policy → deny-all pour anon ET
 -- authenticated. Toutes les écritures passent par le client `service_role`
 -- côté serveur (Server Actions), qui bypasse la RLS. La clé `service_role` ne
 -- vit jamais dans le bundle navigateur (variable SANS préfixe NEXT_PUBLIC_).
--- Le navigateur ne parle jamais à Supabase directement : la clé anon n'est
--- plus utilisée par l'application.
+-- Le navigateur ne parle jamais à Supabase directement.
+--
+-- Sémantique des NULL sur les colonnes de qualification : NULL = information
+-- non demandée par ce funnel (comprehension hors MLR, accept_* hors Explorer,
+-- projection pour MLR, reco_univers hors orientation) ou qualification
+-- invalide (cas théorique — le lead est conservé quand même).
 
--- ─────────────────────────────────────────────────────────────────────────────
--- Table 1 — funnel_cvm_mlr_info : coordonnées + choix d'offre + attribution
--- (colonnes indépendantes). Écrite en une fois à la fin de l'étape 1 (le lead
--- n'est jamais perdu).
--- ─────────────────────────────────────────────────────────────────────────────
-create table public.funnel_cvm_mlr_info (
+create table public.funnel_cvm_mlr_leads (
   id                    uuid primary key default gen_random_uuid(),
 
   -- Contexte
@@ -28,6 +28,8 @@ create table public.funnel_cvm_mlr_info (
   telephone             text not null,
   email                 text not null,
   nb_voyageurs          smallint check (nb_voyageurs between 1 and 20),
+  -- « Mois de départ » libre et facultatif de l'écran coordonnées MLR — ne
+  -- pas confondre avec depart_fenetre (fenêtre Q3 fermée, commune aux 6).
   periode               text,
   commentaire           text,
   consentement          boolean not null default false,
@@ -43,14 +45,47 @@ create table public.funnel_cvm_mlr_info (
   offre_label           text,
   offre_duree           text,
   offre_prix_indicatif  integer,
-  route                 text,       -- MLR uniquement (Nord/Ouest)
+  route                 text,       -- MLR uniquement (Nord/Ouest) — Q1 du wizard MLR
 
   -- Total indicatif (colonne GÉNÉRÉE, calculée par Postgres) : nb participants
-  -- × prix/pers de l'offre. NULL quand « Conseillez-moi » (offre_prix_indicatif
-  -- NULL) = à chiffrer sur mesure côté commercial. Estimation, jamais un devis
-  -- ferme. `stored` → figé à l'enregistrement du lead. Lecture seule (l'app ne
-  -- l'écrit jamais).
+  -- × prix/pers de l'offre. NULL quand le prix est à chiffrer sur mesure.
+  -- Estimation, jamais un devis ferme. `stored` → figé à l'enregistrement du
+  -- lead. Lecture seule (l'app ne l'écrit jamais).
   total_indicatif       integer generated always as (nb_voyageurs * offre_prix_indicatif) stored,
+
+  -- Qualification (extraite du wizard par processLead, src/lib/leads/) ──────
+  -- Q1 de projection — domaine selon funnel_type (garde-fou = Zod, pas de
+  -- CHECK : l'union des enums serait une fausse défense) :
+  --   cvm_orientation : explorer | treks | iles | un_mois   (= intention)
+  --   cvm_treks       : nord | ouest | sud | est | a_orienter (= décor)
+  --   cvm_explorer    : jungles | canyons | plateaux | autre  (= terrain)
+  --   cvm_iles        : nosy_be | sainte_marie | combine | autre
+  --   cvm_un_mois     : decouverte | expatriation | creation_societe | retraite | autre
+  --   mlr             : toujours NULL (sa Q1 est la colonne route)
+  projection            text,
+  -- Texte libre « Autre — je précise », seulement si projection = 'autre'.
+  projection_precision  text,
+  -- Fenêtre de départ Q3, commune aux 6 funnels.
+  -- = DEPART_FENETRES, src/lib/validations/common.ts
+  depart_fenetre        text check (depart_fenetre in ('0_2', '2_4', '4_6', '6_10', '10_plus')),
+  -- Case de compréhension des exclusions (MLR uniquement).
+  comprehension         boolean,
+  -- Acceptations réglementaires (Explorer uniquement).
+  accept_certificat     boolean,
+  accept_briefing       boolean,
+
+  -- Recommendation (moteur de segmentation, src/lib/segmentation/) — une
+  -- donnée pour l'équipe aval, jamais un score ni une action.
+  -- = clés de FENETRES, src/config/segmentation.ts
+  reco_fenetre          text check (reco_fenetre in ('proche', 'construction', 'lointain')),
+  -- Univers CVM recommandé (orientation uniquement).
+  -- = clés de ORIENTATION_UNIVERS, src/config/segmentation.ts
+  reco_univers          text,
+
+  -- Choix de suite de l'écran final (RDV expert / brochure), écrit après
+  -- l'enregistrement via le cookie lead signé HMAC.
+  -- = mlrSuiteSchema, src/lib/validations/mlr.ts
+  suite                 text check (suite in ('rdv', 'brochure')),
 
   -- Attribution (premier touchpoint)
   utm_source            text,
@@ -63,40 +98,23 @@ create table public.funnel_cvm_mlr_info (
   created_at            timestamptz not null default now()
 );
 
-create index funnel_cvm_mlr_info_created_at_idx  on public.funnel_cvm_mlr_info (created_at desc);
-create index funnel_cvm_mlr_info_funnel_type_idx on public.funnel_cvm_mlr_info (funnel_type);
-create index funnel_cvm_mlr_info_email_idx        on public.funnel_cvm_mlr_info (email);
-
--- ─────────────────────────────────────────────────────────────────────────────
--- Table 2 — funnel_cvm_mlr_com : qualification commerciale (étape 2 facultative),
--- liée par FK. Enregistrement PROGRESSIF : une ligne par lead (upsert on
--- conflict lead_id). `answers` en JSONB : les questions varient par funnel
--- (colonnes creuses évitées) et l'upsert progressif s'écrit sans faire évoluer
--- le DDL.
--- ─────────────────────────────────────────────────────────────────────────────
-create table public.funnel_cvm_mlr_com (
-  id             uuid primary key default gen_random_uuid(),
-  lead_id        uuid not null unique
-                   references public.funnel_cvm_mlr_info (id) on delete cascade,
-  answers        jsonb not null default '{}'::jsonb,
-  recommendation jsonb,
-  completed      boolean not null default false,
-  created_at     timestamptz not null default now(),
-  updated_at     timestamptz not null default now()
-);
+create index funnel_cvm_mlr_leads_created_at_idx  on public.funnel_cvm_mlr_leads (created_at desc);
+create index funnel_cvm_mlr_leads_funnel_type_idx on public.funnel_cvm_mlr_leads (funnel_type);
+create index funnel_cvm_mlr_leads_email_idx       on public.funnel_cvm_mlr_leads (email);
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- RLS : activée, AUCUNE policy → aucun accès pour anon/authenticated.
 -- Les écritures se font exclusivement via `service_role` (bypass RLS) depuis
 -- les Server Actions. Défense en profondeur si la clé anon était exposée.
 -- ─────────────────────────────────────────────────────────────────────────────
-alter table public.funnel_cvm_mlr_info enable row level security;
-alter table public.funnel_cvm_mlr_com  enable row level security;
+alter table public.funnel_cvm_mlr_leads enable row level security;
 
 -- ─────────────────────────────────────────────────────────────────────────────
--- Ancien modèle 1-table JSONB : supprimé (décision Ryan — aucune donnée réelle
--- à conserver). `if exists` rend l'instruction sûre et idempotente (no-op si la
--- table est déjà absente). IRRÉVERSIBLE : si un doute subsistait sur un contenu
--- à garder, vérifier d'abord `select count(*) from public.cvm_mlr_leads;`.
+-- Anciens modèles : 2 tables info/com (fusionnées le 2026-07-07, données de
+-- test jetables — décision Ryan) et 1 table JSONB. `if exists` rend les
+-- instructions idempotentes. IRRÉVERSIBLE : en cas de doute, vérifier d'abord
+-- `select count(*) from public.funnel_cvm_mlr_info;`.
 -- ─────────────────────────────────────────────────────────────────────────────
+drop table if exists public.funnel_cvm_mlr_com;
+drop table if exists public.funnel_cvm_mlr_info;
 drop table if exists public.cvm_mlr_leads;
