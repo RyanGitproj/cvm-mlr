@@ -7,6 +7,7 @@ import { Hero } from "@/components/sections/Hero";
 import { NoteTarifaire } from "@/components/sections/NoteTarifaire";
 import { ReassuranceBar } from "@/components/sections/ReassuranceBar";
 import { SectionHeading } from "@/components/sections/SectionHeading";
+import { VideoSection } from "@/components/sections/VideoSection";
 import { Pill } from "@/components/ui/Pill";
 import { NOTE_TARIFAIRE_MLR } from "@/config/brands";
 import {
@@ -125,6 +126,7 @@ export default function MlrLandingPage() {
       </section>
 
       <NoteTarifaire texte={NOTE_TARIFAIRE_MLR} />
+      <VideoSection {...MLR_LANDING.video} />
       <ReassuranceBar items={MLR_SERVICES_LANDING} />
 
       {/* Questionnaire unique MLR, sans pré-remplissage : la route est l'étape 2. */}

@@ -5,6 +5,7 @@ import { Hero } from "@/components/sections/Hero";
 import { NoteTarifaire } from "@/components/sections/NoteTarifaire";
 import { ReassuranceBar } from "@/components/sections/ReassuranceBar";
 import { SectionHeading } from "@/components/sections/SectionHeading";
+import { VideoSection } from "@/components/sections/VideoSection";
 import { ButtonLink } from "@/components/ui/Button";
 import { ContentImage } from "@/components/ui/ContentImage";
 import { PlaceholderImage } from "@/components/ui/PlaceholderImage";
@@ -134,6 +135,7 @@ export default function CvmLandingPage() {
       </section>
 
       <NoteTarifaire texte={NOTE_TARIFAIRE_CVM} />
+      <VideoSection {...CVM_LANDING.video} />
       <ReassuranceBar items={CVM_LANDING.reassurance} />
     </>
   );

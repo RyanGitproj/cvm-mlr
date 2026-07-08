@@ -1,4 +1,5 @@
 import type { MlrRoute } from "@/config/funnels";
+import type { VideoContent } from "@/config/content/video";
 
 /**
  * Contenu éditorial MLR (landing + 2 pages de présentation de route) —
@@ -303,4 +304,10 @@ export const MLR_LANDING = {
         "Road Trip Ouest — baobabs, pistes rouges, grands espaces et couchers de soleil, 10 jours dès 1 400 € par personne",
     },
   ],
+  video: {
+    youtubeId: "sQv9bYV2LzE",
+    titre: "Embarque avant l'heure",
+    description:
+      "La poussière de la piste, les sourires des villages, le taxi-brousse qui avale les kilomètres : tout est là. Regarde, et tu sais déjà que c'est ta route.",
+  } satisfies VideoContent,
 } as const;

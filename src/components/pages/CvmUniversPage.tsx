@@ -5,6 +5,7 @@ import { Hero } from "@/components/sections/Hero";
 import { NoteTarifaire } from "@/components/sections/NoteTarifaire";
 import { SectionHeading } from "@/components/sections/SectionHeading";
 import { TempsForts } from "@/components/sections/TempsForts";
+import { VideoSection } from "@/components/sections/VideoSection";
 import { NOTE_TARIFAIRE_CVM } from "@/config/brands";
 import {
   ETAPES_ACCOMPAGNEMENT,
@@ -92,6 +93,8 @@ export function CvmUniversPage({ content }: { content: CvmUniversContent }) {
       </section>
 
       <NoteTarifaire texte={NOTE_TARIFAIRE_CVM} />
+
+      {content.video && <VideoSection {...content.video} />}
 
       {/* Fin de page = le questionnaire lui-même (une seule décision : répondre). */}
       <QuestionnaireSection funnelType={content.funnelType} />

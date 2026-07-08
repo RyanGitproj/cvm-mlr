@@ -1,4 +1,5 @@
 import type { FunnelType } from "@/types/lead";
+import type { VideoContent } from "@/config/content/video";
 
 /**
  * Contenu éditorial des pages CVM (landing + 4 univers) — dérivé de la
@@ -68,6 +69,8 @@ export type CvmUniversContent = {
     image: { label: string; alt: string; src?: string };
     puces: readonly [string, string, string, string];
   };
+  /** Section vidéo YouTube, sous la note tarifaire (facultative). */
+  video?: VideoContent;
 };
 
 export const ETAPES_ACCOMPAGNEMENT = [
@@ -163,6 +166,12 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
         },
       },
     ],
+    video: {
+      youtubeId: "O6ALKgN-R80",
+      titre: "Marchez avant même de partir",
+      description:
+        "Crêtes, canyons, forêts : parcourez du regard les décors qui vous attendent. Quelques minutes d'images, et le trek se vit déjà — vous savez s'il est fait pour vous.",
+    },
     heroSrc: "/images/cvm/treks/hero-treks-cover.png",
     // Libellés alignés sur les photos réelles fournies (décision Ryan
     // 2026-07-06) ; les slots sans photo gardent leur placeholder (TODO.md).
@@ -250,6 +259,12 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
         },
       },
     ],
+    video: {
+      youtubeId: "CYMS1pqalUI",
+      titre: "L'expédition, sans filtre",
+      description:
+        "Le bivouac, l'effort, les zones que personne ne filme : voyez la réalité du terrain avant de vous engager. Ce que vous ressentez en regardant, c'est déjà votre réponse.",
+    },
     heroSrc: "/images/cvm/explorer/hero-explorer-cover.png",
     // Libellés alignés sur les photos réelles fournies (décision Ryan 2026-07-06).
     galerie: [
@@ -329,6 +344,12 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
         },
       },
     ],
+    video: {
+      youtubeId: "T_eWsHhgKKo",
+      titre: "Le lagon vous appelle déjà",
+      description:
+        "Sable blanc, eau turquoise, temps suspendu : laissez ces images faire le travail. Vous y êtes presque — il ne reste qu'à composer votre séjour.",
+    },
     heroSrc: "/images/cvm/iles/hero-iles-cover.png",
     galerie: [
       { label: "Lagon de Nosy Be", alt: "Lagon turquoise de Nosy Be", src: "/images/cvm/iles/lagon-nosy-be.png" },
@@ -404,6 +425,12 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
         },
       },
     ],
+    video: {
+      youtubeId: "f-9nb4Zf6NM",
+      titre: "Un mois d'île, en aperçu",
+      description:
+        "Hautes Terres, baobabs, lagons : découvrez en images l'ampleur du Grand Tour. Tout un pays défile, et l'envie de le vivre en entier s'impose d'elle-même.",
+    },
     heroSrc: "/images/cvm/un-mois/hero-un-mois-cover.png",
     // Libellés alignés sur les photos réelles fournies (décision Ryan 2026-07-06).
     galerie: [
@@ -439,6 +466,12 @@ export const CVM_LANDING = {
     cta: "Trouver mon expérience",
     href: "/cvm/orientation/questionnaire",
   },
+  video: {
+    youtubeId: "NnmBDtqwbrE",
+    titre: "Regardez Madagascar prendre vie",
+    description:
+      "Quelques minutes d'images, et vous y êtes déjà. Ce que nos voyageurs vivent sur place, vous le ressentez avant même de choisir votre expérience.",
+  } satisfies VideoContent,
   reassurance: [
     {
       titre: "Équipe locale engagée",
