@@ -136,7 +136,7 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
       cartes: [
         { titre: "Nord", texte: "Diego, reliefs puissants, extension Nosy Be possible. Niveau modéré à soutenu." },
         { titre: "Ouest", texte: "Baobabs, pistes, Morondava, grands espaces. Niveau accessible à modéré." },
-        { titre: "Sud / Sud-Ouest", texte: "Makay, canyons, zones arides, fin de parcours plage vers Tuléar. Niveau soutenu." },
+        { titre: "Sud", texte: "Makay, canyons, zones arides, fin de parcours plage vers Tuléar. Niveau soutenu." },
         { titre: "Est", texte: "Jungle, végétation dense, ambiance sauvage et Sainte-Marie. Niveau modéré, humidité." },
       ],
     },
@@ -268,12 +268,12 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
     heroSrc: "/images/cvm/explorer/hero-explorer-cover.png",
     // Libellés alignés sur les photos réelles fournies (décision Ryan 2026-07-06).
     galerie: [
-      { label: "Bivouac au feu de camp", alt: "Bivouac d'expédition autour d'un feu de camp", src: "/images/cvm/explorer/bivouac-feu-de-camp.jpg" },
+      { label: "Pause sur la rivière", alt: "Groupe de randonneurs posés sur un tronc au-dessus d'une rivière de canyon", src: "/images/cvm/explorer/galerie-riviere-canyon.jpeg" },
       { label: "Guides & lecture du terrain", alt: "Guide local indiquant la direction dans la savane", src: "/images/cvm/explorer/guide-lecture-terrain.jpg" },
       { label: "Traversée aride", alt: "Marcheurs dans un canyon aride du Sud malgache", src: "/images/cvm/explorer/traversee-canyon-aride.jpg" },
-      { label: "Marche de nuit à la frontale", alt: "Progression nocturne à la lampe frontale", src: "/images/cvm/explorer/marche-nocturne-frontale.jpg" },
-      { label: "Rencontre villageoise", alt: "Échange avec les enfants d'un village isolé", src: "/images/cvm/explorer/rencontre-villageoise.jpg" },
-      { label: "Zone humide dense", alt: "Progression le long d'une rivière ferrugineuse bordée de pandanus", src: "/images/cvm/explorer/riviere-rouge-pandanus.jpg" },
+      { label: "Marche vers le couchant", alt: "Cordée progressant vers le soleil couchant sur une crête herbeuse", src: "/images/cvm/explorer/galerie-marche-couchant.png" },
+      { label: "Cap sur l'aventure", alt: "Main tenant une boussole face aux reliefs montagneux", src: "/images/cvm/explorer/galerie-boussole.jpg" },
+      { label: "Carnet de nature", alt: "Pause d'observation : étude d'un herbier à la loupe", src: "/images/cvm/explorer/galerie-carnet-nature.jpg" },
     ],
   },
   iles: {

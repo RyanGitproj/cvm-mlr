@@ -22,9 +22,9 @@ describe("splitOptionLabel", () => {
 
   it("coupe au premier séparateur rencontré quand les deux existent", () => {
     expect(
-      splitOptionLabel("Sud / Sud-Ouest : Makay, canyons — fin de parcours plage"),
+      splitOptionLabel("Sud : Makay, canyons — fin de parcours plage"),
     ).toEqual({
-      title: "Sud / Sud-Ouest",
+      title: "Sud",
       description: "Makay, canyons — fin de parcours plage",
     });
   });

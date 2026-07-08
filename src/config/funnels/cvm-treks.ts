@@ -44,7 +44,7 @@ export const cvmTreksFunnel: FunnelConfig = {
         },
         {
           value: "sud",
-          label: "Sud / Sud-Ouest : Makay, canyons, zones arides, Tuléar et fin de parcours plage",
+          label: "Sud : Makay, canyons, zones arides, Tuléar et fin de parcours plage",
           image: {
             label: "Massif du Makay",
             alt: "Canyons et zones arides du massif du Makay",
