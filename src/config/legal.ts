@@ -21,9 +21,17 @@ export const legal = {
   tva: "FR20990106098",
   directeurPublication: "M. Ludwig Laurent Thomas, Président",
   hebergeur: {
-    nom: "Render",
-    adresse: "[À COMPLÉTER PAR RYAN — adresse légale de Render]",
+    nom: "Render Services, Inc.",
+    adresse: "525 Brannan Street, Suite 300, San Francisco, CA 94107, États-Unis",
   },
-  dpoEmail: "[À COMPLÉTER PAR RYAN]",
-  dureeConservation: "[À COMPLÉTER PAR RYAN]",
+  // Contact pour l'exercice des droits RGPD. Pas de DPO désigné : l'adresse de
+  // contact commerciale (config/site.ts) fait office de point de contact.
+  dpoEmail: "reservation@celebrations-voyages.fr",
+  dureeConservation:
+    "Les données des prospects sont conservées pendant une durée maximale de " +
+    "3 ans à compter de leur collecte ou du dernier contact émanant du " +
+    "prospect ; au-delà, elles sont supprimées ou anonymisées, sauf obligation " +
+    "légale contraire. Pour les clients, les données peuvent être conservées " +
+    "pendant la durée de la relation commerciale, puis jusqu'à 3 ans après sa " +
+    "fin pour les actions commerciales.",
 };

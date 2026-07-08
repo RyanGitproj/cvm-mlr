@@ -163,7 +163,7 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
         },
       },
     ],
-    heroSrc: "/images/cvm/treks/hero-randonneurs-massif.png",
+    heroSrc: "/images/cvm/treks/hero-treks-cover.png",
     // Libellés alignés sur les photos réelles fournies (décision Ryan
     // 2026-07-06) ; les slots sans photo gardent leur placeholder (TODO.md).
     galerie: [
@@ -250,7 +250,7 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
         },
       },
     ],
-    heroSrc: "/images/cvm/explorer/hero-belvedere-canyon.png",
+    heroSrc: "/images/cvm/explorer/hero-explorer-cover.png",
     // Libellés alignés sur les photos réelles fournies (décision Ryan 2026-07-06).
     galerie: [
       { label: "Bivouac au feu de camp", alt: "Bivouac d'expédition autour d'un feu de camp", src: "/images/cvm/explorer/bivouac-feu-de-camp.jpg" },
@@ -329,7 +329,7 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
         },
       },
     ],
-    heroSrc: "/images/cvm/iles/hero-iles-couchant.png",
+    heroSrc: "/images/cvm/iles/hero-iles-cover.png",
     galerie: [
       { label: "Lagon de Nosy Be", alt: "Lagon turquoise de Nosy Be", src: "/images/cvm/iles/lagon-nosy-be.png" },
       { label: "Plage de Sainte-Marie", alt: "Plage de Sainte-Marie et son canon historique face au lagon", src: "/images/cvm/iles/galerie-sainte-marie.png" },
@@ -404,7 +404,7 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
         },
       },
     ],
-    heroSrc: "/images/cvm/un-mois/hero-village-rencontre.jpg",
+    heroSrc: "/images/cvm/un-mois/hero-un-mois-cover.png",
     // Libellés alignés sur les photos réelles fournies (décision Ryan 2026-07-06).
     galerie: [
       { label: "Hautes Terres & rizières", alt: "Rizières en terrasses des Hautes Terres malgaches" },
@@ -429,8 +429,8 @@ export const CVM_LANDING = {
     titre: "Madagascar, là où les autres ne vont pas",
     sousTitre:
       "Quatre expériences encadrées par une équipe locale. Vous gardez l'émotion — nous gérons toute la logistique.",
-    imageLabel: "Allée des baobabs — voyageurs accompagnés",
-    imageAlt: "Groupe de voyageurs marchant dans l'allée des baobabs à la lumière dorée, sacs au dos",
+    imageLabel: "Grand paysage CVM au couchant",
+    imageAlt: "4x4 chargé sur une piste côtière au coucher du soleil, massif rocheux et baie turquoise en arrière-plan",
   },
   orientation: {
     titre: "Vous ne savez pas laquelle choisir ?",

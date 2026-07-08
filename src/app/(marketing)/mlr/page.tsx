@@ -41,7 +41,7 @@ export default function MlrLandingPage() {
         ]}
         imageLabel={MLR_LANDING.hero.imageLabel}
         imageAlt={MLR_LANDING.hero.imageAlt}
-        imageSrc="/images/mlr/hero.jpg"
+        imageSrc="/images/mlr/hero.png"
       />
 
       <section className="accent-forest mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">

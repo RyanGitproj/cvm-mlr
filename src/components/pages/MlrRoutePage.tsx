@@ -20,8 +20,9 @@ import {
  * route pré-sélectionnée : les CTA scrollent vers lui.
  */
 export function MlrRoutePage({ content }: { content: MlrRouteContent }) {
-  // Photo posée : cartouche sombre + texte clair (l'image reste sans voile) ;
-  // sinon dégradé placeholder clair, texte sombre par-dessus (voir Hero).
+  // Photo posée : texte clair sur la photo, ombres teintées terracotta + voile
+  // directionnel (hero-veil, posé par HeroBackground) ; sinon dégradé
+  // placeholder clair, texte sombre par-dessus (voir Hero).
   const hasImage = Boolean(content.imageAmbiance.src);
   return (
     <>
@@ -32,18 +33,12 @@ export function MlrRoutePage({ content }: { content: MlrRouteContent }) {
           src={content.imageAmbiance.src}
         />
         <div className="relative z-10 mx-auto w-full max-w-6xl px-4 py-14 sm:px-6 sm:py-20 lg:py-24">
-          <div
-            className={cn(
-              "animate-fade-rise max-w-2xl",
-              hasImage &&
-                "rounded-2xl bg-ink-strong/25 p-6 backdrop-blur-sm sm:p-8",
-            )}
-          >
+          <div className="animate-fade-rise max-w-2xl">
             <h1
               className={cn(
                 "mt-4 font-heading text-4xl font-bold uppercase tracking-wide sm:text-6xl",
                 hasImage
-                  ? "text-accent-contrast text-shadow-lg text-shadow-ink-strong/80"
+                  ? "text-accent-contrast text-shadow-lg text-shadow-accent/90"
                   : "text-ink-strong",
               )}
             >
@@ -53,7 +48,7 @@ export function MlrRoutePage({ content }: { content: MlrRouteContent }) {
               className={cn(
                 "mt-3 max-w-prose text-lg",
                 hasImage
-                  ? "text-accent-contrast/90 text-shadow-md text-shadow-ink-strong/70"
+                  ? "text-accent-contrast/90 text-shadow-md text-shadow-accent/80"
                   : "text-ink-soft",
               )}
             >
@@ -63,7 +58,7 @@ export function MlrRoutePage({ content }: { content: MlrRouteContent }) {
               className={cn(
                 "mt-4 font-heading text-lg font-bold uppercase tracking-wide",
                 hasImage
-                  ? "text-accent-contrast text-shadow-sm text-shadow-ink-strong/70"
+                  ? "text-accent-contrast text-shadow-sm text-shadow-accent/80"
                   : "text-accent",
               )}
             >
@@ -81,7 +76,7 @@ export function MlrRoutePage({ content }: { content: MlrRouteContent }) {
               className={cn(
                 "mt-4 text-xs",
                 hasImage
-                  ? "text-accent-contrast/85 text-shadow-sm text-shadow-ink-strong/70"
+                  ? "text-accent-contrast/85 text-shadow-sm text-shadow-accent/80"
                   : "text-ink-soft",
               )}
             >

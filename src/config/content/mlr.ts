@@ -237,10 +237,8 @@ export const MLR_LANDING = {
     sousTitre:
       "Découvre la route qui te correspond : Nord ou Ouest, 10 ou 15 jours, avec un guide local à tes côtés.",
     badges: ["Petit groupe", "Guide local", "Liberté", "Sécurité"],
-    // Image actuelle (triptyque) — le studio livrera le visuel maquette
-    // (taxi-brousse mythique sur la piste des baobabs), voir TODO.md.
-    imageLabel: "Triptyque ambiance roots",
-    imageAlt: "Triptyque roots : tuk-tuk à Majunga, immersion en ville, taxi-brousse chargé",
+    imageLabel: "Taxi-brousse dans l'allée des baobabs",
+    imageAlt: "Taxi-brousse chargé filant sur une piste de terre entre les baobabs, montagnes au coucher du soleil",
   },
   durees: [
     {

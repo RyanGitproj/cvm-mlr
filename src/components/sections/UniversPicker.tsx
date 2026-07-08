@@ -5,8 +5,9 @@ import { cn } from "@/lib/cn";
 import { SectionHeading } from "./SectionHeading";
 
 /**
- * Ratio livré par le studio pour les visuels d'univers : 4:5 (1080×1350).
- * Il vit dans les classes de la carte (`aspect-[4/5]` + les deux `calc`
+ * Ratio livré par le studio pour les visuels d'univers : 610:687 (≈0,888,
+ * portrait presque carré — fichiers `Début CV` / `Début Liberty Roots`).
+ * Il vit dans les classes de la carte (`aspect-[610/687]` + les deux `calc`
  * de largeur) : le conteneur est à ce ratio, l'image en object-cover au
  * même ratio → aucun rognage du texte incrusté. Changer le ratio = ajuster
  * ces trois endroits.
@@ -27,14 +28,14 @@ type Univers = {
 const UNIVERS: Univers[] = [
   {
     href: "/cvm",
-    src: "/images/mere/cvm-univers.png",
+    src: "/images/mere/cvm-univers-studio.png",
     alt: "Célébrations Voyages Madagascar — confort, sécurité et accompagnement, offres et tarifs",
     cta: "Choisir ce voyage",
     ctaClass: "bg-ink-strong text-surface",
   },
   {
     href: "/mlr",
-    src: "/images/mere/mlr-univers.png",
+    src: "/images/mere/mlr-univers-studio.png",
     alt: "Madagascar Liberty Roots — road trip taxi-brousse, routes Nord et Ouest, durées et tarifs",
     cta: "Choisir cette aventure",
     ctaClass: "bg-accent text-accent-contrast",
@@ -48,8 +49,12 @@ const UNIVERS: Univers[] = [
  * choix apparaît ; sur tactile `group-hover` (gaté @media (hover:hover) en
  * Tailwind v4) ne se déclenche pas → image seule, toute la carte cliquable.
  * Carte plafonnée par la HAUTEUR sans jamais rogner l'image : la largeur est
- * pilotée par `min(colonne, hauteur-viewport × 4/5)`, la hauteur suit via
- * aspect-[4/5], `mx-auto` centre → marge latérale sur desktop.
+ * pilotée par `min(colonne, hauteur-viewport × 610/687)`, la hauteur suit via
+ * aspect-[610/687], `mx-auto` centre → marge latérale sur desktop.
+ * Desktop : réserve seulement la navbar sticky + un filet de sous-titre
+ * (`10rem`) pour que les 2 cartes soient AUSSI GRANDES QUE POSSIBLE tout en
+ * tenant côte à côte sans scroll (le titre de section peut sortir du cadre) ;
+ * `max-w-[610px]` = largeur native de l'image → jamais d'upscale flou.
  */
 function UniversCard({ univers, delay }: { univers: Univers; delay: number }) {
   return (
@@ -58,13 +63,13 @@ function UniversCard({ univers, delay }: { univers: Univers; delay: number }) {
         <Link
           href={univers.href}
           aria-label={univers.cta}
-          className="group relative mx-auto block aspect-[4/5] h-auto w-[min(100%,calc(52svh*4/5))] overflow-hidden rounded-2xl border-2 border-line transition-colors hover:border-accent sm:w-[min(100%,calc((100svh_-_20rem)*4/5))] sm:max-w-[460px]"
+          className="group relative mx-auto block aspect-[610/687] h-auto w-[min(100%,calc(52svh*610/687))] overflow-hidden rounded-2xl border-2 border-line transition-colors hover:border-accent sm:w-[min(100%,calc((100svh_-_10rem)*610/687))] sm:max-w-[610px]"
         >
           <Image
             src={univers.src}
             alt={univers.alt}
             fill
-            sizes="(min-width: 1152px) 552px, (min-width: 640px) 50vw, 100vw"
+            sizes="(min-width: 640px) 610px, 100vw"
             className="object-cover"
           />
           {/* Voile d'assombrissement au survol (desktop uniquement). */}
@@ -87,44 +92,11 @@ function UniversCard({ univers, delay }: { univers: Univers; delay: number }) {
 }
 
 /**
- * Séparateur central « OU » (PC uniquement — `hidden lg:flex`) : comble le
- * vide entre les deux cartes et matérialise le choix entre les deux chemins.
- * Chevrons `‹ ›` (or de la mère, `aria-hidden`) pointant vers chaque univers +
- * micro-copy neuro-marketing qui oppose confort (CVM) et liberté (MLR). Tokens
- * neutres de la mère : jamais de signature MLR (torn-edge/stamp) au centre.
- */
-function UniversDivider() {
-  return (
-    <Reveal
-      delay={60}
-      className="hidden lg:flex lg:flex-col lg:items-center lg:justify-center lg:px-2"
-    >
-      <div className="flex items-center gap-2">
-        <span aria-hidden className="text-3xl leading-none text-accent">
-          ‹
-        </span>
-        <span className="rounded-full border border-line bg-card px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-ink-soft">
-          Ou
-        </span>
-        <span aria-hidden className="text-3xl leading-none text-accent">
-          ›
-        </span>
-      </div>
-      <p className="mt-3 max-w-[12rem] text-center text-xs font-medium leading-snug text-ink-soft">
-        Confort Ou Liberté. 
-        <br />
-        À vous de choisir.
-      </p>
-    </Reveal>
-  );
-}
-
-/**
  * Cœur de la page mère — copy et hiérarchie du visuel 1/8 du funnel MLR
  * (« Quel Madagascar voulez-vous vivre ? »). Deux visuels studio pleine carte,
- * reliés en PC par un séparateur « OU » central. La carte MLR porte
- * data-theme="mlr" (tokens locaux) : sa bordure et son CTA passent en
- * terracotta sans déborder sur le reste de la page.
+ * aussi grands que possible pour tenir côte à côte sans scroll sur PC. La
+ * carte MLR porte data-theme="mlr" (tokens locaux) : sa bordure et son CTA
+ * passent en terracotta sans déborder sur le reste de la page.
  */
 export function UniversPicker() {
   return (
@@ -137,11 +109,8 @@ export function UniversPicker() {
         titre="Choisissez votre univers"
         sousTitre="Deux chemins, pas un de plus — la même équipe locale derrière chacun. Reconnaissez le vôtre."
       />
-      {/* PC : colonne centrale `auto` pour le séparateur (masqué en deçà de
-          lg → grille 2 colonnes propres en tablette, empilé en mobile). */}
-      <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-[1fr_auto_1fr]">
+      <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5">
         <UniversCard univers={UNIVERS[0]} delay={0} />
-        <UniversDivider />
         <UniversCard univers={UNIVERS[1]} delay={120} />
       </div>
     </section>

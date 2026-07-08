@@ -41,7 +41,7 @@ export default function CvmLandingPage() {
         ]}
         imageLabel={CVM_LANDING.hero.imageLabel}
         imageAlt={CVM_LANDING.hero.imageAlt}
-        imageSrc="/images/cvm/hero-cvm.png"
+        imageSrc="/images/cvm/hero-cvm-cover.png"
       />
 
       <section
