@@ -24,10 +24,8 @@ type Props = {
  * Hero générique — image en fond plein cadre, identique en mobile et en PC.
  * Le CTA principal reste above the fold en 390×844. Tant qu'aucune photo
  * réelle n'est fournie (`imageSrc`), le texte reste sombre sur le dégradé
- * placeholder clair ; une fois la photo posée, le texte bascule en clair sur
- * la photo, avec ombres teintées à l'accent de la page et un voile
- * directionnel (`hero-veil`, posé par HeroBackground) qui porte le contraste
- * côté texte tout en laissant l'image visible côté sujet.
+ * placeholder clair ; une fois la photo posée, le texte bascule en clair
+ * directement sur la photo (sans voile ni cartouche).
  */
 export function Hero({
   surtitre,
@@ -45,12 +43,7 @@ export function Hero({
 
   return (
     <section className="relative overflow-hidden">
-      <HeroBackground
-        label={imageLabel}
-        alt={imageAlt}
-        src={imageSrc}
-        align={align}
-      />
+      <HeroBackground label={imageLabel} alt={imageAlt} src={imageSrc} />
       <div className="relative z-10 mx-auto w-full max-w-6xl px-4 py-14 sm:px-6 sm:py-20 lg:py-28">
         <div
           className={cn(
@@ -63,9 +56,7 @@ export function Hero({
             <p
               className={cn(
                 "text-xs font-semibold uppercase tracking-[0.2em]",
-                hasImage
-                  ? "text-accent-contrast text-shadow-sm text-shadow-accent/80"
-                  : "text-accent",
+                hasImage ? "text-accent-contrast" : "text-accent",
               )}
             >
               {surtitre}
@@ -74,9 +65,7 @@ export function Hero({
           <h1
             className={cn(
               "mt-3 text-balance font-heading text-3xl font-bold leading-tight sm:text-5xl",
-              hasImage
-                ? "text-accent-contrast text-shadow-lg text-shadow-accent/90"
-                : "text-ink-strong",
+              hasImage ? "text-accent-contrast" : "text-ink-strong",
             )}
           >
             {titre}
@@ -84,9 +73,7 @@ export function Hero({
           <p
             className={cn(
               "mt-4 max-w-prose text-base sm:text-lg",
-              hasImage
-                ? "text-accent-contrast/90 text-shadow-md text-shadow-accent/80"
-                : "text-ink-soft",
+              hasImage ? "text-accent-contrast/90" : "text-ink-soft",
               isCenter && "mx-auto",
             )}
           >
@@ -134,9 +121,7 @@ export function Hero({
             <p
               className={cn(
                 "mt-4 text-xs",
-                hasImage
-                  ? "text-accent-contrast/85 text-shadow-sm text-shadow-accent/80"
-                  : "text-ink-soft",
+                hasImage ? "text-accent-contrast/85" : "text-ink-soft",
               )}
             >
               {micro.join(" · ")}

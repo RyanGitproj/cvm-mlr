@@ -407,12 +407,12 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
     heroSrc: "/images/cvm/un-mois/hero-un-mois-cover.png",
     // Libellés alignés sur les photos réelles fournies (décision Ryan 2026-07-06).
     galerie: [
-      { label: "Hautes Terres & rizières", alt: "Rizières en terrasses des Hautes Terres malgaches" },
-      { label: "Immersion urbaine", alt: "Rue animée d'une ville malgache", src: "/images/cvm/un-mois/rue-ville-malgache.jpg" },
-      { label: "Allée des baobabs", alt: "Allée des baobabs dans l'Ouest de Madagascar" },
+      { label: "Hautes Terres & rizières", alt: "Rizières en terrasses des Hautes Terres malgaches", src: "/images/cvm/un-mois/galerie-hautes-terres-rizieres.jpg" },
+      { label: "Antananarivo, la capitale", alt: "Vue aérienne du Rova d'Antananarivo dominant la capitale et son lac", src: "/images/cvm/un-mois/galerie-antananarivo.png" },
+      { label: "Allée des baobabs", alt: "Allée des baobabs dans l'Ouest de Madagascar", src: "/images/cvm/un-mois/galerie-allee-baobabs.jpg" },
       { label: "Tsingy de l'Ouest", alt: "Randonneurs au cœur des formations minérales des Tsingy", src: "/images/cvm/un-mois/tsingy-ouest.jpg" },
-      { label: "Canal des Pangalanes", alt: "Pirogue sur le canal des Pangalanes, côte Est" },
-      { label: "Plages du Nord", alt: "Plage bordée d'eaux turquoise dans le Nord de Madagascar" },
+      { label: "Canal des Pangalanes", alt: "Pirogue sur le canal des Pangalanes, côte Est", src: "/images/cvm/un-mois/galerie-canal-pangalanes.png" },
+      { label: "Plages du Nord", alt: "Plage bordée d'eaux turquoise dans le Nord de Madagascar", src: "/images/cvm/un-mois/galerie-plages-nord.png" },
     ],
   },
 };

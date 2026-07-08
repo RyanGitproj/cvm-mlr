@@ -20,12 +20,13 @@ import {
  * route pré-sélectionnée : les CTA scrollent vers lui.
  */
 export function MlrRoutePage({ content }: { content: MlrRouteContent }) {
-  // Photo posée : texte clair sur la photo, ombres teintées terracotta + voile
-  // directionnel (hero-veil, posé par HeroBackground) ; sinon dégradé
-  // placeholder clair, texte sombre par-dessus (voir Hero).
+  // Photo posée : texte clair directement sur la photo (sans voile ni
+  // cartouche) ; sinon dégradé placeholder clair, texte sombre (voir Hero).
   const hasImage = Boolean(content.imageAmbiance.src);
   return (
-    <>
+    // Couleur dominante de la route (turquoise Nord / terre rouge Ouest) —
+    // charte 2026-07-08 : une seule teinte, pas d'alternance kaki.
+    <div data-accent={content.slug}>
       <section className="relative overflow-hidden">
         <HeroBackground
           label={content.imageAmbiance.label}
@@ -37,9 +38,7 @@ export function MlrRoutePage({ content }: { content: MlrRouteContent }) {
             <h1
               className={cn(
                 "mt-4 font-heading text-4xl font-bold uppercase tracking-wide sm:text-6xl",
-                hasImage
-                  ? "text-accent-contrast text-shadow-lg text-shadow-accent/90"
-                  : "text-ink-strong",
+                hasImage ? "text-accent-contrast" : "text-ink-strong",
               )}
             >
               {content.titre}
@@ -47,9 +46,7 @@ export function MlrRoutePage({ content }: { content: MlrRouteContent }) {
             <p
               className={cn(
                 "mt-3 max-w-prose text-lg",
-                hasImage
-                  ? "text-accent-contrast/90 text-shadow-md text-shadow-accent/80"
-                  : "text-ink-soft",
+                hasImage ? "text-accent-contrast/90" : "text-ink-soft",
               )}
             >
               {content.sousTitre}
@@ -57,9 +54,7 @@ export function MlrRoutePage({ content }: { content: MlrRouteContent }) {
             <p
               className={cn(
                 "mt-4 font-heading text-lg font-bold uppercase tracking-wide",
-                hasImage
-                  ? "text-accent-contrast text-shadow-sm text-shadow-accent/80"
-                  : "text-accent",
+                hasImage ? "text-accent-contrast" : "text-accent",
               )}
             >
               {MLR_TARIFS.dixJours} · {MLR_TARIFS.quinzeJours}
@@ -75,9 +70,7 @@ export function MlrRoutePage({ content }: { content: MlrRouteContent }) {
             <p
               className={cn(
                 "mt-4 text-xs",
-                hasImage
-                  ? "text-accent-contrast/85 text-shadow-sm text-shadow-accent/80"
-                  : "text-ink-soft",
+                hasImage ? "text-accent-contrast/85" : "text-ink-soft",
               )}
             >
               {MLR_TARIFS.idealPour}
@@ -99,7 +92,6 @@ export function MlrRoutePage({ content }: { content: MlrRouteContent }) {
         titre={content.tempsFortsTitre}
         items={content.tempsForts}
         accent
-        className="accent-forest"
       />
 
       <section className="border-y border-line bg-surface-2">
@@ -180,12 +172,11 @@ export function MlrRoutePage({ content }: { content: MlrRouteContent }) {
         titre="Ce que comprend le tarif"
         items={content.inclus}
         accent
-        className="accent-forest"
       />
       <TempsForts titre="Ce qui reste à prévoir" items={content.aPrevoir} accent />
       <NoteTarifaire texte={content.budgetSurPlace} />
 
-      <section className="accent-forest mx-auto grid w-full max-w-6xl gap-10 px-4 py-12 sm:px-6 lg:grid-cols-2">
+      <section className="mx-auto grid w-full max-w-6xl gap-10 px-4 py-12 sm:px-6 lg:grid-cols-2">
         <div>
           <SectionHeading titre="Trucs & astuces" accent />
           <ul className="mt-6 grid gap-3">
@@ -215,6 +206,6 @@ export function MlrRoutePage({ content }: { content: MlrRouteContent }) {
         funnelType="mlr"
         defaultValues={{ route: content.slug }}
       />
-    </>
+    </div>
   );
 }

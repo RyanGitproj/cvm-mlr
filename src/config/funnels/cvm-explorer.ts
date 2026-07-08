@@ -63,7 +63,16 @@ export const cvmExplorerFunnel: FunnelConfig = {
             src: "/images/cvm/explorer/guide-lecture-terrain.jpg",
           },
         },
-        { value: "autre", label: "Autre terrain — je précise", freeText: true },
+        {
+          value: "autre",
+          label: "Autre terrain — je précise",
+          freeText: true,
+          image: {
+            label: "Autre terrain",
+            alt: "Carte et boussole sur fond rouge avec épingle de destination — précisez votre terrain",
+            src: "/images/cvm/explorer/autre-terrain.png",
+          },
+        },
       ],
     },
     {

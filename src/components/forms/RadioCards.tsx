@@ -31,8 +31,8 @@ type Props = {
  *   de la maquette.
  * - option sans image → carte texte sobre (période, personnes…).
  * Densité (2026-07-07) : l'écran doit se voir d'un bloc — hauteurs au
- * contenu, marges serrées, deux colonnes dès `sm` quand l'écran compte
- * au moins 3 options.
+ * contenu, marges serrées, deux colonnes dès `sm` dès qu'il y a au moins
+ * 2 options (les 2 routes MLR se posent côte à côte sur desktop).
  */
 export function RadioCards({ name, options, labelledBy, onSelect }: Props) {
   const { register, watch } = useFormContext();
@@ -44,7 +44,7 @@ export function RadioCards({ name, options, labelledBy, onSelect }: Props) {
     <div
       role="radiogroup"
       aria-labelledby={labelledBy}
-      className={cn("grid gap-2", options.length >= 3 && "sm:grid-cols-2")}
+      className={cn("grid gap-2", options.length >= 2 && "sm:grid-cols-2")}
     >
       {options.map((option) => {
         const isSelected = option.value === selected;

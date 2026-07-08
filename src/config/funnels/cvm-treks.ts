@@ -65,7 +65,8 @@ export const cvmTreksFunnel: FunnelConfig = {
           label: "Je ne sais pas encore — je veux être orienté",
           image: {
             label: "Conseil d'un expert",
-            alt: "Guide local conseillant des voyageurs sur le choix de l'itinéraire",
+            alt: "Couple lisant une carte près d'un 4x4 sur fond vert — être orienté vers la bonne route",
+            src: "/images/cvm/treks/etre-oriente.png",
           },
         },
       ],

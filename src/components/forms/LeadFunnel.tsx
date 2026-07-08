@@ -316,9 +316,11 @@ export function LeadFunnel({
                                 <MediaBackdrop
                                   image={currentScreen.step.reorientation.image}
                                   sizes="(min-width: 640px) 260px, 45vw"
-                                  // Le triptyque CVM se cadre sur son volet
-                                  // gauche (plage) dans cette vignette étroite.
-                                  objectPosition="left center"
+                                  // Cadrage sur la droite : le 4x4 chargé (sujet)
+                                  // occupe le tiers droit du paysage desktop ;
+                                  // sur mobile le visuel portrait dédié gère son
+                                  // propre cadrage (position horizontale ignorée).
+                                  objectPosition="right center"
                                 />
                               </span>
                             </span>

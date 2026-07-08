@@ -26,8 +26,8 @@ export default function PageMere() {
         sousTitre="Le voyage orchestré, zéro logistique — ou l'aventure roots, en toute liberté. Choisissez le vôtre : votre voyage commence maintenant."
         ctas={[{ href: "#univers", label: "Choisir mon univers" }]}
         imageLabel="Hero — collage des deux mondes"
-        imageAlt="Collage évoquant les deux univers : lodge confortable et piste de road trip"
-        imageSrc="/images/mere/hero-mere.png"
+        imageAlt="Collage de six paysages de Madagascar : trek au couchant, tsingy, plage turquoise, ville côtière, lagon et taxi-brousse"
+        imageSrc="/images/mere/hero-mere-cover.png"
       />
 
       <UniversPicker />

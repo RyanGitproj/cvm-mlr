@@ -28,7 +28,7 @@ type Univers = {
 const UNIVERS: Univers[] = [
   {
     href: "/cvm",
-    src: "/images/mere/cvm-univers-studio.png",
+    src: "/images/mere/cvm-univers-card.png",
     alt: "Célébrations Voyages Madagascar — confort, sécurité et accompagnement, offres et tarifs",
     cta: "Choisir ce voyage",
     ctaClass: "bg-ink-strong text-surface",

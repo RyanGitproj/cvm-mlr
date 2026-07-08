@@ -124,7 +124,7 @@ export const MLR_ROUTES_CONTENT: Record<MlrRoute, MlrRouteContent> = {
       { question: "Comment réserver ?", reponse: "Contactez-nous pour recevoir votre road book Nord et valider ensemble votre aventure." },
     ],
     ctaLabel: "Recevoir mon road book Nord",
-    imageAmbiance: { label: "Cascades du Nord", alt: "Cascade au cœur des reliefs verts de Madagascar", src: "/images/mlr/cascade-nord.jpg" },
+    imageAmbiance: { label: "Baie d'Émeraude du Nord", alt: "Randonneurs descendant vers une baie turquoise du Nord, îlots et récifs au loin", src: "/images/mlr/hero-nord-cover.png" },
   },
   ouest: {
     slug: "ouest",
@@ -201,7 +201,7 @@ export const MLR_ROUTES_CONTENT: Record<MlrRoute, MlrRouteContent> = {
       { question: "À qui s'adresse ce voyage ?", reponse: "Aux voyageurs libres qui aiment l'aventure ouverte, les rencontres sincères et les grands horizons." },
     ],
     ctaLabel: "Recevoir mon road book Ouest",
-    imageAmbiance: { label: "Allée des baobabs au couchant", alt: "Marcheurs dans l'allée des baobabs sous la lumière du soir", src: "/images/mlr/allee-baobabs-couchant.jpg" },
+    imageAmbiance: { label: "Piste de l'Ouest en taxi-brousse", alt: "Taxi-brousse chargé descendant une piste de terre rouge vers un village et la vallée au couchant", src: "/images/mlr/hero-ouest-cover.png" },
   },
 };
 
@@ -251,9 +251,15 @@ export const MLR_LANDING = {
       icon: "bus",
       image: {
         label: "Taxi-brousse intégral",
-        alt: "Taxi-brousse chargé de bagages sur la piste rouge, voyageurs sac au dos",
-        src: "/images/mlr/taxi-brousse-piste-rouge.jpg",
+        alt: "Taxi-brousse bleu et jaune chargé de bagages filant sur une piste de terre à travers les collines",
+        src: "/images/mlr/offre-10j-taxi-brousse.png",
       },
+      // Visuel studio plein cadre (505×204) pour la carte « niveau
+      // d'aventure » de la landing : titre, prix, description et note déjà
+      // incrustés — la carte ne porte aucun texte.
+      studioSrc: "/images/mlr/duree-10j-studio-hd.png",
+      studioAlt:
+        "10 jours — Taxi-brousse intégral, le plus brut, le plus local, dès 1 400 € par personne (hors vols, hôtels et restaurants)",
     },
     {
       // Retour en 4x4 officialisé par la maquette 3 du boss (2026-07-07) —
@@ -267,8 +273,12 @@ export const MLR_LANDING = {
       icon: "jeep",
       image: {
         label: "Immersion + retour 4x4",
-        alt: "Voyageurs près d'un 4x4 face aux grands espaces de l'Ouest au couchant",
+        alt: "4x4 chargé sur une piste de terre dans l'allée des baobabs au coucher du soleil",
+        src: "/images/mlr/offre-15j-immersion-4x4.png",
       },
+      studioSrc: "/images/mlr/duree-15j-studio-hd.png",
+      studioAlt:
+        "15 jours — Immersion + retour 4x4, tu ressens la vraie route puis récupères avec plus de confort, dès 1 800 € par personne (hors vols, hôtels et restaurants)",
     },
   ],
   routes: [
@@ -277,12 +287,20 @@ export const MLR_LANDING = {
       titre: "Le Nord",
       texte: "Forêts, mer, villages, pistes et rencontres.",
       cta: "Je choisis le Nord",
+      // Visuel studio plein cadre (505×408) : titre, description, prix et
+      // « Voir la route » déjà incrustés — la carte ne porte aucun texte.
+      studioSrc: "/images/mlr/route-nord-studio-hd.png",
+      studioAlt:
+        "Road Trip Nord — forêts, mer, villages, pistes et rencontres, 10 jours dès 1 400 € par personne",
     },
     {
       slug: "ouest",
       titre: "L'Ouest",
       texte: "Baobabs, pistes rouges, grands espaces et couchers de soleil.",
       cta: "Je choisis l'Ouest",
+      studioSrc: "/images/mlr/route-ouest-studio-hd.png",
+      studioAlt:
+        "Road Trip Ouest — baobabs, pistes rouges, grands espaces et couchers de soleil, 10 jours dès 1 400 € par personne",
     },
   ],
 } as const;

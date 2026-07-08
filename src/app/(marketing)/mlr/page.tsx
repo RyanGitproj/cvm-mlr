@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { QuestionnaireSection } from "@/components/forms/QuestionnaireSection";
 import { Reveal } from "@/components/motion/Reveal";
@@ -6,14 +7,10 @@ import { Hero } from "@/components/sections/Hero";
 import { NoteTarifaire } from "@/components/sections/NoteTarifaire";
 import { ReassuranceBar } from "@/components/sections/ReassuranceBar";
 import { SectionHeading } from "@/components/sections/SectionHeading";
-import { ContentImage } from "@/components/ui/ContentImage";
-import { PlaceholderImage } from "@/components/ui/PlaceholderImage";
 import { Pill } from "@/components/ui/Pill";
 import { NOTE_TARIFAIRE_MLR } from "@/config/brands";
 import {
-  MLR_DUREES_NOTE,
   MLR_LANDING,
-  MLR_ROUTES_CONTENT,
   MLR_SERVICES_LANDING,
   MLR_TARIFS,
 } from "@/config/content/mlr";
@@ -50,18 +47,22 @@ export default function MlrLandingPage() {
           sousTitre="Un repère pour te projeter — tu confirmeras ta durée dans le parcours."
           accent
         />
-        <div className="mt-8 grid gap-4 sm:grid-cols-2">
+        {/* Cartes plein cadre : le visuel studio 505×204 porte titre, prix,
+            description et note incrustés — aucune carte à texte. Repères non
+            cliquables (la durée se confirme dans le parcours). */}
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 sm:gap-5">
           {MLR_LANDING.durees.map((duree) => (
             <div
-              key={duree.titre}
-              className="rounded-2xl border-2 border-line bg-card p-6"
+              key={duree.value}
+              className="relative aspect-[505/204] overflow-hidden rounded-2xl border-2 border-line"
             >
-              <p className="font-heading text-3xl font-bold uppercase tracking-wide text-ink-strong">
-                {duree.titre}
-              </p>
-              <p className="mt-1 font-semibold text-accent">{duree.prix}</p>
-              <p className="mt-2 text-sm text-ink-soft">{duree.texte}</p>
-              <p className="mt-2 text-xs text-ink-soft">{MLR_DUREES_NOTE}</p>
+              <Image
+                src={duree.studioSrc}
+                alt={duree.studioAlt}
+                fill
+                sizes="(min-width: 640px) 50vw, 100vw"
+                className="object-cover"
+              />
             </div>
           ))}
         </div>
@@ -77,40 +78,40 @@ export default function MlrLandingPage() {
             sousTitre="Nord ou Ouest — même format : guide local privé + taxi-brousse. Choisis celle qui t'appelle, on s'occupe du reste."
             accent
           />
-          <div className="mt-8 grid gap-4 sm:grid-cols-2">
-            {MLR_LANDING.routes.map((route, index) => {
-              const content = MLR_ROUTES_CONTENT[route.slug];
-              return (
-                <Reveal key={route.slug} delay={index * 80} className="h-full">
-                  <Link
-                    href={`/mlr/${route.slug}`}
-                    className="flex h-full flex-col rounded-2xl border-2 border-line bg-card p-5 transition-colors hover:border-accent"
-                  >
-                    {content.imageAmbiance.src ? (
-                      <ContentImage
-                        ratio="16/9"
-                        src={content.imageAmbiance.src}
-                        alt={content.imageAmbiance.alt}
-                        sizes="(min-width: 1152px) 552px, (min-width: 640px) 50vw, 100vw"
-                      />
-                    ) : (
-                      <PlaceholderImage
-                        ratio="16/9"
-                        label={content.imageAmbiance.label}
-                        alt={content.imageAmbiance.alt}
-                      />
-                    )}
-                    <p className="mt-4 font-heading text-2xl font-bold uppercase tracking-wide text-ink-strong">
-                      {content.titre}
-                    </p>
-                    <p className="mt-1 flex-1 text-sm text-ink-soft">{route.texte}</p>
-                    <span className="mt-3 text-sm font-semibold text-accent">
-                      Voir la route →
+          {/* Cartes plein cadre façon UniversPicker (page mère) : le visuel
+              studio 505×408 porte titre, description, prix et CTA incrustés —
+              aucune carte à texte. Au survol desktop, voile + libellé révélé ;
+              sur tactile, image seule, toute la carte cliquable. */}
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 sm:gap-5">
+            {MLR_LANDING.routes.map((route, index) => (
+              <Reveal key={route.slug} delay={index * 80} className="min-w-0">
+                <Link
+                  href={`/mlr/${route.slug}`}
+                  aria-label={route.cta}
+                  // Couleur d'accent de la route (turquoise Nord / terre rouge
+                  // Ouest) : la bordure de survol et la pastille CTA suivent la
+                  // charte respective plutôt que le terracotta par défaut.
+                  data-accent={route.slug}
+                  className="group relative block aspect-[505/408] overflow-hidden rounded-2xl border-2 border-line transition-colors hover:border-accent"
+                >
+                  <Image
+                    src={route.studioSrc}
+                    alt={route.studioAlt}
+                    fill
+                    sizes="(min-width: 640px) 50vw, 100vw"
+                    className="object-cover"
+                  />
+                  {/* Voile d'assombrissement au survol (desktop uniquement). */}
+                  <div className="absolute inset-0 bg-ink-strong/0 motion-safe:transition-colors motion-safe:duration-300 group-hover:bg-ink-strong/55" />
+                  {/* Libellé de choix révélé au survol. */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-accent-contrast opacity-0 motion-safe:translate-y-1 motion-safe:transition group-hover:opacity-100 group-hover:motion-safe:translate-y-0">
+                      {route.cta} →
                     </span>
-                  </Link>
-                </Reveal>
-              );
-            })}
+                  </div>
+                </Link>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>

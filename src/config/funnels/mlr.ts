@@ -50,8 +50,10 @@ export const mlrFunnel: FunnelConfig = {
         cta: "Voir Célébrations Voyages",
         image: {
           label: "Univers Célébrations Voyages",
-          alt: "4x4 chargé sur une piste côtière au coucher du soleil, massif rocheux et baie turquoise",
-          src: "/images/cvm/hero-cvm-cover.png",
+          alt: "4x4 chargé sur une route bordée de baobabs, plus de confort et de prise en charge",
+          src: "/images/mlr/reorientation-cvm-4x4.png",
+          // Visuel cadré portrait pour la vignette mobile étroite (art-direction).
+          mobileSrc: "/images/mlr/reorientation-cvm-mobile.png",
         },
       },
     },

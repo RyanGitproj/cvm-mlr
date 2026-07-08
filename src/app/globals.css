@@ -64,33 +64,55 @@
 
 /*
  * Nuances par sous-univers CVM (directive boss 2026-07-07 : une couleur
- * dominante par aventure) : Expédition = rouge, Trek = vert, Îles = lagon
- * (bleu-vert de référence, inchangé — validé Ryan), Grand Tour = orange.
- * Chaque bloc surcharge la famille --accent ; tout ce qui consomme les
- * tokens (CTA, pilules, prix, filets, bordures, barre d'étapes) suit.
+ * dominante par aventure) : Expédition = rouge, Trek = vert, Îles = lagon,
+ * Grand Tour = orange. Hex de référence = charte graphique Ryan
+ * 2026-07-08. Chaque bloc surcharge la famille --accent ; tout ce qui
+ * consomme les tokens (CTA, pilules, prix, filets, bordures, barre
+ * d'étapes) suit. --accent-soft = teinte de survol des CTA primaires
+ * (bg-accent → bg-accent-soft), éclaircissement ~40 % vers le blanc.
  */
 [data-accent="rouge"] {
-  --accent: #a12b1c;
-  --accent-soft: #c4705c;
+  --accent: #b23023;
+  --accent-soft: #d1837b;
   --accent-contrast: #fbf5ec;
 }
 
 [data-accent="vert"] {
-  --accent: #2e7b4d;
-  --accent-soft: #7fb096;
+  --accent: #254c1f;
+  --accent-soft: #7c9479;
   --accent-contrast: #fbf5ec;
 }
 
 [data-accent="lagon"] {
-  --accent: #1f7a6d;
-  --accent-soft: #7fb5ac;
+  --accent: #046c79;
+  --accent-soft: #68a7af;
   --accent-contrast: #fbf5ec;
 }
 
 [data-accent="orange"] {
-  --accent: #b0570e;
-  --accent-soft: #d29a63;
+  --accent: #d77304;
+  --accent-soft: #e7ab68;
   --accent-contrast: #fbf5ec;
+}
+
+/*
+ * Couleur dominante par route MLR (charte graphique Ryan 2026-07-08 :
+ * une seule teinte par route, pas d'alternance kaki). Posé par data-accent
+ * sur le wrapper de MlrRoutePage. --accent-soft = teinte de survol des CTA
+ * (bg-accent → bg-accent-soft). --accent-contrast reste le crème commun aux
+ * deux routes : il porte AUSSI le texte du hero posé sur la photo, qui doit
+ * rester clair comme sur les autres pages (crème commun MLR).
+ */
+[data-accent="nord"] {
+  --accent: #1cb7c8;
+  --accent-soft: #77d4de;
+  --accent-contrast: #fdf5e2;
+}
+
+[data-accent="ouest"] {
+  --accent: #b94916;
+  --accent-soft: #d59273;
+  --accent-contrast: #fdf5e2;
 }
 
 /*
@@ -261,55 +283,6 @@ h4 {
       to top,
       color-mix(in srgb, var(--veil) 52%, transparent) 0%,
       transparent 55%
-    );
-}
-
-/*
- * Voile de lisibilité des hero à fond photo (remplace le cartouche flou,
- * 2026-07-08) : le contraste du texte clair est porté par un dégradé
- * directionnel — plus de boîte. Deux couches empilées : un lavis --accent
- * (couleur de l'aventure, identité de marque) et une assise --veil (contraste),
- * denses côté texte et s'effaçant côté sujet pour laisser la photo visible.
- * Posé uniquement sur les vraies photos ; comme --accent est scopé par thème
- * (data-accent / data-theme), le voile suit la couleur de chaque page.
- *
- * .hero-veil        — texte aligné à gauche : dégradé gauche → droite.
- * .hero-veil-center — texte centré en haut (page mère) : dégradé haut → bas.
- */
-.hero-veil {
-  background:
-    linear-gradient(
-      to right,
-      color-mix(in srgb, var(--accent) 50%, transparent) 0%,
-      color-mix(in srgb, var(--accent) 18%, transparent) 45%,
-      transparent 80%
-    ),
-    linear-gradient(
-      to right,
-      color-mix(in srgb, var(--veil) 74%, transparent) 0%,
-      color-mix(in srgb, var(--veil) 40%, transparent) 55%,
-      color-mix(in srgb, var(--veil) 6%, transparent) 100%
-    ),
-    linear-gradient(
-      to top,
-      color-mix(in srgb, var(--veil) 44%, transparent) 0%,
-      transparent 52%
-    );
-}
-
-.hero-veil-center {
-  background:
-    linear-gradient(
-      to bottom,
-      color-mix(in srgb, var(--accent) 44%, transparent) 0%,
-      color-mix(in srgb, var(--accent) 14%, transparent) 50%,
-      transparent 85%
-    ),
-    linear-gradient(
-      to bottom,
-      color-mix(in srgb, var(--veil) 66%, transparent) 0%,
-      color-mix(in srgb, var(--veil) 30%, transparent) 55%,
-      color-mix(in srgb, var(--veil) 6%, transparent) 100%
     );
 }
 

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { cn } from "@/lib/cn";
+import type { MediaImage } from "@/types/funnel";
 
 /**
  * Pastille de guidage studio d'un visuel placeholder (icône + libellé du
@@ -40,8 +41,9 @@ export function MediaLabelChip({
 }
 
 type Props = {
-  /** Visuel {label, alt, src?} — motif placeholder tant que `src` est absent. */
-  image: { label: string; alt: string; src?: string };
+  /** Visuel {label, alt, src?, mobileSrc?} — motif placeholder tant que `src`
+   *  est absent ; `mobileSrc` prend le relais sous `sm` (art-direction). */
+  image: MediaImage;
   /** Largeurs d'affichage responsive transmises à next/image. */
   sizes: string;
   /** Cadrage de la photo (object-position CSS) quand le sujet n'est pas centré. */
@@ -66,6 +68,33 @@ export function MediaBackdrop({
   className,
 }: Props) {
   if (image.src !== undefined) {
+    const style = objectPosition ? { objectPosition } : undefined;
+    // Art-direction : sous `sm`, un visuel cadré mobile remplace le paysage
+    // large (sinon rogné en tranche étroite → flou). Les deux <Image> sont
+    // rendus, la visibilité est basculée par média-query ; le second peut être
+    // préchargé malgré `hidden` — coût négligeable ici (vignette < 1 Mo).
+    if (image.mobileSrc !== undefined) {
+      return (
+        <span className={cn("absolute inset-0", className)}>
+          <Image
+            src={image.mobileSrc}
+            alt={image.alt}
+            fill
+            sizes={sizes}
+            className="object-cover sm:hidden"
+            style={style}
+          />
+          <Image
+            src={image.src}
+            alt={image.alt}
+            fill
+            sizes={sizes}
+            className="hidden object-cover sm:block"
+            style={style}
+          />
+        </span>
+      );
+    }
     return (
       <span className={cn("absolute inset-0", className)}>
         <Image
@@ -74,7 +103,7 @@ export function MediaBackdrop({
           fill
           sizes={sizes}
           className="object-cover"
-          style={objectPosition ? { objectPosition } : undefined}
+          style={style}
         />
       </span>
     );

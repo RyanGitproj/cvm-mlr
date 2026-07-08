@@ -36,8 +36,8 @@ export default function CvmLandingPage() {
         titre={CVM_LANDING.hero.titre}
         sousTitre={CVM_LANDING.hero.sousTitre}
         ctas={[
-          { href: CVM_LANDING.orientation.href, label: CVM_LANDING.orientation.cta },
-          { href: "#experiences", label: "Voir les 4 expériences", variant: "outline" },
+          { href: "#experiences", label: "Voir les 4 expériences", variant: "primary" },
+          { href: CVM_LANDING.orientation.href, label: CVM_LANDING.orientation.cta, variant: "outline" },
         ]}
         imageLabel={CVM_LANDING.hero.imageLabel}
         imageAlt={CVM_LANDING.hero.imageAlt}

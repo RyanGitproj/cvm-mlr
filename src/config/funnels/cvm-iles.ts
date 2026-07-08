@@ -53,7 +53,16 @@ export const cvmIlesFunnel: FunnelConfig = {
         },
         // « La meilleure option selon la saison et mon budget » retirée le
         // 2026-07-07 (demande Ryan — carte creuse dans la grille).
-        { value: "autre", label: "Autre envie — je précise", freeText: true },
+        {
+          value: "autre",
+          label: "Autre envie — je précise",
+          freeText: true,
+          image: {
+            label: "Autre envie",
+            alt: "Voyageuse avec sa valise sur fond lagon avec épingle de destination — précisez votre envie",
+            src: "/images/cvm/iles/autre-envie.png",
+          },
+        },
       ],
     },
     {

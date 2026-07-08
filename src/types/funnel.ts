@@ -1,6 +1,19 @@
 import type { Fenetre } from "@/config/segmentation";
 import type { Brand, FunnelType } from "./lead";
 
+/**
+ * Visuel d'une carte : motif placeholder tant que `src` est absent (cadre
+ * réservé dans tous les cas). `mobileSrc`, s'il est fourni, remplace `src`
+ * sous le breakpoint `sm` (art-direction) — évite le rognage d'un paysage
+ * large dans une vignette étroite sur mobile, source de flou.
+ */
+export type MediaImage = {
+  label: string;
+  alt: string;
+  src?: string;
+  mobileSrc?: string;
+};
+
 export type ChoiceOption = {
   value: string;
   label: string;
@@ -10,7 +23,7 @@ export type ChoiceOption = {
    * Visuel de la carte-option (Q1 de projection) — placeholder tant que le
    * studio n'a pas livré, cadre réservé dans tous les cas.
    */
-  image?: { label: string; alt: string; src?: string };
+  image?: MediaImage;
   /**
    * Option qui révèle un champ de précision (`${name}Precision`) et exige
    * le bouton « Continuer » au lieu de l'avance automatique : « Autre — je
@@ -77,7 +90,7 @@ export type OfferWizardStep = ScreenBase & {
     href: string;
     cta: string;
     /** Vignette de la carte (maquette 3 : aperçu de l'univers visé). */
-    image?: { label: string; alt: string; src?: string };
+    image?: MediaImage;
   };
 };
 

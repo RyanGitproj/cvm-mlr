@@ -32,7 +32,16 @@ export const cvmUnMoisFunnel: FunnelConfig = {
         { value: "expatriation", label: "Projet d'expatriation ou changement de vie" },
         { value: "creation_societe", label: "Création de société, investissement ou activité professionnelle" },
         { value: "retraite", label: "Retraite, long séjour ou résidence partielle" },
-        { value: "autre", label: "Autre projet — je précise", freeText: true },
+        {
+          value: "autre",
+          label: "Autre projet — je précise",
+          freeText: true,
+          image: {
+            label: "Autre projet",
+            alt: "Carte de voyage et épingle de destination sur fond orange — précisez votre projet",
+            src: "/images/cvm/un-mois/autre-projet.png",
+          },
+        },
       ],
     },
     {
