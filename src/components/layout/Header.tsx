@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { PhoneLink } from "@/components/ui/ContactLinks";
 import { cn } from "@/lib/cn";
 
 export type NavLink = { href: string; label: string };
@@ -42,6 +43,8 @@ export function Header({ homeLabel, links, cta }: Props) {
 
   const barBase =
     "h-0.5 w-6 rounded-full bg-current motion-safe:transition-transform motion-safe:duration-200";
+  const ctaClass =
+    "flex min-w-0 max-w-[52vw] shrink items-center justify-center gap-2 truncate rounded-lg bg-accent px-3 py-2 text-sm font-semibold text-accent-contrast transition-colors hover:bg-accent-soft sm:max-w-none";
 
   return (
     <header
@@ -78,18 +81,38 @@ export function Header({ homeLabel, links, cta }: Props) {
         </Link>
 
         <div className="flex min-w-0 items-center gap-2">
-          {cta && (
-            // À gauche du hamburger. Filet anti-débordement : min-w-0 +
-            // truncate + max-w bornée en mobile → jamais de casse de barre,
-            // le libellé s'ellipse en dernier recours (hamburger prioritaire).
-            <Link
-              href={cta.href}
-              onClick={() => setOpen(false)}
-              className="min-w-0 max-w-[52vw] shrink truncate rounded-lg bg-accent px-3 py-2 text-sm font-semibold text-accent-contrast transition-colors hover:bg-accent-soft sm:max-w-none"
-            >
-              {cta.label}
-            </Link>
-          )}
+          {/* CTA à gauche du hamburger. Filet anti-débordement : min-w-0 +
+              max-w bornée en mobile → jamais de casse de barre. Un lien `tel:`
+              (numéro du footer) passe par PhoneLink : tracking centralisé
+              `contact_phone_click`, et en mobile l'icône téléphone remplace le
+              libellé trop long (texte complet dès sm). */}
+          {cta &&
+            (cta.href.startsWith("tel:") ? (
+              <PhoneLink className={ctaClass} onClick={() => setOpen(false)}>
+                <svg
+                  aria-hidden
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="h-5 w-5 shrink-0 sm:hidden"
+                >
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                </svg>
+                <span className="hidden sm:inline">{cta.label}</span>
+                <span className="sr-only sm:hidden">{cta.label}</span>
+              </PhoneLink>
+            ) : (
+              <Link
+                href={cta.href}
+                onClick={() => setOpen(false)}
+                className={ctaClass}
+              >
+                {cta.label}
+              </Link>
+            ))}
 
           <nav
             aria-label="Navigation principale"

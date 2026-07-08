@@ -6,6 +6,6 @@ export const siteUrl =
  * Tant qu'une valeur est `null`, le lien correspondant n'est pas rendu.
  */
 export const contact = {
-  telephone: "+33 6 87 22 47 70" as string | null,
+  telephone: "+33 1 87 66 92 94" as string | null,
   email: "reservation@celebrations-voyages.fr" as string | null,
 };

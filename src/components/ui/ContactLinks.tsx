@@ -14,9 +14,12 @@ import { pushDataLayerEvent } from "@/lib/tracking/gtm";
 export function PhoneLink({
   className,
   children,
+  onClick,
 }: {
   className?: string;
   children?: ReactNode;
+  /** Action complémentaire au clic (le tracking reste toujours poussé). */
+  onClick?: () => void;
 }) {
   if (contact.telephone === null) return null;
   return (
@@ -24,7 +27,10 @@ export function PhoneLink({
       data-cta="call"
       href={`tel:${contact.telephone}`}
       className={className}
-      onClick={() => pushDataLayerEvent("contact_phone_click")}
+      onClick={() => {
+        pushDataLayerEvent("contact_phone_click");
+        onClick?.();
+      }}
     >
       {children ?? contact.telephone}
     </a>

@@ -1,5 +1,6 @@
 import { SiteShell } from "@/components/layout/SiteShell";
 import { NAV_DEUX_UNIVERS } from "@/config/brands";
+import { contact } from "@/config/site";
 
 export default function MlrLayout({
   children,
@@ -10,7 +11,11 @@ export default function MlrLayout({
       className="texture-paper"
       homeLabel="Liberty Roots"
       links={NAV_DEUX_UNIVERS}
-      cta={{ href: "/mlr#questionnaire", label: "Choisir mon aventure" }}
+      cta={
+        contact.telephone
+          ? { href: `tel:${contact.telephone}`, label: "Parler à un conseiller" }
+          : undefined
+      }
     >
       {children}
     </SiteShell>
