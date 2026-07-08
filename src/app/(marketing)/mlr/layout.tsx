@@ -8,7 +8,6 @@ export default function MlrLayout({
     <SiteShell
       theme="mlr"
       className="texture-paper"
-      homeHref="/mlr"
       homeLabel="Liberty Roots"
       links={NAV_DEUX_UNIVERS}
       cta={{ href: "/mlr#questionnaire", label: "Choisir mon aventure" }}

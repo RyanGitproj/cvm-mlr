@@ -6,7 +6,6 @@ import { Header, type NavLink } from "./Header";
 
 type Props = {
   theme: "mere" | "cvm" | "mlr";
-  homeHref: string;
   homeLabel: string;
   links: NavLink[];
   /** CTA d'action du funnel dans le header (absent sur la page mère). */
@@ -22,7 +21,6 @@ type Props = {
  */
 export function SiteShell({
   theme,
-  homeHref,
   homeLabel,
   links,
   cta,
@@ -37,12 +35,7 @@ export function SiteShell({
         className,
       )}
     >
-      <Header
-        homeHref={homeHref}
-        homeLabel={homeLabel}
-        links={links}
-        cta={cta}
-      />
+      <Header homeLabel={homeLabel} links={links} cta={cta} />
       {theme === "mlr" && <BaselineBand />}
       <main className="flex-1">{children}</main>
       <Footer brand={theme} />

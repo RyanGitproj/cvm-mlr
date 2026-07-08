@@ -7,7 +7,6 @@ export default function LegalLayout({
   return (
     <SiteShell
       theme="mere"
-      homeHref="/"
       homeLabel="Madagascar"
       links={NAV_DEUX_UNIVERS}
     >

@@ -8,7 +8,6 @@ import { cn } from "@/lib/cn";
 export type NavLink = { href: string; label: string };
 
 type Props = {
-  homeHref: string;
   homeLabel: string;
   links: NavLink[];
   /** CTA d'action du funnel, à gauche du hamburger (absent sur la page mère). */
@@ -21,7 +20,7 @@ type Props = {
  * hamburger qui s'ouvre en overlay sous la barre — la navbar reste à sa
  * hauteur minimale (logo + icône). En ≥ sm, les liens sont en ligne.
  */
-export function Header({ homeHref, homeLabel, links, cta }: Props) {
+export function Header({ homeLabel, links, cta }: Props) {
   const [open, setOpen] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
 
@@ -56,9 +55,11 @@ export function Header({ homeHref, homeLabel, links, cta }: Props) {
             = or de marque fixe, jamais surchargé par l'accent d'aventure.
             homeLabel = nom accessible du lien. `unoptimized` : dorures
             fines, on sert le fichier original. `aspect-[1600/311]`
-            verrouille le ratio dès le 1er paint. */}
+            verrouille le ratio dès le 1er paint. Le logo mène toujours à la
+            page mère `/` (société éditrice), quel que soit l'univers courant
+            (demande Ryan 2026-07-08). */}
         <Link
-          href={homeHref}
+          href="/"
           onClick={() => setOpen(false)}
           className="flex shrink-0 items-center"
         >
