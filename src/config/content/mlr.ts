@@ -299,7 +299,7 @@ export const MLR_LANDING = {
       titre: "L'Ouest",
       texte: "Baobabs, pistes rouges, grands espaces et couchers de soleil.",
       cta: "Je choisis l'Ouest",
-      studioSrc: "/images/mlr/route-ouest-card.png",
+      studioSrc: "/images/mlr/route-ouest-card-v2.png",
       studioAlt:
         "Road Trip Ouest : baobabs, pistes rouges, grands espaces et couchers de soleil, 10 jours dès 1 400 € par personne",
     },
