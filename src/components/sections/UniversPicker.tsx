@@ -1,6 +1,6 @@
 import Image from "next/image";
-import Link from "next/link";
 import { Reveal } from "@/components/motion/Reveal";
+import { TrackedLink } from "@/components/tracking/TrackedLink";
 import { cn } from "@/lib/cn";
 import { SectionHeading } from "./SectionHeading";
 
@@ -13,6 +13,8 @@ import { SectionHeading } from "./SectionHeading";
  * ces trois endroits.
  */
 type Univers = {
+  /** Identifiant d'univers poussé dans l'event `select_univers`. */
+  slug: "cvm" | "mlr";
   href: string;
   /** Image studio plein cadre : toutes les infos (titre, prix, offres) y sont
    *  déjà incrustées — la carte ne porte plus aucun texte au repos. */
@@ -27,6 +29,7 @@ type Univers = {
 
 const UNIVERS: Univers[] = [
   {
+    slug: "cvm",
     href: "/cvm",
     src: "/images/mere/cvm-univers-card.png",
     alt: "Célébrations Voyages Madagascar — confort, sécurité et accompagnement, offres et tarifs",
@@ -34,6 +37,7 @@ const UNIVERS: Univers[] = [
     ctaClass: "bg-ink-strong text-surface",
   },
   {
+    slug: "mlr",
     href: "/mlr",
     src: "/images/mere/mlr-univers-studio.png",
     alt: "Madagascar Liberty Roots — road trip taxi-brousse, routes Nord et Ouest, durées et tarifs",
@@ -60,8 +64,10 @@ function UniversCard({ univers, delay }: { univers: Univers; delay: number }) {
   return (
     <Reveal delay={delay} className="h-full min-w-0">
       <div data-theme={univers.theme} className="h-full min-w-0">
-        <Link
+        <TrackedLink
           href={univers.href}
+          event="select_univers"
+          eventParams={{ univers: univers.slug }}
           aria-label={univers.cta}
           className="group relative mx-auto block aspect-[610/687] h-auto w-[min(100%,calc(52svh*610/687))] overflow-hidden rounded-2xl border-2 border-line transition-colors hover:border-accent sm:w-[min(100%,calc((100svh_-_10rem)*610/687))] sm:max-w-[610px]"
         >
@@ -85,7 +91,7 @@ function UniversCard({ univers, delay }: { univers: Univers; delay: number }) {
               {univers.cta} →
             </span>
           </div>
-        </Link>
+        </TrackedLink>
       </div>
     </Reveal>
   );
@@ -104,11 +110,7 @@ export function UniversPicker() {
       id="univers"
       className="mx-auto w-full max-w-6xl scroll-mt-20 px-4 py-12 sm:px-6"
     >
-      <SectionHeading
-        align="center"
-        titre="Choisissez votre univers"
-        sousTitre="Deux chemins, pas un de plus — la même équipe locale derrière chacun. Reconnaissez le vôtre."
-      />
+      <SectionHeading align="center" titre="Choisissez votre univers" />
       <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5">
         <UniversCard univers={UNIVERS[0]} delay={0} />
         <UniversCard univers={UNIVERS[1]} delay={120} />

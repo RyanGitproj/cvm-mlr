@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { Reveal } from "@/components/motion/Reveal";
 import { Hero } from "@/components/sections/Hero";
 import { NoteTarifaire } from "@/components/sections/NoteTarifaire";
 import { ReassuranceBar } from "@/components/sections/ReassuranceBar";
 import { SectionHeading } from "@/components/sections/SectionHeading";
 import { VideoSection } from "@/components/sections/VideoSection";
-import { ButtonLink } from "@/components/ui/Button";
+import { TrackedLink } from "@/components/tracking/TrackedLink";
+import { buttonClasses } from "@/components/ui/Button";
 import { ContentImage } from "@/components/ui/ContentImage";
 import { PlaceholderImage } from "@/components/ui/PlaceholderImage";
 import { NOTE_TARIFAIRE_CVM } from "@/config/brands";
@@ -60,8 +60,10 @@ export default function CvmLandingPage() {
             const univers = CVM_UNIVERS[slug];
             return (
               <Reveal key={slug} delay={index * 80} className="h-full min-w-0">
-                <Link
+                <TrackedLink
                   href={`/cvm/${slug}`}
+                  event="select_aventure"
+                  eventParams={{ aventure: slug }}
                   data-accent={univers.accent}
                   className={cn(
                     "flex h-full min-w-0 flex-col rounded-2xl border-2 bg-card p-3 transition-colors hover:border-accent sm:p-4",
@@ -108,7 +110,7 @@ export default function CvmLandingPage() {
                       </li>
                     ))}
                   </ul>
-                </Link>
+                </TrackedLink>
               </Reveal>
             );
           })}
@@ -125,12 +127,17 @@ export default function CvmLandingPage() {
               {CVM_LANDING.orientation.texte}
             </p>
           </div>
-          <ButtonLink
+          <TrackedLink
             href={CVM_LANDING.orientation.href}
-            className="mt-4 shrink-0 sm:mt-0"
+            event="cta_click"
+            eventParams={{
+              cta_id: "cvm_orientation",
+              cta_label: CVM_LANDING.orientation.cta,
+            }}
+            className={buttonClasses(undefined, "mt-4 shrink-0 sm:mt-0")}
           >
             {CVM_LANDING.orientation.cta}
-          </ButtonLink>
+          </TrackedLink>
         </div>
       </section>
 

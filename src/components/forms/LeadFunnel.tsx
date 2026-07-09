@@ -1,14 +1,16 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { FormProvider, useForm, type FieldValues } from "react-hook-form";
 import type { z } from "zod";
 import { submitLead } from "@/actions/submitLead";
+import { TrackedLink } from "@/components/tracking/TrackedLink";
 import { Button, buttonClasses } from "@/components/ui/Button";
 import { MediaBackdrop } from "@/components/ui/MediaBackdrop";
 import { getFunnelConfig } from "@/config/funnels";
+import { resolveOffer } from "@/config/offers";
+import { nbVoyageursFrom } from "@/lib/leads/toLeadRow";
 import { scrollToElement } from "@/lib/scroll";
 import type { Recommendation } from "@/lib/segmentation/types";
 import { pushDataLayerEventOnce } from "@/lib/tracking/gtm";
@@ -176,6 +178,20 @@ export function LeadFunnel({
       });
       if (!valid) return;
       if (!precisionNumberFilled(screen)) return;
+      // Écran de décision validé — granularité d'abandon par étape côté GA4
+      // (dédup session : un aller-retour ne regonfle pas les volumes).
+      if (screen.kind === "step") {
+        pushDataLayerEventOnce(
+          `funnel_step_${funnelType}_${screen.step.id}`,
+          "funnel_step",
+          {
+            funnel_type: funnelType,
+            step_id: screen.step.id,
+            step_index: screenIndex + 1,
+            step_total: visibleSteps.length,
+          },
+        );
+      }
       lastNavAt.current = Date.now();
       setScreenIndex((index) => index + 1);
     } finally {
@@ -198,9 +214,27 @@ export function LeadFunnel({
         setServerError(result.message);
         return;
       }
+      // Conversion enrichie : l'offre choisie (« formules les plus choisies »
+      // côté GA4), la fenêtre de départ, l'effectif réel et la route MLR.
+      const values = form.getValues();
+      const offre = resolveOffer(
+        funnelType,
+        typeof values.offreDuree === "string" ? values.offreDuree : undefined,
+      );
+      const nbVoyageurs = nbVoyageursFrom(values);
       pushDataLayerEventOnce(`lead_submitted_${funnelType}`, "lead_submitted", {
         funnel_type: funnelType,
         brand: config.brand,
+        ...(offre !== null && {
+          offre_ref: offre.ref,
+          offre_label: offre.label,
+          offre_prix: offre.prixIndicatif,
+        }),
+        ...(typeof values.departFenetre === "string" && {
+          depart_fenetre: values.departFenetre,
+        }),
+        ...(nbVoyageurs !== null && { nb_voyageurs: nbVoyageurs }),
+        ...(typeof values.route === "string" && { route: values.route }),
       });
       setRecommendation(result.recommendation);
       lastNavAt.current = Date.now();
@@ -334,12 +368,17 @@ export function LeadFunnel({
                                 {currentScreen.step.reorientation.hint}
                               </p>
                             )}
-                            <Link
+                            <TrackedLink
                               href={currentScreen.step.reorientation.href}
+                              event="cta_click"
+                              eventParams={{
+                                cta_id: "mlr_reorientation_cvm",
+                                cta_label: currentScreen.step.reorientation.cta,
+                              }}
                               className={buttonClasses("outline", "mt-1")}
                             >
                               {currentScreen.step.reorientation.cta} →
-                            </Link>
+                            </TrackedLink>
                           </div>
                         </div>
                       )}

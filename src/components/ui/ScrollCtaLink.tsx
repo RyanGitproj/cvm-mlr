@@ -2,6 +2,7 @@
 
 import type { MouseEvent, ReactNode } from "react";
 import { scrollToElement } from "@/lib/scroll";
+import { pushDataLayerEvent } from "@/lib/tracking/gtm";
 import { buttonClasses, type ButtonVariant } from "./Button";
 
 type Props = {
@@ -21,6 +22,12 @@ type Props = {
  */
 export function ScrollCtaLink({ targetId, variant, className, children }: Props) {
   function handleClick(event: MouseEvent<HTMLAnchorElement>) {
+    // Tous les CTA de scroll sont mesurés — la page distingue les doublons
+    // d'id (`questionnaire` sur chaque page) via page_location côté GA4.
+    pushDataLayerEvent("cta_click", {
+      cta_id: targetId,
+      ...(typeof children === "string" ? { cta_label: children } : {}),
+    });
     const target = document.getElementById(targetId);
     if (target === null) return; // fallback : ancre native
     event.preventDefault();

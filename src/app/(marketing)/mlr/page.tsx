@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import { QuestionnaireSection } from "@/components/forms/QuestionnaireSection";
 import { Reveal } from "@/components/motion/Reveal";
 import { Hero } from "@/components/sections/Hero";
@@ -8,6 +7,7 @@ import { NoteTarifaire } from "@/components/sections/NoteTarifaire";
 import { ReassuranceBar } from "@/components/sections/ReassuranceBar";
 import { SectionHeading } from "@/components/sections/SectionHeading";
 import { VideoSection } from "@/components/sections/VideoSection";
+import { TrackedLink } from "@/components/tracking/TrackedLink";
 import { Pill } from "@/components/ui/Pill";
 import { NOTE_TARIFAIRE_MLR } from "@/config/brands";
 import {
@@ -86,8 +86,10 @@ export default function MlrLandingPage() {
           <div className="mt-8 grid gap-4 sm:grid-cols-2 sm:gap-5">
             {MLR_LANDING.routes.map((route, index) => (
               <Reveal key={route.slug} delay={index * 80} className="min-w-0">
-                <Link
+                <TrackedLink
                   href={`/mlr/${route.slug}`}
+                  event="select_route"
+                  eventParams={{ route: route.slug }}
                   aria-label={route.cta}
                   // Couleur d'accent de la route (turquoise Nord / terre rouge
                   // Ouest) : la bordure de survol et la pastille CTA suivent la
@@ -110,7 +112,7 @@ export default function MlrLandingPage() {
                       {route.cta} →
                     </span>
                   </div>
-                </Link>
+                </TrackedLink>
               </Reveal>
             ))}
           </div>

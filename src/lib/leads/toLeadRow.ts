@@ -23,7 +23,7 @@ const asNbVoyageurs = (value: unknown): number | null => {
   return null;
 };
 
-const nbVoyageursFrom = (data: Record<string, unknown>): number | null =>
+export const nbVoyageursFrom = (data: Record<string, unknown>): number | null =>
   data.nbVoyageurs === "plus"
     ? asNbVoyageurs(data.nbVoyageursPrecision)
     : asNbVoyageurs(data.nbVoyageurs);

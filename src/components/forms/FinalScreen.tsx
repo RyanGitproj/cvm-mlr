@@ -7,6 +7,7 @@ import { MailLink, PhoneLink } from "@/components/ui/ContactLinks";
 import { FENETRES, type Fenetre } from "@/config/segmentation";
 import { recapChips } from "@/lib/leads/recapChips";
 import { fenetreFor } from "@/lib/segmentation/depart";
+import { pushDataLayerEvent } from "@/lib/tracking/gtm";
 import type { Recommendation } from "@/lib/segmentation/types";
 import {
   DEPART_FENETRES,
@@ -83,6 +84,10 @@ export function FinalScreen({ config, values, recommendation, headingId }: Props
   function chooseSuite(cta: SuiteCta) {
     if (suite !== null) return;
     setSuite(cta.suite);
+    pushDataLayerEvent("suite_click", {
+      funnel_type: config.type,
+      suite: cta.suite,
+    });
     // Best-effort : l'échec (cookie expiré, base indisponible) ne doit
     // jamais bloquer l'affichage du contact direct.
     void saveSuite(cta.suite);
@@ -133,7 +138,17 @@ export function FinalScreen({ config, values, recommendation, headingId }: Props
             <p className="mt-1 text-sm text-ink-soft">{recommendation.raison}</p>
           )}
           {universHref && (
-            <ButtonLink href={universHref} variant="outline" className="mt-4">
+            <ButtonLink
+              href={universHref}
+              variant="outline"
+              className="mt-4"
+              onClick={() =>
+                pushDataLayerEvent("cta_click", {
+                  cta_id: "final_univers_recommande",
+                  cta_label: "Découvrir cet univers",
+                })
+              }
+            >
               Découvrir cet univers
             </ButtonLink>
           )}
