@@ -1,3 +1,4 @@
+"use client";
 import { QuestionnaireSection } from "@/components/forms/QuestionnaireSection";
 import { Etapes } from "@/components/sections/Etapes";
 import { Gallery } from "@/components/sections/Gallery";
@@ -12,6 +13,8 @@ import {
   type CvmUniversContent,
 } from "@/config/content/cvm";
 import { formatEuros } from "@/lib/format";
+import { fbEvent } from "@/lib/fpixel";
+import { useEffect } from "react";
 
 /**
  * Gabarit des 4 pages de présentation CVM (brief §7.3) — le contenu vient
@@ -21,6 +24,13 @@ import { formatEuros } from "@/lib/format";
  * scrollent vers lui (pas de navigation).
  */
 export function CvmUniversPage({ content }: { content: CvmUniversContent }) {
+
+  useEffect(() => {
+    fbEvent("ViewContent", {
+      content_name: content.surtitre,
+      content_category: "Celebrations voyages",
+    });
+  }, [content]);
   return (
     <div data-accent={content.accent}>
       <Hero
