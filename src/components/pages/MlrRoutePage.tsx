@@ -1,3 +1,4 @@
+"use client";
 import { QuestionnaireSection } from "@/components/forms/QuestionnaireSection";
 import { FaqList } from "@/components/sections/FaqList";
 import { HeroBackground } from "@/components/sections/HeroBackground";
@@ -20,6 +21,13 @@ import {
  * route pré-sélectionnée : les CTA scrollent vers lui.
  */
 export function MlrRoutePage({ content }: { content: MlrRouteContent }) {
+
+  useEffect(() => {
+    fbEvent("ViewContent", {
+      content_name: content.surtitre,
+      content_category: "Madagascar Liberty Roots",
+    });
+  }, [content]);
   // Photo posée : texte clair directement sur la photo (sans voile ni
   // cartouche) ; sinon dégradé placeholder clair, texte sombre (voir Hero).
   const hasImage = Boolean(content.imageAmbiance.src);
