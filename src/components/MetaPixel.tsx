@@ -2,7 +2,7 @@
 
 import Script from "next/script";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 
 const PIXEL_ID = "1416507340279589";
 
@@ -12,7 +12,8 @@ declare global {
   }
 }
 
-export default function MetaPixel() {
+// 1. On crée le composant interne qui a besoin de searchParams
+function MetaPixelInner() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -22,6 +23,11 @@ export default function MetaPixel() {
     }
   }, [pathname, searchParams]);
 
+  return null; // Ce composant ne fait qu'écouter les changements, il ne rend rien graphiquement
+}
+
+// 2. Le composant principal exporté par défaut encapsule le tout
+export default function MetaPixel() {
   return (
     <>
       <Script id="meta-pixel" strategy="afterInteractive">
@@ -38,6 +44,11 @@ export default function MetaPixel() {
           fbq('track', 'PageView');
         `}
       </Script>
+
+      {/* On entoure notre logique d'écoute par un Suspense pour rassurer Next.js au build */}
+      <Suspense fallback={null}>
+        <MetaPixelInner />
+      </Suspense>
 
       <noscript>
         <img

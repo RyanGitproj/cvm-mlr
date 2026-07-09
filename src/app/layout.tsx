@@ -11,7 +11,6 @@ import { CookieConsent } from "@/components/tracking/CookieConsent";
 import { RouteTracker } from "@/components/tracking/RouteTracker";
 import MetaPixel from "@/components/MetaPixel";
 import { siteUrl } from "@/config/site";
-import { Suspense } from "react";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -34,10 +33,7 @@ export default function RootLayout({
     <html lang="fr" className="h-full antialiased">
       <head />
       <body className="flex min-h-full flex-col">
-        {/* useSearchParams (MetaPixel) exige une boundary Suspense au prerender. */}
-        <Suspense fallback={null}>
-          <MetaPixel />
-        </Suspense>
+        <MetaPixel />
 
         <CookieConsent gtmId={gtmId} />
         <RouteTracker />
