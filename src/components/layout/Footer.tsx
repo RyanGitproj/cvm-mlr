@@ -30,7 +30,7 @@ export function Footer({ brand }: { brand: Brand | "mere" }) {
               unique ». */}
           <p className="mt-2 max-w-prose text-sm text-ink-soft">
             Deux marques, une même équipe locale : le voyage organisé et serein
-            avec {cvmBrand.nom} · le road-trip Madagascar avec {mlrBrand.nom} —
+            avec {cvmBrand.nom} · le road-trip Madagascar avec {mlrBrand.nom},
             la liberté de vivre simplement une expérience unique.
           </p>
         </div>
@@ -50,7 +50,7 @@ export function Footer({ brand }: { brand: Brand | "mere" }) {
         </nav>
       </div>
       <p className="border-t border-line px-4 py-4 text-center text-xs text-ink-soft">
-        © {new Date().getFullYear()} {legal.nomCommercial} — {cvmBrand.nom} &{" "}
+        © {new Date().getFullYear()} {legal.nomCommercial} · {cvmBrand.nom} &{" "}
         {mlrBrand.nom}
       </p>
     </footer>

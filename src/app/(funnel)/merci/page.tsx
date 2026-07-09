@@ -6,7 +6,7 @@ import { getFunnelConfig } from "@/config/funnels";
 import { readMerciCookie } from "@/lib/merci-cookie";
 
 export const metadata: Metadata = {
-  title: "Merci — demande bien reçue",
+  title: "Merci, demande bien reçue",
   robots: { index: false, follow: false },
 };
 
@@ -26,7 +26,7 @@ export default async function MerciPage() {
             Cette page confirme l’envoi d’une demande
           </h1>
           <p className="mx-auto mt-3 max-w-prose text-ink-soft">
-            Commencez par choisir votre univers de voyage — le questionnaire ne
+            Commencez par choisir votre univers de voyage : le questionnaire ne
             prend que quelques minutes.
           </p>
           <ButtonLink href="/" className="mt-6">

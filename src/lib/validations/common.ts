@@ -51,8 +51,8 @@ export const nbVoyageursPrecisionSchema = z.preprocess(
   z.coerce
     .number("Merci d'indiquer un nombre.")
     .int("Merci d'indiquer un nombre entier.")
-    .min(5, "Au moins 5 — sinon, choisissez une carte au-dessus.")
-    .max(20, "20 maximum — au-delà, parlons-en de vive voix.")
+    .min(5, "Au moins 5 : en dessous, choisissez une carte au-dessus.")
+    .max(20, "20 maximum : au-delà, parlons-en de vive voix.")
     .optional(),
 );
 

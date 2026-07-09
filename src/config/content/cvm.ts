@@ -84,7 +84,7 @@ export const ETAPES_ACCOMPAGNEMENT = [
   },
   {
     titre: "Validation ensemble",
-    texte: "Vous ajustez, puis vous validez — nous gérons toute la logistique.",
+    texte: "Vous ajustez, puis vous validez : nous gérons toute la logistique.",
   },
 ] as const;
 
@@ -96,7 +96,7 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
     surtitre: "Trek Aventure",
     titre: "L'aventure encadrée, à votre niveau",
     sousTitre:
-      "Un trek encadré, calibré sur votre niveau et votre rythme — en famille, en couple ou entre amis.",
+      "Un trek encadré, calibré sur votre niveau et votre rythme, en famille, en couple ou entre amis.",
     ctaLabel: "Préparer mon voyage",
     card: {
       // Visuel studio livré le 2026-07-07 (lot WhatsApp docs/, placement
@@ -120,7 +120,7 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
     ],
     // Présentations condensées au maximum (demande Ryan 2026-07-07 soir).
     presentation: [
-      "Crêtes du Nord, baobabs de l'Ouest, canyons du Makay, jungle de l'Est : vous marchez, nous gérons le reste. L'intensité maîtrisée, calibrée sur votre niveau réel — jamais l'expédition brute.",
+      "Crêtes du Nord, baobabs de l'Ouest, canyons du Makay, jungle de l'Est : vous marchez, nous gérons le reste. L'intensité maîtrisée, calibrée sur votre niveau réel, jamais l'expédition brute.",
     ],
     inclus: [
       { titre: "Guide local privé", texte: "Un accompagnateur qui connaît le terrain et ses habitants." },
@@ -132,7 +132,7 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
     ],
     specifique: {
       titre: "Choisissez votre décor",
-      sousTitre: "Quatre régions, quatre ambiances — avec leurs repères de niveau.",
+      sousTitre: "Quatre régions, quatre ambiances, avec leurs repères de niveau.",
       cartes: [
         { titre: "Nord", texte: "Diego, reliefs puissants, extension Nosy Be possible. Niveau modéré à soutenu." },
         { titre: "Ouest", texte: "Baobabs, pistes, Morondava, grands espaces. Niveau accessible à modéré." },
@@ -160,7 +160,7 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
         texte:
           "Plus de paysages, plus de rencontres : le trek qui prend le temps d'aller plus loin.",
         image: {
-          label: "Tsingy — pierres levées",
+          label: "Tsingy, pierres levées",
           alt: "Deux randonneurs surplombant le labyrinthe de pics calcaires des Tsingy",
           src: "/images/cvm/treks/offre-15j-tsingy.png",
         },
@@ -170,7 +170,7 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
       youtubeId: "O6ALKgN-R80",
       titre: "Marchez avant même de partir",
       description:
-        "Crêtes, canyons, forêts : parcourez du regard les décors qui vous attendent. Quelques minutes d'images, et le trek se vit déjà — vous savez s'il est fait pour vous.",
+        "Crêtes, canyons, forêts : parcourez du regard les décors qui vous attendent. Quelques minutes d'images, et le trek se vit déjà : vous savez s'il est fait pour vous.",
     },
     heroSrc: "/images/cvm/treks/hero-treks-cover.png",
     // Libellés alignés sur les photos réelles fournies (décision Ryan
@@ -212,7 +212,7 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
       "Hors vol & assurance",
     ],
     presentation: [
-      "Bivouac permanent, 15 à 25 km par jour, terrains difficiles : une vraie expédition encadrée, vers un Madagascar profond et humain. Elle n'est pas adaptée à tout le monde — le questionnaire vérifie honnêtement qu'elle est faite pour vous.",
+      "Bivouac permanent, 15 à 25 km par jour, terrains difficiles : une vraie expédition encadrée, vers un Madagascar profond et humain. Elle n'est pas adaptée à tout le monde : le questionnaire vérifie honnêtement qu'elle est faite pour vous.",
     ],
     inclus: [
       { titre: "Encadrement terrain", texte: "Guides et responsables terrain expérimentés à chaque étape." },
@@ -227,7 +227,7 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
       sousTitre: "La vérité de l'expédition, posée avant l'engagement.",
       cartes: [
         { titre: "Certificat médical obligatoire", texte: "Aucune participation sans validation médicale récente." },
-        { titre: "Bivouac permanent", texte: "Deux nuits en hôtel seulement — le reste sur le terrain." },
+        { titre: "Bivouac permanent", texte: "Deux nuits en hôtel seulement, le reste sur le terrain." },
         { titre: "15 à 25 km par jour", texte: "Selon profil validé, sur terrain difficile et varié." },
         { titre: "Discipline collective", texte: "Consignes des guides et itinéraire ajustable selon les conditions." },
       ],
@@ -283,7 +283,7 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
     surtitre: "Séjour Collection Plages de rêves & îles paradisiaques",
     titre: "Madagascar côté rêve",
     sousTitre:
-      "Nosy Be, Sainte-Marie ou séjour combiné — plages, lagons et détente, composés sur votre ambiance.",
+      "Nosy Be, Sainte-Marie ou séjour combiné : plages, lagons et détente, composés sur votre ambiance.",
     ctaLabel: "Préparer mon voyage",
     card: {
       image: {
@@ -304,7 +304,7 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
       "Hors vol & assurance",
     ],
     presentation: [
-      "Nosy Be pour le confort balnéaire, Sainte-Marie pour l'exotisme sauvage, ou le combiné découverte + repos. Vous rêvez, nous composons : hébergement, activités douces, rythme — sur votre ambiance, jamais un package standard.",
+      "Nosy Be pour le confort balnéaire, Sainte-Marie pour l'exotisme sauvage, ou le combiné découverte + repos. Vous rêvez, nous composons : hébergement, activités douces et rythme, sur votre ambiance, jamais un package standard.",
     ],
     inclus: [
       { titre: "Hébergements sélectionnés", texte: "Du charme simple au premium, alignés sur votre budget." },
@@ -318,7 +318,7 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
       titre: "Trois façons de vivre les îles",
       cartes: [
         { titre: "Nosy Be & ses îles", texte: "Lagons, excursions, plages et confort balnéaire." },
-        { titre: "Sainte-Marie", texte: "Plus sauvage, exotique, historique — l'ancien repaire des pirates." },
+        { titre: "Sainte-Marie", texte: "Plus sauvage, exotique, historique : l'ancien repaire des pirates." },
         { titre: "Combiné circuit + île", texte: "Découverte encadrée du pays, puis repos les pieds dans l'eau." },
       ],
     },
@@ -348,7 +348,7 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
       youtubeId: "T_eWsHhgKKo",
       titre: "Le lagon vous appelle déjà",
       description:
-        "Sable blanc, eau turquoise, temps suspendu : laissez ces images faire le travail. Vous y êtes presque — il ne reste qu'à composer votre séjour.",
+        "Sable blanc, eau turquoise, temps suspendu : laissez ces images faire le travail. Vous y êtes presque, il ne reste qu'à composer votre séjour.",
     },
     heroSrc: "/images/cvm/iles/hero-iles-cover.png",
     galerie: [
@@ -390,7 +390,7 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
       "Hors vol & assurance",
     ],
     presentation: [
-      "Lagons, forêts, baobabs, Hautes Terres : le Grand Tour relie les mondes de l'île en un seul voyage, pour la comprendre en profondeur. Rythme posé, confort soigné, itinéraire 100 % sur-mesure — selon vos envies et votre budget.",
+      "Lagons, forêts, baobabs, Hautes Terres : le Grand Tour relie les mondes de l'île en un seul voyage, pour la comprendre en profondeur. Rythme posé, confort soigné, itinéraire 100 % sur-mesure, selon vos envies et votre budget.",
     ],
     inclus: [
       { titre: "Équipe locale engagée", texte: "Des experts passionnés, à vos côtés avant, pendant et après le voyage." },
@@ -455,14 +455,14 @@ export const CVM_LANDING = {
     // L'exclusivité en titre (« autrement » reste la signature MLR).
     titre: "Madagascar, là où les autres ne vont pas",
     sousTitre:
-      "Quatre expériences encadrées par une équipe locale. Vous gardez l'émotion — nous gérons toute la logistique.",
+      "Quatre expériences encadrées par une équipe locale. Vous gardez l'émotion, nous gérons toute la logistique.",
     imageLabel: "Grand paysage CVM au couchant",
     imageAlt: "4x4 chargé sur une piste côtière au coucher du soleil, massif rocheux et baie turquoise en arrière-plan",
   },
   orientation: {
     titre: "Vous ne savez pas laquelle choisir ?",
     texte:
-      "Répondez à quelques questions : budget, envie, niveau, confort — et recevez la recommandation la plus adaptée à votre profil.",
+      "Répondez à quelques questions sur votre envie, votre niveau et votre confort, et recevez la recommandation la plus adaptée à votre profil.",
     cta: "Trouver mon expérience",
     href: "/cvm/orientation/questionnaire",
   },

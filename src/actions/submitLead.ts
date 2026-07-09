@@ -16,7 +16,7 @@ function invalid(error: z.ZodError): SubmitLeadResult {
   return {
     ok: false,
     message:
-      "Certaines réponses sont invalides — merci de vérifier le formulaire.",
+      "Certaines réponses sont invalides, merci de vérifier le formulaire.",
     errors: z.flattenError(error).fieldErrors,
   };
 }

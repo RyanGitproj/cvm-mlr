@@ -38,7 +38,7 @@ export const cvmUnMoisFunnel: FunnelConfig = {
           freeText: true,
           image: {
             label: "Autre projet",
-            alt: "Carte de voyage et épingle de destination sur fond orange — précisez votre projet",
+            alt: "Carte de voyage et épingle de destination sur fond orange, pour préciser votre projet",
             src: "/images/cvm/un-mois/autre-projet.png",
           },
         },
@@ -48,7 +48,7 @@ export const cvmUnMoisFunnel: FunnelConfig = {
       kind: "offer",
       id: "offre",
       question: "Votre Grand Tour",
-      hint: "Formule unique — prix indicatif par personne, hors vol international & assurance.",
+      hint: "Formule unique : prix indicatif par personne, hors vol international & assurance.",
     },
     CVM_STEP_PERIODE,
     CVM_STEP_VOYAGEURS,

@@ -55,7 +55,7 @@ export const MLR_ROUTES_CONTENT: Record<MlrRoute, MlrRouteContent> = {
     sousTitre: "Reliefs, baies, cascades et aventure du Nord.",
     // Accroche condensée au maximum (demande Ryan 2026-07-07 soir).
     accroche: [
-      "Au Nord, la route serpente entre terre rouge et mer turquoise : panoramas, cascades cachées, sourires des villages. Le temps ralentit, l'essentiel revient — vous repartez transformé.",
+      "Au Nord, la route serpente entre terre rouge et mer turquoise : panoramas, cascades cachées, sourires des villages. Le temps ralentit, l'essentiel revient, et vous repartez transformé.",
     ],
     tempsFortsTitre: "5 incontournables du Nord",
     tempsForts: [
@@ -67,7 +67,7 @@ export const MLR_ROUTES_CONTENT: Record<MlrRoute, MlrRouteContent> = {
     ],
     faitPour: [
       "Les voyageurs libres, curieux et amoureux de nature brute.",
-      "Marcher, rencontrer, contempler — prendre le temps de s'émerveiller.",
+      "Marcher, rencontrer, contempler, prendre le temps de s'émerveiller.",
       "Un road trip authentique, rythmé par la liberté et la simplicité.",
     ],
     ressentir: [
@@ -107,7 +107,7 @@ export const MLR_ROUTES_CONTENT: Record<MlrRoute, MlrRouteContent> = {
       { titre: "Dépenses personnelles", texte: "Souvenirs, pourboires, boissons, extras, etc." },
     ],
     budgetSurPlace:
-      "Budget conseillé sur place : 45 à 75 € / jour — selon votre rythme, vos envies et vos choix de confort.",
+      "Budget conseillé sur place : 45 à 75 € / jour, selon votre rythme, vos envies et vos choix de confort.",
     astuces: [
       "Soleil : crème, chapeau et lunettes indispensables.",
       "Eau : buvez de l'eau scellée uniquement.",
@@ -132,7 +132,7 @@ export const MLR_ROUTES_CONTENT: Record<MlrRoute, MlrRouteContent> = {
     titre: "Road Trip Ouest",
     sousTitre: "Baobabs, pistes, villages isolés et grands espaces.",
     accroche: [
-      "Ici, le silence a une voix : baobabs millénaires, terre rouge, pistes où le temps ralentit. Au fil des rencontres vraies, on revient différent — ce n'est pas qu'un voyage, c'est une transformation.",
+      "Ici, le silence a une voix : baobabs millénaires, terre rouge, pistes où le temps ralentit. Au fil des rencontres vraies, on revient différent : ce n'est pas qu'un voyage, c'est une transformation.",
     ],
     tempsFortsTitre: "Les temps forts du voyage",
     tempsForts: [
@@ -185,7 +185,7 @@ export const MLR_ROUTES_CONTENT: Record<MlrRoute, MlrRouteContent> = {
       { titre: "Dépenses personnelles", texte: "Achats personnels, souvenirs, boissons hors campement, pourboires, etc." },
     ],
     budgetSurPlace:
-      "Budget conseillé sur place : 45 à 75 € / jour — pour couvrir vos dépenses personnelles non incluses, selon votre rythme et vos envies.",
+      "Budget conseillé sur place : 45 à 75 € / jour, de quoi couvrir vos dépenses personnelles non incluses, selon votre rythme et vos envies.",
     astuces: [
       "Soleil : protégez-vous (chapeau, lunettes, crème).",
       "Eau : buvez uniquement de l'eau scellée.",
@@ -244,7 +244,7 @@ export const MLR_LANDING = {
   durees: [
     {
       value: "10_jours",
-      titre: "10 jours — Taxi-brousse intégral",
+      titre: "10 jours · Taxi-brousse intégral",
       prix: "dès 1 400 € / pers",
       prixDes: 1400,
       texte: "Le plus brut. Le plus local. Le plus proche des Malgaches.",
@@ -260,13 +260,13 @@ export const MLR_LANDING = {
       // incrustés — la carte ne porte aucun texte.
       studioSrc: "/images/mlr/duree-10j-studio-hd.png",
       studioAlt:
-        "10 jours — Taxi-brousse intégral, le plus brut, le plus local, dès 1 400 € par personne (hors vols, hôtels et restaurants)",
+        "10 jours en taxi-brousse intégral, le plus brut, le plus local, dès 1 400 € par personne (hors vols, hôtels et restaurants)",
     },
     {
       // Retour en 4x4 officialisé par la maquette 3 du boss (2026-07-07) —
       // le taxi-brousse reste le véhicule d'identité de la marque.
       value: "15_jours",
-      titre: "15 jours — Immersion + retour 4x4",
+      titre: "15 jours · Immersion + retour 4x4",
       prix: "dès 1 800 € / pers",
       prixDes: 1800,
       texte: "Tu ressens la vraie route, puis tu récupères avec plus de confort.",
@@ -279,7 +279,7 @@ export const MLR_LANDING = {
       },
       studioSrc: "/images/mlr/duree-15j-studio-hd.png",
       studioAlt:
-        "15 jours — Immersion + retour 4x4, tu ressens la vraie route puis récupères avec plus de confort, dès 1 800 € par personne (hors vols, hôtels et restaurants)",
+        "15 jours en immersion avec retour en 4x4 : tu ressens la vraie route puis récupères avec plus de confort, dès 1 800 € par personne (hors vols, hôtels et restaurants)",
     },
   ],
   routes: [
@@ -292,7 +292,7 @@ export const MLR_LANDING = {
       // « Voir la route » déjà incrustés — la carte ne porte aucun texte.
       studioSrc: "/images/mlr/route-nord-studio-hd.png",
       studioAlt:
-        "Road Trip Nord — forêts, mer, villages, pistes et rencontres, 10 jours dès 1 400 € par personne",
+        "Road Trip Nord : forêts, mer, villages, pistes et rencontres, 10 jours dès 1 400 € par personne",
     },
     {
       slug: "ouest",
@@ -301,7 +301,7 @@ export const MLR_LANDING = {
       cta: "Je choisis l'Ouest",
       studioSrc: "/images/mlr/route-ouest-studio-hd.png",
       studioAlt:
-        "Road Trip Ouest — baobabs, pistes rouges, grands espaces et couchers de soleil, 10 jours dès 1 400 € par personne",
+        "Road Trip Ouest : baobabs, pistes rouges, grands espaces et couchers de soleil, 10 jours dès 1 400 € par personne",
     },
   ],
   video: {

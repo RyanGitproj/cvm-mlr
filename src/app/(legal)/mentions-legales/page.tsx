@@ -5,7 +5,7 @@ import { legal } from "@/config/legal";
 
 export const metadata: Metadata = {
   title: "Mentions légales",
-  description: "Mentions légales du site — société éditrice, directeur de publication, hébergeur.",
+  description: "Mentions légales du site : société éditrice, directeur de publication, hébergeur.",
 };
 
 const DT_CLASS = "text-sm font-semibold text-ink-strong";
@@ -26,7 +26,7 @@ export default function MentionsLegalesPage() {
           <div>
             <dt className={DT_CLASS}>Raison sociale</dt>
             <dd className={DD_CLASS}>
-              {legal.raisonSociale} — {legal.forme} au capital de {legal.capital}
+              {legal.raisonSociale}, {legal.forme} au capital de {legal.capital}
             </dd>
           </div>
           <div>
@@ -47,7 +47,7 @@ export default function MentionsLegalesPage() {
           <div>
             <dt className={DT_CLASS}>Contact</dt>
             <dd className={DD_CLASS}>
-              <PhoneLink className="underline" /> —{" "}
+              <PhoneLink className="underline" /> ·{" "}
               <MailLink className="underline" />
             </dd>
           </div>

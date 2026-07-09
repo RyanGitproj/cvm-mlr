@@ -14,7 +14,7 @@ export const cvmIlesFunnel: FunnelConfig = {
   intro: {
     titre: "Composez votre Séjour Collection",
     sousTitre:
-      "Plages, lagons, détente et confort — Nosy Be, Sainte-Marie ou séjour combiné : répondez en moins d'une minute, on compose le reste.",
+      "Plages, lagons, détente et confort, de Nosy Be à Sainte-Marie ou en séjour combiné : répondez en moins d'une minute, on compose le reste.",
     note: NOTE_TARIFAIRE_CVM,
   },
   steps: [
@@ -59,7 +59,7 @@ export const cvmIlesFunnel: FunnelConfig = {
           freeText: true,
           image: {
             label: "Autre envie",
-            alt: "Voyageuse avec sa valise sur fond lagon avec épingle de destination — précisez votre envie",
+            alt: "Voyageuse avec sa valise sur fond lagon avec épingle de destination, pour préciser votre envie",
             src: "/images/cvm/iles/autre-envie.png",
           },
         },

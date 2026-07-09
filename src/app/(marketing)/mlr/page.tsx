@@ -17,7 +17,7 @@ import {
 } from "@/config/content/mlr";
 
 export const metadata: Metadata = {
-  title: "Madagascar Liberty Roots — Road trip roots",
+  title: "Madagascar Liberty Roots · Road trip roots",
   description: MLR_LANDING.hero.sousTitre,
 };
 
@@ -49,7 +49,7 @@ export default function MlrLandingPage() {
         <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
           <SectionHeading
             titre="Deux routes. Deux visages de Madagascar."
-            sousTitre="Nord ou Ouest — même format : guide local privé + taxi-brousse. Choisis celle qui t'appelle, on s'occupe du reste."
+            sousTitre="Nord ou Ouest, même format : guide local privé + taxi-brousse. Choisis celle qui t'appelle, on s'occupe du reste."
             accent
           />
           {/* Cartes plein cadre façon UniversPicker (page mère) : le visuel
@@ -95,7 +95,7 @@ export default function MlrLandingPage() {
       <section className="accent-forest mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
         <SectionHeading
           titre="Deux niveaux d'aventure"
-          sousTitre="Un aperçu pour te projeter — ta durée se choisit plus bas, dans le parcours."
+          sousTitre="Un aperçu pour te projeter : ta durée se choisit plus bas, dans le parcours."
           accent
         />
         {/* Cartes plein cadre : le visuel studio 505×204 porte titre, prix,

@@ -7,7 +7,7 @@ import { MailLink } from "@/components/ui/ContactLinks";
 import { REASSURANCE_COMMUNE } from "@/config/brands";
 
 export const metadata: Metadata = {
-  title: "Madagascar, deux façons de vivre le voyage — CVM & Liberty Roots",
+  title: "Madagascar, deux façons de vivre le voyage : CVM & Liberty Roots",
   description:
     "D'un côté l'organisation complète et le confort avec Célébrations Voyages Madagascar ; de l'autre la liberté brute du road trip avec Madagascar Liberty Roots. Choisissez votre univers.",
 };
@@ -23,8 +23,8 @@ export default function PageMere() {
         align="center"
         surtitre="Deux marques, une île"
         titre="Quel Madagascar voulez-vous vivre ?"
-        sousTitre="Le voyage orchestré, zéro logistique — ou l'aventure roots, en toute liberté. Choisissez le vôtre : votre voyage commence maintenant."
-        imageLabel="Hero — collage des deux mondes"
+        sousTitre="Le voyage orchestré, zéro logistique, ou l'aventure roots, en toute liberté. Choisissez le vôtre : votre voyage commence maintenant."
+        imageLabel="Collage des deux mondes"
         imageAlt="Collage de six paysages de Madagascar : trek au couchant, tsingy, plage turquoise, ville côtière, lagon et taxi-brousse"
         imageSrc="/images/mere/hero-mere-cover.png"
       />
@@ -54,7 +54,7 @@ export default function PageMere() {
       </section>
 
       <div className="pt-12">
-        <NoteTarifaire texte="Le billet d'avion international et l'assurance voyage ne sont pas inclus dans les tarifs affichés — quel que soit l'univers choisi." />
+        <NoteTarifaire texte="Le billet d'avion international et l'assurance voyage ne sont pas inclus dans les tarifs affichés, quel que soit l'univers choisi." />
       </div>
 
       <section className="mx-auto w-full max-w-6xl px-4 pb-12 text-center text-sm text-ink-soft sm:px-6">

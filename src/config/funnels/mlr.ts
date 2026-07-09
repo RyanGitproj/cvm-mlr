@@ -83,7 +83,7 @@ export const mlrFunnel: FunnelConfig = {
       // (demande Ryan) — l'ancienne case de compréhension a été retirée.
       message: [
         "Guide local inclus · Petit groupe · Circuit organisé",
-        "Les vols, hôtels et restaurants ne sont pas inclus — le guide t'aidera à avancer selon ton rythme et ton budget.",
+        "Les vols, hôtels et restaurants ne sont pas inclus : le guide t'aidera à avancer selon ton rythme et ton budget.",
       ],
       options: [
         { value: "1", label: "Je pars seul" },
@@ -112,7 +112,7 @@ export const mlrFunnel: FunnelConfig = {
     question: "Ta route est presque prête. Où veux-tu la recevoir ?",
     hint: "On va t'envoyer ta brochure Liberty Roots, ta vidéo de présentation et ton devis indicatif selon tes choix.",
     message:
-      "Devis de présentation — non définitif. Un devis indicatif, adapté à tes envies, ajusté ensemble si besoin. Tes informations restent confidentielles : elles servent uniquement à préparer ta proposition et à te recontacter.",
+      "Devis de présentation, non définitif : un devis indicatif, adapté à tes envies, ajusté ensemble si besoin. Tes informations restent confidentielles, elles servent uniquement à préparer ta proposition et à te recontacter.",
     cta: "Recevoir ma route",
   },
   final: {
@@ -122,7 +122,7 @@ export const mlrFunnel: FunnelConfig = {
         texte:
           "Un expert malgache peut t'aider à choisir la bonne route, anticiper les vols, préparer ton guide et éviter les mauvaises surprises.",
         piliers: [
-          "Parler avec un vrai Malgache",
+          "Parler avec un expert Malgache",
           "Vérifier les vols au bon moment",
           "Préparer ton aventure en confiance",
         ],

@@ -29,8 +29,8 @@ export function CvmUniversPage({ content }: { content: CvmUniversContent }) {
         sousTitre={content.sousTitre}
         ctas={[{ href: "#questionnaire", label: content.ctaLabel }]}
         micro={content.micro}
-        imageLabel={`Hero — ${content.surtitre}`}
-        imageAlt={`${content.titre} — visuel d'ambiance`}
+        imageLabel={`Hero ${content.surtitre}`}
+        imageAlt={`Visuel d'ambiance : ${content.titre}`}
         imageSrc={content.heroSrc}
       />
 
@@ -71,7 +71,7 @@ export function CvmUniversPage({ content }: { content: CvmUniversContent }) {
       <section className="mx-auto w-full max-w-6xl px-4 pb-4 sm:px-6">
         <SectionHeading
           titre="Formules & tarifs"
-          sousTitre="Tarifs indicatifs par personne — hors vol international & assurance."
+          sousTitre="Tarifs indicatifs par personne, hors vol international & assurance."
         />
         <ul className="mt-6 flex flex-wrap justify-center gap-4">
           {content.formules.map((formule) => (

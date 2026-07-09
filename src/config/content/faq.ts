@@ -17,17 +17,17 @@ export const FAQ_CVM = [
   {
     question: "Quel budget prévoir ?",
     reponse:
-      "Les enveloppes s'étendent de 1 800 € à plus de 3 000 € par personne sur place, selon l'expérience, la durée et le confort. C'est la première question de chaque questionnaire — pour vous répondre juste, dès le départ.",
+      "Les enveloppes s'étendent de 1 800 € à plus de 3 000 € par personne sur place, selon l'expérience, la durée et le confort. Les prix sont affichés dès le début de chaque questionnaire, pour vous répondre juste dès le départ.",
   },
   {
     question: "Quel niveau physique faut-il ?",
     reponse:
-      "Cela dépend de l'univers : le Séjour Collection est accessible à tous ; le Trek Aventure s'adapte à votre niveau réel (kilomètres par jour, dénivelé) ; l'Expédition insolite est exigeante — 15 à 25 km par jour et certificat médical obligatoire.",
+      "Cela dépend de l'univers : le Séjour Collection est accessible à tous ; le Trek Aventure s'adapte à votre niveau réel (kilomètres par jour, dénivelé) ; l'Expédition insolite est exigeante, avec 15 à 25 km par jour et un certificat médical obligatoire.",
   },
   {
     question: "Pourquoi un certificat médical pour l'Expédition insolite ?",
     reponse:
-      "L'expédition implique un bivouac permanent, des terrains difficiles et de longues journées de marche. La participation est soumise à une validation physique, médicale et logistique — pour votre sécurité.",
+      "L'expédition implique un bivouac permanent, des terrains difficiles et de longues journées de marche. La participation est soumise à une validation physique, médicale et logistique, pour votre sécurité.",
   },
   {
     question: "Comment se construit la proposition ?",

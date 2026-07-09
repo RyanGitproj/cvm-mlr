@@ -14,7 +14,7 @@ import { siteUrl } from "@/config/site";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Madagascar — Célébrations Voyages & Liberty Roots",
+    default: "Madagascar · Célébrations Voyages & Liberty Roots",
     template: "%s · Madagascar",
   },
   description:

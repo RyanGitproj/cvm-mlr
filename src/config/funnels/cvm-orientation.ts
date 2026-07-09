@@ -20,7 +20,7 @@ export const cvmOrientationFunnel: FunnelConfig = {
   intro: {
     titre: "Quelle expérience à Madagascar correspond vraiment à votre projet ?",
     sousTitre:
-      "Expédition, trek encadré, séjour de rêve ou Grand Tour : trois réponses suffisent — vous recevez la brochure, la vidéo et la proposition faites pour votre profil.",
+      "Expédition, trek encadré, séjour de rêve ou Grand Tour : trois réponses suffisent pour recevoir la brochure, la vidéo et la proposition faites pour votre profil.",
     note: NOTE_TARIFAIRE_CVM,
   },
   steps: [

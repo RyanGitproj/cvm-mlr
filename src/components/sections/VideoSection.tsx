@@ -53,7 +53,7 @@ export function VideoSection({ youtubeId, titre, description }: VideoContent) {
             <iframe
               ref={frameRef}
               src={`https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&rel=0&enablejsapi=1&origin=${encodeURIComponent(window.location.origin)}`}
-              title={`Vidéo — ${titre}`}
+              title={`Vidéo « ${titre} »`}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
               className="absolute inset-0 h-full w-full"
@@ -62,12 +62,12 @@ export function VideoSection({ youtubeId, titre, description }: VideoContent) {
             <button
               type="button"
               onClick={() => setPlaying(true)}
-              aria-label={`Lancer la vidéo — ${titre}`}
+              aria-label={`Lancer la vidéo « ${titre} »`}
               className="group absolute inset-0"
             >
               <Image
                 src={`/images/video/${youtubeId}.jpg`}
-                alt={`Aperçu de la vidéo — ${titre}`}
+                alt={`Aperçu de la vidéo « ${titre} »`}
                 fill
                 sizes="(min-width: 896px) 896px, 100vw"
                 className="object-cover"

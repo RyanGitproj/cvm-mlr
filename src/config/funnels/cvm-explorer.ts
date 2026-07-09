@@ -31,7 +31,7 @@ export const cvmExplorerFunnel: FunnelConfig = {
       id: "terrain",
       name: "terrain",
       question: "Quel terrain d'expédition vous appelle ?",
-      hint: "Bivouac permanent — deux nuits d'hôtel seulement, le reste sur le terrain.",
+      hint: "Bivouac permanent : deux nuits d'hôtel seulement, le reste sur le terrain.",
       options: [
         {
           value: "jungles",
@@ -69,7 +69,7 @@ export const cvmExplorerFunnel: FunnelConfig = {
           freeText: true,
           image: {
             label: "Autre terrain",
-            alt: "Carte et boussole sur fond rouge avec épingle de destination — précisez votre terrain",
+            alt: "Carte et boussole sur fond rouge avec épingle de destination, pour préciser votre terrain",
             src: "/images/cvm/explorer/autre-terrain.png",
           },
         },

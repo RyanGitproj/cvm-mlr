@@ -28,7 +28,7 @@ export const cvmTreksFunnel: FunnelConfig = {
           value: "nord",
           label: "Nord : Diego, reliefs puissants, îles et extension Nosy Be possible",
           image: {
-            label: "Reliefs du Nord — Diego",
+            label: "Reliefs du Nord, Diego",
             alt: "Reliefs puissants et mer turquoise autour de Diego-Suarez",
             src: "/images/cvm/treks/decor-nord.png",
           },
@@ -65,7 +65,7 @@ export const cvmTreksFunnel: FunnelConfig = {
           label: "Je ne sais pas encore — je veux être orienté",
           image: {
             label: "Conseil d'un expert",
-            alt: "Couple lisant une carte près d'un 4x4 sur fond vert — être orienté vers la bonne route",
+            alt: "Couple lisant une carte près d'un 4x4 sur fond vert, pour être orienté vers la bonne route",
             src: "/images/cvm/treks/etre-oriente.png",
           },
         },

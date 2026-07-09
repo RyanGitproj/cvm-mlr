@@ -1,6 +1,6 @@
 import { QuestionnaireSection } from "@/components/forms/QuestionnaireSection";
 import { FaqList } from "@/components/sections/FaqList";
-import { HeroBackground } from "@/components/sections/HeroBackground";
+import { HeroShell } from "@/components/sections/HeroShell";
 import { NoteTarifaire } from "@/components/sections/NoteTarifaire";
 import { ReassuranceBar } from "@/components/sections/ReassuranceBar";
 import { SectionHeading } from "@/components/sections/SectionHeading";
@@ -27,57 +27,54 @@ export function MlrRoutePage({ content }: { content: MlrRouteContent }) {
     // Couleur dominante de la route (turquoise Nord / terre rouge Ouest) —
     // charte 2026-07-08 : une seule teinte, pas d'alternance kaki.
     <div data-accent={content.slug}>
-      <section className="relative overflow-hidden">
-        <HeroBackground
-          label={content.imageAmbiance.label}
-          alt={content.imageAmbiance.alt}
-          src={content.imageAmbiance.src}
-        />
-        <div className="relative z-10 mx-auto w-full max-w-6xl px-4 py-14 sm:px-6 sm:py-20 lg:py-24">
-          <div className="animate-fade-rise max-w-2xl">
-            <h1
-              className={cn(
-                "mt-4 font-heading text-4xl font-bold uppercase tracking-wide sm:text-6xl",
-                hasImage ? "text-accent-contrast" : "text-ink-strong",
-              )}
-            >
-              {content.titre}
-            </h1>
-            <p
-              className={cn(
-                "mt-3 max-w-prose text-lg",
-                hasImage ? "text-accent-contrast/90" : "text-ink-soft",
-              )}
-            >
-              {content.sousTitre}
-            </p>
-            <p
-              className={cn(
-                "mt-4 font-heading text-lg font-bold uppercase tracking-wide",
-                hasImage ? "text-accent-contrast" : "text-accent",
-              )}
-            >
-              {MLR_TARIFS.dixJours} · {MLR_TARIFS.quinzeJours}
-            </p>
-            <div className="mt-2">
-              <Pill>{MLR_TARIFS.format}</Pill>
-            </div>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <ScrollCtaLink targetId="questionnaire">
-                {content.ctaLabel}
-              </ScrollCtaLink>
-            </div>
-            <p
-              className={cn(
-                "mt-4 text-xs",
-                hasImage ? "text-accent-contrast/85" : "text-ink-soft",
-              )}
-            >
-              {MLR_TARIFS.idealPour}
-            </p>
+      <HeroShell
+        label={content.imageAmbiance.label}
+        alt={content.imageAmbiance.alt}
+        src={content.imageAmbiance.src}
+      >
+        <div className="animate-fade-rise max-w-2xl">
+          <h1
+            className={cn(
+              "font-heading text-4xl font-bold uppercase tracking-wide sm:text-6xl",
+              hasImage ? "text-accent-contrast" : "text-ink-strong",
+            )}
+          >
+            {content.titre}
+          </h1>
+          <p
+            className={cn(
+              "mt-3 max-w-prose text-lg",
+              hasImage ? "text-accent-contrast/90" : "text-ink-soft",
+            )}
+          >
+            {content.sousTitre}
+          </p>
+          <p
+            className={cn(
+              "mt-4 font-heading text-lg font-bold uppercase tracking-wide",
+              hasImage ? "text-accent-contrast" : "text-accent",
+            )}
+          >
+            {MLR_TARIFS.dixJours} · {MLR_TARIFS.quinzeJours}
+          </p>
+          <div className="mt-2">
+            <Pill>{MLR_TARIFS.format}</Pill>
           </div>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <ScrollCtaLink targetId="questionnaire">
+              {content.ctaLabel}
+            </ScrollCtaLink>
+          </div>
+          <p
+            className={cn(
+              "mt-4 text-xs",
+              hasImage ? "text-accent-contrast/85" : "text-ink-soft",
+            )}
+          >
+            {MLR_TARIFS.idealPour}
+          </p>
         </div>
-      </section>
+      </HeroShell>
 
       {/* max-w-5xl : gouttières réduites (demande Ryan 07-07 soir). */}
       <section className="mx-auto w-full max-w-5xl px-4 pb-6 sm:px-6">
@@ -132,7 +129,7 @@ export function MlrRoutePage({ content }: { content: MlrRouteContent }) {
 
       <section className="border-y border-line bg-surface-2">
         <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
-          <SectionHeading titre="Exemple de déroulé — 10 jours" accent />
+          <SectionHeading titre="Exemple de déroulé sur 10 jours" accent />
           <ol className="mt-8 grid gap-4">
             {content.deroule.map((etape) => (
               <li

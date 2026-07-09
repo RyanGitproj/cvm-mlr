@@ -6,10 +6,10 @@
  */
 export const FENETRES = {
   proche:
-    "Départ dans 0 à 6 mois — préparation à lancer maintenant (vols, guide, itinéraire).",
+    "Départ dans 0 à 6 mois : la préparation se lance maintenant (vols, guide, itinéraire).",
   construction:
-    "Départ dans 6 à 10 mois — bon timing pour construire le projet sans se précipiter.",
-  lointain: "Départ dans plus de 10 mois — projet à mûrir, garder le lien.",
+    "Départ dans 6 à 10 mois : le bon timing pour construire le projet sans se précipiter.",
+  lointain: "Départ dans plus de 10 mois : un projet à mûrir, en gardant le lien.",
 } as const;
 
 export type Fenetre = keyof typeof FENETRES;

@@ -103,7 +103,7 @@ export function resolveOffer(
     if (d === undefined) return null;
     return {
       ref: d.value,
-      label: `${d.titre} — ${d.prix}`,
+      label: `${d.titre}, ${d.prix}`,
       duree: d.titre,
       prixIndicatif: d.prixDes,
     };

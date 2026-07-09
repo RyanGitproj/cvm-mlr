@@ -2,7 +2,7 @@ import { TrackedLink } from "@/components/tracking/TrackedLink";
 import { buttonClasses } from "@/components/ui/Button";
 import { ScrollCtaLink } from "@/components/ui/ScrollCtaLink";
 import { cn } from "@/lib/cn";
-import { HeroBackground } from "./HeroBackground";
+import { HeroShell } from "./HeroShell";
 
 type Cta = { href: string; label: string; variant?: "primary" | "outline" };
 
@@ -44,44 +44,42 @@ export function Hero({
   const isCenter = align === "center";
 
   return (
-    <section className="relative overflow-hidden">
-      <HeroBackground label={imageLabel} alt={imageAlt} src={imageSrc} />
-      <div className="relative z-10 mx-auto w-full max-w-6xl px-4 py-14 sm:px-6 sm:py-20 lg:py-28">
-        <div
-          className={cn(
-            "animate-fade-rise max-w-2xl",
-            // Page mère : bloc centré horizontalement + texte centré.
-            isCenter && "mx-auto text-center",
-          )}
-        >
-          {surtitre && (
-            <p
-              className={cn(
-                "text-xs font-semibold uppercase tracking-[0.2em]",
-                hasImage ? "text-accent-contrast" : "text-accent",
-              )}
-            >
-              {surtitre}
-            </p>
-          )}
-          <h1
-            className={cn(
-              "mt-3 text-balance font-heading text-3xl font-bold leading-tight sm:text-5xl",
-              hasImage ? "text-accent-contrast" : "text-ink-strong",
-            )}
-          >
-            {titre}
-          </h1>
+    <HeroShell label={imageLabel} alt={imageAlt} src={imageSrc}>
+      <div
+        className={cn(
+          "animate-fade-rise max-w-2xl",
+          // Page mère : bloc centré horizontalement + texte centré.
+          isCenter && "mx-auto text-center",
+        )}
+      >
+        {surtitre && (
           <p
             className={cn(
-              "mt-4 max-w-prose text-base sm:text-lg",
-              hasImage ? "text-accent-contrast/90" : "text-ink-soft",
-              isCenter && "mx-auto",
+              "text-xs font-semibold uppercase tracking-[0.2em]",
+              hasImage ? "text-accent-contrast" : "text-accent",
             )}
           >
-            {sousTitre}
+            {surtitre}
           </p>
-          {ctas.length > 0 && (
+        )}
+        <h1
+          className={cn(
+            "mt-3 text-balance font-heading text-3xl font-bold leading-tight sm:text-5xl",
+            hasImage ? "text-accent-contrast" : "text-ink-strong",
+          )}
+        >
+          {titre}
+        </h1>
+        <p
+          className={cn(
+            "mt-4 max-w-prose text-base sm:text-lg",
+            hasImage ? "text-accent-contrast/90" : "text-ink-soft",
+            isCenter && "mx-auto",
+          )}
+        >
+          {sousTitre}
+        </p>
+        {ctas.length > 0 && (
           <div
             className={cn(
               "mt-6 flex flex-wrap gap-3",
@@ -121,19 +119,18 @@ export function Hero({
               );
             })}
           </div>
-          )}
-          {micro && micro.length > 0 && (
-            <p
-              className={cn(
-                "mt-4 text-xs",
-                hasImage ? "text-accent-contrast/85" : "text-ink-soft",
-              )}
-            >
-              {micro.join(" · ")}
-            </p>
-          )}
-        </div>
+        )}
+        {micro && micro.length > 0 && (
+          <p
+            className={cn(
+              "mt-4 text-xs",
+              hasImage ? "text-accent-contrast/85" : "text-ink-soft",
+            )}
+          >
+            {micro.join(" · ")}
+          </p>
+        )}
       </div>
-    </section>
+    </HeroShell>
   );
 }

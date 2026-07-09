@@ -72,8 +72,8 @@ export default function ConfidentialitePage() {
         de la session de navigation.
       </p>
       <p className={P_CLASS}>
-        Avec votre consentement — recueilli via le bandeau affiché à votre
-        arrivée — nous utilisons Google Analytics (chargé par Google Tag Manager)
+        Avec votre consentement, recueilli via le bandeau affiché à votre
+        arrivée, nous utilisons Google Analytics (chargé par Google Tag Manager)
         pour mesurer l’audience du site. Ces cookies de mesure ne sont déposés
         qu’après votre acceptation et ne sont jamais activés si vous refusez.
         Vous pouvez modifier votre choix à tout moment en effaçant les cookies
