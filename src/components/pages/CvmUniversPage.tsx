@@ -27,7 +27,7 @@ export function CvmUniversPage({ content }: { content: CvmUniversContent }) {
 
   useEffect(() => {
     fbEvent("ViewContent", {
-      content_name: content.titre,
+      content_name: content.surtitre,
       content_category: "Celebrations voyages",
     });
   }, [content]);
