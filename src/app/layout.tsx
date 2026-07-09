@@ -9,7 +9,7 @@ import "./globals.css";
 import { UtmCapture } from "@/components/layout/UtmCapture";
 import { CookieConsent } from "@/components/tracking/CookieConsent";
 import { RouteTracker } from "@/components/tracking/RouteTracker";
-import MetaPixel from "@/components/MetaPixel";
+import { MetaPixelGate } from "@/components/tracking/MetaPixelGate";
 import { siteUrl } from "@/config/site";
 
 export const metadata: Metadata = {
@@ -33,7 +33,7 @@ export default function RootLayout({
     <html lang="fr" className="h-full antialiased">
       <head />
       <body className="flex min-h-full flex-col">
-        <MetaPixel />
+        <MetaPixelGate />
 
         <CookieConsent gtmId={gtmId} />
         <RouteTracker />

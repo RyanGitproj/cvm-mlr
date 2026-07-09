@@ -49,15 +49,15 @@ export default function ConfidentialitePage() {
       <p className={P_CLASS}>
         Vos données sont accessibles à l’équipe de {legal.raisonSociale},
         ainsi qu’à ses sous-traitants techniques : Render (hébergement du
-        site), Supabase (hébergement de la base de données) et Google
-        (Google Tag Manager / Google Analytics, sous réserve de votre
-        consentement). Vos données ne sont ni vendues ni cédées à des tiers
-        à des fins publicitaires.
+        site), Supabase (hébergement de la base de données), Google
+        (Google Tag Manager / Google Analytics) et Meta (pixel Meta), ces
+        deux derniers sous réserve de votre consentement. Vos données ne
+        sont ni vendues ni cédées à des tiers à des fins publicitaires.
       </p>
 
       <h2 className={H2_CLASS}>Transferts hors Union européenne</h2>
       <p className={P_CLASS}>
-        Certains de nos sous-traitants (notamment Google et Render) sont
+        Certains de nos sous-traitants (notamment Google, Meta et Render) sont
         susceptibles de traiter des données en dehors de l’Union européenne,
         notamment aux États-Unis. Ces transferts sont encadrés par des
         garanties appropriées, telles que les clauses contractuelles types
@@ -74,10 +74,11 @@ export default function ConfidentialitePage() {
       <p className={P_CLASS}>
         Avec votre consentement, recueilli via le bandeau affiché à votre
         arrivée, nous utilisons Google Analytics (chargé par Google Tag Manager)
-        pour mesurer l’audience du site. Ces cookies de mesure ne sont déposés
-        qu’après votre acceptation et ne sont jamais activés si vous refusez.
-        Vous pouvez modifier votre choix à tout moment en effaçant les cookies
-        du site depuis votre navigateur. Aucun cookie publicitaire n’est utilisé.
+        pour mesurer l’audience du site, ainsi que le pixel Meta pour mesurer
+        la performance de nos campagnes publicitaires. Ces cookies ne sont
+        déposés qu’après votre acceptation et ne sont jamais activés si vous
+        refusez. Vous pouvez modifier votre choix à tout moment en effaçant
+        les cookies du site depuis votre navigateur.
       </p>
 
       <h2 className={H2_CLASS}>Durée de conservation</h2>
