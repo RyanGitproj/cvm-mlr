@@ -9,6 +9,7 @@ import "./globals.css";
 import { UtmCapture } from "@/components/layout/UtmCapture";
 import { CookieConsent } from "@/components/tracking/CookieConsent";
 import { RouteTracker } from "@/components/tracking/RouteTracker";
+import MetaPixel from "@/components/MetaPixel"; // 1. On importe le nouveau composant
 import { siteUrl } from "@/config/site";
 
 export const metadata: Metadata = {
@@ -30,7 +31,11 @@ export default function RootLayout({
 
   return (
     <html lang="fr" className="h-full antialiased">
+      <head />
       <body className="flex min-h-full flex-col">
+        {/* 2. On insère le composant ici. Il gère tout le Pixel proprement */}
+        <MetaPixel />
+
         <CookieConsent gtmId={gtmId} />
         <RouteTracker />
         <UtmCapture />

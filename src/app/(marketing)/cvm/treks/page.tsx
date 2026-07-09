@@ -1,6 +1,8 @@
+"use client";
 import type { Metadata } from "next";
 import { CvmUniversPage } from "@/components/pages/CvmUniversPage";
 import { CVM_UNIVERS } from "@/config/content/cvm";
+import { fbEvent } from "@/lib/fpixel";
 
 const content = CVM_UNIVERS.treks;
 
@@ -10,5 +12,11 @@ export const metadata: Metadata = {
 };
 
 export default function TreksPage() {
+   useEffect(() => {
+    fbEvent("ViewContent", {
+      content_name: content.surtitre,
+      content_category: "Celebrations voyages",
+    });
+  }, []);
   return <CvmUniversPage content={content} />;
 }
