@@ -9,8 +9,9 @@ import "./globals.css";
 import { UtmCapture } from "@/components/layout/UtmCapture";
 import { CookieConsent } from "@/components/tracking/CookieConsent";
 import { RouteTracker } from "@/components/tracking/RouteTracker";
-import MetaPixel from "@/components/MetaPixel"; // 1. On importe le nouveau composant
+import MetaPixel from "@/components/MetaPixel";
 import { siteUrl } from "@/config/site";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -33,8 +34,10 @@ export default function RootLayout({
     <html lang="fr" className="h-full antialiased">
       <head />
       <body className="flex min-h-full flex-col">
-        {/* 2. On insère le composant ici. Il gère tout le Pixel proprement */}
-        <MetaPixel />
+        {/* useSearchParams (MetaPixel) exige une boundary Suspense au prerender. */}
+        <Suspense fallback={null}>
+          <MetaPixel />
+        </Suspense>
 
         <CookieConsent gtmId={gtmId} />
         <RouteTracker />

@@ -1,4 +1,5 @@
 "use client";
+import { useEffect } from "react";
 import { QuestionnaireSection } from "@/components/forms/QuestionnaireSection";
 import { FaqList } from "@/components/sections/FaqList";
 import { HeroShell } from "@/components/sections/HeroShell";
@@ -9,6 +10,7 @@ import { TempsForts } from "@/components/sections/TempsForts";
 import { Pill } from "@/components/ui/Pill";
 import { ScrollCtaLink } from "@/components/ui/ScrollCtaLink";
 import { cn } from "@/lib/cn";
+import { fbEvent } from "@/lib/fpixel";
 import {
   MLR_SERVICES,
   MLR_TARIFS,
@@ -24,7 +26,7 @@ export function MlrRoutePage({ content }: { content: MlrRouteContent }) {
 
   useEffect(() => {
     fbEvent("ViewContent", {
-      content_name: content.surtitre,
+      content_name: content.titre,
       content_category: "Madagascar Liberty Roots",
     });
   }, [content]);

@@ -8,7 +8,7 @@ const PIXEL_ID = "1416507340279589";
 
 declare global {
   interface Window {
-    fbq?: (...args: any[]) => void;
+    fbq?: (...args: unknown[]) => void;
   }
 }
 
@@ -44,7 +44,7 @@ export default function MetaPixel() {
           height="1"
           width="1"
           style={{ display: "none" }}
-          src={https://www.facebook.com/tr?id=${PIXEL_ID}&ev=PageView&noscript=1}
+          src={`https://www.facebook.com/tr?id=${PIXEL_ID}&ev=PageView&noscript=1`}
           alt=""
         />
       </noscript>
