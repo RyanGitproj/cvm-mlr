@@ -27,7 +27,7 @@ export function MlrRoutePage({ content }: { content: MlrRouteContent }) {
 
   useEffect(() => {
     fbEvent("ViewContent", {
-      content_name: content.soustitre,
+      content_name: content.sousTitre,
       content_category: "Madagascar Liberty Roots",
     });
   }, [content]);
