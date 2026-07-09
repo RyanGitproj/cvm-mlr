@@ -44,7 +44,8 @@ export default function MetaPixel() {
           height="1"
           width="1"
           style={{ display: "none" }}
-          src={https://www.facebook.com/tr?id=${PIXEL_ID}&ev=PageView&noscript=1}
+          /* CORRECTION ICI : Ajout des backticks autour de l'URL */
+          src={`https://www.facebook.com/tr?id=${PIXEL_ID}&ev=PageView&noscript=1`}
           alt=""
         />
       </noscript>
