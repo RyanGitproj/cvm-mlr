@@ -24,7 +24,6 @@ export default function PageMere() {
         surtitre="Deux marques, une île"
         titre="Quel Madagascar voulez-vous vivre ?"
         sousTitre="Le voyage orchestré, zéro logistique — ou l'aventure roots, en toute liberté. Choisissez le vôtre : votre voyage commence maintenant."
-        ctas={[{ href: "#univers", label: "Choisir mon univers" }]}
         imageLabel="Hero — collage des deux mondes"
         imageAlt="Collage de six paysages de Madagascar : trek au couchant, tsingy, plage turquoise, ville côtière, lagon et taxi-brousse"
         imageSrc="/images/mere/hero-mere-cover.png"

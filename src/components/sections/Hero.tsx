@@ -1,4 +1,5 @@
-import { ButtonLink } from "@/components/ui/Button";
+import { TrackedLink } from "@/components/tracking/TrackedLink";
+import { buttonClasses } from "@/components/ui/Button";
 import { ScrollCtaLink } from "@/components/ui/ScrollCtaLink";
 import { cn } from "@/lib/cn";
 import { HeroBackground } from "./HeroBackground";
@@ -9,7 +10,8 @@ type Props = {
   surtitre?: string;
   titre: string;
   sousTitre: string;
-  ctas: Cta[];
+  /** CTA du hero — omis, aucun bouton n'est rendu (ni espace réservé). */
+  ctas?: Cta[];
   /** Micro-réassurance sous les CTA (« réponse sous 24 h · … »). */
   micro?: readonly string[];
   imageLabel: string;
@@ -31,7 +33,7 @@ export function Hero({
   surtitre,
   titre,
   sousTitre,
-  ctas,
+  ctas = [],
   micro,
   imageLabel,
   imageAlt,
@@ -79,6 +81,7 @@ export function Hero({
           >
             {sousTitre}
           </p>
+          {ctas.length > 0 && (
           <div
             className={cn(
               "mt-6 flex flex-wrap gap-3",
@@ -106,17 +109,19 @@ export function Hero({
                   {cta.label}
                 </ScrollCtaLink>
               ) : (
-                <ButtonLink
+                <TrackedLink
                   key={cta.href + cta.label}
                   href={cta.href}
-                  variant={variant}
-                  className={ctaClass}
+                  event="cta_click"
+                  eventParams={{ cta_id: cta.href, cta_label: cta.label }}
+                  className={buttonClasses(variant, ctaClass)}
                 >
                   {cta.label}
-                </ButtonLink>
+                </TrackedLink>
               );
             })}
           </div>
+          )}
           {micro && micro.length > 0 && (
             <p
               className={cn(

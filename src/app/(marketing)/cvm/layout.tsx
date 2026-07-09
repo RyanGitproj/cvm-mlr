@@ -1,20 +1,21 @@
+import { CvmHeaderCta } from "@/components/layout/CvmHeaderCta";
 import { SiteShell } from "@/components/layout/SiteShell";
-import { NAV_DEUX_UNIVERS } from "@/config/brands";
-import { contact } from "@/config/site";
 
 export default function CvmLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  // Navbar réduite au logo (directive Ryan 2026-07-09) : plus de liens
+  // d'univers ni de CTA « Parler à un conseiller ». Pour les réafficher,
+  // repasser `links={navFor("cvm")}` (import `navFor` de @/config/brands) et
+  // le bloc `cta` téléphone — le Header et le SiteShell les gèrent toujours.
+  // Seule exception : sur les 4 pages d'aventure, `CvmHeaderCta` ajoute un
+  // bouton scroll-to-form coloré par la charte de la page (null ailleurs).
   return (
     <SiteShell
       theme="cvm"
       homeLabel="Célébrations Voyages"
-      links={NAV_DEUX_UNIVERS}
-      cta={
-        contact.telephone
-          ? { href: `tel:${contact.telephone}`, label: "Parler à un conseiller" }
-          : undefined
-      }
+      links={[]}
+      action={<CvmHeaderCta />}
     >
       {children}
     </SiteShell>

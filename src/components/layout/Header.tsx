@@ -2,9 +2,10 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { type ReactNode, useEffect, useRef, useState } from "react";
 import { PhoneLink } from "@/components/ui/ContactLinks";
 import { cn } from "@/lib/cn";
+import { pushDataLayerEvent } from "@/lib/tracking/gtm";
 
 export type NavLink = { href: string; label: string };
 
@@ -13,6 +14,12 @@ type Props = {
   links: NavLink[];
   /** CTA d'action du funnel, à gauche du hamburger (absent sur la page mère). */
   cta?: NavLink;
+  /**
+   * Élément d'action libre à gauche du hamburger (ex. bouton scroll-to-form
+   * coloré par aventure sur les pages CVM). Rendu tel quel — le composant
+   * appelant gère sa propre logique de visibilité et de thème.
+   */
+  action?: ReactNode;
 };
 
 /**
@@ -21,7 +28,7 @@ type Props = {
  * hamburger qui s'ouvre en overlay sous la barre — la navbar reste à sa
  * hauteur minimale (logo + icône). En ≥ sm, les liens sont en ligne.
  */
-export function Header({ homeLabel, links, cta }: Props) {
+export function Header({ homeLabel, links, cta, action }: Props) {
   const [open, setOpen] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
 
@@ -81,6 +88,7 @@ export function Header({ homeLabel, links, cta }: Props) {
         </Link>
 
         <div className="flex min-w-0 items-center gap-2">
+          {action}
           {/* CTA à gauche du hamburger. Filet anti-débordement : min-w-0 +
               max-w bornée en mobile → jamais de casse de barre. Un lien `tel:`
               (numéro du footer) passe par PhoneLink : tracking centralisé
@@ -107,13 +115,24 @@ export function Header({ homeLabel, links, cta }: Props) {
             ) : (
               <Link
                 href={cta.href}
-                onClick={() => setOpen(false)}
+                onClick={() => {
+                  pushDataLayerEvent("cta_click", {
+                    cta_id: "header_cta",
+                    cta_label: cta.label,
+                  });
+                  setOpen(false);
+                }}
                 className={ctaClass}
               >
                 {cta.label}
               </Link>
             ))}
 
+          {/* Nav masquée tant qu'aucun lien n'est fourni (directive Ryan
+              2026-07-09 : navbar réduite au logo). Le code reste en place —
+              repasser un tableau `links` non vide la réaffiche telle quelle,
+              hamburger + overlay mobile compris. */}
+          {links.length > 0 && (
           <nav
             aria-label="Navigation principale"
             className="flex shrink-0 items-center"
@@ -164,6 +183,7 @@ export function Header({ homeLabel, links, cta }: Props) {
             ))}
           </ul>
           </nav>
+          )}
         </div>
       </div>
     </header>

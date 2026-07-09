@@ -35,14 +35,27 @@ export const mlrBrand = {
 } as const;
 
 /**
- * Navigation commune à tous les headers : les deux seuls choix du funnel
- * (directive boss 2026-07) — jamais de liens d'univers, de routes ou de
- * FAQ dans la nav, même à l'intérieur des univers CVM et MLR.
+ * Les deux univers du funnel (directive boss 2026-07) — jamais de liens de
+ * routes ou de FAQ dans la nav. La page mère les affiche tous les deux ;
+ * à l'intérieur d'un univers, `navFor` masque la marque concurrente (voir
+ * ci-dessous, directive Ryan 2026-07-09 qui abroge « toujours les deux »).
  */
 export const NAV_DEUX_UNIVERS: { href: string; label: string }[] = [
   { href: "/cvm", label: cvmBrand.nom },
   { href: "/mlr", label: mlrBrand.nom },
 ];
+
+/**
+ * Navigation par univers (directive Ryan 2026-07-09) : la page mère montre
+ * les deux univers ; à l'intérieur d'un univers, on masque le lien de la
+ * marque concurrente pour ne pas disperser le visiteur (le logo ramène
+ * toujours à la page mère).
+ */
+export function navFor(theme: "mere" | "cvm" | "mlr"): typeof NAV_DEUX_UNIVERS {
+  if (theme === "cvm") return NAV_DEUX_UNIVERS.filter((l) => l.href !== "/mlr");
+  if (theme === "mlr") return NAV_DEUX_UNIVERS.filter((l) => l.href !== "/cvm");
+  return NAV_DEUX_UNIVERS;
+}
 
 /** Réassurance commune de la page mère (brief §6.1). */
 export const REASSURANCE_COMMUNE = [

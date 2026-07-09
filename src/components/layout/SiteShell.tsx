@@ -10,6 +10,8 @@ type Props = {
   links: NavLink[];
   /** CTA d'action du funnel dans le header (absent sur la page mère). */
   cta?: NavLink;
+  /** Élément d'action libre dans le header (ex. bouton CVM par aventure). */
+  action?: ReactNode;
   /** Classe additionnelle du wrapper (ex. texture-paper pour MLR). */
   className?: string;
   children: ReactNode;
@@ -24,6 +26,7 @@ export function SiteShell({
   homeLabel,
   links,
   cta,
+  action,
   className,
   children,
 }: Props) {
@@ -35,7 +38,7 @@ export function SiteShell({
         className,
       )}
     >
-      <Header homeLabel={homeLabel} links={links} cta={cta} />
+      <Header homeLabel={homeLabel} links={links} cta={cta} action={action} />
       {theme === "mlr" && <BaselineBand />}
       <main className="flex-1">{children}</main>
       <Footer brand={theme} />
