@@ -29,7 +29,7 @@ export default function MlrLandingPage() {
         titre={MLR_LANDING.hero.titre}
         sousTitre={MLR_LANDING.hero.sousTitre}
         ctas={[
-          { href: "#questionnaire", label: "Trouver ma route" },
+          { href: "#questionnaire", label: "Préparer mon voyage" },
           { href: "#routes", label: "Découvrir les routes", variant: "outline" },
         ]}
         micro={[

@@ -124,7 +124,7 @@ export const MLR_ROUTES_CONTENT: Record<MlrRoute, MlrRouteContent> = {
       { question: "Puis-je adapter la durée ?", reponse: "Oui, le programme est flexible : 10 jours, 15 jours ou plus selon vos envies." },
       { question: "Comment réserver ?", reponse: "Contactez-nous pour recevoir votre road book Nord et valider ensemble votre aventure." },
     ],
-    ctaLabel: "Recevoir mon road book Nord",
+    ctaLabel: "Préparer mon voyage",
     imageAmbiance: { label: "Baie d'Émeraude du Nord", alt: "Randonneurs descendant vers une baie turquoise du Nord, îlots et récifs au loin", src: "/images/mlr/hero-nord-cover.png" },
   },
   ouest: {
@@ -201,7 +201,7 @@ export const MLR_ROUTES_CONTENT: Record<MlrRoute, MlrRouteContent> = {
       { question: "Quel budget prévoir ?", reponse: "Budget conseillé : 45 à 75 € par jour selon vos choix." },
       { question: "À qui s'adresse ce voyage ?", reponse: "Aux voyageurs libres qui aiment l'aventure ouverte, les rencontres sincères et les grands horizons." },
     ],
-    ctaLabel: "Recevoir mon road book Ouest",
+    ctaLabel: "Préparer mon voyage",
     imageAmbiance: { label: "Piste de l'Ouest en taxi-brousse", alt: "Taxi-brousse chargé descendant une piste de terre rouge vers un village et la vallée au couchant", src: "/images/mlr/hero-ouest-cover.png" },
   },
 };

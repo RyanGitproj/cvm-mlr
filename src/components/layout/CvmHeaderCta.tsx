@@ -4,8 +4,11 @@ import { usePathname } from "next/navigation";
 import { ScrollCtaLink } from "@/components/ui/ScrollCtaLink";
 import { CVM_UNIVERS, type CvmUniversSlug } from "@/config/content/cvm";
 
-/** Libellé unique du bouton navbar des 4 aventures (choix Ryan 2026-07-09). */
-const LABEL = "Recevoir ma proposition";
+/**
+ * Libellé unique du bouton navbar des 4 aventures — aligné sur le CTA de
+ * toutes les pages CVM et MLR (choix Ryan 2026-07-09).
+ */
+const LABEL = "Préparer mon voyage";
 
 const AVENTURES: readonly CvmUniversSlug[] = [
   "explorer",

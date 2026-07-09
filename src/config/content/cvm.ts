@@ -97,7 +97,7 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
     titre: "L'aventure encadrée, à votre niveau",
     sousTitre:
       "Un trek encadré, calibré sur votre niveau et votre rythme — en famille, en couple ou entre amis.",
-    ctaLabel: "Recevoir mon itinéraire Trek Aventure",
+    ctaLabel: "Préparer mon voyage",
     card: {
       // Visuel studio livré le 2026-07-07 (lot WhatsApp docs/, placement
       // validé par la capture de référence).
@@ -192,7 +192,7 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
     titre: "Madagascar profond, là où les circuits classiques ne vont pas",
     sousTitre:
       "Une expédition réelle, engagée et encadrée : l'effort, le bivouac, l'immersion humaine.",
-    ctaLabel: "Voir si je suis compatible",
+    ctaLabel: "Préparer mon voyage",
     card: {
       image: {
         label: "Card Expédition Explorer",
@@ -284,7 +284,7 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
     titre: "Madagascar côté rêve",
     sousTitre:
       "Nosy Be, Sainte-Marie ou séjour combiné — plages, lagons et détente, composés sur votre ambiance.",
-    ctaLabel: "Créer mon Séjour Collection",
+    ctaLabel: "Préparer mon voyage",
     card: {
       image: {
         label: "Card Plages de rêve",
@@ -370,7 +370,7 @@ export const CVM_UNIVERS: Record<CvmUniversSlug, CvmUniversContent> = {
     titre: "Un mois pour comprendre l'île en profondeur",
     sousTitre:
       "Environ un mois à travers les grandes régions : immersion culturelle, découverte complète, repos.",
-    ctaLabel: "Recevoir le programme Grand Tour Madagascar",
+    ctaLabel: "Préparer mon voyage",
     card: {
       image: {
         label: "Card Grand Mada Tour",
