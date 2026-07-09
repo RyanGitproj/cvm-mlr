@@ -51,22 +51,21 @@ type QuestionBase = {
   question: string;
   /** Contexte ou réassurance affiché sous la question. */
   hint?: string;
-  /** Message réglementaire ou informatif affiché sous les réponses. */
-  message?: string;
+  /**
+   * Message réglementaire ou informatif affiché sous les réponses — un
+   * paragraphe par entrée du tableau (Q4 MLR : rappel des inclusions puis
+   * info exclusions, simple texte depuis le 2026-07-09).
+   */
+  message?: string | string[];
   options: ChoiceOption[];
 };
 
 /**
  * Question à choix unique — le wizard avance automatiquement au clic sur une
- * option, sauf option `freeText` ou présence de `confirm` (bouton explicite).
+ * option, sauf option `freeText` (bouton explicite).
  */
 export type RadioStep = QuestionBase & {
   kind: "radio";
-  /**
-   * Case de confirmation obligatoire + CTA explicite (Q4 MLR : compréhension
-   * des exclusions). Sa présence désactive l'avance automatique de l'écran.
-   */
-  confirm?: { name: string; label: string; cta: string };
 };
 
 /** Métadonnées communes d'un écran sans champ à options. */

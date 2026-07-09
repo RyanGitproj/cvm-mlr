@@ -79,7 +79,12 @@ export const mlrFunnel: FunnelConfig = {
       name: "nbVoyageurs",
       question: "Combien de places doit-on garder sur la route ?",
       hint: "Liberty Roots se vit en petit groupe, jusqu'à 4 personnes, pour garder la liberté, la proximité et l'immersion.",
-      message: "Guide local inclus · Petit groupe · Circuit organisé",
+      // Les exclusions sont un simple texte d'info depuis le 2026-07-09
+      // (demande Ryan) — l'ancienne case de compréhension a été retirée.
+      message: [
+        "Guide local inclus · Petit groupe · Circuit organisé",
+        "Les vols, hôtels et restaurants ne sont pas inclus — le guide t'aidera à avancer selon ton rythme et ton budget.",
+      ],
       options: [
         { value: "1", label: "Je pars seul" },
         { value: "2", label: "Nous sommes 2" },
@@ -99,12 +104,6 @@ export const mlrFunnel: FunnelConfig = {
           },
         },
       ],
-      confirm: {
-        name: "comprehension",
-        label:
-          "J'ai compris que les vols, hôtels et restaurants ne sont pas inclus, et que le guide m'aidera à avancer selon mon rythme et mon budget.",
-        cta: "Voir ma route Liberty Roots",
-      },
     },
   ],
   contact: {

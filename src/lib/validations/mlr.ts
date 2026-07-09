@@ -9,8 +9,9 @@ import {
  * Funnel MLR — wizard 4 questions (maquettes boss 2026-07-07, vocal comme
  * source d'autorité) : Q1 route (Nord/Ouest — « je ne sais pas encore »
  * retirée le 07-07 au soir, demande Ryan), Q2 durée (offre), Q3 fenêtre de
- * départ, Q4 voyageurs + case de compréhension des exclusions. Le wizard
- * tutoie le lead (phrases du boss) — messages d'erreur compris.
+ * départ, Q4 voyageurs — les exclusions y sont un simple texte d'info (case
+ * de compréhension retirée le 2026-07-09, demande Ryan). Le wizard tutoie
+ * le lead (phrases du boss) — messages d'erreur compris.
  */
 export const mlrWizardSchema = z.object({
   route: z.enum(["nord", "ouest"], "Merci de choisir une route."),
@@ -21,10 +22,6 @@ export const mlrWizardSchema = z.object({
     "Merci d'indiquer le nombre de voyageurs.",
   ),
   nbVoyageursPrecision: nbVoyageursPrecisionSchema,
-  comprehension: z.literal(true, {
-    error:
-      "Merci de confirmer que tu as compris ce qui est inclus et ce qui ne l'est pas.",
-  }),
 });
 
 export type MlrWizardData = z.infer<typeof mlrWizardSchema>;

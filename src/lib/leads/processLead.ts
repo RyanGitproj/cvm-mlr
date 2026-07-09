@@ -23,12 +23,9 @@ export type ProcessLeadResult =
     }
   | { ok: false; errors: Record<string, string[] | undefined> };
 
-// MLR : seules la fenêtre Q3 et la case de compréhension relèvent de la
-// qualification — la route et la durée sont des colonnes offre/route.
-const mlrAnswersSchema = mlrWizardSchema.pick({
-  departFenetre: true,
-  comprehension: true,
-});
+// MLR : seule la fenêtre Q3 relève de la qualification — la route et la
+// durée sont des colonnes offre/route.
+const mlrAnswersSchema = mlrWizardSchema.pick({ departFenetre: true });
 
 /** Fragment commun aux 6 funnels : fenêtre Q3 + fenêtre agrégée recommandée. */
 function baseQualif(departFenetre: DepartFenetre): LeadQualifColumns {
@@ -146,10 +143,7 @@ export function processLead(
       if (!parsed.success) return invalid(parsed.error);
       return {
         ok: true,
-        qualif: {
-          ...baseQualif(parsed.data.departFenetre),
-          comprehension: parsed.data.comprehension,
-        },
+        qualif: baseQualif(parsed.data.departFenetre),
         recommendation: segmentDepart(parsed.data),
       };
     }

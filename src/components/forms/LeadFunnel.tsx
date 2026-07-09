@@ -19,7 +19,6 @@ import { getFormSchema } from "@/lib/validations";
 import { MESSAGE_EFFECTIF_GROUPE } from "@/lib/validations/common";
 import type { WizardStep } from "@/types/funnel";
 import type { FunnelType } from "@/types/lead";
-import { CheckboxField } from "./CheckboxField";
 import { ContactFields } from "./ContactFields";
 import { ContactFieldsMlr } from "./ContactFieldsMlr";
 import { FinalScreen } from "./FinalScreen";
@@ -126,11 +125,7 @@ export function LeadFunnel({
     const step = screen.step;
     switch (step.kind) {
       case "radio":
-        return [
-          step.name,
-          `${step.name}Precision`,
-          ...(step.confirm ? [step.confirm.name] : []),
-        ];
+        return [step.name, `${step.name}Precision`];
       case "offer":
         return ["offreDuree"];
     }
@@ -249,13 +244,12 @@ export function LeadFunnel({
     setScreenIndex((index) => Math.max(index - 1, 0));
   }
 
-  // Écrans à validation explicite : case de confirmation (Q4 MLR) ou option
-  // « Autre » sélectionnée (précision à saisir avant de continuer).
+  // Écran à validation explicite : option « Autre » sélectionnée
+  // (précision à saisir avant de continuer).
   const explicitCta = (() => {
     if (currentScreen.kind !== "step") return null;
     const step = currentScreen.step;
     if (step.kind !== "radio") return null;
-    if (step.confirm) return step.confirm.cta;
     const selected: unknown = form.watch(step.name);
     const freeTextSelected = step.options.some(
       (option) => option.freeText === true && option.value === selected,
@@ -314,22 +308,15 @@ export function LeadFunnel({
                       name={currentScreen.step.name}
                       options={currentScreen.step.options}
                       labelledBy={headingId}
-                      onSelect={
-                        currentScreen.step.confirm
-                          ? undefined
-                          : (option) => {
-                              // La valeur est posée explicitement avant la
-                              // validation : l'ordre onChange/onClick de React
-                              // sur un radio n'est pas garanti.
-                              if (currentScreen.step.kind === "radio") {
-                                form.setValue(
-                                  currentScreen.step.name,
-                                  option.value,
-                                );
-                              }
-                              void advanceFrom(currentScreen);
-                            }
-                      }
+                      onSelect={(option) => {
+                        // La valeur est posée explicitement avant la
+                        // validation : l'ordre onChange/onClick de React
+                        // sur un radio n'est pas garanti.
+                        if (currentScreen.step.kind === "radio") {
+                          form.setValue(currentScreen.step.name, option.value);
+                        }
+                        void advanceFrom(currentScreen);
+                      }}
                     />
                   )}
                   {currentScreen.step.kind === "offer" && (
@@ -386,19 +373,15 @@ export function LeadFunnel({
                   )}
                 </div>
                 {currentScreen.step.message && (
-                  <p className="mt-3 rounded-lg bg-surface-2 px-3 py-2 text-sm text-ink-soft">
-                    {currentScreen.step.message}
-                  </p>
+                  <div className="mt-3 space-y-1.5 rounded-lg bg-surface-2 px-3 py-2 text-sm text-ink-soft">
+                    {(Array.isArray(currentScreen.step.message)
+                      ? currentScreen.step.message
+                      : [currentScreen.step.message]
+                    ).map((paragraphe) => (
+                      <p key={paragraphe}>{paragraphe}</p>
+                    ))}
+                  </div>
                 )}
-                {currentScreen.step.kind === "radio" &&
-                  currentScreen.step.confirm && (
-                    <div className="mt-4">
-                      <CheckboxField
-                        name={currentScreen.step.confirm.name}
-                        label={currentScreen.step.confirm.label}
-                      />
-                    </div>
-                  )}
               </section>
             </>
           )}

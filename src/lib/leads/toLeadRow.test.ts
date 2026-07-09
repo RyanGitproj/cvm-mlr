@@ -23,7 +23,6 @@ const parcoursMlr = {
   offreDuree: "10_jours",
   departFenetre: "2_4",
   nbVoyageurs: "3",
-  comprehension: true,
   moisDepart: "Novembre 2026",
   optinNewsletter: false,
 };
@@ -72,7 +71,6 @@ describe("toLeadRow", () => {
     expect(row.projection).toBe("ouest");
     expect(row.depart_fenetre).toBe("4_6");
     expect(row.reco_fenetre).toBe("proche");
-    expect(row.comprehension).toBeNull();
   });
 
   it("stocke l'effectif approximatif quand « Plus de 4 » est choisi", () => {

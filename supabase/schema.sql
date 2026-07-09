@@ -9,9 +9,9 @@
 -- Le navigateur ne parle jamais à Supabase directement.
 --
 -- Sémantique des NULL sur les colonnes de qualification : NULL = information
--- non demandée par ce funnel (comprehension hors MLR, accept_* hors Explorer,
--- projection pour MLR, reco_univers hors orientation) ou qualification
--- invalide (cas théorique — le lead est conservé quand même).
+-- non demandée par ce funnel (accept_* hors Explorer, projection pour MLR,
+-- reco_univers hors orientation) ou qualification invalide (cas théorique —
+-- le lead est conservé quand même).
 
 create table public.funnel_cvm_mlr_leads (
   id                    uuid primary key default gen_random_uuid(),
@@ -68,8 +68,6 @@ create table public.funnel_cvm_mlr_leads (
   -- Fenêtre de départ Q3, commune aux 6 funnels.
   -- = DEPART_FENETRES, src/lib/validations/common.ts
   depart_fenetre        text check (depart_fenetre in ('0_2', '2_4', '4_6', '6_10', '10_plus')),
-  -- Case de compréhension des exclusions (MLR uniquement).
-  comprehension         boolean,
 
   -- Recommendation (moteur de segmentation, src/lib/segmentation/) — une
   -- donnée pour l'équipe aval, jamais un score ni une action.
@@ -115,3 +113,8 @@ alter table public.funnel_cvm_mlr_leads enable row level security;
 drop table if exists public.funnel_cvm_mlr_com;
 drop table if exists public.funnel_cvm_mlr_info;
 drop table if exists public.cvm_mlr_leads;
+
+-- Case de compréhension MLR retirée le 2026-07-09 (les exclusions sont un
+-- simple texte d'info dans le wizard, plus aucune donnée collectée) —
+-- migration des tables créées avant cette date, no-op sinon.
+alter table if exists public.funnel_cvm_mlr_leads drop column if exists comprehension;

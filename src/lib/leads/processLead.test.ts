@@ -12,18 +12,16 @@ const parcoursMlr = {
   offreDuree: "15_jours",
   departFenetre: "4_6",
   nbVoyageurs: "2",
-  comprehension: true,
 };
 
 describe("processLead — mlr", () => {
-  it("projette fenêtre + compréhension en colonnes (projection null : la Q1 MLR est la route)", () => {
+  it("projette la fenêtre en colonnes (projection null : la Q1 MLR est la route)", () => {
     const result = processLead("mlr", parcoursMlr);
     expect(result.ok).toBe(true);
     if (!result.ok) return;
     expect(result.qualif).toEqual({
       ...EMPTY_QUALIF,
       depart_fenetre: "4_6",
-      comprehension: true,
       reco_fenetre: "proche",
     });
   });

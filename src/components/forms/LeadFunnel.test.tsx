@@ -2,8 +2,8 @@
  * @vitest-environment jsdom
  *
  * Moteur wizard (gabarit maquette 5 écrans) : une décision par écran, avance
- * au clic, garde anti double-clic, case de confirmation Q4 MLR, submit unique
- * aux coordonnées. Exception à la règle « fonctions pures uniquement » : ces
+ * au clic, garde anti double-clic, submit unique aux coordonnées. Exception
+ * à la règle « fonctions pures uniquement » : ces
  * comportements vivent dans le câblage DOM, ils ne se testent qu'en rendant
  * le composant.
  */
@@ -70,7 +70,7 @@ it(
 );
 
 it(
-  "route pré-remplie : Q1 sautée, case Q4 exigée, submit vide → alertes sans appel serveur",
+  "route pré-remplie : Q1 sautée, exclusions en texte d'info Q4, submit vide → alertes sans appel serveur",
   async () => {
     const user = userEvent.setup();
     render(<LeadFunnel funnelType="mlr" defaultValues={{ route: "ouest" }} />);
@@ -89,23 +89,13 @@ it(
     expect(await screen.findByText(/combien de places/i)).toBeTruthy();
     await settleGuard();
 
-    // La sélection des voyageurs n'avance pas seule : case de confirmation.
+    // Les exclusions sont un simple texte d'info (case de compréhension
+    // retirée le 2026-07-09) : la sélection avance seule vers les coordonnées.
+    expect(
+      screen.getByText(/les vols, hôtels et restaurants ne sont pas inclus/i),
+    ).toBeTruthy();
+    expect(screen.queryByRole("checkbox")).toBeNull();
     await user.click(screen.getByRole("radio", { name: /je pars seul/i }));
-    expect(screen.getByText(/combien de places/i)).toBeTruthy();
-
-    // CTA sans la case cochée → erreur, on reste sur Q4.
-    await user.click(
-      screen.getByRole("button", { name: /voir ma route liberty roots/i }),
-    );
-    expect((await screen.findAllByRole("alert")).length).toBeGreaterThan(0);
-    expect(screen.queryByText(/ta route est presque prête/i)).toBeNull();
-
-    await user.click(
-      screen.getByRole("checkbox", { name: /j'ai compris que les vols/i }),
-    );
-    await user.click(
-      screen.getByRole("button", { name: /voir ma route liberty roots/i }),
-    );
     expect(await screen.findByText(/ta route est presque prête/i)).toBeTruthy();
     await settleGuard();
 
