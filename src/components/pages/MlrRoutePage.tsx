@@ -15,6 +15,8 @@ import {
   type MlrRouteContent,
 } from "@/config/content/mlr";
 
+import { fbEvent } from "@/lib/fpixel";
+
 /**
  * Gabarit des pages de présentation de route MLR (Nord / Ouest) — reprend
  * la structure des brochures. Le wizard MLR est intégré en bas de page,
