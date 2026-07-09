@@ -42,33 +42,6 @@ export default function MlrLandingPage() {
         imageSrc="/images/mlr/hero.png"
       />
 
-      <section className="accent-forest mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
-        <SectionHeading
-          titre="Choisis ton niveau d'aventure"
-          sousTitre="Un repère pour te projeter — tu confirmeras ta durée dans le parcours."
-          accent
-        />
-        {/* Cartes plein cadre : le visuel studio 505×204 porte titre, prix,
-            description et note incrustés — aucune carte à texte. Repères non
-            cliquables (la durée se confirme dans le parcours). */}
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 sm:gap-5">
-          {MLR_LANDING.durees.map((duree) => (
-            <div
-              key={duree.value}
-              className="relative aspect-[505/204] overflow-hidden rounded-2xl border-2 border-line"
-            >
-              <Image
-                src={duree.studioSrc}
-                alt={duree.studioAlt}
-                fill
-                sizes="(min-width: 640px) 50vw, 100vw"
-                className="object-cover"
-              />
-            </div>
-          ))}
-        </div>
-      </section>
-
       <section
         id="routes"
         className="scroll-mt-20 border-y border-line bg-surface-2"
@@ -116,6 +89,33 @@ export default function MlrLandingPage() {
               </Reveal>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="accent-forest mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
+        <SectionHeading
+          titre="Deux niveaux d'aventure"
+          sousTitre="Un aperçu pour te projeter — ta durée se choisit plus bas, dans le parcours."
+          accent
+        />
+        {/* Cartes plein cadre : le visuel studio 505×204 porte titre, prix,
+            description et note incrustés — aucune carte à texte. Repères non
+            cliquables (la durée se confirme dans le parcours). */}
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 sm:gap-5">
+          {MLR_LANDING.durees.map((duree) => (
+            <div
+              key={duree.value}
+              className="relative aspect-[505/204] overflow-hidden rounded-2xl border-2 border-line"
+            >
+              <Image
+                src={duree.studioSrc}
+                alt={duree.studioAlt}
+                fill
+                sizes="(min-width: 640px) 50vw, 100vw"
+                className="object-cover"
+              />
+            </div>
+          ))}
         </div>
       </section>
 

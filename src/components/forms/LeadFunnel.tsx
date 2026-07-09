@@ -271,12 +271,37 @@ export function LeadFunnel({
               {screenIndex === 0 && (
                 // Intro visible sur le seul écran d'entrée : dès la première
                 // réponse, l'écran de décision se suffit (compacité 07-07).
+                // Badge + consigne de clic : sans eux, les cartes riches se
+                // lisent comme des images et non comme un formulaire à
+                // remplir (demande Ryan 2026-07-09).
                 <header className="mb-4">
+                  <p className="mb-2.5 inline-flex items-center gap-1.5 rounded-full bg-accent px-3 py-1 text-xs font-bold uppercase tracking-wide text-accent-contrast">
+                    <svg
+                      aria-hidden
+                      width="13"
+                      height="13"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M12 20h9" />
+                      <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
+                    </svg>
+                    Questionnaire
+                  </p>
                   <Heading className="font-heading text-2xl font-bold leading-tight text-ink-strong">
                     {config.intro.titre}
                   </Heading>
                   <p className="mt-1.5 text-sm text-ink-soft">
                     {config.intro.sousTitre}
+                  </p>
+                  <p className="mt-2 text-sm font-semibold text-accent">
+                    {config.brand === "mlr"
+                      ? "Réponds en cliquant sur les cartes ci-dessous."
+                      : "Répondez en cliquant sur les cartes ci-dessous."}
                   </p>
                 </header>
               )}

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SectionHeading } from "@/components/sections/SectionHeading";
 import type { VideoContent } from "@/config/content/video";
 
@@ -18,6 +18,30 @@ import type { VideoContent } from "@/config/content/video";
  */
 export function VideoSection({ youtubeId, titre, description }: VideoContent) {
   const [playing, setPlaying] = useState(false);
+  const frameRef = useRef<HTMLIFrameElement>(null);
+
+  // Pause quand la vidéo sort de l'écran : le son ne doit jamais continuer
+  // hors champ. Commande envoyée à l'embed déjà chargé via l'API iframe
+  // YouTube (postMessage, activée par enablejsapi=1) — aucune requête ni
+  // cookie supplémentaire. Pas de reprise automatique au retour dans le
+  // champ : relancer la lecture reste un geste du visiteur.
+  useEffect(() => {
+    const frame = frameRef.current;
+    if (!playing || frame === null) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.intersectionRatio < 0.25)) {
+          frame.contentWindow?.postMessage(
+            JSON.stringify({ event: "command", func: "pauseVideo", args: [] }),
+            "https://www.youtube-nocookie.com",
+          );
+        }
+      },
+      { threshold: 0.25 },
+    );
+    observer.observe(frame);
+    return () => observer.disconnect();
+  }, [playing]);
 
   return (
     <section className="mx-auto w-full max-w-6xl px-4 pb-12 sm:px-6">
@@ -27,7 +51,8 @@ export function VideoSection({ youtubeId, titre, description }: VideoContent) {
         <div className="relative aspect-video">
           {playing ? (
             <iframe
-              src={`https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&rel=0`}
+              ref={frameRef}
+              src={`https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&rel=0&enablejsapi=1&origin=${encodeURIComponent(window.location.origin)}`}
               title={`Vidéo — ${titre}`}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
