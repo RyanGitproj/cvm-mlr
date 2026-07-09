@@ -16,6 +16,7 @@ import {
 } from "@/config/content/mlr";
 
 import { fbEvent } from "@/lib/fpixel";
+import { useEffect } from "react";
 
 /**
  * Gabarit des pages de présentation de route MLR (Nord / Ouest) — reprend
