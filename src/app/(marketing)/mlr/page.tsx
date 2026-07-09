@@ -54,8 +54,8 @@ export default function MlrLandingPage() {
           />
           {/* Cartes plein cadre façon UniversPicker (page mère) : le visuel
               studio 505×408 porte titre, description, prix et CTA incrustés —
-              aucune carte à texte. Au survol desktop, voile + libellé révélé ;
-              sur tactile, image seule, toute la carte cliquable. */}
+              aucune carte à texte. Au survol desktop, voile seul (pas de
+              bouton) ; toute la carte reste cliquable. */}
           <div className="mt-8 grid gap-4 sm:grid-cols-2 sm:gap-5">
             {MLR_LANDING.routes.map((route, index) => (
               <Reveal key={route.slug} delay={index * 80} className="min-w-0">
@@ -77,14 +77,10 @@ export default function MlrLandingPage() {
                     sizes="(min-width: 640px) 50vw, 100vw"
                     className="object-cover"
                   />
-                  {/* Voile d'assombrissement au survol (desktop uniquement). */}
+                  {/* Voile d'assombrissement au survol (desktop uniquement) ;
+                      pas de bouton révélé — le CTA est déjà incrusté dans le
+                      visuel studio (parité UniversPicker, décision Ryan). */}
                   <div className="absolute inset-0 bg-ink-strong/0 motion-safe:transition-colors motion-safe:duration-300 group-hover:bg-ink-strong/55" />
-                  {/* Libellé de choix révélé au survol. */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-accent-contrast opacity-0 motion-safe:translate-y-1 motion-safe:transition group-hover:opacity-100 group-hover:motion-safe:translate-y-0">
-                      {route.cta} →
-                    </span>
-                  </div>
                 </TrackedLink>
               </Reveal>
             ))}

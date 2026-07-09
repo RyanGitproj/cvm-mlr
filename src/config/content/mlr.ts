@@ -290,7 +290,7 @@ export const MLR_LANDING = {
       cta: "Je choisis le Nord",
       // Visuel studio plein cadre (505×408) : titre, description, prix et
       // « Voir la route » déjà incrustés — la carte ne porte aucun texte.
-      studioSrc: "/images/mlr/route-nord-studio-hd.png",
+      studioSrc: "/images/mlr/route-nord-card.png",
       studioAlt:
         "Road Trip Nord : forêts, mer, villages, pistes et rencontres, 10 jours dès 1 400 € par personne",
     },
@@ -299,7 +299,7 @@ export const MLR_LANDING = {
       titre: "L'Ouest",
       texte: "Baobabs, pistes rouges, grands espaces et couchers de soleil.",
       cta: "Je choisis l'Ouest",
-      studioSrc: "/images/mlr/route-ouest-studio-hd.png",
+      studioSrc: "/images/mlr/route-ouest-card.png",
       studioAlt:
         "Road Trip Ouest : baobabs, pistes rouges, grands espaces et couchers de soleil, 10 jours dès 1 400 € par personne",
     },
