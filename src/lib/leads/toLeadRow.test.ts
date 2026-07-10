@@ -120,6 +120,33 @@ describe("toLeadRow", () => {
     const row = toLeadRow("cvm_orientation", parcoursCvm, null, EMPTY_QUALIF);
     expect(row.offre_ref).toBeNull();
     expect(row.offre_prix_indicatif).toBeNull();
+    expect(row.catalogue_offre_id).toBeNull();
+  });
+
+  it("relie chaque offre CVM à sa ligne du catalogue (FK automatisation aval)", () => {
+    const cases: [Parameters<typeof toLeadRow>[0], string, number][] = [
+      ["cvm_explorer", "12_jours", 1],
+      ["cvm_explorer", "15_jours", 2],
+      ["cvm_treks", "10_jours", 4],
+      ["cvm_treks", "15_jours", 5],
+      ["cvm_iles", "10_jours", 6],
+      ["cvm_iles", "15_jours", 7],
+      ["cvm_un_mois", "un_mois", 8],
+    ];
+    for (const [funnelType, offreDuree, id] of cases) {
+      const row = toLeadRow(
+        funnelType,
+        { ...parcoursCvm, offreDuree },
+        null,
+        EMPTY_QUALIF,
+      );
+      expect(row.catalogue_offre_id).toBe(id);
+    }
+  });
+
+  it("laisse la FK catalogue nulle pour MLR (lignes Nord/Ouest à venir)", () => {
+    const row = toLeadRow("mlr", parcoursMlr, null, EMPTY_QUALIF);
+    expect(row.catalogue_offre_id).toBeNull();
   });
 
   it("mappe le wizard MLR : voyageurs « 3 » → 3, mois de départ → periode, newsletter décochée ≠ null", () => {

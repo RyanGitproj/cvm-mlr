@@ -18,6 +18,21 @@ const CVM_FUNNEL_TO_SLUG: Partial<Record<FunnelType, CvmUniversSlug>> = {
   cvm_un_mois: "un-mois",
 };
 
+/**
+ * Ids des lignes de `cv_mada_offres_catalogue` (base live, automatisation
+ * aval) par offre Q2 — le code envoie l'id à l'INSERT, le reste (FK,
+ * triggers) est géré côté Supabase (décision Ryan 2026-07-10). À mettre à
+ * jour si le catalogue est re-seedé. MLR volontairement absent : ses 4
+ * lignes (routes Nord/Ouest × 2 durées) n'existent pas encore au catalogue —
+ * son futur mapping sera (route, durée) → id, pas durée seule (voir TODO.md).
+ */
+const CATALOGUE_OFFRE_IDS: Partial<Record<FunnelType, Record<string, number>>> = {
+  cvm_explorer: { "12_jours": 1, "15_jours": 2 },
+  cvm_treks: { "10_jours": 4, "15_jours": 5 },
+  cvm_iles: { "10_jours": 6, "15_jours": 7 },
+  cvm_un_mois: { un_mois: 8 },
+};
+
 /** Pictogramme du badge rond de la carte d'offre (maquette 3, décoratif). */
 export type OfferIcon = "bus" | "jeep" | "trek" | "plage" | "bivouac" | "grand-tour";
 
@@ -51,6 +66,8 @@ export type ResolvedOffer = {
   label: string;
   duree: string | null;
   prixIndicatif: number | null;
+  /** FK `cv_mada_offres_catalogue` — null tant que l'offre n'y a pas de ligne. */
+  catalogueOffreId: number | null;
 };
 
 /**
@@ -106,6 +123,7 @@ export function resolveOffer(
       label: `${d.titre}, ${d.prix}`,
       duree: d.titre,
       prixIndicatif: d.prixDes,
+      catalogueOffreId: CATALOGUE_OFFRE_IDS[funnelType]?.[d.value] ?? null,
     };
   }
 
@@ -113,10 +131,12 @@ export function resolveOffer(
   if (slug === undefined) return null;
   const f = CVM_UNIVERS[slug].formules.find((x) => x.value === offreRef);
   if (f === undefined) return null;
+  const ref = f.value ?? offreRef ?? "";
   return {
-    ref: f.value ?? offreRef ?? "",
+    ref,
     label: f.duree ?? "Formule",
     duree: f.duree ?? null,
     prixIndicatif: f.prixEuros,
+    catalogueOffreId: CATALOGUE_OFFRE_IDS[funnelType]?.[ref] ?? null,
   };
 }

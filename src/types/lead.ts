@@ -66,6 +66,10 @@ export type LeadRow = {
   offre_label: string | null;
   offre_duree: string | null;
   offre_prix_indicatif: number | null;
+  // FK vers cv_mada_offres_catalogue (automatisation aval, table live hors
+  // repo) — mapping en dur dans src/config/offers.ts.
+  // NULL = orientation, MLR (lignes catalogue à venir) ou offre inconnue.
+  catalogue_offre_id: number | null;
   route: string | null;
   // Attribution
   utm_source: string | null;

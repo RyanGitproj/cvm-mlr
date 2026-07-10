@@ -63,6 +63,7 @@ export function toLeadRow(
     offre_label: offre?.label ?? null,
     offre_duree: offre?.duree ?? null,
     offre_prix_indicatif: offre?.prixIndicatif ?? null,
+    catalogue_offre_id: offre?.catalogueOffreId ?? null,
     route: typeof data.route === "string" ? data.route : null,
     utm_source: utm?.utm_source ?? null,
     utm_medium: utm?.utm_medium ?? null,

@@ -118,3 +118,12 @@ drop table if exists public.cvm_mlr_leads;
 -- simple texte d'info dans le wizard, plus aucune donnée collectée) —
 -- migration des tables créées avant cette date, no-op sinon.
 alter table if exists public.funnel_cvm_mlr_leads drop column if exists comprehension;
+
+-- FK vers le catalogue d'offres de l'automatisation aval
+-- (cv_mada_offres_catalogue, table live gérée côté Supabase hors repo).
+-- Remplie par le code à l'INSERT depuis le mapping en dur de
+-- src/config/offers.ts (décision Ryan 2026-07-10). Ce repo s'arrête là :
+-- contrainte FK, triggers et calculs associés sont gérés côté Supabase par
+-- l'équipe base — d'où l'absence de contrainte ici.
+alter table if exists public.funnel_cvm_mlr_leads
+  add column if not exists catalogue_offre_id bigint;
