@@ -145,8 +145,31 @@ describe("toLeadRow", () => {
     }
   });
 
-  it("laisse la FK catalogue nulle pour MLR (lignes Nord/Ouest à venir)", () => {
-    const row = toLeadRow("mlr", parcoursMlr, null, EMPTY_QUALIF);
+  it("relie les offres MLR à leur ligne catalogue par route × durée", () => {
+    const cases: [string, string, number][] = [
+      ["nord", "10_jours", 9],
+      ["nord", "15_jours", 10],
+      ["ouest", "10_jours", 11],
+      ["ouest", "15_jours", 12],
+    ];
+    for (const [route, offreDuree, id] of cases) {
+      const row = toLeadRow(
+        "mlr",
+        { ...parcoursMlr, route, offreDuree },
+        null,
+        EMPTY_QUALIF,
+      );
+      expect(row.catalogue_offre_id).toBe(id);
+    }
+  });
+
+  it("laisse la FK catalogue nulle si la route MLR manque (cas défensif)", () => {
+    const row = toLeadRow(
+      "mlr",
+      { ...parcoursMlr, route: undefined },
+      null,
+      EMPTY_QUALIF,
+    );
     expect(row.catalogue_offre_id).toBeNull();
   });
 

@@ -22,15 +22,20 @@ const CVM_FUNNEL_TO_SLUG: Partial<Record<FunnelType, CvmUniversSlug>> = {
  * Ids des lignes de `cv_mada_offres_catalogue` (base live, automatisation
  * aval) par offre Q2 — le code envoie l'id à l'INSERT, le reste (FK,
  * triggers) est géré côté Supabase (décision Ryan 2026-07-10). À mettre à
- * jour si le catalogue est re-seedé. MLR volontairement absent : ses 4
- * lignes (routes Nord/Ouest × 2 durées) n'existent pas encore au catalogue —
- * son futur mapping sera (route, durée) → id, pas durée seule (voir TODO.md).
+ * jour si le catalogue est re-seedé. MLR a son propre mapping ci-dessous :
+ * sa ligne catalogue dépend de la route (Q1), pas seulement de la durée.
  */
 const CATALOGUE_OFFRE_IDS: Partial<Record<FunnelType, Record<string, number>>> = {
   cvm_explorer: { "12_jours": 1, "15_jours": 2 },
   cvm_treks: { "10_jours": 4, "15_jours": 5 },
   cvm_iles: { "10_jours": 6, "15_jours": 7 },
   cvm_un_mois: { un_mois: 8 },
+};
+
+/** Ids catalogue MLR : route (Q1) × durée (Q2) — lignes créées le 2026-07-10. */
+const MLR_CATALOGUE_OFFRE_IDS: Record<string, Record<string, number>> = {
+  nord: { "10_jours": 9, "15_jours": 10 },
+  ouest: { "10_jours": 11, "15_jours": 12 },
 };
 
 /**
@@ -122,11 +127,13 @@ export function offerOptionsFor(funnelType: FunnelType): OfferOption[] {
 
 /**
  * Résout l'offre choisie en données de stockage. `offreRef` vient du champ
- * `offreDuree` validé ; null pour l'orientation (aucune offre).
+ * `offreDuree` validé ; null pour l'orientation (aucune offre). `route`
+ * (Q1 MLR) ne sert qu'au mapping catalogue MLR — ignorée pour CVM.
  */
 export function resolveOffer(
   funnelType: FunnelType,
   offreRef: string | undefined,
+  route?: string,
 ): ResolvedOffer | null {
   if (funnelType === "mlr") {
     const d = MLR_LANDING.durees.find((x) => x.value === offreRef);
@@ -136,7 +143,10 @@ export function resolveOffer(
       label: `${d.titre}, ${d.prix}`,
       dureeJours: OFFRE_DUREE_JOURS[d.value] ?? null,
       prixIndicatif: d.prixDes,
-      catalogueOffreId: CATALOGUE_OFFRE_IDS[funnelType]?.[d.value] ?? null,
+      catalogueOffreId:
+        route !== undefined
+          ? MLR_CATALOGUE_OFFRE_IDS[route]?.[d.value] ?? null
+          : null,
     };
   }
 

@@ -43,6 +43,7 @@ export function toLeadRow(
   const offre = resolveOffer(
     funnelType,
     typeof data.offreDuree === "string" ? data.offreDuree : undefined,
+    typeof data.route === "string" ? data.route : undefined,
   );
 
   return {
