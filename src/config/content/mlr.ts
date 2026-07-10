@@ -18,9 +18,6 @@ export type MlrRouteContent = {
   tempsForts: { titre: string; texte?: string }[];
   faitPour: string[];
   ressentir: { titre: string; texte: string }[];
-  deroule: { jours: string; titre: string; texte?: string }[];
-  quinzeJours: { titre: string; texte: string }[];
-  inclus: { titre: string; texte: string }[];
   aPrevoir: { titre: string; texte: string }[];
   budgetSurPlace: string;
   astuces: string[];
@@ -74,29 +71,6 @@ export const MLR_ROUTES_CONTENT: Record<MlrRoute, MlrRouteContent> = {
       { titre: "Horizon", texte: "Des paysages à perte de vue, où la mer et la terre se répondent à chaque instant." },
       { titre: "Rencontres", texte: "Des échanges vrais avec les villageois, entre sourires, partage et simplicité." },
       { titre: "Énergie du Nord", texte: "Une nature puissante et vivante qui ressource, émerveille et reconnecte." },
-    ],
-    deroule: [
-      { jours: "J1-2", titre: "Arrivée dans le Nord et premiers panoramas" },
-      { jours: "J3", titre: "Villages et vie locale" },
-      { jours: "J4-5", titre: "Criques, baies et grand air" },
-      { jours: "J6", titre: "Cascades et fraîcheur tropicale" },
-      { jours: "J7-8", titre: "Marche et points de vue" },
-      { jours: "J9-10", titre: "Dernière route et émotion finale" },
-    ],
-    quinzeJours: [
-      { titre: "Plus de côte", texte: "Plus de plages sauvages, bains et couchers de soleil." },
-      { titre: "Plus de marche", texte: "Randonnées plus longues, lieux plus secrets." },
-      { titre: "Plus de villages", texte: "Plus d'échanges, plus d'histoires, plus d'authenticité." },
-      { titre: "Plus de temps pour souffler", texte: "Pour profiter, ralentir, et savourer chaque instant." },
-    ],
-    inclus: [
-      { titre: "Guide local privé", texte: "Un accompagnement passionné et francophone." },
-      { titre: "Itinéraire préparé", texte: "Un parcours optimisé et flexible." },
-      { titre: "Taxi-brousse prévus", texte: "Transports locaux organisés selon le programme." },
-      { titre: "Assistance 7j/7", texte: "Une équipe réactive à tout moment." },
-      { titre: "Visites prévues", texte: "Sites et activités mentionnés au programme." },
-      { titre: "Guides locaux selon les sites", texte: "Interventions locales pour mieux comprendre." },
-      { titre: "Repas pendant campement", texte: "Tous les repas inclus durant les nuits en campement." },
     ],
     aPrevoir: [
       { titre: "Hôtels hors campement", texte: "Nuits en ville ou en bord de mer selon vos envies." },
@@ -152,29 +126,6 @@ export const MLR_ROUTES_CONTENT: Record<MlrRoute, MlrRouteContent> = {
       { titre: "Immensité", texte: "Des horizons sans fin, où la nature dicte le rythme." },
       { titre: "Liberté", texte: "Pistes sauvages, rencontres vraies et choix d'itinéraire sur mesure." },
       { titre: "Transformation", texte: "Se reconnecter à l'essentiel, revenir différent, plus vivant." },
-    ],
-    deroule: [
-      { jours: "J1-2", titre: "Mise en route vers l'Ouest" },
-      { jours: "J3", titre: "Découverte des premiers baobabs" },
-      { jours: "J4-5", titre: "Villages reculés et pistes" },
-      { jours: "J6", titre: "Grands espaces et respiration" },
-      { jours: "J7-8", titre: "Marches, poussière et liberté" },
-      { jours: "J9-10", titre: "Derniers panoramas et émotion de clôture" },
-    ],
-    quinzeJours: [
-      { titre: "Plus d'immersion", texte: "Rencontres plus profondes, temps partagé." },
-      { titre: "Plus de pistes", texte: "Itinéraires plus sauvages, accès à des zones reculées." },
-      { titre: "Plus de contemplation", texte: "Rythme plus doux, pour goûter chaque instant." },
-      { titre: "Plus de temps hors des sentiers", texte: "Pour vivre l'inattendu et l'authenticité." },
-    ],
-    inclus: [
-      { titre: "Guide local privé", texte: "Un accompagnement bienveillant et francophone tout au long du voyage." },
-      { titre: "Itinéraire préparé", texte: "Un parcours pensé pour l'Ouest, souple et adapté au terrain." },
-      { titre: "Taxi-brousse prévus", texte: "Transports locaux prévus et organisés selon les étapes." },
-      { titre: "Assistance 7j/7", texte: "Une équipe disponible à tout moment." },
-      { titre: "Visites prévues", texte: "Rencontres, sites naturels et visites selon le programme." },
-      { titre: "Guides locaux selon sites", texte: "Interventions de guides spécialistes selon les lieux." },
-      { titre: "Repas pendant campement", texte: "Repas préparés pendant les étapes en campement (petit-déj, déjeuner, dîner)." },
     ],
     aPrevoir: [
       { titre: "Hôtels hors campement", texte: "Nuits en hôtels ou lodges en dehors des campements." },

@@ -137,49 +137,8 @@ export function MlrRoutePage({ content }: { content: MlrRouteContent }) {
         </div>
       </section>
 
-      <section className="border-y border-line bg-surface-2">
-        <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
-          <SectionHeading titre="Exemple de déroulé sur 10 jours" accent />
-          <ol className="mt-8 grid gap-4">
-            {content.deroule.map((etape) => (
-              <li
-                key={etape.jours}
-                className="flex gap-4 rounded-2xl border-2 border-line bg-card p-4"
-              >
-                <span className="h-fit shrink-0 rounded-lg bg-accent px-3 py-1.5 font-heading text-sm font-bold uppercase text-accent-contrast">
-                  {etape.jours}
-                </span>
-                <div>
-                  <p className="font-semibold text-ink-strong">{etape.titre}</p>
-                  {etape.texte && (
-                    <p className="mt-1 text-sm text-ink-soft">{etape.texte}</p>
-                  )}
-                </div>
-              </li>
-            ))}
-          </ol>
-          <h3 className="mt-10 font-heading text-2xl font-bold uppercase tracking-wide text-ink-strong">
-            Version 15 jours : aller plus loin
-          </h3>
-          <ul className="mt-4 grid gap-4 sm:grid-cols-2">
-            {content.quinzeJours.map((item) => (
-              <li
-                key={item.titre}
-                className="rounded-2xl border-2 border-line bg-card p-4"
-              >
-                <p className="font-semibold text-ink-strong">{item.titre}</p>
-                <p className="mt-1 text-sm text-ink-soft">{item.texte}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      <TempsForts
-        titre="Ce que comprend le tarif"
-        items={content.inclus}
-        accent
-      />
+      {/* Sections « déroulé 10 jours », « version 15 jours » et « ce que
+          comprend le tarif » retirées des 2 pages routes (Ryan 2026-07-10). */}
       <TempsForts titre="Ce qui reste à prévoir" items={content.aPrevoir} accent />
       <NoteTarifaire texte={content.budgetSurPlace} />
 
