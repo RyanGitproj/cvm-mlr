@@ -114,11 +114,15 @@ export type SuiteCta = {
 export type FinalCase = {
   titre: string;
   texte: string;
-  /** Piliers de réassurance affichés entre le texte et les CTA. */
+  /** Piliers de réassurance affichés entre le texte et le CTA. */
   piliers?: string[];
   reassurance?: string;
-  primary: SuiteCta;
-  secondary: SuiteCta;
+  /**
+   * CTA de suite unique. Les boutons brochure ont été retirés le 2026-07-10
+   * (décision Ryan) : la brochure part automatiquement via l'automatisation
+   * aval dès l'enregistrement, il n'y a plus rien à demander.
+   */
+  cta: SuiteCta;
 };
 
 /** Écran final in-funnel, affiché après l'enregistrement du lead. */

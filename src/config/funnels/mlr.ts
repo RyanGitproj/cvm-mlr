@@ -127,8 +127,7 @@ export const mlrFunnel: FunnelConfig = {
           "Préparer ton aventure en confiance",
         ],
         reassurance: "Ce rendez-vous ne t'engage à rien.",
-        primary: { label: "Choisir mon créneau avec un expert malgache", suite: "rdv" },
-        secondary: { label: "Recevoir d'abord la brochure", suite: "brochure" },
+        cta: { label: "Choisir mon créneau avec un expert malgache", suite: "rdv" },
       },
       construction: {
         titre: "Tu es dans le bon timing pour construire ton voyage.",
@@ -136,15 +135,13 @@ export const mlrFunnel: FunnelConfig = {
           "Tu as encore le temps de préparer ton projet, mais c'est maintenant que les bons choix commencent : route, durée, rythme, billets d'avion.",
         reassurance:
           "Tu n'as pas besoin de tout décider maintenant. Mais tu peux déjà choisir la bonne direction.",
-        primary: { label: "Recevoir ma brochure + réserver un échange", suite: "rdv" },
-        secondary: { label: "Recevoir seulement mon devis indicatif", suite: "brochure" },
+        cta: { label: "Recevoir ma brochure + réserver un échange", suite: "rdv" },
       },
       lointain: {
         titre: "Madagascar t'appelle… ton projet a encore le temps de mûrir.",
         texte:
           "Nous t'envoyons la brochure Liberty Roots, la vidéo et ton devis indicatif. Quand ton départ approchera, nous te proposerons un échange au bon moment.",
-        primary: { label: "Recevoir la brochure et garder le lien", suite: "brochure" },
-        secondary: { label: "Je préfère quand même parler à un expert malgache", suite: "rdv" },
+        cta: { label: "Je préfère quand même parler à un expert malgache", suite: "rdv" },
       },
     },
   },

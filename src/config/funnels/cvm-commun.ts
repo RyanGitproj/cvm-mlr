@@ -61,13 +61,12 @@ export const CVM_FINAL_CASES: Record<Fenetre, FinalCase> = {
     texte:
       "Un expert malgache peut vous aider à affiner votre projet, anticiper les vols et préparer votre itinéraire sans mauvaise surprise.",
     piliers: [
-      "Parler avec un vrai Malgache",
+      "Parler à un expert malgache",
       "Vérifier les vols au bon moment",
       "Préparer votre voyage en confiance",
     ],
     reassurance: "Ce rendez-vous ne vous engage à rien.",
-    primary: { label: "Choisir mon créneau avec un expert malgache", suite: "rdv" },
-    secondary: { label: "Recevoir d'abord la brochure", suite: "brochure" },
+    cta: { label: "Choisir mon créneau avec un expert malgache", suite: "rdv" },
   },
   construction: {
     titre: "Vous êtes dans le bon timing pour construire votre voyage.",
@@ -75,14 +74,12 @@ export const CVM_FINAL_CASES: Record<Fenetre, FinalCase> = {
       "Vous avez encore le temps de préparer votre projet, mais c'est maintenant que les bons choix commencent : itinéraire, rythme, billets d'avion.",
     reassurance:
       "Vous n'avez pas besoin de tout décider maintenant. Mais vous pouvez déjà choisir la bonne direction.",
-    primary: { label: "Recevoir ma brochure + réserver un échange", suite: "rdv" },
-    secondary: { label: "Recevoir seulement ma proposition", suite: "brochure" },
+    cta: { label: "Recevoir ma brochure + réserver un échange", suite: "rdv" },
   },
   lointain: {
     titre: "Madagascar vous appelle… votre projet a encore le temps de mûrir.",
     texte:
       "Nous vous envoyons la brochure et votre proposition personnalisée. Quand votre départ approchera, nous vous proposerons un échange au bon moment.",
-    primary: { label: "Recevoir la brochure et garder le lien", suite: "brochure" },
-    secondary: { label: "Je préfère quand même parler à un expert malgache", suite: "rdv" },
+    cta: { label: "Je préfère quand même parler à un expert malgache", suite: "rdv" },
   },
 };

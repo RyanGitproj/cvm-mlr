@@ -13,7 +13,6 @@ import {
   DEPART_FENETRES,
   type DepartFenetre,
 } from "@/lib/validations/common";
-import type { MlrSuite } from "@/lib/validations/mlr";
 import type { FunnelConfig, SuiteCta } from "@/types/funnel";
 
 type Props = {
@@ -60,30 +59,24 @@ function ContactDirect() {
 }
 
 const CONFIRMATIONS = {
-  mlr: {
-    rdv: "C'est noté ! Un expert malgache te recontacte très vite pour fixer le créneau. Tu peux aussi nous joindre directement :",
-    brochure:
-      "C'est noté ! Tu recevras ta brochure Liberty Roots très vite. Une question entre-temps ?",
-  },
-  cvm: {
-    rdv: "C'est noté ! Un expert malgache vous recontacte très vite pour fixer le créneau. Vous pouvez aussi nous joindre directement :",
-    brochure:
-      "C'est noté ! Vous recevrez votre brochure très vite. Une question entre-temps ?",
-  },
+  mlr: "C'est noté ! Un expert malgache te recontacte très vite pour fixer le créneau. Tu peux aussi nous joindre directement :",
+  cvm: "C'est noté ! Un expert malgache vous recontacte très vite pour fixer le créneau. Vous pouvez aussi nous joindre directement :",
 } as const;
 
 /**
  * Écran final in-funnel (maquettes 7/8), affiché après l'enregistrement du
  * lead : cas conditionnel selon la fenêtre de départ, chips récap, CTA de
- * suite (enregistrée en base) puis contact direct. L'orientation affiche en
- * plus l'univers recommandé par la segmentation.
+ * suite unique (rendez-vous, enregistré en base) puis contact direct — les
+ * boutons brochure ont été retirés (Ryan 2026-07-10), la brochure part
+ * automatiquement via l'automatisation aval. L'orientation affiche en plus
+ * l'univers recommandé par la segmentation.
  */
 export function FinalScreen({ config, values, recommendation, headingId }: Props) {
-  const [suite, setSuite] = useState<MlrSuite | null>(null);
+  const [chosen, setChosen] = useState(false);
 
   function chooseSuite(cta: SuiteCta) {
-    if (suite !== null) return;
-    setSuite(cta.suite);
+    if (chosen) return;
+    setChosen(true);
     pushDataLayerEvent("suite_click", {
       funnel_type: config.type,
       suite: cta.suite,
@@ -171,25 +164,18 @@ export function FinalScreen({ config, values, recommendation, headingId }: Props
         <p className="mt-4 text-sm text-ink-soft">{finalCase.reassurance}</p>
       )}
 
-      {suite === null ? (
-        <div className="mt-6 flex flex-col gap-3">
-          <Button type="button" onClick={() => chooseSuite(finalCase.primary)}>
-            {finalCase.primary.label}
-          </Button>
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => chooseSuite(finalCase.secondary)}
-          >
-            {finalCase.secondary.label}
-          </Button>
-        </div>
-      ) : (
+      {chosen ? (
         <div className="mt-6 rounded-xl border-2 border-accent-soft bg-surface-2 p-4">
           <p className="text-sm font-medium text-ink-strong">
-            {CONFIRMATIONS[config.brand][suite]}
+            {CONFIRMATIONS[config.brand]}
           </p>
           <ContactDirect />
+        </div>
+      ) : (
+        <div className="mt-6 flex flex-col gap-3">
+          <Button type="button" onClick={() => chooseSuite(finalCase.cta)}>
+            {finalCase.cta.label}
+          </Button>
         </div>
       )}
     </div>
