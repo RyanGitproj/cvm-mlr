@@ -61,7 +61,7 @@ export function toLeadRow(
     optin_newsletter: asOptBool(data.optinNewsletter),
     offre_ref: offre?.ref ?? null,
     offre_label: offre?.label ?? null,
-    offre_duree: offre?.duree ?? null,
+    offre_duree: offre?.dureeJours ?? null,
     offre_prix_indicatif: offre?.prixIndicatif ?? null,
     catalogue_offre_id: offre?.catalogueOffreId ?? null,
     route: typeof data.route === "string" ? data.route : null,

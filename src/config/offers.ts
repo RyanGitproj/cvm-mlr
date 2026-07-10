@@ -33,6 +33,18 @@ const CATALOGUE_OFFRE_IDS: Partial<Record<FunnelType, Record<string, number>>> =
   cvm_un_mois: { un_mois: 8 },
 };
 
+/**
+ * Durée en jours par offre — alimente la colonne `offre_duree` (integer
+ * depuis la migration 2026-07-10), alignée sur `duree_jours` du catalogue :
+ * le Grand Tour (« Environ 1 mois ») compte pour 30 jours.
+ */
+const OFFRE_DUREE_JOURS: Record<string, number> = {
+  "10_jours": 10,
+  "12_jours": 12,
+  "15_jours": 15,
+  un_mois: 30,
+};
+
 /** Pictogramme du badge rond de la carte d'offre (maquette 3, décoratif). */
 export type OfferIcon = "bus" | "jeep" | "trek" | "plage" | "bivouac" | "grand-tour";
 
@@ -64,7 +76,8 @@ export type OfferOption = {
 export type ResolvedOffer = {
   ref: string;
   label: string;
-  duree: string | null;
+  /** Durée en jours (un_mois = 30) — colonne `offre_duree`. */
+  dureeJours: number | null;
   prixIndicatif: number | null;
   /** FK `cv_mada_offres_catalogue` — null tant que l'offre n'y a pas de ligne. */
   catalogueOffreId: number | null;
@@ -121,7 +134,7 @@ export function resolveOffer(
     return {
       ref: d.value,
       label: `${d.titre}, ${d.prix}`,
-      duree: d.titre,
+      dureeJours: OFFRE_DUREE_JOURS[d.value] ?? null,
       prixIndicatif: d.prixDes,
       catalogueOffreId: CATALOGUE_OFFRE_IDS[funnelType]?.[d.value] ?? null,
     };
@@ -135,7 +148,7 @@ export function resolveOffer(
   return {
     ref,
     label: f.duree ?? "Formule",
-    duree: f.duree ?? null,
+    dureeJours: OFFRE_DUREE_JOURS[ref] ?? null,
     prixIndicatif: f.prixEuros,
     catalogueOffreId: CATALOGUE_OFFRE_IDS[funnelType]?.[ref] ?? null,
   };

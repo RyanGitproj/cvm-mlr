@@ -64,7 +64,9 @@ export type LeadRow = {
   // Offre
   offre_ref: string | null;
   offre_label: string | null;
-  offre_duree: string | null;
+  // Durée en jours (un_mois = 30) — colonne integer depuis la migration
+  // 2026-07-10 (auparavant libellé texte « 15 jours »).
+  offre_duree: number | null;
   offre_prix_indicatif: number | null;
   // FK vers cv_mada_offres_catalogue (automatisation aval, table live hors
   // repo) — mapping en dur dans src/config/offers.ts.

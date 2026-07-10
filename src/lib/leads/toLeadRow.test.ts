@@ -101,11 +101,11 @@ describe("toLeadRow", () => {
       EMPTY_QUALIF,
     );
     expect(row.offre_ref).toBe("15_jours");
-    expect(row.offre_duree).toBe("15 jours");
+    expect(row.offre_duree).toBe(15);
     expect(row.offre_prix_indicatif).toBe(2500);
   });
 
-  it("résout la formule unique du Grand Tour", () => {
+  it("résout la formule unique du Grand Tour (durée : 30 jours)", () => {
     const row = toLeadRow(
       "cvm_un_mois",
       { ...parcoursCvm, offreDuree: "un_mois" },
@@ -113,6 +113,7 @@ describe("toLeadRow", () => {
       EMPTY_QUALIF,
     );
     expect(row.offre_ref).toBe("un_mois");
+    expect(row.offre_duree).toBe(30);
     expect(row.offre_prix_indicatif).toBe(5300);
   });
 
@@ -157,7 +158,7 @@ describe("toLeadRow", () => {
     expect(row.optin_newsletter).toBe(false);
     expect(row.route).toBe("ouest");
     expect(row.offre_ref).toBe("10_jours");
-    expect(row.offre_duree).toContain("10 jours");
+    expect(row.offre_duree).toBe(10);
     expect(row.offre_prix_indicatif).toBe(1400);
   });
 

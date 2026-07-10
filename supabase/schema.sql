@@ -43,7 +43,9 @@ create table public.funnel_cvm_mlr_leads (
   -- Choix d'offre (triplet générique, NULL pour orientation / offre unique)
   offre_ref             text,
   offre_label           text,
-  offre_duree           text,
+  -- Durée en jours (un_mois = 30), alignée sur duree_jours du catalogue —
+  -- integer depuis la migration 2026-07-10 (auparavant libellé texte).
+  offre_duree           integer,
   offre_prix_indicatif  integer,
   route                 text,       -- MLR uniquement (Nord/Ouest) — Q1 du wizard MLR
 
@@ -127,3 +129,30 @@ alter table if exists public.funnel_cvm_mlr_leads drop column if exists comprehe
 -- l'équipe base — d'où l'absence de contrainte ici.
 alter table if exists public.funnel_cvm_mlr_leads
   add column if not exists catalogue_offre_id bigint;
+
+-- offre_duree : text -> integer, en jours (décision Ryan 2026-07-10).
+-- Idempotent : ne fait rien si la colonne est déjà integer. À exécuter
+-- APRÈS le déploiement du code (l'ancien code envoie « 15 jours », qu'une
+-- colonne integer refuserait). Le cas « mois » est traité en premier :
+-- « Environ 1 mois » -> 30 (une extraction naïve de chiffres donnerait 1).
+do $$
+begin
+  if exists (
+    select 1 from information_schema.columns
+    where table_schema = 'public'
+      and table_name  = 'funnel_cvm_mlr_leads'
+      and column_name = 'offre_duree'
+      and data_type   = 'text'
+  ) then
+    alter table public.funnel_cvm_mlr_leads
+      alter column offre_duree type integer
+      using (
+        case
+          when offre_duree is null then null
+          when offre_duree ~* 'mois' then 30
+          when offre_duree ~ '\d' then (substring(offre_duree from '\d+'))::integer
+          else null
+        end
+      );
+  end if;
+end $$;
