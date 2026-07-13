@@ -14,7 +14,10 @@
 -- le lead est conservé quand même).
 
 -- Premier formulaire : coordonnées minimales enregistrées avant l'accueil.
--- `temperature` contient : exploration | idee_precise | conseil.
+-- `temperature` contient : preparation_active | comparaison_destinations |
+-- recherche_informations | curiosite.
+-- `depart_prevue` contient : moins_3_mois | 3_6_mois | 6_10_mois |
+-- plus_1_an | sans_date.
 create table public.funnel_leads_tampon (
   id          uuid primary key default gen_random_uuid(),
   nom         text not null,
@@ -22,6 +25,7 @@ create table public.funnel_leads_tampon (
   telephone   text not null,
   email       text not null,
   temperature text not null,
+  depart_prevue text not null,
   consentement boolean not null default false,
   created_at  timestamptz not null default now()
 );
@@ -166,6 +170,7 @@ create table if not exists public.funnel_leads_tampon (
   telephone   text not null,
   email       text not null,
   temperature text not null,
+  depart_prevue text not null,
   consentement boolean not null default false,
   created_at  timestamptz not null default now()
 );
@@ -177,6 +182,16 @@ alter table public.funnel_leads_tampon enable row level security;
 
 alter table public.funnel_leads_tampon
   add column if not exists consentement boolean not null default false;
+
+alter table public.funnel_leads_tampon
+  add column if not exists depart_prevue text;
+
+update public.funnel_leads_tampon
+set depart_prevue = 'sans_date'
+where depart_prevue is null;
+
+alter table public.funnel_leads_tampon
+  alter column depart_prevue set not null;
 
 alter table if exists public.funnel_cvm_mlr_leads
   add column if not exists funnel_leads_tampon_id uuid;

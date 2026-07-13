@@ -90,7 +90,10 @@ export type LeadTamponRow = {
   prenom: string | null;
   telephone: string;
   email: string;
+  /** Projet déclaré dans le sas (`preparation_active`, `curiosite`…). */
   temperature: string;
+  /** Échéance déclarée dans le sas (`moins_3_mois`, `sans_date`…). */
+  depart_prevue: string;
   consentement: boolean;
 };
 

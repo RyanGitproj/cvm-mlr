@@ -23,7 +23,8 @@ const VISITOR_PROFILE = {
   prenom: "Mia",
   email: "mia@example.com",
   telephone: "+33612345678",
-  intention: "conseil" as const,
+  intention: "preparation_active" as const,
+  echeance: "3_6_mois" as const,
   consentement: true,
 };
 

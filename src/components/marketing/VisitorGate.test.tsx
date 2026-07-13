@@ -42,7 +42,7 @@ it("bloque l'accueil et valide toutes les informations obligatoires", async () =
   await user.click(
     screen.getByRole("button", { name: /continuer vers les offres/i }),
   );
-  expect(await screen.findAllByRole("alert")).toHaveLength(6);
+  expect(await screen.findAllByRole("alert")).toHaveLength(7);
   expect(readVisitorProfile()).toBeNull();
 });
 
@@ -59,7 +59,10 @@ it("mémorise le profil puis guide vers le choix d'une offre", async () => {
   await user.type(screen.getByLabelText("Email"), "MIA@EXAMPLE.COM");
   await user.type(screen.getByLabelText("Téléphone"), "0612345678");
   await user.click(
-    screen.getByRole("radio", { name: /j’explore/i }),
+    screen.getByRole("radio", { name: /je prépare activement/i }),
+  );
+  await user.click(
+    screen.getByRole("radio", { name: /entre 3 et 6 mois/i }),
   );
   await user.click(
     screen.getByRole("checkbox", { name: /j’accepte l’utilisation/i }),
@@ -73,7 +76,8 @@ it("mémorise le profil puis guide vers le choix d'une offre", async () => {
     prenom: "Mia",
     email: "mia@example.com",
     telephone: "+33612345678",
-    intention: "exploration",
+    intention: "preparation_active",
+    echeance: "3_6_mois",
     consentement: true,
   });
   expect(vi.mocked(submitLeadTampon)).toHaveBeenCalledWith({
@@ -81,11 +85,16 @@ it("mémorise le profil puis guide vers le choix d'une offre", async () => {
     prenom: "Mia",
     email: "mia@example.com",
     telephone: "+33612345678",
-    intention: "exploration",
+    intention: "preparation_active",
+    echeance: "3_6_mois",
     consentement: true,
   });
   expect(
-    await screen.findByText(/choisissez maintenant votre univers/i),
+    await screen.findByText(/comparez librement les univers/i),
+  ).toBeTruthy();
+  expect(screen.queryByText(/profil enregistré/i)).toBeNull();
+  expect(
+    screen.getByText(/madagascar\. là où les autres ne vont pas/i),
   ).toBeTruthy();
   expect(screen.getByText("Univers & offre")).toBeTruthy();
   await user.click(
@@ -101,7 +110,8 @@ it("ne redemande pas les informations quand un profil valide existe", async () =
     prenom: "Mia",
     email: "mia@example.com",
     telephone: "+33612345678",
-    intention: "exploration",
+    intention: "preparation_active",
+    echeance: "3_6_mois",
     consentement: true,
   });
 
@@ -131,7 +141,12 @@ it("reste fermé et affiche l'erreur si l'enregistrement tampon échoue", async 
   await user.type(screen.getByLabelText("Prénom"), "Mia");
   await user.type(screen.getByLabelText("Email"), "mia@example.com");
   await user.type(screen.getByLabelText("Téléphone"), "0612345678");
-  await user.click(screen.getByRole("radio", { name: /j’explore/i }));
+  await user.click(
+    screen.getByRole("radio", { name: /je prépare activement/i }),
+  );
+  await user.click(
+    screen.getByRole("radio", { name: /entre 3 et 6 mois/i }),
+  );
   await user.click(
     screen.getByRole("checkbox", { name: /j’accepte l’utilisation/i }),
   );

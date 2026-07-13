@@ -30,6 +30,7 @@ export async function submitLeadTampon(
     telephone: parsed.data.telephone,
     email: parsed.data.email,
     temperature: parsed.data.intention,
+    depart_prevue: parsed.data.echeance,
     consentement: parsed.data.consentement,
   });
   if (!inserted.ok) {

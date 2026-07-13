@@ -11,7 +11,8 @@ const PROFILE = {
   prenom: "Mia",
   email: "mia@example.com",
   telephone: "+33612345678",
-  intention: "exploration" as const,
+  intention: "preparation_active" as const,
+  echeance: "3_6_mois" as const,
   consentement: true,
 };
 
@@ -32,7 +33,7 @@ describe("visitorProfile", () => {
 
   it("refuse un profil sans consentement", () => {
     const raw = JSON.stringify({
-      v: 4,
+      v: 5,
       savedAt: NOW,
       profile: { ...PROFILE, consentement: false },
     });
@@ -45,7 +46,7 @@ describe("visitorProfile", () => {
     expect(
       decodeVisitorProfile(
         JSON.stringify({
-          v: 4,
+          v: 5,
           savedAt: NOW,
           profile: { ...PROFILE, email: "pas-un-email" },
         }),
@@ -58,14 +59,15 @@ describe("visitorProfile", () => {
     expect(
       decodeVisitorProfile(
         JSON.stringify({
-          v: 4,
+          v: 5,
           savedAt: NOW,
           profile: {
             nom: "  Rakoto ",
             prenom: " Mia  ",
             email: " MIA@EXAMPLE.COM ",
             telephone: "+33612345678",
-            intention: "exploration",
+            intention: "preparation_active",
+            echeance: "3_6_mois",
             consentement: true,
           },
         }),

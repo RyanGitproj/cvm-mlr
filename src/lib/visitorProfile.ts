@@ -3,8 +3,8 @@ import {
   type VisitorProfile,
 } from "@/lib/validations/visitorProfile";
 
-// v4 : ajout de la preuve de consentement RGPD au premier formulaire.
-const VERSION = 4 as const;
+// v5 : nouveaux choix de projet et ajout de l'échéance indicative.
+const VERSION = 5 as const;
 const STORAGE_KEY = "cvm-mlr:visitor-profile";
 
 /**

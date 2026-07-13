@@ -36,17 +36,32 @@ const INTENTIONS: ReadonlyArray<{
   label: string;
 }> = [
   {
-    value: "exploration",
-    label: "J’explore",
+    value: "preparation_active",
+    label: "Je prépare activement mon voyage",
   },
   {
-    value: "idee_precise",
-    label: "J’ai déjà une idée",
+    value: "comparaison_destinations",
+    label: "Je compare plusieurs destinations",
   },
   {
-    value: "conseil",
-    label: "Je veux un conseil",
+    value: "recherche_informations",
+    label: "Je cherche simplement des informations",
   },
+  {
+    value: "curiosite",
+    label: "Je suis juste curieux(se)",
+  },
+];
+
+const ECHEANCES: ReadonlyArray<{
+  value: VisitorProfile["echeance"];
+  label: string;
+}> = [
+  { value: "moins_3_mois", label: "Dans moins de 3 mois" },
+  { value: "3_6_mois", label: "Entre 3 et 6 mois" },
+  { value: "6_10_mois", label: "Entre 6 et 10 mois" },
+  { value: "plus_1_an", label: "Dans plus d’un an" },
+  { value: "sans_date", label: "Je n’ai aucune date" },
 ];
 
 type FieldProps = {
@@ -254,7 +269,7 @@ export function VisitorGate({ children }: Props) {
               <div className="mt-2 sm:mt-4">
                 <p className="font-heading text-[10px] font-bold uppercase tracking-[0.2em] text-accent sm:text-xs">
                   {success
-                    ? "Étape 1 terminée · Profil enregistré"
+                    ? "Étape suivante · Choisissez votre offre"
                     : "Étape 1 sur 3 · Votre profil"}
                 </p>
                 <h2
@@ -262,7 +277,7 @@ export function VisitorGate({ children }: Props) {
                   className="mt-1 max-w-2xl font-heading text-xl font-bold leading-tight text-ink-strong sm:text-3xl"
                 >
                   {success
-                    ? `À vous de choisir${form.getValues("prenom") ? `, ${form.getValues("prenom")}` : ""}.`
+                    ? `Choisissez votre offre${form.getValues("prenom") ? `, ${form.getValues("prenom")}` : ""}.`
                     : "Votre voyage commence ici"}
                 </h2>
                 <p
@@ -271,8 +286,8 @@ export function VisitorGate({ children }: Props) {
                 >
                   {success ? (
                     <>
-                      Choisissez maintenant votre univers, puis l’offre qui
-                      correspond à votre façon de voyager.
+                      Comparez librement les univers et retenez l’expérience
+                      qui correspond à votre façon de voyager.
                     </>
                   ) : (
                     <>
@@ -285,15 +300,18 @@ export function VisitorGate({ children }: Props) {
 
               {success ? (
                 <div aria-live="polite" className="mt-4 sm:mt-6">
+                  <p className="text-center font-heading text-[11px] font-bold tracking-wide text-accent sm:text-sm">
+                    Madagascar. Là où les autres ne vont pas.
+                  </p>
                   <ol
                     aria-label="Progression de votre demande"
-                    className="grid grid-cols-3 gap-1.5 text-center text-[10px] font-semibold sm:gap-3 sm:text-xs"
+                    className="mt-2 grid grid-cols-3 gap-1.5 text-center text-[10px] font-semibold sm:gap-3 sm:text-xs"
                   >
                     <li className="rounded-xl border border-lagon/40 bg-lagon/10 px-2 py-2.5 text-ink-strong">
                       <span className="mx-auto mb-1 flex h-6 w-6 items-center justify-center rounded-full bg-lagon text-white">
                         ✓
                       </span>
-                      Profil
+                      Coordonnées
                     </li>
                     <li
                       aria-current="step"
@@ -364,7 +382,7 @@ export function VisitorGate({ children }: Props) {
                         error={form.formState.errors.prenom?.message}
                         register={form.register}
                       />
-                      <div className="col-span-2 min-w-0 max-w-full sm:col-span-1">
+                      <div className="min-w-0 max-w-full">
                         <GateField
                           id="email"
                           label="Email"
@@ -375,7 +393,7 @@ export function VisitorGate({ children }: Props) {
                           register={form.register}
                         />
                       </div>
-                      <div className="col-span-2 min-w-0 max-w-full overflow-hidden [&_.PhoneInput]:h-11 [&_input]:py-2 [&_label]:text-xs sm:col-span-1 sm:[&_input]:py-2.5 sm:[&_label]:text-sm">
+                      <div className="min-w-0 max-w-full overflow-hidden [&_.PhoneInput]:h-11 [&_input]:py-2 [&_label]:text-xs sm:[&_input]:py-2.5 sm:[&_label]:text-sm">
                         <PhoneField name="telephone" label="Téléphone" />
                       </div>
                     </div>
@@ -386,12 +404,12 @@ export function VisitorGate({ children }: Props) {
                           ? "gate-intention-error"
                           : undefined
                       }
-                      className="mt-2.5"
+                      className="mt-2"
                     >
                       <legend className="text-xs font-semibold text-ink-strong sm:text-sm">
-                        Votre projet aujourd’hui
+                        Quel est votre projet actuellement ?
                       </legend>
-                      <div className="mt-1.5 grid grid-cols-3 gap-1.5 sm:mt-2 sm:gap-3">
+                      <div className="mt-1.5 grid grid-cols-2 gap-1.5 sm:grid-cols-4 sm:gap-2">
                         {INTENTIONS.map((intention) => {
                           const id = `gate-intention-${intention.value}`;
                           return (
@@ -407,7 +425,7 @@ export function VisitorGate({ children }: Props) {
                                 {...form.register("intention")}
                                 className="peer sr-only"
                               />
-                              <span className="flex h-full min-h-12 items-center rounded-lg border-2 border-line bg-card px-2 py-2 pr-5 text-left shadow-sm transition hover:border-accent-soft hover:bg-surface peer-checked:border-accent peer-checked:bg-accent/5 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent sm:min-h-14 sm:rounded-xl sm:px-3 sm:py-2.5 sm:pr-9">
+                              <span className="flex h-full min-h-11 items-center rounded-lg border-2 border-line bg-card px-2 py-1.5 pr-5 text-left shadow-sm transition hover:border-accent-soft hover:bg-surface peer-checked:border-accent peer-checked:bg-accent/5 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent sm:min-h-14 sm:rounded-xl sm:px-3 sm:py-2 sm:pr-8">
                                 <span className="text-[10px] font-semibold leading-tight text-ink-strong sm:text-sm">
                                   {intention.label}
                                 </span>
@@ -427,6 +445,61 @@ export function VisitorGate({ children }: Props) {
                           className="mt-1 text-[10px] font-medium leading-tight text-danger sm:text-xs"
                         >
                           {form.formState.errors.intention.message}
+                        </p>
+                      )}
+                    </fieldset>
+
+                    <fieldset
+                      aria-describedby={
+                        form.formState.errors.echeance
+                          ? "gate-echeance-error"
+                          : undefined
+                      }
+                      className="mt-2"
+                    >
+                      <legend className="text-xs font-semibold text-ink-strong sm:text-sm">
+                        À quelle échéance pensez-vous partir ?
+                      </legend>
+                      <div className="mt-1.5 grid grid-cols-2 gap-1.5 sm:grid-cols-5 sm:gap-2">
+                        {ECHEANCES.map((echeance, index) => {
+                          const id = `gate-echeance-${echeance.value}`;
+                          return (
+                            <label
+                              key={echeance.value}
+                              htmlFor={id}
+                              className={cn(
+                                "relative cursor-pointer",
+                                index === ECHEANCES.length - 1 &&
+                                  "col-span-2 sm:col-span-1",
+                              )}
+                            >
+                              <input
+                                id={id}
+                                type="radio"
+                                value={echeance.value}
+                                {...form.register("echeance")}
+                                className="peer sr-only"
+                              />
+                              <span className="flex h-full min-h-11 items-center rounded-lg border-2 border-line bg-card px-2 py-1.5 pr-5 text-left shadow-sm transition hover:border-accent-soft hover:bg-surface peer-checked:border-accent peer-checked:bg-accent/5 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent sm:min-h-14 sm:rounded-xl sm:px-3 sm:py-2 sm:pr-8">
+                                <span className="text-[10px] font-semibold leading-tight text-ink-strong sm:text-xs">
+                                  {echeance.label}
+                                </span>
+                              </span>
+                              <span
+                                aria-hidden
+                                className="absolute right-1.5 top-1.5 h-4 w-4 rounded-full border-2 border-line bg-card transition peer-checked:border-[5px] peer-checked:border-accent sm:right-2.5 sm:top-2.5"
+                              />
+                            </label>
+                          );
+                        })}
+                      </div>
+                      {form.formState.errors.echeance?.message && (
+                        <p
+                          id="gate-echeance-error"
+                          role="alert"
+                          className="mt-1 text-[10px] font-medium leading-tight text-danger sm:text-xs"
+                        >
+                          {form.formState.errors.echeance.message}
                         </p>
                       )}
                     </fieldset>

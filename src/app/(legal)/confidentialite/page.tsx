@@ -74,9 +74,9 @@ export default function ConfidentialitePage() {
       </p>
       <p className={P_CLASS}>
         Lorsque vous validez le formulaire d’entrée, vos nom, prénom, adresse
-        email, numéro de téléphone et niveau d’avancement sont transmis à
-        {" "}{legal.raisonSociale} et enregistrés dans une table tampon. Son
-        identifiant technique est ensuite relié à votre demande de voyage
+        email, numéro de téléphone, projet actuel et échéance de départ sont
+        transmis à {legal.raisonSociale} et enregistrés dans une table tampon.
+        Son identifiant technique est ensuite relié à votre demande de voyage
         finale, si vous la validez. La valeur de la case de consentement et la
         date de création de cette ligne permettent de conserver la preuve de
         votre choix. Une copie locale, conservée 30 jours maximum, évite de vous

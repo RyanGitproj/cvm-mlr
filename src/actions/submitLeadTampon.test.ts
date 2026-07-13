@@ -15,7 +15,8 @@ const PROFILE = {
   prenom: "Mia",
   email: "mia@example.com",
   telephone: "+33612345678",
-  intention: "conseil",
+  intention: "preparation_active",
+  echeance: "3_6_mois",
   consentement: true,
 };
 
@@ -36,7 +37,8 @@ describe("submitLeadTampon", () => {
       prenom: "Mia",
       email: "mia@example.com",
       telephone: "+33612345678",
-      temperature: "conseil",
+      temperature: "preparation_active",
+      depart_prevue: "3_6_mois",
       consentement: true,
     });
     expect(setTamponCookie).toHaveBeenCalledWith(

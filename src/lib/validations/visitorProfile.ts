@@ -29,11 +29,29 @@ export const visitorProfileSchema = z.object({
       /^\+[1-9]\d{6,14}$/,
       "Merci d’indiquer un numéro de téléphone valide avec son indicatif.",
     ),
-  // Indicateur de maturité conservé dans le profil et la table tampon ; il
-  // n'influence pas encore la qualification des funnels.
-  intention: z.enum(["exploration", "idee_precise", "conseil"], {
-    error: "Choisissez la situation qui vous correspond le mieux.",
-  }),
+  // Projet actuel : conservé dans le profil et dans `temperature` côté tampon.
+  // Il n'influence pas encore la qualification des funnels.
+  intention: z.enum(
+    [
+      "preparation_active",
+      "comparaison_destinations",
+      "recherche_informations",
+      "curiosite",
+    ],
+    { error: "Choisissez le projet qui vous correspond le mieux." },
+  ),
+  // Horizon indicatif enregistré dans `depart_prevue` côté tampon, sans
+  // influencer pour le moment la qualification du funnel final.
+  echeance: z.enum(
+    [
+      "moins_3_mois",
+      "3_6_mois",
+      "6_10_mois",
+      "plus_1_an",
+      "sans_date",
+    ],
+    { error: "Indiquez quand vous pensez partir." },
+  ),
   consentement: z.boolean().refine((value) => value, {
     message: "Votre consentement est nécessaire pour poursuivre.",
   }),

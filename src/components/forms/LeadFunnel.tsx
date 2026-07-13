@@ -136,7 +136,8 @@ export function LeadFunnel({
       ...(draft?.values ?? {}),
     };
     if (profile !== null) {
-      // L'intention du sas reste volontairement hors des réponses du funnel.
+      // Le projet et l'échéance du sas restent volontairement hors des
+      // réponses du funnel : ils ne servent pas encore à sa qualification.
       // Les coordonnées et le consentement alimentent seulement la validation
       // cliente ; le serveur relit ensuite les valeurs de la table tampon.
       const contactFields = [
