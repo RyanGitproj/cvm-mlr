@@ -9,7 +9,9 @@ export const publicRoutes = [
   "/cvm/treks",
   "/cvm/iles",
   "/cvm/un-mois",
-  "/cvm/orientation/questionnaire",
+  // Orientation hors sitemap depuis le retrait de ses CTA (Ryan 2026-07-13) :
+  // la page reste accessible par URL directe — décommenter pour la réindexer.
+  // "/cvm/orientation/questionnaire",
   "/mlr",
   "/mlr/nord",
   "/mlr/ouest",

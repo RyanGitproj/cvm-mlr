@@ -38,7 +38,13 @@ export default function CvmLandingPage() {
         sousTitre={CVM_LANDING.hero.sousTitre}
         ctas={[
           { href: "#experiences", label: "Voir les 4 expériences", variant: "primary" },
-          { href: CVM_LANDING.orientation.href, label: CVM_LANDING.orientation.cta, variant: "outline" },
+          ...(CVM_LANDING.orientation.actif
+            ? [{
+                href: CVM_LANDING.orientation.href,
+                label: CVM_LANDING.orientation.cta,
+                variant: "outline" as const,
+              }]
+            : []),
         ]}
         imageLabel={CVM_LANDING.hero.imageLabel}
         imageAlt={CVM_LANDING.hero.imageAlt}
@@ -117,29 +123,34 @@ export default function CvmLandingPage() {
         </div>
       </section>
 
-      <section className="mx-auto w-full max-w-6xl px-4 pb-12 sm:px-6">
-        <div className="rounded-2xl border-2 border-accent-soft bg-surface-2 p-6 sm:flex sm:items-center sm:justify-between sm:gap-6">
-          <div>
-            <p className="font-heading text-2xl font-bold text-ink-strong">
-              {CVM_LANDING.orientation.titre}
-            </p>
-            <p className="mt-2 max-w-prose text-sm text-ink-soft">
-              {CVM_LANDING.orientation.texte}
-            </p>
+      {/* Bandeau orientation masqué tant que CVM_LANDING.orientation.actif
+          est false — le JSX reste en place pour une réactivation à un
+          booléen près. */}
+      {CVM_LANDING.orientation.actif && (
+        <section className="mx-auto w-full max-w-6xl px-4 pb-12 sm:px-6">
+          <div className="rounded-2xl border-2 border-accent-soft bg-surface-2 p-6 sm:flex sm:items-center sm:justify-between sm:gap-6">
+            <div>
+              <p className="font-heading text-2xl font-bold text-ink-strong">
+                {CVM_LANDING.orientation.titre}
+              </p>
+              <p className="mt-2 max-w-prose text-sm text-ink-soft">
+                {CVM_LANDING.orientation.texte}
+              </p>
+            </div>
+            <TrackedLink
+              href={CVM_LANDING.orientation.href}
+              event="cta_click"
+              eventParams={{
+                cta_id: "cvm_orientation",
+                cta_label: CVM_LANDING.orientation.cta,
+              }}
+              className={buttonClasses(undefined, "mt-4 shrink-0 sm:mt-0")}
+            >
+              {CVM_LANDING.orientation.cta}
+            </TrackedLink>
           </div>
-          <TrackedLink
-            href={CVM_LANDING.orientation.href}
-            event="cta_click"
-            eventParams={{
-              cta_id: "cvm_orientation",
-              cta_label: CVM_LANDING.orientation.cta,
-            }}
-            className={buttonClasses(undefined, "mt-4 shrink-0 sm:mt-0")}
-          >
-            {CVM_LANDING.orientation.cta}
-          </TrackedLink>
-        </div>
-      </section>
+        </section>
+      )}
 
       <NoteTarifaire texte={NOTE_TARIFAIRE_CVM} />
       <VideoSection {...CVM_LANDING.video} />

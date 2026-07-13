@@ -460,6 +460,11 @@ export const CVM_LANDING = {
     imageAlt: "4x4 chargé sur une piste côtière au coucher du soleil, massif rocheux et baie turquoise en arrière-plan",
   },
   orientation: {
+    // CTA masqués (décision Ryan 2026-07-13 : plus d'orientation) — repasser
+    // à true pour réafficher les deux CTA de la landing /cvm tels quels
+    // (bouton Hero + bandeau). Le formulaire, lui, reste fonctionnel en URL
+    // directe.
+    actif: false,
     titre: "Vous ne savez pas laquelle choisir ?",
     texte:
       "Répondez à quelques questions sur votre envie, votre niveau et votre confort, et recevez la recommandation la plus adaptée à votre profil.",
