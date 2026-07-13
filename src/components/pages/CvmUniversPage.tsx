@@ -13,7 +13,7 @@ import {
   type CvmUniversContent,
 } from "@/config/content/cvm";
 import { formatEuros } from "@/lib/format";
-import { fbEvent } from "@/lib/fpixel";
+import { FB_CONTENT_CATEGORY, fbEvent } from "@/lib/fpixel";
 import { useEffect } from "react";
 
 /**
@@ -28,7 +28,7 @@ export function CvmUniversPage({ content }: { content: CvmUniversContent }) {
   useEffect(() => {
     fbEvent("ViewContent", {
       content_name: content.surtitre,
-      content_category: "Celebrations voyages",
+      content_category: FB_CONTENT_CATEGORY.cvm,
     });
   }, [content]);
   return (

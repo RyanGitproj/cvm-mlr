@@ -10,7 +10,7 @@ import { TempsForts } from "@/components/sections/TempsForts";
 import { Pill } from "@/components/ui/Pill";
 import { ScrollCtaLink } from "@/components/ui/ScrollCtaLink";
 import { cn } from "@/lib/cn";
-import { fbEvent } from "@/lib/fpixel";
+import { FB_CONTENT_CATEGORY, fbEvent } from "@/lib/fpixel";
 import {
   MLR_SERVICES,
   MLR_TARIFS,
@@ -27,7 +27,7 @@ export function MlrRoutePage({ content }: { content: MlrRouteContent }) {
   useEffect(() => {
     fbEvent("ViewContent", {
       content_name: content.sousTitre,
-      content_category: "Madagascar Liberty Roots",
+      content_category: FB_CONTENT_CATEGORY.mlr,
     });
   }, [content]);
   // Photo posée : texte clair directement sur la photo (sans voile ni
