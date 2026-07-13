@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { FormProvider, useForm, type FieldValues } from "react-hook-form";
 import type { z } from "zod";
 import { submitLead } from "@/actions/submitLead";
@@ -10,6 +10,14 @@ import { Button, buttonClasses } from "@/components/ui/Button";
 import { MediaBackdrop } from "@/components/ui/MediaBackdrop";
 import { getFunnelConfig } from "@/config/funnels";
 import { resolveOffer } from "@/config/offers";
+import { FB_CONTENT_CATEGORY, fbEvent } from "@/lib/fpixel";
+import {
+  clearDraft,
+  createDraft,
+  draftKey,
+  readDraft,
+  writeDraft,
+} from "@/lib/leadDraft";
 import { nbVoyageursFrom } from "@/lib/leads/toLeadRow";
 import { scrollToElement } from "@/lib/scroll";
 import type { Recommendation } from "@/lib/segmentation/types";
@@ -62,6 +70,10 @@ export function LeadFunnel({
   const config = getFunnelConfig(funnelType);
   const topRef = useRef<HTMLDivElement>(null);
 
+  // Clé du brouillon persisté : le funnel + la route MLR pré-remplie (les
+  // index d'écran diffèrent selon que l'écran route est sauté ou non).
+  const draftStorageKey = draftKey(funnelType, defaultValues?.route);
+
   const form = useForm<FieldValues>({
     // Schéma résolu à l'exécution parmi les 6 funnels : on élargit au format
     // générique de react-hook-form. La validation reste portée par Zod.
@@ -82,11 +94,63 @@ export function LeadFunnel({
     { kind: "contact" as const },
     { kind: "final" as const },
   ];
+  // Dernier écran = « final » (non persistable : la recommendation ne l'est
+  // pas) ; on ne restaure jamais au-delà de l'écran coordonnées.
+  const finalIndex = screens.length - 1;
+  const maxRestoreIndex = screens.length - 2;
 
   const [screenIndex, setScreenIndex] = useState(0);
   const [submitting, setSubmitting] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
   const [recommendation, setRecommendation] = useState<Recommendation | null>(null);
+
+  // Miroir de l'écran courant pour l'écrivain debouncé (closure du form.watch).
+  const screenIndexRef = useRef(screenIndex);
+  screenIndexRef.current = screenIndex;
+
+  // Écrit le brouillon pour un écran donné — ignore l'écran final et les
+  // parcours encore vierges (pas de clé inutile en storage).
+  const saveDraftAt = useCallback(
+    (index: number) => {
+      if (index < 0 || index >= finalIndex) return;
+      const values = form.getValues();
+      const hasValue = Object.values(values).some(
+        (value) => value !== undefined && value !== null && value !== "",
+      );
+      if (!hasValue) return;
+      writeDraft(draftStorageKey, createDraft(index, values, readUtm(), Date.now()));
+    },
+    [draftStorageKey, finalIndex, form],
+  );
+
+  // Restauration après un rechargement de webview : une seule fois au montage,
+  // avant que l'écrivain ne s'abonne. Ref booléen volontaire — re-restaurer
+  // écraserait la saisie en cours (à distinguer du scroll, qui doit re-jouer).
+  const restored = useRef(false);
+  useEffect(() => {
+    if (restored.current) return;
+    restored.current = true;
+    const draft = readDraft(draftStorageKey, Date.now());
+    if (draft === null) return;
+    const hasValue = Object.values(draft.values).some(
+      (value) => value !== undefined && value !== null && value !== "",
+    );
+    if (!hasValue) return;
+    form.reset(draft.values as FieldValues);
+    setScreenIndex(Math.min(Math.max(draft.screenIndex, 0), maxRestoreIndex));
+  }, [draftStorageKey, maxRestoreIndex, form]);
+
+  // Persistance debouncée, déclenchée par le `onChange` du <form> (il bouillonne
+  // depuis tous les champs — y compris le radio posé par setValue à l'avance).
+  // On lit l'écran courant via le ref. Les retours ne changent aucune valeur :
+  // ils sont persistés explicitement dans goBack.
+  const persistTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(
+    () => () => {
+      if (persistTimer.current !== null) clearTimeout(persistTimer.current);
+    },
+    [],
+  );
 
   const currentScreen = screens[screenIndex];
   const headingId =
@@ -102,6 +166,11 @@ export function LeadFunnel({
     pushDataLayerEventOnce(`funnel_start_${funnelType}`, "funnel_start", {
       funnel_type: funnelType,
     });
+    if (persistTimer.current !== null) clearTimeout(persistTimer.current);
+    persistTimer.current = setTimeout(
+      () => saveDraftAt(screenIndexRef.current),
+      400,
+    );
   }
 
   // Scroll + focus au changement d'écran (mémoire next16-effects-reconnexion-spa :
@@ -203,12 +272,18 @@ export function LeadFunnel({
       if (!valid) return;
       setServerError(null);
       setSubmitting(true);
-      const result = await submitLead(funnelType, form.getValues(), readUtm());
+      // Fallback d'attribution : si un reload a vidé le sessionStorage des UTM
+      // sans re-fournir la query string, on retombe sur le snapshot du brouillon.
+      const utm = readUtm() ?? readDraft(draftStorageKey, Date.now())?.utm ?? null;
+      const result = await submitLead(funnelType, form.getValues(), utm);
       setSubmitting(false);
       if (!result.ok) {
         setServerError(result.message);
         return;
       }
+      // Lead enregistré : le brouillon n'a plus lieu d'être (un reload post-envoi
+      // ne doit pas ressusciter un parcours périmé).
+      clearDraft(draftStorageKey);
       // Conversion enrichie : l'offre choisie (« formules les plus choisies »
       // côté GA4), la fenêtre de départ, l'effectif réel et la route MLR.
       const values = form.getValues();
@@ -231,6 +306,17 @@ export function LeadFunnel({
         ...(nbVoyageurs !== null && { nb_voyageurs: nbVoyageurs }),
         ...(typeof values.route === "string" && { route: values.route }),
       });
+      // Conversion Meta — no-op tant que le pixel n'est pas monté (gate
+      // consentement CNIL). value/currency : optimisation valeur côté Ads.
+      fbEvent("Lead", {
+        content_category: FB_CONTENT_CATEGORY[config.brand],
+        ...(offre !== null && { content_name: offre.label }),
+        ...(offre !== null &&
+          offre.prixIndicatif !== null && {
+            value: offre.prixIndicatif,
+            currency: "EUR",
+          }),
+      });
       setRecommendation(result.recommendation);
       lastNavAt.current = Date.now();
       setScreenIndex((index) => index + 1);
@@ -241,7 +327,11 @@ export function LeadFunnel({
 
   function goBack() {
     lastNavAt.current = Date.now();
-    setScreenIndex((index) => Math.max(index - 1, 0));
+    const target = Math.max(screenIndex - 1, 0);
+    setScreenIndex(target);
+    // Un retour ne change aucune valeur : l'écrivain (form.watch) ne se
+    // déclencherait pas, on persiste donc l'écran cible explicitement.
+    saveDraftAt(target);
   }
 
   // Écran à validation explicite : option « Autre » sélectionnée
