@@ -301,7 +301,7 @@ export function VisitorGate({ children }: Props) {
               {success ? (
                 <div aria-live="polite" className="mt-4 sm:mt-6">
                   <p className="text-center font-heading text-[11px] font-bold tracking-wide text-accent sm:text-sm">
-                    Madagascar. Là où les autres ne vont pas.
+                    Madagascar autrement. On vous emmène là où les autres ne vont pas.
                   </p>
                   <ol
                     aria-label="Progression de votre demande"
