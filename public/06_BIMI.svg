@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" width="1200" height="1200">
+  <rect width="1200" height="1200" fill="#050505"/>
+  <g fill="none" stroke="#C99A34" stroke-width="34" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M600 170 C650 210 715 200 755 155 C765 230 835 245 890 205 C845 285 820 360 800 420 H400 C380 360 355 285 310 205 C365 245 435 230 445 155 C485 200 550 210 600 170 Z" fill="#C99A34" stroke="none"/>
+    <path d="M350 370 H850 V735 C850 845 735 930 600 985 C465 930 350 845 350 735 Z" fill="#0A0A0A"/>
+    <path d="M395 420 H805 V720 C805 800 715 870 600 920 C485 870 395 800 395 720 Z" stroke-width="18"/>
+  </g>
+  <text x="600" y="690" text-anchor="middle" font-family="Georgia, Times New Roman, serif" font-size="300" fill="#D5A642" font-weight="500">CV</text>
+  <g fill="#C99A34">
+    <path d="M260 560 C170 595 135 705 180 795 C225 875 325 885 375 815 C315 835 260 805 245 745 C230 680 260 625 325 585 Z"/>
+    <path d="M940 560 C1030 595 1065 705 1020 795 C975 875 875 885 825 815 C885 835 940 805 955 745 C970 680 940 625 875 585 Z"/>
+    <circle cx="246" cy="590" r="34" fill="#D5A642"/>
+    <circle cx="954" cy="590" r="34" fill="#D5A642"/>
+  </g>
+  <g fill="none" stroke="#C99A34" stroke-width="22" stroke-linecap="round">
+    <path d="M430 920 C490 955 535 975 600 995 C665 975 710 955 770 920"/>
+  </g>
+</svg>
