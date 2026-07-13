@@ -4,6 +4,13 @@ const nextConfig: NextConfig = {
   // Cible de production : Render (Vercel = preview uniquement).
   output: "standalone",
 
+  // Configuration de sécurité pour les Server Actions via VS Code Dev Tunnels
+  experimental: {
+    serverActions: {
+      allowedOrigins: ["zdzm065z-3000.inc1.devtunnels.ms"],
+    },
+  },
+
   // Next 16 exige de déclarer chaque qualité utilisée par <Image quality>
   // (75 = défaut, 90 = hero MLR).
   images: { qualities: [75, 90] },

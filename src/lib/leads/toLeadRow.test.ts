@@ -200,6 +200,18 @@ describe("toLeadRow", () => {
     expect(toLeadRow("mlr", parcoursMlr, null, EMPTY_QUALIF).brand).toBe("mlr");
   });
 
+  it("rattache le lead final à sa ligne tampon", () => {
+    const tamponId = "123e4567-e89b-12d3-a456-426614174000";
+    const row = toLeadRow(
+      "cvm_treks",
+      parcoursCvm,
+      null,
+      EMPTY_QUALIF,
+      tamponId,
+    );
+    expect(row.funnel_leads_tampon_id).toBe(tamponId);
+  });
+
   it("aplatit l'UTM en colonnes, null si absent", () => {
     const row = toLeadRow(
       "cvm_treks",

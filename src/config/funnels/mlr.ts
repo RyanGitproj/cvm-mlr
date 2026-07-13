@@ -4,7 +4,7 @@ import type { FunnelConfig, RadioStep } from "@/types/funnel";
 /**
  * Funnel MLR — wizard 4 questions (maquettes boss 2026-07-07, vocal =
  * source d'autorité) : route → niveau d'aventure (offre) → fenêtre de
- * départ → voyageurs, puis coordonnées et écran final conditionnel.
+ * départ → voyageurs, puis validation et écran final conditionnel.
  * Le wizard tutoie le lead (phrases du boss reprises quasi verbatim,
  * marque corrigée : « Liberty Roots », jamais « Liberty Routes »).
  */
@@ -107,9 +107,6 @@ export const mlrFunnel: FunnelConfig = {
     },
   ],
   contact: {
-    id: "coordonnees",
-    variant: "mlr",
-    question: "Ta route est presque prête. Où veux-tu la recevoir ?",
     hint: "On va t'envoyer ta brochure Liberty Roots, ta vidéo de présentation et ton devis indicatif selon tes choix.",
     message:
       "Devis de présentation, non définitif : un devis indicatif, adapté à tes envies, ajusté ensemble si besoin. Tes informations restent confidentielles, elles servent uniquement à préparer ta proposition et à te recontacter.",

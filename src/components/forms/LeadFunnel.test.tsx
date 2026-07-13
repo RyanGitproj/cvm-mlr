@@ -1,20 +1,31 @@
 /**
  * @vitest-environment jsdom
  *
- * Moteur wizard (gabarit maquette 5 écrans) : une décision par écran, avance
- * au clic, garde anti double-clic, submit unique aux coordonnées. Exception
+ * Moteur wizard : une décision par écran, avance au clic, garde anti
+ * double-clic, puis submit sur la dernière décision. Exception
  * à la règle « fonctions pures uniquement » : ces
  * comportements vivent dans le câblage DOM, ils ne se testent qu'en rendant
  * le composant.
  */
 import { cleanup, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { afterEach, beforeAll, expect, it, vi } from "vitest";
+import { afterEach, beforeAll, beforeEach, expect, it, vi } from "vitest";
 import { submitLead } from "@/actions/submitLead";
+import { createDraft, draftKey, writeDraft } from "@/lib/leadDraft";
+import { readVisitorProfile, saveVisitorProfile } from "@/lib/visitorProfile";
 import { LeadFunnel } from "./LeadFunnel";
 
 vi.mock("@/actions/submitLead", () => ({ submitLead: vi.fn() }));
 vi.mock("@/actions/saveSuite", () => ({ saveSuite: vi.fn() }));
+
+const VISITOR_PROFILE = {
+  nom: "Rakoto",
+  prenom: "Mia",
+  email: "mia@example.com",
+  telephone: "+33612345678",
+  intention: "conseil" as const,
+  consentement: true,
+};
 
 beforeAll(() => {
   window.matchMedia = (query: string): MediaQueryList => ({
@@ -30,9 +41,17 @@ beforeAll(() => {
   Element.prototype.scrollIntoView = () => undefined;
 });
 
+beforeEach(() => {
+  vi.mocked(submitLead).mockResolvedValue({
+    ok: true,
+    recommendation: null,
+  });
+});
+
 afterEach(() => {
   cleanup();
   vi.clearAllMocks();
+  localStorage.clear();
   sessionStorage.clear();
 });
 
@@ -70,9 +89,10 @@ it(
 );
 
 it(
-  "route pré-remplie : Q1 sautée, exclusions en texte d'info Q4, submit vide → alertes sans appel serveur",
+  "route pré-remplie : Q1 sautée et submit depuis la dernière décision",
   async () => {
     const user = userEvent.setup();
+    saveVisitorProfile(VISITOR_PROFILE);
     render(<LeadFunnel funnelType="mlr" defaultValues={{ route: "ouest" }} />);
 
     // Q1 sautée : le parcours démarre au niveau d'aventure, barre sur 3.
@@ -89,26 +109,28 @@ it(
     expect(await screen.findByText(/combien de places/i)).toBeTruthy();
     await settleGuard();
 
-    // Les exclusions sont un simple texte d'info (case de compréhension
-    // retirée le 2026-07-09) : la sélection avance seule vers les coordonnées.
+    // Les exclusions restent un simple texte d'info. La dernière sélection ne
+    // change plus d'écran : elle révèle/maintient le CTA de soumission final.
     expect(
       screen.getByText(/les vols, hôtels et restaurants ne sont pas inclus/i),
     ).toBeTruthy();
     expect(screen.queryByRole("checkbox")).toBeNull();
     await user.click(screen.getByRole("radio", { name: /je pars seul/i }));
-    expect(await screen.findByText(/ta route est presque prête/i)).toBeTruthy();
-    await settleGuard();
+    expect(await screen.findByText(/combien de places/i)).toBeTruthy();
+    expect(screen.queryByLabelText("Nom")).toBeNull();
+    expect(screen.getByText(/mia@example\.com/i)).toBeTruthy();
 
-    // Submit à vide → alertes de validation, aucun appel serveur.
     await user.click(screen.getByRole("button", { name: /recevoir ma route/i }));
-    expect((await screen.findAllByRole("alert")).length).toBeGreaterThan(0);
-    expect(vi.mocked(submitLead)).not.toHaveBeenCalled();
-
-    // Entrée dans un champ texte ne soumet pas le formulaire.
-    await user.click(screen.getByLabelText("Nom"));
-    await user.keyboard("{Enter}");
-    await new Promise((resolve) => setTimeout(resolve, 50));
-    expect(vi.mocked(submitLead)).not.toHaveBeenCalled();
+    expect(vi.mocked(submitLead)).toHaveBeenCalledOnce();
+    expect(vi.mocked(submitLead).mock.calls[0]?.[1]).toEqual(
+      expect.objectContaining({
+        nom: "Rakoto",
+        email: "mia@example.com",
+        consentement: true,
+        nbVoyageurs: "1",
+      }),
+    );
+    expect(readVisitorProfile()).toEqual(VISITOR_PROFILE);
   },
   20000,
 );
@@ -138,3 +160,32 @@ it(
   },
   15000,
 );
+
+it("restaure la dernière étape sans réafficher les coordonnées", async () => {
+  saveVisitorProfile(VISITOR_PROFILE);
+  writeDraft(
+    draftKey("mlr"),
+    createDraft(
+      3,
+      {
+        route: "nord",
+        offreDuree: "10_jours",
+        departFenetre: "4_6",
+      },
+      null,
+      Date.now(),
+    ),
+  );
+
+  render(<LeadFunnel funnelType="mlr" />);
+
+  expect(await screen.findByText(/combien de places/i)).toBeTruthy();
+  expect(screen.queryByLabelText("Nom")).toBeNull();
+  expect(screen.queryByLabelText("Email")).toBeNull();
+  expect(screen.getByText(/mia@example\.com/i)).toBeTruthy();
+
+  const user = userEvent.setup();
+  await user.click(screen.getByRole("radio", { name: /je pars seul/i }));
+  await user.click(screen.getByRole("button", { name: /recevoir ma route/i }));
+  expect(vi.mocked(submitLead)).toHaveBeenCalledOnce();
+});

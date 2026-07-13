@@ -72,6 +72,8 @@ export type LeadRow = {
   // repo) — mapping en dur dans src/config/offers.ts.
   // NULL = orientation, MLR (lignes catalogue à venir) ou offre inconnue.
   catalogue_offre_id: number | null;
+  /** Relation vers les coordonnées du sas (un profil peut demander plusieurs offres). */
+  funnel_leads_tampon_id: string | null;
   route: string | null;
   // Attribution
   utm_source: string | null;
@@ -81,3 +83,19 @@ export type LeadRow = {
   utm_term: string | null;
   referrer: string | null;
 } & LeadQualifColumns;
+
+/** Première ligne, créée avant l'accès à la page d'accueil. */
+export type LeadTamponRow = {
+  nom: string;
+  prenom: string | null;
+  telephone: string;
+  email: string;
+  temperature: string;
+  consentement: boolean;
+};
+
+/** Coordonnées relues côté serveur au moment de la soumission finale. */
+export type LeadTamponContact = Pick<
+  LeadTamponRow,
+  "nom" | "prenom" | "telephone" | "email" | "consentement"
+>;

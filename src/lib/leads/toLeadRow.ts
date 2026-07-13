@@ -39,6 +39,7 @@ export function toLeadRow(
   data: Record<string, unknown>,
   utm: UtmData | null,
   qualif: LeadQualifColumns,
+  tamponId: string | null = null,
 ): LeadRow {
   const offre = resolveOffer(
     funnelType,
@@ -65,6 +66,7 @@ export function toLeadRow(
     offre_duree: offre?.dureeJours ?? null,
     offre_prix_indicatif: offre?.prixIndicatif ?? null,
     catalogue_offre_id: offre?.catalogueOffreId ?? null,
+    funnel_leads_tampon_id: tamponId,
     route: typeof data.route === "string" ? data.route : null,
     utm_source: utm?.utm_source ?? null,
     utm_medium: utm?.utm_medium ?? null,

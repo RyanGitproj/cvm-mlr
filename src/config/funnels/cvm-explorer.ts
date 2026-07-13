@@ -85,10 +85,7 @@ export const cvmExplorerFunnel: FunnelConfig = {
     CVM_STEP_VOYAGEURS,
   ],
   contact: {
-    id: "coordonnees",
-    variant: "cvm",
-    cta: "Enregistrer mes coordonnées",
-    question: "Vos coordonnées",
+    cta: "Recevoir ma proposition",
     message:
       "Cette demande ne confirme pas la participation. Elle permet de vérifier le profil, la motivation et les conditions nécessaires à une expédition sécurisée.",
   },

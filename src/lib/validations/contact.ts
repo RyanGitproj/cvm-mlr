@@ -2,11 +2,10 @@ import { z } from "zod";
 import "./common"; // charge z.config(z.locales.fr()) avant usage des messages
 
 /**
- * Coordonnées du dernier écran de saisie — CVM utilise ce socle tel quel
- * (écran épuré : identité + contact + consentement, gabarit maquette
- * 2026-07-07). Source unique de vérité, utilisée côté client (zodResolver)
- * ET serveur (safeParse). `nom` obligatoire ; `prenom` facultatif (min 2
- * s'il est saisi).
+ * Coordonnées collectées dans le sas d'entrée puis relues depuis le tampon au
+ * submit final. Ce socle reste partagé par le resolver client et la validation
+ * serveur du parcours complet. `nom` est obligatoire ; `prenom` facultatif
+ * (minimum 2 caractères lorsqu'il est renseigné).
  */
 export const contactCoreSchema = z.object({
   nom: z.string().min(2, "Merci d'indiquer votre nom."),
@@ -39,9 +38,8 @@ export const contactCoreSchema = z.object({
 });
 
 /**
- * Coordonnées MLR — écran « Ta route est presque prête » (maquette 6 du
- * 2026-07-07). Le mois de départ précis reste facultatif (« si déjà
- * connu »).
+ * Données de clôture MLR. Le mois de départ précis reste facultatif lorsqu'il
+ * est fourni par un ancien brouillon ou un autre point d'entrée.
  */
 export const mlrContactSchema = contactCoreSchema.extend({
   moisDepart: z.string().max(100, "100 caractères maximum.").optional(),

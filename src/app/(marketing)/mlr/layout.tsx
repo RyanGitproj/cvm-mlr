@@ -1,4 +1,5 @@
 import { SiteShell } from "@/components/layout/SiteShell";
+import { VisitorGate } from "@/components/marketing/VisitorGate";
 
 export default function MlrLayout({
   children,
@@ -8,13 +9,15 @@ export default function MlrLayout({
   // repasser `links={navFor("mlr")}` (import `navFor` de @/config/brands) et
   // le bloc `cta` téléphone — le Header et le SiteShell les gèrent toujours.
   return (
-    <SiteShell
-      theme="mlr"
-      className="texture-paper"
-      homeLabel="Liberty Roots"
-      links={[]}
-    >
-      {children}
-    </SiteShell>
+    <VisitorGate>
+      <SiteShell
+        theme="mlr"
+        className="texture-paper"
+        homeLabel="Liberty Roots"
+        links={[]}
+      >
+        {children}
+      </SiteShell>
+    </VisitorGate>
   );
 }

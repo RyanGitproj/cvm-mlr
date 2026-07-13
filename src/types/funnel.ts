@@ -96,10 +96,12 @@ export type OfferWizardStep = ScreenBase & {
 /** Écran de décision du wizard — un par écran, barre « Étape X/N ». */
 export type WizardStep = RadioStep | OfferWizardStep;
 
-/** Écran coordonnées — dernier écran de saisie, submit unique du parcours. */
-export type ContactStep = ScreenBase & {
-  /** Jeu de champs affiché : coordonnées CVM (socle) ou MLR (maquette 6). */
-  variant: "cvm" | "mlr";
+/** Clôture affichée sous la dernière décision, sans nouvelle saisie contact. */
+export type ClosingStep = {
+  /** Réassurance courte placée près du CTA final. */
+  hint?: string;
+  /** Précision utile affichée sous les actions. */
+  message?: string;
   /** Libellé du CTA d'envoi (« Recevoir ma route »…). */
   cta: string;
 };
@@ -143,8 +145,9 @@ export type FunnelConfig = {
     /** Note tarifaire ou avertissement affiché dès l'entrée. */
     note?: string;
   };
-  /** Écrans de décision, dans l'ordre du parcours (avant les coordonnées). */
+  /** Écrans de décision, dans l'ordre du parcours. */
   steps: WizardStep[];
-  contact: ContactStep;
+  /** Contenu de clôture intégré à la dernière décision. */
+  contact: ClosingStep;
   final: FunnelFinal;
 };

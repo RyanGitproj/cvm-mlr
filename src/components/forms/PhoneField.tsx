@@ -20,7 +20,7 @@ const PhoneNumberInput = forwardRef<
   <input
     {...props}
     ref={ref}
-    className="min-w-0 flex-1 bg-transparent py-3 pr-4 text-base text-ink outline-none placeholder:text-ink-soft/60"
+    className="w-0 min-w-0 max-w-full flex-1 bg-transparent py-3 pr-3 text-base text-ink outline-none placeholder:text-ink-soft/60"
   />
 ));
 PhoneNumberInput.displayName = "PhoneNumberInput";
@@ -39,7 +39,7 @@ export function PhoneField({ name, label }: { name: string; label: string }) {
   const hasError = Boolean(errors[name]);
 
   return (
-    <div className="grid gap-1.5">
+    <div className="grid min-w-0 max-w-full gap-1.5">
       <label htmlFor={name} className="text-sm font-medium text-ink-strong">
         {label}
       </label>
@@ -58,7 +58,7 @@ export function PhoneField({ name, label }: { name: string; label: string }) {
             inputComponent={PhoneNumberInput}
             autoComplete="tel"
             className={cn(
-              "flex items-center rounded-lg border-2 bg-card pl-3 transition-colors focus-within:border-accent",
+              "flex w-full min-w-0 max-w-full items-center rounded-lg border-2 bg-card pl-3 transition-colors focus-within:border-accent [&_.PhoneInputCountry]:shrink-0 [&_.PhoneInputInput]:w-0 [&_.PhoneInputInput]:min-w-0",
               hasError ? "border-danger" : "border-line",
             )}
           />

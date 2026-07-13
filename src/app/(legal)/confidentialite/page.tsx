@@ -33,16 +33,17 @@ export default function ConfidentialitePage() {
       <p className={P_CLASS}>
         Identité (nom, prénom), coordonnées (téléphone, email) ; réponses du
         parcours (préférence d’aventure, formule choisie, période de départ,
-        nombre de voyageurs) ; votre choix d’abonnement à la newsletter
-        (facultatif) ; et, le cas échéant, paramètres de campagne (UTM,
-        référent) de votre première visite.
+        nombre de voyageurs) ; et, le cas échéant, paramètres de campagne
+        (UTM, référent) de votre première visite.
       </p>
 
       <h2 className={H2_CLASS}>Base légale</h2>
       <p className={P_CLASS}>
-        Votre consentement, recueilli par une case à cocher obligatoire avant
-        l’envoi de toute demande, ainsi que l’intérêt légitime de la société à
-        répondre à votre sollicitation.
+        Votre consentement, recueilli par une case à cocher obligatoire et
+        non précochée à l’entrée du parcours, couvre l’enregistrement de vos
+        coordonnées, la personnalisation du parcours et le recontact au sujet
+        de votre projet. Le bouton de la dernière étape confirme ensuite votre
+        demande sans vous demander à nouveau ces informations.
       </p>
 
       <h2 className={H2_CLASS}>Destinataires</h2>
@@ -70,6 +71,17 @@ export default function ConfidentialitePage() {
         l’envoi d’un formulaire, uniquement pour personnaliser la page de
         confirmation. Les paramètres de campagne (UTM) sont mémorisés le temps
         de la session de navigation.
+      </p>
+      <p className={P_CLASS}>
+        Lorsque vous validez le formulaire d’entrée, vos nom, prénom, adresse
+        email, numéro de téléphone et niveau d’avancement sont transmis à
+        {" "}{legal.raisonSociale} et enregistrés dans une table tampon. Son
+        identifiant technique est ensuite relié à votre demande de voyage
+        finale, si vous la validez. La valeur de la case de consentement et la
+        date de création de cette ligne permettent de conserver la preuve de
+        votre choix. Une copie locale, conservée 30 jours maximum, évite de vous
+        redemander vos coordonnées et préremplit la suite. Les brouillons de
+        questionnaire sont conservés localement pendant 6 heures maximum.
       </p>
       <p className={P_CLASS}>
         Avec votre consentement, recueilli via le bandeau affiché à votre

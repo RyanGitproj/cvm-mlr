@@ -54,10 +54,7 @@ export const cvmUnMoisFunnel: FunnelConfig = {
     CVM_STEP_VOYAGEURS,
   ],
   contact: {
-    id: "coordonnees",
-    variant: "cvm",
-    cta: "Enregistrer mes coordonnées",
-    question: "Vos coordonnées",
+    cta: "Recevoir ma proposition",
     hint: "Réponse sous 24 h · pré-programme personnalisé · hors vol & assurance.",
   },
   final: { cases: CVM_FINAL_CASES },

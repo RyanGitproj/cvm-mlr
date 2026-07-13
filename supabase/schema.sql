@@ -13,6 +13,24 @@
 -- reco_univers hors orientation) ou qualification invalide (cas théorique —
 -- le lead est conservé quand même).
 
+-- Premier formulaire : coordonnées minimales enregistrées avant l'accueil.
+-- `temperature` contient : exploration | idee_precise | conseil.
+create table public.funnel_leads_tampon (
+  id          uuid primary key default gen_random_uuid(),
+  nom         text not null,
+  prenom      text,
+  telephone   text not null,
+  email       text not null,
+  temperature text not null,
+  consentement boolean not null default false,
+  created_at  timestamptz not null default now()
+);
+
+create index funnel_leads_tampon_created_at_idx
+  on public.funnel_leads_tampon (created_at desc);
+
+alter table public.funnel_leads_tampon enable row level security;
+
 create table public.funnel_cvm_mlr_leads (
   id                    uuid primary key default gen_random_uuid(),
 
@@ -92,12 +110,22 @@ create table public.funnel_cvm_mlr_leads (
   utm_term              text,
   referrer              text,
 
-  created_at            timestamptz not null default now()
+  -- Relation vers le premier formulaire. Un même profil peut être relié à
+  -- plusieurs demandes/offres pendant sa durée de conservation.
+  funnel_leads_tampon_id uuid,
+
+  created_at            timestamptz not null default now(),
+
+  constraint fk_funnel_leads_tampon
+    foreign key (funnel_leads_tampon_id)
+    references public.funnel_leads_tampon (id)
+    on delete set null
 );
 
 create index funnel_cvm_mlr_leads_created_at_idx  on public.funnel_cvm_mlr_leads (created_at desc);
 create index funnel_cvm_mlr_leads_funnel_type_idx on public.funnel_cvm_mlr_leads (funnel_type);
 create index funnel_cvm_mlr_leads_email_idx       on public.funnel_cvm_mlr_leads (email);
+create index funnel_cvm_mlr_leads_tampon_idx      on public.funnel_cvm_mlr_leads (funnel_leads_tampon_id);
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- RLS : activée, AUCUNE policy → aucun accès pour anon/authenticated.
@@ -129,6 +157,50 @@ alter table if exists public.funnel_cvm_mlr_leads drop column if exists comprehe
 -- l'équipe base — d'où l'absence de contrainte ici.
 alter table if exists public.funnel_cvm_mlr_leads
   add column if not exists catalogue_offre_id bigint;
+
+-- Migration idempotente pour une base créée avant le sas d'entrée.
+create table if not exists public.funnel_leads_tampon (
+  id          uuid primary key default gen_random_uuid(),
+  nom         text not null,
+  prenom      text,
+  telephone   text not null,
+  email       text not null,
+  temperature text not null,
+  consentement boolean not null default false,
+  created_at  timestamptz not null default now()
+);
+
+create index if not exists funnel_leads_tampon_created_at_idx
+  on public.funnel_leads_tampon (created_at desc);
+
+alter table public.funnel_leads_tampon enable row level security;
+
+alter table public.funnel_leads_tampon
+  add column if not exists consentement boolean not null default false;
+
+alter table if exists public.funnel_cvm_mlr_leads
+  add column if not exists funnel_leads_tampon_id uuid;
+
+do $$
+begin
+  alter table public.funnel_cvm_mlr_leads
+    drop constraint if exists funnel_cvm_mlr_leads_tampon_unique;
+
+  if not exists (
+    select 1 from pg_constraint
+    where conname = 'fk_funnel_leads_tampon'
+      and conrelid = 'public.funnel_cvm_mlr_leads'::regclass
+  ) then
+    alter table public.funnel_cvm_mlr_leads
+      add constraint fk_funnel_leads_tampon
+      foreign key (funnel_leads_tampon_id)
+      references public.funnel_leads_tampon (id)
+      on delete set null;
+  end if;
+end $$;
+
+create index if not exists funnel_cvm_mlr_leads_tampon_idx
+  on public.funnel_cvm_mlr_leads (funnel_leads_tampon_id);
 
 -- offre_duree : text -> integer, en jours (décision Ryan 2026-07-10).
 -- Idempotent : ne fait rien si la colonne est déjà integer. À exécuter

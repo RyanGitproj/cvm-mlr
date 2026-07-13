@@ -58,10 +58,7 @@ export const cvmOrientationFunnel: FunnelConfig = {
     CVM_STEP_VOYAGEURS,
   ],
   contact: {
-    id: "coordonnees",
-    variant: "cvm",
-    cta: "Enregistrer mes coordonnées",
-    question: "Vos coordonnées",
+    cta: "Découvrir ma recommandation",
     hint: "Réponse sous 24 h · recommandation personnalisée · hors vol & assurance.",
     message:
       "Vous recevrez la brochure, la vidéo et la proposition correspondant à votre profil. Le billet d'avion et l'assurance voyage restent à prévoir séparément.",

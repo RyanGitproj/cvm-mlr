@@ -3,11 +3,10 @@ import { cookies } from "next/headers";
 import { FUNNEL_TYPES, type FunnelType } from "@/types/lead";
 
 /**
- * Cookie de session lead — lie l'étape 1 (id inséré) à l'étape 2 (upsert).
+ * Cookie du lead final — autorise l'enregistrement ultérieur du choix `suite`.
  * Signé HMAC-SHA256 : `httpOnly` protège de XSS, mais l'utilisateur maîtrise
- * ses cookies (devtools) — sans signature il pourrait pointer les écritures
- * étape 2 vers l'id d'un autre lead (service_role bypasse la RLS). La
- * signature est la vraie garde de propriété.
+ * ses cookies (devtools) — sans signature il pourrait viser l'id d'un autre
+ * lead alors que la service_role bypasse la RLS.
  */
 
 const COOKIE_NAME = "lead_session";

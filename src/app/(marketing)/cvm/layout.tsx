@@ -1,5 +1,6 @@
 import { CvmHeaderCta } from "@/components/layout/CvmHeaderCta";
 import { SiteShell } from "@/components/layout/SiteShell";
+import { VisitorGate } from "@/components/marketing/VisitorGate";
 
 export default function CvmLayout({
   children,
@@ -11,13 +12,15 @@ export default function CvmLayout({
   // Seule exception : sur les 4 pages d'aventure, `CvmHeaderCta` ajoute un
   // bouton scroll-to-form coloré par la charte de la page (null ailleurs).
   return (
-    <SiteShell
-      theme="cvm"
-      homeLabel="Célébrations Voyages"
-      links={[]}
-      action={<CvmHeaderCta />}
-    >
-      {children}
-    </SiteShell>
+    <VisitorGate>
+      <SiteShell
+        theme="cvm"
+        homeLabel="Célébrations Voyages"
+        links={[]}
+        action={<CvmHeaderCta />}
+      >
+        {children}
+      </SiteShell>
+    </VisitorGate>
   );
 }

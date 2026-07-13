@@ -25,10 +25,9 @@ import { pushDataLayerEventOnce } from "@/lib/tracking/gtm";
 import { readUtm } from "@/lib/utm";
 import { getFormSchema } from "@/lib/validations";
 import { MESSAGE_EFFECTIF_GROUPE } from "@/lib/validations/common";
+import { readVisitorProfile } from "@/lib/visitorProfile";
 import type { WizardStep } from "@/types/funnel";
 import type { FunnelType } from "@/types/lead";
-import { ContactFields } from "./ContactFields";
-import { ContactFieldsMlr } from "./ContactFieldsMlr";
 import { FinalScreen } from "./FinalScreen";
 import { OfferCards } from "./OfferCards";
 import { RadioCards } from "./RadioCards";
@@ -49,18 +48,15 @@ type Props = {
  */
 const SUBMIT_GUARD_MS = 500;
 
-type Screen =
-  | { kind: "step"; step: WizardStep }
-  | { kind: "contact" }
-  | { kind: "final" };
+type Screen = { kind: "step"; step: WizardStep } | { kind: "final" };
 
 /**
  * Moteur wizard unique des 6 funnels — gabarit maquette boss 2026-07-07 :
  * Q1 projection → Q2 offre à prix → Q3 période → Q4 voyageurs, un écran par
- * décision avec avance au clic et barre « Étape X/N », puis écran
- * coordonnées (submit unique — l'enregistrement n'a lieu qu'à la fin), puis
- * écran final conditionnel rendu depuis la recommendation retournée par
- * l'action. Un seul useForm/FormProvider pour tout le parcours.
+ * décision avec avance au clic et barre « Étape X/N ». Le CTA de soumission
+ * vit sur la dernière décision : les coordonnées déjà collectées dans le sas
+ * sont relues côté serveur, sans nouvel écran de saisie. L'écran final est
+ * rendu depuis la recommendation retournée par l'action.
  */
 export function LeadFunnel({
   funnelType,
@@ -91,11 +87,10 @@ export function LeadFunnel({
   );
   const screens: Screen[] = [
     ...visibleSteps.map((step) => ({ kind: "step" as const, step })),
-    { kind: "contact" as const },
     { kind: "final" as const },
   ];
   // Dernier écran = « final » (non persistable : la recommendation ne l'est
-  // pas) ; on ne restaure jamais au-delà de l'écran coordonnées.
+  // pas) ; on ne restaure jamais au-delà de la dernière décision.
   const finalIndex = screens.length - 1;
   const maxRestoreIndex = screens.length - 2;
 
@@ -131,13 +126,43 @@ export function LeadFunnel({
     if (restored.current) return;
     restored.current = true;
     const draft = readDraft(draftStorageKey, Date.now());
-    if (draft === null) return;
-    const hasValue = Object.values(draft.values).some(
+    const profile = readVisitorProfile();
+
+    // L'identité saisie dans le sas de la page d'accueil préremplit les
+    // coordonnées. Un brouillon déjà commencé garde toutefois la priorité sur
+    // toute valeur non vide que le visiteur aurait corrigée dans le funnel.
+    const restoredValues: FieldValues = {
+      ...form.getValues(),
+      ...(draft?.values ?? {}),
+    };
+    if (profile !== null) {
+      // L'intention du sas reste volontairement hors des réponses du funnel.
+      // Les coordonnées et le consentement alimentent seulement la validation
+      // cliente ; le serveur relit ensuite les valeurs de la table tampon.
+      const contactFields = [
+        "nom",
+        "prenom",
+        "email",
+        "telephone",
+        "consentement",
+      ] as const;
+      for (const name of contactFields) {
+        const value = profile[name];
+        const current = restoredValues[name];
+        if (current === undefined || current === null || current === "") {
+          restoredValues[name] = value;
+        }
+      }
+    }
+
+    const hasValue = Object.values(restoredValues).some(
       (value) => value !== undefined && value !== null && value !== "",
     );
-    if (!hasValue) return;
-    form.reset(draft.values as FieldValues);
-    setScreenIndex(Math.min(Math.max(draft.screenIndex, 0), maxRestoreIndex));
+    if (hasValue) form.reset(restoredValues);
+
+    if (draft !== null) {
+      setScreenIndex(Math.min(Math.max(draft.screenIndex, 0), maxRestoreIndex));
+    }
   }, [draftStorageKey, maxRestoreIndex, form]);
 
   // Persistance debouncée, déclenchée par le `onChange` du <form> (il bouillonne
@@ -153,12 +178,13 @@ export function LeadFunnel({
   );
 
   const currentScreen = screens[screenIndex];
+  const isLastStep =
+    currentScreen.kind === "step" &&
+    screenIndex === visibleSteps.length - 1;
   const headingId =
     currentScreen.kind === "step"
       ? `question-${currentScreen.step.id}`
-      : currentScreen.kind === "contact"
-        ? `question-${config.contact.id}`
-        : "question-final";
+      : "question-final";
 
   // Entrée réelle dans le funnel : première interaction avec le formulaire
   // (onChange bubbles depuis les champs ; dédup session dans pushDataLayerEventOnce).
@@ -263,13 +289,25 @@ export function LeadFunnel({
     }
   }
 
-  /** Submit unique du parcours, depuis l'écran coordonnées. */
+  /** Submit unique du parcours, depuis la dernière étape de décision. */
   async function submit() {
     if (inFlight.current || withinGuard()) return;
     inFlight.current = true;
     try {
       const valid = await form.trigger(undefined, { shouldFocus: true });
       if (!valid) return;
+      if (currentScreen.kind === "step") {
+        pushDataLayerEventOnce(
+          `funnel_step_${funnelType}_${currentScreen.step.id}`,
+          "funnel_step",
+          {
+            funnel_type: funnelType,
+            step_id: currentScreen.step.id,
+            step_index: screenIndex + 1,
+            step_total: visibleSteps.length,
+          },
+        );
+      }
       setServerError(null);
       setSubmitting(true);
       // Fallback d'attribution : si un reload a vidé le sessionStorage des UTM
@@ -282,7 +320,9 @@ export function LeadFunnel({
         return;
       }
       // Lead enregistré : le brouillon n'a plus lieu d'être (un reload post-envoi
-      // ne doit pas ressusciter un parcours périmé).
+      // ne doit pas ressusciter un parcours périmé). Le profil visiteur reste
+      // disponible jusqu'à son expiration afin de ne jamais redemander les
+      // coordonnées juste après la confirmation.
       clearDraft(draftStorageKey);
       // Conversion enrichie : l'offre choisie (« formules les plus choisies »
       // côté GA4), la fenêtre de départ, l'effectif réel et la route MLR.
@@ -338,6 +378,7 @@ export function LeadFunnel({
   // (précision à saisir avant de continuer).
   const explicitCta = (() => {
     if (currentScreen.kind !== "step") return null;
+    if (isLastStep) return null;
     const step = currentScreen.step;
     if (step.kind !== "radio") return null;
     const selected: unknown = form.watch(step.name);
@@ -430,7 +471,7 @@ export function LeadFunnel({
                         if (currentScreen.step.kind === "radio") {
                           form.setValue(currentScreen.step.name, option.value);
                         }
-                        void advanceFrom(currentScreen);
+                        if (!isLastStep) void advanceFrom(currentScreen);
                       }}
                     />
                   )}
@@ -441,7 +482,7 @@ export function LeadFunnel({
                         labelledBy={headingId}
                         onSelect={(value) => {
                           form.setValue("offreDuree", value);
-                          void advanceFrom(currentScreen);
+                          if (!isLastStep) void advanceFrom(currentScreen);
                         }}
                       />
                       {currentScreen.step.reorientation && (
@@ -497,39 +538,50 @@ export function LeadFunnel({
                     ))}
                   </div>
                 )}
+                {isLastStep && (
+                  <div className="mt-4 flex items-start gap-3 rounded-xl border-2 border-accent-soft bg-card px-4 py-3 shadow-sm">
+                    <span
+                      aria-hidden
+                      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent text-accent-contrast"
+                    >
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.5"
+                        className="h-4 w-4"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="m5 12 4 4L19 6"
+                        />
+                      </svg>
+                    </span>
+                    <div className="min-w-0">
+                      <p className="font-heading text-sm font-bold text-ink-strong sm:text-base">
+                        {config.brand === "mlr"
+                          ? `Ta route prend forme${typeof form.getValues("prenom") === "string" ? `, ${form.getValues("prenom")}` : ""}.`
+                          : `Votre voyage prend forme${typeof form.getValues("prenom") === "string" ? `, ${form.getValues("prenom")}` : ""}.`}
+                      </p>
+                      <p className="mt-1 text-xs leading-relaxed text-ink-soft sm:text-sm">
+                        Vos coordonnées sont déjà enregistrées. Votre proposition
+                        sera préparée pour{" "}
+                        <strong className="break-all font-semibold text-ink-strong">
+                          {String(form.getValues("email") ?? "votre adresse email")}
+                        </strong>
+                        .
+                      </p>
+                      {config.contact.hint && (
+                        <p className="mt-1 text-xs leading-relaxed text-ink-soft">
+                          {config.contact.hint}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                )}
               </section>
             </>
-          )}
-
-          {currentScreen.kind === "contact" && (
-            <section
-              key={currentKey}
-              className="animate-step"
-              aria-labelledby={headingId}
-            >
-              <h2
-                id={headingId}
-                tabIndex={-1}
-                className="font-heading text-2xl font-semibold text-ink-strong outline-none sm:text-3xl"
-              >
-                {config.contact.question}
-              </h2>
-              {config.contact.hint && (
-                <p className="mt-2 text-sm text-ink-soft">{config.contact.hint}</p>
-              )}
-              <div className="mt-5">
-                {config.contact.variant === "mlr" ? (
-                  <ContactFieldsMlr />
-                ) : (
-                  <ContactFields />
-                )}
-              </div>
-              {config.contact.message && (
-                <p className="mt-4 rounded-lg bg-surface-2 px-4 py-3 text-sm text-ink-soft">
-                  {config.contact.message}
-                </p>
-              )}
-            </section>
           )}
 
           {currentScreen.kind === "final" && (
@@ -565,7 +617,7 @@ export function LeadFunnel({
               ) : (
                 <span aria-hidden />
               )}
-              {currentScreen.kind === "contact" ? (
+              {isLastStep ? (
                 <Button type="button" disabled={submitting} onClick={submit}>
                   {submitting ? "Envoi en cours…" : config.contact.cta}
                 </Button>
@@ -577,12 +629,21 @@ export function LeadFunnel({
             </div>
           )}
 
-          {/* Note tarifaire (« hors vol & assurance ») — sous le CTA d'envoi,
-              en clôture de l'écran coordonnées. */}
-          {currentScreen.kind === "contact" && config.intro.note && (
-            <p className="mt-6 rounded-lg border-2 border-accent-soft bg-surface-2 px-4 py-3 text-sm text-ink-soft">
-              {config.intro.note}
-            </p>
+          {/* Informations de clôture, désormais sous le CTA de la dernière
+              décision puisque l'écran coordonnées a été supprimé. */}
+          {isLastStep && (config.contact.message || config.intro.note) && (
+            <div className="mt-4 space-y-2 text-xs leading-relaxed text-ink-soft">
+              {config.contact.message && (
+                <p className="rounded-lg bg-surface-2 px-3 py-2">
+                  {config.contact.message}
+                </p>
+              )}
+              {config.intro.note && (
+                <p className="rounded-lg border-2 border-accent-soft bg-surface-2 px-3 py-2">
+                  {config.intro.note}
+                </p>
+              )}
+            </div>
           )}
         </form>
       </FormProvider>

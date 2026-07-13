@@ -2,7 +2,7 @@ import "server-only";
 
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
-let client: SupabaseClient | null | undefined;
+let client: SupabaseClient | undefined;
 let warned = false;
 
 /**
@@ -20,18 +20,24 @@ let warned = false;
 export function getServiceClient(): SupabaseClient | null {
   if (client !== undefined) return client;
 
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  // Nouvelles clés Supabase (2026) en priorité ; compatibilité conservée avec
+  // les anciennes variables déjà utilisées par les déploiements existants.
+  const url = process.env.SUPABASE_URL ?? process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const serviceKey =
+    process.env.SUPABASE_SECRET_KEY ??
+    process.env.SUPABASE_SERVICE_ROLE_KEY;
 
   if (!url || !serviceKey) {
     if (!warned) {
       console.warn(
-        "[supabase] NEXT_PUBLIC_SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY absents — l'enregistrement des leads est désactivé.",
+        "[supabase] SUPABASE_URL / SUPABASE_SECRET_KEY absents (ou anciennes variables NEXT_PUBLIC_SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY) — ajoutez-les dans .env.local puis redémarrez Next.js.",
       );
       warned = true;
     }
-    client = null;
-    return client;
+    // Ne pas mémoriser l'échec : en développement, Next.js peut recharger les
+    // variables après une modification de `.env`. Le prochain appel retentera
+    // alors la création du client sans nécessiter un nouveau build.
+    return null;
   }
 
   client = createClient(url, serviceKey, {

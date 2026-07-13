@@ -6,7 +6,8 @@ import { processLead } from "@/lib/leads/processLead";
 import { toLeadRow } from "@/lib/leads/toLeadRow";
 import { setMerciCookie } from "@/lib/merci-cookie";
 import type { Recommendation } from "@/lib/segmentation/types";
-import { insertLead } from "@/lib/supabase/leads";
+import { getLeadTampon, insertLead } from "@/lib/supabase/leads";
+import { readTamponCookie } from "@/lib/tampon-cookie";
 import { getFormSchema, utmSchema } from "@/lib/validations";
 import { EMPTY_QUALIF, FUNNEL_TYPES, type FunnelType } from "@/types/lead";
 
@@ -30,13 +31,12 @@ export type SubmitLeadResult =
     };
 
 /**
- * Soumission unique du parcours (écran coordonnées) : revalidation serveur du
- * formulaire complet, INSERT unique dans la table plate `funnel_cvm_mlr_leads`
- * (contact + offre + colonnes de qualification + recommendation), pose des
- * cookies lead (signé — autorise l'update de la colonne `suite` depuis
- * l'écran final) et merci (fallback accès direct). Stateless — pas d'email,
- * pas de webhook, pas de scoring (hors scope). La recommendation est
- * retournée au client pour rendre l'écran final sans nouvel aller-retour.
+ * Soumission unique depuis la dernière décision : les réponses sont
+ * revalidées avec les coordonnées relues dans `funnel_leads_tampon`, puis un
+ * INSERT est réalisé dans `funnel_cvm_mlr_leads` avec la relation entre les
+ * deux lignes. Les cookies lead et merci permettent ensuite l'écran final et
+ * sa suite. Aucun contact envoyé par le navigateur n'est pris comme source de
+ * vérité. La recommendation est retournée au client sans nouvel aller-retour.
  */
 export async function submitLead(
   funnelType: FunnelType,
@@ -48,7 +48,31 @@ export async function submitLead(
     return { ok: false, message: "Demande invalide." };
   }
 
-  const parsed = getFormSchema(type.data).safeParse(raw);
+  const tamponId = await readTamponCookie();
+  if (tamponId === null) {
+    return {
+      ok: false,
+      message:
+        "Vos coordonnées initiales sont introuvables. Revenez à l’accueil pour reprendre votre parcours.",
+    };
+  }
+  const tampon = await getLeadTampon(tamponId);
+  if (!tampon.ok) {
+    return {
+      ok: false,
+      message:
+        "Nous ne retrouvons pas vos coordonnées. Revenez à l’accueil pour les enregistrer à nouveau.",
+    };
+  }
+
+  const answers =
+    typeof raw === "object" && raw !== null
+      ? (raw as Record<string, unknown>)
+      : {};
+  const parsed = getFormSchema(type.data).safeParse({
+    ...answers,
+    ...tampon.contact,
+  });
   if (!parsed.success) {
     return invalid(parsed.error);
   }
@@ -65,6 +89,7 @@ export async function submitLead(
     parsed.data,
     utm.success ? utm.data : null,
     processed.ok ? processed.qualif : EMPTY_QUALIF,
+    tamponId,
   );
 
   const inserted = await insertLead(row);
