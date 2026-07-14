@@ -1,4 +1,5 @@
 import Image from "next/image";
+import type { CSSProperties } from "react";
 import { Reveal } from "@/components/motion/Reveal";
 import { TrackedLink } from "@/components/tracking/TrackedLink";
 import { SectionHeading } from "./SectionHeading";
@@ -45,7 +46,11 @@ const UNIVERS: Univers[] = [
 
 /**
  * Une carte d'univers : visuel studio plein cadre (infos incrustées), sans
- * texte ni padding. Au survol desktop, la photo s'assombrit (voile seul,
+ * texte ni padding. La carte lévite en continu (`animate-float`, demande
+ * Ryan 2026-07-14, animation du pen « Carlos Brothers Coffee ») —
+ * `floatDelay` négatif déphase la 2ᵉ carte ; l'animation vit sur le div
+ * interne, jamais sur le wrapper Reveal dont la transition d'entrée pilote
+ * déjà `transform`. Au survol desktop, la photo s'assombrit (voile seul,
  * sans bouton — décision Ryan 2026-07-09) ; sur tactile `group-hover` (gaté
  * @media (hover:hover) en Tailwind v4) ne se déclenche pas → image seule,
  * toute la carte cliquable.
@@ -57,10 +62,25 @@ const UNIVERS: Univers[] = [
  * tenant côte à côte sans scroll (le titre de section peut sortir du cadre) ;
  * `max-w-[610px]` = largeur native de l'image → jamais d'upscale flou.
  */
-function UniversCard({ univers, delay }: { univers: Univers; delay: number }) {
+function UniversCard({
+  univers,
+  delay,
+  floatDelay,
+}: {
+  univers: Univers;
+  delay: number;
+  floatDelay?: string;
+}) {
+  const floatStyle = floatDelay
+    ? ({ "--float-delay": floatDelay } as CSSProperties)
+    : undefined;
   return (
     <Reveal delay={delay} className="h-full min-w-0">
-      <div data-theme={univers.theme} className="h-full min-w-0">
+      <div
+        data-theme={univers.theme}
+        className="animate-float h-full min-w-0"
+        style={floatStyle}
+      >
         <TrackedLink
           href={univers.href}
           event="select_univers"
@@ -99,7 +119,7 @@ export function UniversPicker() {
       <SectionHeading align="center" titre="Choisissez votre univers" />
       <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5">
         <UniversCard univers={UNIVERS[0]} delay={0} />
-        <UniversCard univers={UNIVERS[1]} delay={120} />
+        <UniversCard univers={UNIVERS[1]} delay={120} floatDelay="-1.5s" />
       </div>
     </section>
   );
