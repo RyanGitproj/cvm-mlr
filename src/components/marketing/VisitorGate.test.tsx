@@ -105,7 +105,7 @@ it("mémorise le profil puis guide vers le choix d'une offre", async () => {
   ).toBeTruthy();
   expect(screen.queryByText(/profil enregistré/i)).toBeNull();
   expect(
-    screen.getByText(/madagascar\. là où les autres ne vont pas/i),
+    screen.getByText(/madagascar autrement\. on vous emmène là où les autres ne vont pas/i),
   ).toBeTruthy();
   expect(screen.getByText("Univers & offre")).toBeTruthy();
   await user.click(
