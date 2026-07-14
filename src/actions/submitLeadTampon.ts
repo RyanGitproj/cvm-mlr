@@ -2,6 +2,7 @@
 
 import { insertLeadTampon } from "@/lib/supabase/leads";
 import { setTamponCookie } from "@/lib/tampon-cookie";
+import { utmSchema } from "@/lib/validations";
 import { visitorProfileSchema } from "@/lib/validations/visitorProfile";
 
 export type SubmitLeadTamponResult =
@@ -15,6 +16,7 @@ export type SubmitLeadTamponResult =
  */
 export async function submitLeadTampon(
   raw: unknown,
+  utmRaw: unknown = null,
 ): Promise<SubmitLeadTamponResult> {
   const parsed = visitorProfileSchema.safeParse(raw);
   if (!parsed.success) {
@@ -23,6 +25,8 @@ export async function submitLeadTampon(
       message: "Certaines informations sont invalides. Merci de les vérifier.",
     };
   }
+  const parsedUtm = utmSchema.safeParse(utmRaw);
+  const utm = parsedUtm.success ? parsedUtm.data : null;
 
   const inserted = await insertLeadTampon({
     nom: parsed.data.nom,
@@ -32,6 +36,11 @@ export async function submitLeadTampon(
     temperature: parsed.data.intention,
     depart_prevue: parsed.data.echeance,
     consentement: parsed.data.consentement,
+    utm_source: utm?.utm_source ?? null,
+    utm_medium: utm?.utm_medium ?? null,
+    utm_campaign: utm?.utm_campaign ?? null,
+    utm_term: utm?.utm_term ?? null,
+    referrer: utm?.referrer ?? null,
   });
   if (!inserted.ok) {
     return {

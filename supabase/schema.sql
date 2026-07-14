@@ -27,6 +27,11 @@ create table public.funnel_leads_tampon (
   temperature text not null,
   depart_prevue text not null,
   consentement boolean not null default false,
+  utm_source  text,
+  utm_medium  text,
+  utm_campaign text,
+  utm_term    text,
+  referrer    text,
   created_at  timestamptz not null default now()
 );
 
@@ -172,6 +177,11 @@ create table if not exists public.funnel_leads_tampon (
   temperature text not null,
   depart_prevue text not null,
   consentement boolean not null default false,
+  utm_source  text,
+  utm_medium  text,
+  utm_campaign text,
+  utm_term    text,
+  referrer    text,
   created_at  timestamptz not null default now()
 );
 
@@ -192,6 +202,13 @@ where depart_prevue is null;
 
 alter table public.funnel_leads_tampon
   alter column depart_prevue set not null;
+
+alter table public.funnel_leads_tampon
+  add column if not exists utm_source text,
+  add column if not exists utm_medium text,
+  add column if not exists utm_campaign text,
+  add column if not exists utm_term text,
+  add column if not exists referrer text;
 
 alter table if exists public.funnel_cvm_mlr_leads
   add column if not exists funnel_leads_tampon_id uuid;

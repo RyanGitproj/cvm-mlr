@@ -19,22 +19,26 @@ export type UtmData = Partial<Record<(typeof UTM_KEYS)[number], string>> & {
 const STORAGE_KEY = "funnel_utm";
 
 export function captureUtm(): void {
-  if (sessionStorage.getItem(STORAGE_KEY) !== null) return;
-  const params = new URLSearchParams(window.location.search);
-  const utm: UtmData = {};
-  for (const key of UTM_KEYS) {
-    const value = params.get(key);
-    if (value !== null && value !== "") utm[key] = value;
+  try {
+    if (sessionStorage.getItem(STORAGE_KEY) !== null) return;
+    const params = new URLSearchParams(window.location.search);
+    const utm: UtmData = {};
+    for (const key of UTM_KEYS) {
+      const value = params.get(key);
+      if (value !== null && value !== "") utm[key] = value;
+    }
+    if (document.referrer !== "") utm.referrer = document.referrer;
+    if (Object.keys(utm).length === 0) return;
+    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(utm));
+  } catch {
+    // Le formulaire reste utilisable si le navigateur bloque le stockage web.
   }
-  if (document.referrer !== "") utm.referrer = document.referrer;
-  if (Object.keys(utm).length === 0) return;
-  sessionStorage.setItem(STORAGE_KEY, JSON.stringify(utm));
 }
 
 export function readUtm(): UtmData | null {
-  const raw = sessionStorage.getItem(STORAGE_KEY);
-  if (raw === null) return null;
   try {
+    const raw = sessionStorage.getItem(STORAGE_KEY);
+    if (raw === null) return null;
     return JSON.parse(raw) as UtmData;
   } catch {
     return null;

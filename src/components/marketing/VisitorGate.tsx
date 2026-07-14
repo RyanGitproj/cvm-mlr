@@ -11,6 +11,7 @@ import { buttonClasses } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
 import { scrollToElement } from "@/lib/scroll";
 import { pushDataLayerEventOnce } from "@/lib/tracking/gtm";
+import { readUtm } from "@/lib/utm";
 import { readVisitorProfile, saveVisitorProfile } from "@/lib/visitorProfile";
 import {
   visitorProfileSchema,
@@ -172,7 +173,8 @@ export function VisitorGate({ children }: Props) {
     setServerError(null);
     let result: Awaited<ReturnType<typeof submitLeadTampon>>;
     try {
-      result = await submitLeadTampon(profile);
+      // `UtmCapture` a mémorisé le premier point d'entrée dès le chargement.
+      result = await submitLeadTampon(profile, readUtm());
     } catch {
       setServerError(
         "L’enregistrement est momentanément indisponible. Merci de réessayer.",

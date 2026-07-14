@@ -31,7 +31,16 @@ describe("submitLeadTampon", () => {
       id: "123e4567-e89b-12d3-a456-426614174000",
     });
 
-    await expect(submitLeadTampon(PROFILE)).resolves.toEqual({ ok: true });
+    await expect(
+      submitLeadTampon(PROFILE, {
+        utm_source: "meta",
+        utm_medium: "paid_social",
+        utm_campaign: "madagascar_ete",
+        utm_content: "video_1",
+        utm_term: "voyage_madagascar",
+        referrer: "https://www.instagram.com/",
+      }),
+    ).resolves.toEqual({ ok: true });
     expect(insertLeadTampon).toHaveBeenCalledWith({
       nom: "Rakoto",
       prenom: "Mia",
@@ -40,6 +49,11 @@ describe("submitLeadTampon", () => {
       temperature: "preparation_active",
       depart_prevue: "3_6_mois",
       consentement: true,
+      utm_source: "meta",
+      utm_medium: "paid_social",
+      utm_campaign: "madagascar_ete",
+      utm_term: "voyage_madagascar",
+      referrer: "https://www.instagram.com/",
     });
     expect(setTamponCookie).toHaveBeenCalledWith(
       "123e4567-e89b-12d3-a456-426614174000",

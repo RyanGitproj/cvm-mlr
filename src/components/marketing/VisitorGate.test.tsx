@@ -48,6 +48,14 @@ it("bloque l'accueil et valide toutes les informations obligatoires", async () =
 
 it("mémorise le profil puis guide vers le choix d'une offre", async () => {
   const user = userEvent.setup();
+  const firstTouchUtm = {
+    utm_source: "google",
+    utm_medium: "cpc",
+    utm_campaign: "madagascar",
+    utm_term: "voyage sur mesure",
+    referrer: "https://www.google.com/",
+  };
+  sessionStorage.setItem("funnel_utm", JSON.stringify(firstTouchUtm));
   render(
     <VisitorGate>
       <main>Accueil Madagascar</main>
@@ -80,15 +88,18 @@ it("mémorise le profil puis guide vers le choix d'une offre", async () => {
     echeance: "3_6_mois",
     consentement: true,
   });
-  expect(vi.mocked(submitLeadTampon)).toHaveBeenCalledWith({
-    nom: "Rakoto",
-    prenom: "Mia",
-    email: "mia@example.com",
-    telephone: "+33612345678",
-    intention: "preparation_active",
-    echeance: "3_6_mois",
-    consentement: true,
-  });
+  expect(vi.mocked(submitLeadTampon)).toHaveBeenCalledWith(
+    {
+      nom: "Rakoto",
+      prenom: "Mia",
+      email: "mia@example.com",
+      telephone: "+33612345678",
+      intention: "preparation_active",
+      echeance: "3_6_mois",
+      consentement: true,
+    },
+    firstTouchUtm,
+  );
   expect(
     await screen.findByText(/comparez librement les univers/i),
   ).toBeTruthy();

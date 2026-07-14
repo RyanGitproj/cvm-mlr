@@ -95,6 +95,12 @@ export type LeadTamponRow = {
   /** Échéance déclarée dans le sas (`moins_3_mois`, `sans_date`…). */
   depart_prevue: string;
   consentement: boolean;
+  // Attribution du tout premier point d'entrée (colonnes nullables en base).
+  utm_source: string | null;
+  utm_medium: string | null;
+  utm_campaign: string | null;
+  utm_term: string | null;
+  referrer: string | null;
 };
 
 /** Coordonnées relues côté serveur au moment de la soumission finale. */
