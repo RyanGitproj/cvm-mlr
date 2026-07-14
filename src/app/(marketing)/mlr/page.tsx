@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import type { CSSProperties } from "react";
 import { QuestionnaireSection } from "@/components/forms/QuestionnaireSection";
 import { Reveal } from "@/components/motion/Reveal";
 import { Hero } from "@/components/sections/Hero";
@@ -55,7 +56,9 @@ export default function MlrLandingPage() {
           {/* Cartes plein cadre façon UniversPicker (page mère) : le visuel
               studio 505×408 porte titre, description, prix et CTA incrustés —
               aucune carte à texte. Au survol desktop, voile seul (pas de
-              bouton) ; toute la carte reste cliquable. */}
+              bouton) ; toute la carte reste cliquable. Respiration
+              animate-breathe en opposition de phase (parité page mère, Ryan
+              2026-07-14), sur le lien et jamais sur le wrapper Reveal. */}
           <div className="mt-8 grid gap-4 sm:grid-cols-2 sm:gap-5">
             {MLR_LANDING.routes.map((route, index) => (
               <Reveal key={route.slug} delay={index * 80} className="min-w-0">
@@ -68,7 +71,10 @@ export default function MlrLandingPage() {
                   // Ouest) : la bordure de survol et la pastille CTA suivent la
                   // charte respective plutôt que le terracotta par défaut.
                   data-accent={route.slug}
-                  className="group relative block aspect-[505/408] overflow-hidden rounded-2xl border-2 border-line transition-colors hover:border-accent"
+                  style={
+                    { "--breathe-delay": `${index * -0.8}s` } as CSSProperties
+                  }
+                  className="animate-breathe group relative block aspect-[505/408] overflow-hidden rounded-2xl border-2 border-line transition-colors hover:border-accent"
                 >
                   <Image
                     src={route.studioSrc}

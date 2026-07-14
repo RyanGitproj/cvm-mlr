@@ -47,6 +47,12 @@ type QuestionBase = {
   id: string;
   /** Nom du champ dans le schéma Zod. */
   name: string;
+  /**
+   * Cartes-options en respiration continue (`animate-breathe`, déphasées) —
+   * posé sur les Q1/Q2 du gabarit (Ryan 2026-07-14, sauf Q1 Grand Tour),
+   * jamais sur période/personnes.
+   */
+  breathe?: boolean;
   /** Question affichée (une seule décision principale par écran). */
   question: string;
   /** Contexte ou réassurance affiché sous la question. */
@@ -71,6 +77,8 @@ export type RadioStep = QuestionBase & {
 /** Métadonnées communes d'un écran sans champ à options. */
 type ScreenBase = {
   id: string;
+  /** Respiration des cartes — voir `QuestionBase.breathe`. */
+  breathe?: boolean;
   question: string;
   hint?: string;
   message?: string;

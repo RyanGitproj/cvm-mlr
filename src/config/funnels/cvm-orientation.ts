@@ -26,6 +26,7 @@ export const cvmOrientationFunnel: FunnelConfig = {
   steps: [
     {
       kind: "radio",
+      breathe: true,
       id: "intention",
       name: "intention",
       question: "Quel voyage avez-vous en tête ?",

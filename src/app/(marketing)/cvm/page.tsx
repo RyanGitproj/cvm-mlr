@@ -62,9 +62,10 @@ export default function CvmLandingPage() {
         />
         {/* Cards maquette avant_vocale (2026-07-07) : l'image studio porte le
             titre et les badges incrustés — le code porte les 4 puces.
-            Lévitation animate-float (Ryan 2026-07-14) posée sur le lien,
+            Respiration animate-breathe (Ryan 2026-07-14) posée sur le lien,
             jamais sur le wrapper Reveal (sa transition d'entrée pilote déjà
-            transform) ; délais négatifs en vague pour déphaser les 4 cartes. */}
+            transform) ; délais négatifs en vague (quarts de cycle) pour
+            déphaser les 4 cartes. */}
         <div className="mt-8 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
           {UNIVERS_ORDER.map((slug, index) => {
             const univers = CVM_UNIVERS[slug];
@@ -76,10 +77,10 @@ export default function CvmLandingPage() {
                   eventParams={{ aventure: slug }}
                   data-accent={univers.accent}
                   style={
-                    { "--float-delay": `${index * -0.75}s` } as CSSProperties
+                    { "--breathe-delay": `${index * -0.4}s` } as CSSProperties
                   }
                   className={cn(
-                    "animate-float flex h-full min-w-0 flex-col rounded-2xl border-2 bg-card p-3 transition-colors hover:border-accent sm:p-4",
+                    "animate-breathe flex h-full min-w-0 flex-col rounded-2xl border-2 bg-card p-3 transition-colors hover:border-accent sm:p-4",
                     // L'Expédition porte couleur + lumière (directive boss
                     // 2026-07) ; les trois autres restent en bordure neutre.
                     slug === "explorer"

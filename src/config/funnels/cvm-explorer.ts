@@ -28,6 +28,7 @@ export const cvmExplorerFunnel: FunnelConfig = {
       // de la mission Riane. L'ancienne question bivouac est posée par
       // les commerciaux (TODO.md) ; la réalité bivouac reste en hint.
       kind: "radio",
+      breathe: true,
       id: "terrain",
       name: "terrain",
       question: "Quel terrain d'expédition vous appelle ?",
@@ -77,6 +78,7 @@ export const cvmExplorerFunnel: FunnelConfig = {
     },
     {
       kind: "offer",
+      breathe: true,
       id: "offre",
       question: "Quelle formule vous correspond ?",
       hint: "Prix indicatif par personne, hors vol international & assurance.",

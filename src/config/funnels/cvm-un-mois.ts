@@ -45,7 +45,10 @@ export const cvmUnMoisFunnel: FunnelConfig = {
       ],
     },
     {
+      // breathe volontairement absent de la Q1 (exception Ryan 2026-07-14) :
+      // seule la carte d'offre du Grand Tour respire.
       kind: "offer",
+      breathe: true,
       id: "offre",
       question: "Votre Grand Tour",
       hint: "Formule unique : prix indicatif par personne, hors vol international & assurance.",

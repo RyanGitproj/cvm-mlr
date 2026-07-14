@@ -20,6 +20,7 @@ export const cvmIlesFunnel: FunnelConfig = {
   steps: [
     {
       kind: "radio",
+      breathe: true,
       id: "destination",
       name: "destination",
       question: "Quelle destination vous fait rêver ?",
@@ -67,6 +68,7 @@ export const cvmIlesFunnel: FunnelConfig = {
     },
     {
       kind: "offer",
+      breathe: true,
       id: "offre",
       question: "Quelle formule vous correspond ?",
       hint: "Prix indicatif par personne, hors vol international & assurance.",

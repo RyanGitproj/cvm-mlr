@@ -1,7 +1,13 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+} from "react";
 import { FormProvider, useForm, type FieldValues } from "react-hook-form";
 import type { z } from "zod";
 import { submitLead } from "@/actions/submitLead";
@@ -10,6 +16,7 @@ import { Button, buttonClasses } from "@/components/ui/Button";
 import { MediaBackdrop } from "@/components/ui/MediaBackdrop";
 import { getFunnelConfig } from "@/config/funnels";
 import { resolveOffer } from "@/config/offers";
+import { cn } from "@/lib/cn";
 import { FB_CONTENT_CATEGORY, fbEvent } from "@/lib/fpixel";
 import {
   clearDraft,
@@ -122,6 +129,10 @@ export function LeadFunnel({
   // avant que l'écrivain ne s'abonne. Ref booléen volontaire — re-restaurer
   // écraserait la saisie en cours (à distinguer du scroll, qui doit re-jouer).
   const restored = useRef(false);
+  // Écran posé par la restauration : l'effet scroll ne doit pas le prendre
+  // pour une navigation du visiteur (arriver sur la page via une card ne doit
+  // jamais catapulter vers le wizard — seul un clic dans le wizard scrolle).
+  const restoredScreenKey = useRef<string | null>(null);
   useEffect(() => {
     if (restored.current) return;
     restored.current = true;
@@ -162,7 +173,9 @@ export function LeadFunnel({
     if (hasValue) form.reset(restoredValues);
 
     if (draft !== null) {
-      setScreenIndex(Math.min(Math.max(draft.screenIndex, 0), maxRestoreIndex));
+      const index = Math.min(Math.max(draft.screenIndex, 0), maxRestoreIndex);
+      restoredScreenKey.current = `screen:${index}`;
+      setScreenIndex(index);
     }
   }, [draftStorageKey, maxRestoreIndex, form]);
 
@@ -207,6 +220,11 @@ export function LeadFunnel({
   useEffect(() => {
     if (lastHandledKey.current === currentKey) return;
     lastHandledKey.current = currentKey;
+    // Écran issu de la restauration du brouillon : le visiteur vient
+    // d'arriver, on le laisse en haut de la page de présentation.
+    const isRestore = restoredScreenKey.current === currentKey;
+    restoredScreenKey.current = null;
+    if (isRestore) return;
     if (topRef.current) scrollToElement(topRef.current);
     document.getElementById(headingId)?.focus({ preventScroll: true });
   }, [currentKey, headingId]);
@@ -465,6 +483,7 @@ export function LeadFunnel({
                       name={currentScreen.step.name}
                       options={currentScreen.step.options}
                       labelledBy={headingId}
+                      breathe={currentScreen.step.breathe}
                       onSelect={(option) => {
                         // La valeur est posée explicitement avant la
                         // validation : l'ordre onChange/onClick de React
@@ -481,13 +500,28 @@ export function LeadFunnel({
                       <OfferCards
                         funnelType={funnelType}
                         labelledBy={headingId}
+                        breathe={currentScreen.step.breathe}
                         onSelect={(value) => {
                           form.setValue("offreDuree", value);
                           if (!isLastStep) void advanceFrom(currentScreen);
                         }}
                       />
                       {currentScreen.step.reorientation && (
-                        <div className="mt-3 grid grid-cols-[minmax(0,4fr)_minmax(0,5fr)] overflow-hidden rounded-3xl border-2 border-line bg-surface-2">
+                        <div
+                          // 3ᵉ carte de l'écran Q2 MLR (après les 2 offres) :
+                          // respire en continuité de leur vague (0 / -0.4s).
+                          style={
+                            currentScreen.step.breathe
+                              ? ({
+                                  "--breathe-delay": "-0.8s",
+                                } as CSSProperties)
+                              : undefined
+                          }
+                          className={cn(
+                            "mt-3 grid grid-cols-[minmax(0,4fr)_minmax(0,5fr)] overflow-hidden rounded-3xl border-2 border-line bg-surface-2",
+                            currentScreen.step.breathe && "animate-breathe",
+                          )}
+                        >
                           {currentScreen.step.reorientation.image && (
                             <span className="p-2.5 pr-0">
                               <span className="relative block h-full min-h-24 overflow-hidden rounded-2xl">

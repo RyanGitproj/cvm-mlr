@@ -46,9 +46,9 @@ const UNIVERS: Univers[] = [
 
 /**
  * Une carte d'univers : visuel studio plein cadre (infos incrustées), sans
- * texte ni padding. La carte lévite en continu (`animate-float`, demande
- * Ryan 2026-07-14, animation du pen « Carlos Brothers Coffee ») —
- * `floatDelay` négatif déphase la 2ᵉ carte ; l'animation vit sur le div
+ * texte ni padding. La carte respire en continu (`animate-breathe`, Ryan
+ * 2026-07-14 : gonfle/dégonfle, remplace la lévitation floating) —
+ * `breatheDelay` négatif déphase la 2ᵉ carte ; l'animation vit sur le div
  * interne, jamais sur le wrapper Reveal dont la transition d'entrée pilote
  * déjà `transform`. Au survol desktop, la photo s'assombrit (voile seul,
  * sans bouton — décision Ryan 2026-07-09) ; sur tactile `group-hover` (gaté
@@ -65,21 +65,21 @@ const UNIVERS: Univers[] = [
 function UniversCard({
   univers,
   delay,
-  floatDelay,
+  breatheDelay,
 }: {
   univers: Univers;
   delay: number;
-  floatDelay?: string;
+  breatheDelay?: string;
 }) {
-  const floatStyle = floatDelay
-    ? ({ "--float-delay": floatDelay } as CSSProperties)
+  const breatheStyle = breatheDelay
+    ? ({ "--breathe-delay": breatheDelay } as CSSProperties)
     : undefined;
   return (
     <Reveal delay={delay} className="h-full min-w-0">
       <div
         data-theme={univers.theme}
-        className="animate-float h-full min-w-0"
-        style={floatStyle}
+        className="animate-breathe h-full min-w-0"
+        style={breatheStyle}
       >
         <TrackedLink
           href={univers.href}
@@ -119,7 +119,7 @@ export function UniversPicker() {
       <SectionHeading align="center" titre="Choisissez votre univers" />
       <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5">
         <UniversCard univers={UNIVERS[0]} delay={0} />
-        <UniversCard univers={UNIVERS[1]} delay={120} floatDelay="-1.5s" />
+        <UniversCard univers={UNIVERS[1]} delay={120} breatheDelay="-0.8s" />
       </div>
     </section>
   );

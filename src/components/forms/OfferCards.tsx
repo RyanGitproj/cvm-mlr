@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { useFormContext } from "react-hook-form";
 import { MediaBackdrop } from "@/components/ui/MediaBackdrop";
 import { offerOptionsFor, type OfferIcon } from "@/config/offers";
@@ -13,6 +13,8 @@ type Props = {
   labelledBy: string;
   /** Avance automatique du wizard au clic (voir RadioCards.onSelect). */
   onSelect?: (value: string) => void;
+  /** Cartes en respiration déphasée (flag `breathe` du step — Q1/Q2). */
+  breathe?: boolean;
 };
 
 /** Pictogrammes décoratifs du badge rond des cartes d'offre (maquette 3). */
@@ -70,7 +72,7 @@ const OFFER_ICON_PATHS: Record<OfferIcon, ReactNode> = {
  * (offerOptionsFor) alignée sur l'enum Zod `offreDuree` ; chaque funnel y
  * porte ses propres textes.
  */
-export function OfferCards({ funnelType, labelledBy, onSelect }: Props) {
+export function OfferCards({ funnelType, labelledBy, onSelect, breathe }: Props) {
   const { register, watch } = useFormContext();
   const options = offerOptionsFor(funnelType);
   const selected: unknown = watch("offreDuree");
@@ -85,13 +87,20 @@ export function OfferCards({ funnelType, labelledBy, onSelect }: Props) {
         // pleine largeur — jamais une carte orpheline en demi-colonne.
         className={cn("grid gap-3", options.length >= 2 && "sm:grid-cols-2")}
       >
-        {options.map((option) => {
+        {options.map((option, index) => {
           const isSelected = option.value === selected;
           return (
             <label
               key={option.value}
+              // Vague en quarts de cycle (1.6s), comme les cards /cvm.
+              style={
+                breathe
+                  ? ({ "--breathe-delay": `${index * -0.4}s` } as CSSProperties)
+                  : undefined
+              }
               className={cn(
                 "grid cursor-pointer grid-cols-[minmax(0,4fr)_minmax(0,5fr)] overflow-hidden rounded-3xl border-2 bg-card transition-colors has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent",
+                breathe && "animate-breathe",
                 isSelected ? "border-accent" : "border-line hover:border-accent-soft",
               )}
             >

@@ -1,5 +1,6 @@
 "use client";
 
+import type { CSSProperties } from "react";
 import { useFormContext } from "react-hook-form";
 import { MediaBackdrop } from "@/components/ui/MediaBackdrop";
 import { cn } from "@/lib/cn";
@@ -19,6 +20,8 @@ type Props = {
    * (le champ précision doit être rempli avant de continuer).
    */
   onSelect?: (option: ChoiceOption) => void;
+  /** Cartes en respiration déphasée (flag `breathe` du step — Q1/Q2). */
+  breathe?: boolean;
 };
 
 /**
@@ -34,7 +37,13 @@ type Props = {
  * contenu, marges serrées, deux colonnes dès `sm` dès qu'il y a au moins
  * 2 options (les 2 routes MLR se posent côte à côte sur desktop).
  */
-export function RadioCards({ name, options, labelledBy, onSelect }: Props) {
+export function RadioCards({
+  name,
+  options,
+  labelledBy,
+  onSelect,
+  breathe,
+}: Props) {
   const { register, watch } = useFormContext();
   const selected: unknown = watch(name);
   const selectedOption = options.find((option) => option.value === selected);
@@ -46,8 +55,12 @@ export function RadioCards({ name, options, labelledBy, onSelect }: Props) {
       aria-labelledby={labelledBy}
       className={cn("grid gap-2", options.length >= 2 && "sm:grid-cols-2")}
     >
-      {options.map((option) => {
+      {options.map((option, index) => {
         const isSelected = option.value === selected;
+        // Vague en quarts de cycle (1.6s), comme les cards de la landing /cvm.
+        const breatheStyle = breathe
+          ? ({ "--breathe-delay": `${index * -0.4}s` } as CSSProperties)
+          : undefined;
         const { title, description } =
           option.description !== undefined
             ? { title: option.label, description: option.description }
@@ -69,8 +82,10 @@ export function RadioCards({ name, options, labelledBy, onSelect }: Props) {
           return (
             <label
               key={option.value}
+              style={breatheStyle}
               className={cn(
                 "relative isolate flex cursor-pointer flex-col overflow-hidden rounded-3xl border-2 transition-colors has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent sm:p-5",
+                breathe && "animate-breathe",
                 // Seules les cartes photo imposent hauteur et cadre larges ;
                 // les cartes claires se serrent sur leur contenu (fold mobile).
                 hasPhoto ? "min-h-40 p-4 sm:min-h-44" : "p-3",
@@ -120,11 +135,13 @@ export function RadioCards({ name, options, labelledBy, onSelect }: Props) {
         return (
           <label
             key={option.value}
+            style={breatheStyle}
             className={cn(
               // justify-center : dans une grille mixte avec des cartes à
               // image (Îles, Orientation), la carte texte étirée centre son
               // contenu au lieu de paraître creuse.
               "flex cursor-pointer flex-col justify-center gap-2 rounded-xl border-2 bg-card p-3 transition-colors has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent",
+              breathe && "animate-breathe",
               isSelected ? "border-accent" : "border-line hover:border-accent-soft",
             )}
           >

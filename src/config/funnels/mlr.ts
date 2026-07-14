@@ -12,6 +12,7 @@ import type { FunnelConfig, RadioStep } from "@/types/funnel";
 /** Q1 — les cartes route reprennent le wording landing (source unique). */
 const routeStep: RadioStep = {
   kind: "radio",
+  breathe: true,
   id: "route",
   name: "route",
   question: "Quelle route t'appelle le plus ?",
@@ -40,6 +41,7 @@ export const mlrFunnel: FunnelConfig = {
     routeStep,
     {
       kind: "offer",
+      breathe: true,
       id: "niveau_aventure",
       question: "Quel niveau d'aventure veux-tu vraiment vivre ?",
       hint: "Ici, on ne déguise pas l'aventure. Tu choisis ton rythme, ton confort et ton niveau d'immersion.",

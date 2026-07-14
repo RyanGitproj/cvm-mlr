@@ -207,13 +207,15 @@ h4 {
     animation: step-in 0.35s ease both;
   }
 
-  /* Lévitation continue des cartes de choix (univers de la page mère,
-     aventures de la landing /cvm — demande Ryan 2026-07-14, animation du
-     pen « Carlos Brothers Coffee »). Les délais négatifs déphasent les
-     cartes entre elles pour casser l'effet mécanique. */
-  .animate-float {
-    animation: floating 3s ease-in-out infinite;
-    animation-delay: var(--float-delay, 0s);
+  /* Respiration continue des cartes de choix (univers page mère, aventures
+     landing /cvm, routes landing /mlr, cartes-options Q1/Q2 des wizards via
+     le flag `breathe` des steps — Ryan 2026-07-14, remplace la lévitation
+     floating essayée le même jour) : la carte gonfle et dégonfle en
+     douceur. Les délais négatifs déphasent les cartes entre elles pour
+     casser l'effet mécanique. */
+  .animate-breathe {
+    animation: breathe 1.6s ease-in-out infinite;
+    animation-delay: var(--breathe-delay, 0s);
   }
 }
 
@@ -228,13 +230,13 @@ h4 {
   }
 }
 
-@keyframes floating {
+@keyframes breathe {
   0%,
   100% {
-    transform: translateY(0);
+    transform: scale(1);
   }
   50% {
-    transform: translateY(-15px);
+    transform: scale(1.03);
   }
 }
 

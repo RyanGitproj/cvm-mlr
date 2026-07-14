@@ -20,6 +20,7 @@ export const cvmTreksFunnel: FunnelConfig = {
   steps: [
     {
       kind: "radio",
+      breathe: true,
       id: "decor",
       name: "decor",
       question: "Quel grand décor vous fait rêver ?",
@@ -73,6 +74,7 @@ export const cvmTreksFunnel: FunnelConfig = {
     },
     {
       kind: "offer",
+      breathe: true,
       id: "offre",
       question: "Quelle formule vous correspond ?",
       hint: "Prix indicatif par personne, hors vol international & assurance.",
