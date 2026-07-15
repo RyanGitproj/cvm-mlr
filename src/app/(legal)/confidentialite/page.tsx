@@ -51,9 +51,10 @@ export default function ConfidentialitePage() {
         Vos données sont accessibles à l’équipe de {legal.raisonSociale},
         ainsi qu’à ses sous-traitants techniques : Render (hébergement du
         site), Supabase (hébergement de la base de données), Google
-        (Google Tag Manager / Google Analytics) et Meta (pixel Meta), ces
-        deux derniers sous réserve de votre consentement. Vos données ne
-        sont ni vendues ni cédées à des tiers à des fins publicitaires.
+        (Google Tag Manager, Google Analytics et Google Ads) et Meta
+        (pixel Meta), ces deux derniers sous réserve de votre consentement.
+        Les coordonnées transmises via nos formulaires ne sont ni vendues ni
+        cédées à des tiers à des fins publicitaires.
       </p>
 
       <h2 className={H2_CLASS}>Transferts hors Union européenne</h2>
@@ -87,8 +88,9 @@ export default function ConfidentialitePage() {
       <p className={P_CLASS}>
         Avec votre consentement, recueilli via le bandeau affiché à votre
         arrivée, nous utilisons Google Analytics (chargé par Google Tag Manager)
-        pour mesurer l’audience du site, ainsi que le pixel Meta pour mesurer
-        la performance de nos campagnes publicitaires. Ces cookies ne sont
+        pour mesurer l’audience du site, ainsi que le pixel Meta et les balises
+        Google Ads pour mesurer la performance de nos campagnes publicitaires
+        et vous proposer des publicités pertinentes (reciblage). Ces cookies ne sont
         déposés qu’après votre acceptation et ne sont jamais activés si vous
         refusez. Vous pouvez modifier votre choix à tout moment en effaçant
         les cookies du site depuis votre navigateur.
