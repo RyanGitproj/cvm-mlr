@@ -71,9 +71,9 @@ export function CookieConsent({ gtmId }: { gtmId?: string }) {
         >
           <div className="mx-auto flex max-w-5xl flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-sm leading-relaxed text-ink-soft">
-              Nous utilisons des cookies pour mesurer l’audience du site,
-              évaluer la performance de nos campagnes et vous proposer des
-              publicités personnalisées. Vous pouvez accepter ou refuser à
+              Acceptez les cookies pour des offres et contenus adaptés à
+              votre projet, sur notre site comme dans nos publicités. Ils
+              nous aident aussi à mesurer l’audience. Choix modifiable à
               tout moment.{" "}
               <Link href="/confidentialite" className="font-medium text-accent underline">
                 En savoir plus
