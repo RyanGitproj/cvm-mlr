@@ -1,13 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-  type CSSProperties,
-} from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { FormProvider, useForm, type FieldValues } from "react-hook-form";
 import type { z } from "zod";
 import { submitLead } from "@/actions/submitLead";
@@ -39,6 +33,7 @@ import { FinalScreen } from "./FinalScreen";
 import { OfferCards } from "./OfferCards";
 import { RadioCards } from "./RadioCards";
 import { StepIndicator } from "./StepIndicator";
+import { wizardBreatheStyle } from "./wizardBreathe";
 
 type Props = {
   funnelType: FunnelType;
@@ -509,12 +504,10 @@ export function LeadFunnel({
                       {currentScreen.step.reorientation && (
                         <div
                           // 3ᵉ carte de l'écran Q2 MLR (après les 2 offres) :
-                          // respire en continuité de leur vague (0 / -0.4s).
+                          // respire en continuité de leur vague.
                           style={
                             currentScreen.step.breathe
-                              ? ({
-                                  "--breathe-delay": "-0.8s",
-                                } as CSSProperties)
+                              ? wizardBreatheStyle(2)
                               : undefined
                           }
                           className={cn(

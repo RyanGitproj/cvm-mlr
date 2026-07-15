@@ -1,12 +1,13 @@
 "use client";
 
-import type { CSSProperties, ReactNode } from "react";
+import type { ReactNode } from "react";
 import { useFormContext } from "react-hook-form";
 import { MediaBackdrop } from "@/components/ui/MediaBackdrop";
 import { offerOptionsFor, type OfferIcon } from "@/config/offers";
 import { cn } from "@/lib/cn";
 import type { FunnelType } from "@/types/lead";
 import { FieldError } from "./FieldError";
+import { wizardBreatheStyle } from "./wizardBreathe";
 
 type Props = {
   funnelType: FunnelType;
@@ -92,12 +93,7 @@ export function OfferCards({ funnelType, labelledBy, onSelect, breathe }: Props)
           return (
             <label
               key={option.value}
-              // Vague en quarts de cycle (1.6s), comme les cards /cvm.
-              style={
-                breathe
-                  ? ({ "--breathe-delay": `${index * -0.4}s` } as CSSProperties)
-                  : undefined
-              }
+              style={breathe ? wizardBreatheStyle(index) : undefined}
               className={cn(
                 "grid cursor-pointer grid-cols-[minmax(0,4fr)_minmax(0,5fr)] overflow-hidden rounded-3xl border-2 bg-card transition-colors has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent",
                 breathe && "animate-breathe",

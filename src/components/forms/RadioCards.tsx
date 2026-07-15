@@ -1,6 +1,5 @@
 "use client";
 
-import type { CSSProperties } from "react";
 import { useFormContext } from "react-hook-form";
 import { MediaBackdrop } from "@/components/ui/MediaBackdrop";
 import { cn } from "@/lib/cn";
@@ -8,6 +7,7 @@ import { splitOptionLabel } from "@/lib/optionLabel";
 import type { ChoiceOption } from "@/types/funnel";
 import { FieldError } from "./FieldError";
 import { PrecisionField } from "./PrecisionField";
+import { wizardBreatheStyle } from "./wizardBreathe";
 
 type Props = {
   name: string;
@@ -53,14 +53,13 @@ export function RadioCards({
     <div
       role="radiogroup"
       aria-labelledby={labelledBy}
-      className={cn("grid gap-2", options.length >= 2 && "sm:grid-cols-2")}
+      // gap-3 : demi-gap de 6px exigé par la respiration des cartes (voir
+      // wizardBreatheStyle) — gap-2 les faisait se chevaucher sur desktop.
+      className={cn("grid gap-3", options.length >= 2 && "sm:grid-cols-2")}
     >
       {options.map((option, index) => {
         const isSelected = option.value === selected;
-        // Vague en quarts de cycle (1.6s), comme les cards de la landing /cvm.
-        const breatheStyle = breathe
-          ? ({ "--breathe-delay": `${index * -0.4}s` } as CSSProperties)
-          : undefined;
+        const breatheStyle = breathe ? wizardBreatheStyle(index) : undefined;
         const { title, description } =
           option.description !== undefined
             ? { title: option.label, description: option.description }

@@ -219,10 +219,15 @@ h4 {
   }
 }
 
+/* Slide plafonné à 12px : Chrome compte l'union des bounds de l'animation
+   (fill both) dans le scrollWidth tant qu'une animation composited (la
+   respiration des cartes) tourne à l'intérieur. Le décalage doit donc
+   rester sous le padding horizontal du wizard (16px mobile), sinon le
+   viewport mobile s'étire. */
 @keyframes step-in {
   from {
     opacity: 0;
-    transform: translateX(24px);
+    transform: translateX(12px);
   }
   to {
     opacity: 1;
@@ -230,13 +235,17 @@ h4 {
   }
 }
 
+/* Anti-chevauchement : la croissance par côté vaut
+   largeur × (scale − 1) / 2 et doit rester sous le demi-gap de la grille.
+   Les pickers (gaps 16-20px) supportent le 1.03 par défaut ; les grilles
+   serrées du wizard abaissent --breathe-scale (wizardBreatheStyle). */
 @keyframes breathe {
   0%,
   100% {
     transform: scale(1);
   }
   50% {
-    transform: scale(1.03);
+    transform: scale(var(--breathe-scale, 1.03));
   }
 }
 

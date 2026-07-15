@@ -21,7 +21,10 @@ export function FunnelShell({
   return (
     <div
       data-theme={theme}
-      className="flex min-h-screen flex-col bg-surface font-body text-ink"
+      // overflow-x-clip : même ceinture que QuestionnaireSection — les
+      // bounds des animations du wizard (page orientation dédiée) ne
+      // doivent pas étirer le scrollWidth mobile.
+      className="flex min-h-screen flex-col overflow-x-clip bg-surface font-body text-ink"
     >
       <header className="border-b border-line">
         <div className="mx-auto flex h-14 w-full max-w-2xl items-center px-4">

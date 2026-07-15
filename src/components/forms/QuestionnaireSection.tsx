@@ -18,7 +18,10 @@ export function QuestionnaireSection({ funnelType, defaultValues }: Props) {
     <section
       id="questionnaire"
       tabIndex={-1}
-      className="scroll-mt-20 border-t-2 border-line bg-surface-2 outline-none"
+      // overflow-x-clip (ceinture, pleine largeur donc jamais de rognage
+      // visible) : les animations du wizard (step-in, respiration) ne
+      // doivent pas propager leurs bounds jusqu'au scrollWidth de la page.
+      className="scroll-mt-20 overflow-x-clip border-t-2 border-line bg-surface-2 outline-none"
     >
       {/* max-w-6xl : le questionnaire s'aligne sur la largeur des autres
           sections de la page (NoteTarifaire, TempsForts, Gallery…) —
