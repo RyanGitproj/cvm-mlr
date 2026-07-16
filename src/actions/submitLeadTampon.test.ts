@@ -52,6 +52,7 @@ describe("submitLeadTampon", () => {
       utm_source: "meta",
       utm_medium: "paid_social",
       utm_campaign: "madagascar_ete",
+      utm_content: "video_1",
       utm_term: "voyage_madagascar",
       referrer: "https://www.instagram.com/",
     });

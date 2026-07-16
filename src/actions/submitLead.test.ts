@@ -32,6 +32,7 @@ describe("submitLead", () => {
     vi.mocked(getLeadTampon).mockResolvedValue({
       ok: true,
       contact: CONTACT,
+      utm: {},
     });
     vi.mocked(insertLead).mockResolvedValue({ ok: true, id: LEAD_ID });
   });
@@ -70,6 +71,57 @@ describe("submitLead", () => {
     });
     expect(setMerciCookie).toHaveBeenCalledWith(
       expect.objectContaining({ nom: "Rakoto", prenom: "Mia" }),
+    );
+  });
+
+  it("privilégie les UTM du tampon et complète avec celles du navigateur", async () => {
+    vi.mocked(getLeadTampon).mockResolvedValue({
+      ok: true,
+      contact: CONTACT,
+      utm: { utm_source: "meta", utm_campaign: "madagascar_ete" },
+    });
+
+    const result = await submitLead(
+      "mlr",
+      {
+        route: "nord",
+        offreDuree: "10_jours",
+        departFenetre: "2_4",
+        nbVoyageurs: "2",
+      },
+      // Session ultérieure : la query string a changé, seul le tampon fait foi.
+      { utm_source: "google", utm_content: "annonce_2" },
+    );
+
+    expect(result.ok).toBe(true);
+    expect(insertLead).toHaveBeenCalledWith(
+      expect.objectContaining({
+        utm_source: "meta",
+        utm_campaign: "madagascar_ete",
+        utm_content: "annonce_2",
+        utm_medium: null,
+      }),
+    );
+  });
+
+  it("écrit les UTM du navigateur quand le tampon n'en a pas", async () => {
+    const result = await submitLead(
+      "mlr",
+      {
+        route: "nord",
+        offreDuree: "10_jours",
+        departFenetre: "2_4",
+        nbVoyageurs: "2",
+      },
+      { utm_source: "meta", utm_medium: "paid_social" },
+    );
+
+    expect(result.ok).toBe(true);
+    expect(insertLead).toHaveBeenCalledWith(
+      expect.objectContaining({
+        utm_source: "meta",
+        utm_medium: "paid_social",
+      }),
     );
   });
 

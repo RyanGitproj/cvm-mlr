@@ -1,3 +1,4 @@
+import type { UtmData } from "@/lib/utm";
 import type { MlrSuite } from "@/lib/validations/mlr";
 import type {
   LeadRow,
@@ -5,6 +6,25 @@ import type {
   LeadTamponRow,
 } from "@/types/lead";
 import { getServiceClient } from "./serverClient";
+
+const TAMPON_UTM_KEYS = [
+  "utm_source",
+  "utm_medium",
+  "utm_campaign",
+  "utm_content",
+  "utm_term",
+  "referrer",
+] as const;
+
+/** Reconstruit un `UtmData` (clés présentes uniquement) depuis la ligne tampon. */
+function utmFromTamponRow(row: Record<string, unknown>): UtmData {
+  const utm: UtmData = {};
+  for (const key of TAMPON_UTM_KEYS) {
+    const value = row[key];
+    if (typeof value === "string" && value !== "") utm[key] = value;
+  }
+  return utm;
+}
 
 /** Insère les coordonnées du sas dans la table tampon et retourne sa PK. */
 export async function insertLeadTampon(
@@ -29,20 +49,24 @@ export async function insertLeadTampon(
 }
 
 /**
- * Relit les coordonnées du premier formulaire. Elles deviennent la source de
- * vérité du submit final : le client n'a pas à les renvoyer ni à les modifier.
+ * Relit les coordonnées et l'attribution du premier formulaire. Elles
+ * deviennent la source de vérité du submit final : le client n'a pas à les
+ * renvoyer ni à les modifier — les UTM du tampon (premier touchpoint) priment
+ * sur celles du navigateur, qui peuvent avoir disparu avec la session.
  */
 export async function getLeadTampon(
   id: string,
 ): Promise<
-  { ok: true; contact: LeadTamponContact } | { ok: false }
+  { ok: true; contact: LeadTamponContact; utm: UtmData } | { ok: false }
 > {
   const supabase = getServiceClient();
   if (supabase === null) return { ok: false };
 
   const { data, error } = await supabase
     .from("funnel_leads_tampon")
-    .select("nom,prenom,telephone,email,consentement")
+    .select(
+      "nom,prenom,telephone,email,consentement,utm_source,utm_medium,utm_campaign,utm_content,utm_term,referrer",
+    )
     .eq("id", id)
     .single();
 
@@ -71,6 +95,7 @@ export async function getLeadTampon(
       email: row.email,
       consentement: row.consentement,
     },
+    utm: utmFromTamponRow(row),
   };
 }
 

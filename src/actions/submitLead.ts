@@ -77,7 +77,14 @@ export async function submitLead(
     return invalid(parsed.error);
   }
 
-  const utm = utmSchema.safeParse(utmRaw);
+  const utmClient = utmSchema.safeParse(utmRaw);
+  // Attribution : les UTM enregistrées avec le tampon (premier touchpoint,
+  // écrites dès le sas d'entrée) priment ; celles du navigateur complètent
+  // les tampons antérieurs à la capture (sessionStorage encore disponible).
+  const utm: typeof tampon.utm = {
+    ...(utmClient.success ? utmClient.data : null),
+    ...tampon.utm,
+  };
 
   // Qualification + recommendation : un échec ici (théorique, le parcours
   // vient d'être validé) ne perd jamais le lead — colonnes qualif à NULL.
@@ -87,7 +94,7 @@ export async function submitLead(
   const row = toLeadRow(
     type.data,
     parsed.data,
-    utm.success ? utm.data : null,
+    utm,
     processed.ok ? processed.qualif : EMPTY_QUALIF,
     tamponId,
   );

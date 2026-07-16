@@ -30,6 +30,7 @@ create table public.funnel_leads_tampon (
   utm_source  text,
   utm_medium  text,
   utm_campaign text,
+  utm_content text,
   utm_term    text,
   referrer    text,
   created_at  timestamptz not null default now()
@@ -180,6 +181,7 @@ create table if not exists public.funnel_leads_tampon (
   utm_source  text,
   utm_medium  text,
   utm_campaign text,
+  utm_content text,
   utm_term    text,
   referrer    text,
   created_at  timestamptz not null default now()
@@ -207,6 +209,7 @@ alter table public.funnel_leads_tampon
   add column if not exists utm_source text,
   add column if not exists utm_medium text,
   add column if not exists utm_campaign text,
+  add column if not exists utm_content text,
   add column if not exists utm_term text,
   add column if not exists referrer text;
 
